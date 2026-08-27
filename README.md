@@ -131,24 +131,22 @@ on each link and drawn by CSS.
 
 One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed. Seven real frames from the Storehouse shoot, in the
-order they happened.
+order they happened, strung along a single line.
 
-On a wide screen it runs left to right along the top, turns down the right-hand
-side, and comes back along the bottom, with a long hairline arrow in every gap.
-The section is sized to end exactly at the fold — the stage size is derived from
-viewport height, and the internal spacing scales with height too, so it fits a
-short laptop screen as well as a large display. Each stage settles in a beat
-after the one before it, and grows slightly on hover.
+On a wide screen the group waits off to the right. When the section is reached,
+a stick figure hauls the line in until the seven stages sit centred; the tow
+rope then parts and the figure carries on out of frame. One team, one record.
+The section is sized from viewport height so it holds a single screen.
 
-On a phone it becomes a swipeable row and the section hugs its content instead
-of reserving a whole screen.
+On a phone the figure is dropped and the row becomes a swipeable strip with the
+line running through it.
 
-The ground here is `--slate` with charcoal text. To change a stage, edit the
-`<ol class="journey__strip">` list in `index.html` and drop a replacement square
-into `assets/img/journey/`. The `data-arrow` attribute on each `<li>` says which
-way the work is travelling into that stage — `right`, `down` or `left`. If you
-add or remove a stage you will need to adjust the `grid-area` rules in
-`site.css`, which place the seven stages explicitly.
+The ground is `--slate` taken 55% toward `--charcoal`, which is what lets it
+carry white type at AA contrast. Straight `--slate` at `#9A9A9A` will not.
+
+To change a stage, edit the `<ol class="journey__strip">` list in `index.html`
+and drop a replacement square into `assets/img/journey/`. Stages are equal-width
+flex items, so adding or removing one needs no other change.
 
 ## The services list
 
@@ -176,11 +174,23 @@ devices never see it.
 The hero is `100svh` minus the real masthead height, which JavaScript measures
 and writes to `--masthead-h`, so it ends exactly at the fold on any viewport.
 `scroll-padding-top` uses the same value, so anchor links land just under the
-masthead.
+masthead. `--footer-h` is measured the same way and used by Contact and About.
 
-Clicking anywhere on it that is not a link turns the whole first screen
-ultramarine, masthead included. It is a toggle, it does nothing else, and
-clicks on links and buttons pass through untouched.
+Clicking anywhere on it that is not a link drops a mark of ultramarine that
+grows from the point you clicked — paint on paper, building up with each click.
+
+The type is never caught underneath it. Every text block carries its own ground
+of `--canvas`, which is invisible against the unpainted page and becomes a card
+once paint arrives, so the paint washes around the words rather than under
+them. Nothing changes state, so nothing can flicker, and no line is ever dark
+ink on dark blue.
+
+## Single-screen pages
+
+Contact and About are laid out to hold one screen on desktop: the title sits in
+the grid beside the content rather than above it, and `.page--single` subtracts
+both the masthead and the footer from `100svh`. They fit from 1366x768 upward.
+On a 1280x720 screen Contact runs about 30px long.
 
 ## Case studies
 
@@ -195,6 +205,10 @@ above the `<h3>`.
 The iframe is only created the first time it is opened, so no visitor loads
 Google unless they ask to see the map. Without `<dialog>` support the button
 opens Google Maps in a new tab instead.
+
+A dialog renders in the browser's top layer, above everything else on the page,
+so the cursor dot cannot be drawn over it. The native cursor is handed back
+while the dialog is open and taken again when it closes.
 
 ## Imagery
 

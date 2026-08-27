@@ -7,18 +7,25 @@
   "use strict";
 
   var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var cursorRunning = false;
 
   /* ---------------------------------------------------------------- masthead */
 
   var masthead = document.querySelector(".masthead");
   if (masthead) {
-    var setMastheadHeight = function () {
-      document.documentElement.style.setProperty(
-        "--masthead-h", masthead.offsetHeight + "px");
+    var footer = document.querySelector(".footer");
+    var setChromeHeights = function () {
+      var root = document.documentElement.style;
+      root.setProperty("--masthead-h", masthead.offsetHeight + "px");
+      if (footer) root.setProperty("--footer-h", footer.offsetHeight + "px");
     };
-    setMastheadHeight();
-    if ("ResizeObserver" in window) new ResizeObserver(setMastheadHeight).observe(masthead);
-    window.addEventListener("resize", setMastheadHeight, { passive: true });
+    setChromeHeights();
+    if ("ResizeObserver" in window) {
+      var ro = new ResizeObserver(setChromeHeights);
+      ro.observe(masthead);
+      if (footer) ro.observe(footer);
+    }
+    window.addEventListener("resize", setChromeHeights, { passive: true });
 
     var mark = function () {
       // Queried each time so the hero can join the dark grounds when inverted.
@@ -178,44 +185,62 @@
 
     // Hide the native cursor only now that the dot is definitely present.
     document.documentElement.dataset.cursor = "on";
+    cursorRunning = true;
 
     document.addEventListener("mouseleave", function () { dot.style.opacity = "0"; });
     document.addEventListener("mouseenter", function () { dot.style.opacity = ""; });
   }
 
-  /* ------------------------------------- the first screen takes the colour */
+  /* ---------------------------------------------- painting the first screen */
 
   var heroField = document.querySelector("[data-hero-field]");
   if (heroField) {
+    var layer = document.createElement("div");
+    layer.className = "paint";
+    layer.setAttribute("aria-hidden", "true");
+    heroField.appendChild(layer);
+
     heroField.addEventListener("click", function (e) {
       // Leave anything you can actually act on alone.
       if (e.target.closest("a, button, summary, input, label")) return;
-      var on = heroField.dataset.invert === "true";
-      heroField.dataset.invert = on ? "false" : "true";
-      // The masthead and the cursor both take their cue from this.
-      if (on) {
-        heroField.removeAttribute("data-dark");
-        document.documentElement.removeAttribute("data-hero-invert");
-      } else {
-        heroField.setAttribute("data-dark", "");
-        document.documentElement.setAttribute("data-hero-invert", "true");
-      }
-      window.dispatchEvent(new Event("scroll"));
+
+      var host = heroField.getBoundingClientRect();
+      var x = e.clientX - host.left;
+      var y = e.clientY - host.top;
+      var r = Math.max(host.width, host.height) * 0.28;
+
+      var mark = document.createElement("span");
+      mark.style.left = x + "px";
+      mark.style.top = y + "px";
+      mark.style.width = mark.style.height = (r * 2) + "px";
+      layer.appendChild(mark);
+      // Next frame, so the transition has a zero state to grow from.
+      window.requestAnimationFrame(function () { mark.dataset.on = "true"; });
+
     });
   }
 
   /* ------------------------------------------------------------ the journey */
 
-  var strip = document.querySelector("[data-journey-strip]");
-  if (strip && "IntersectionObserver" in window && !reduced) {
-    var stripIO = new IntersectionObserver(function (entries) {
-      if (!entries[0].isIntersecting) return;
-      stripIO.disconnect();
-      strip.dataset.shown = "true";
-    }, { threshold: 0.15 });
-    stripIO.observe(strip);
-  } else if (strip) {
-    strip.dataset.shown = "true";
+  var track = document.querySelector("[data-journey-track]");
+  if (track) {
+    var haul = function () {
+      track.dataset.haul = "pulling";
+      // When the load is home the rope parts and the figure carries on.
+      window.setTimeout(function () { track.dataset.haul = "arrived"; }, 2600);
+    };
+    if (reduced || !("IntersectionObserver" in window)) {
+      track.dataset.haul = "arrived";
+    } else {
+      var haulIO = new IntersectionObserver(function (entries) {
+        if (!entries[0].isIntersecting) return;
+        haulIO.disconnect();
+        haul();
+      }, { threshold: 0.4 });
+      // Watch the section, not the track: the track starts off-screen by
+      // design, so observing it would wait for something that never happens.
+      haulIO.observe(track.closest(".journey") || track);
+    }
   }
 
   /* ---------------------------------------------------------------- the map */
@@ -234,6 +259,10 @@
         mapFrame.appendChild(f);
       }
       mapDialog.showModal();
+      document.documentElement.removeAttribute("data-cursor");
+    });
+    mapDialog.addEventListener("close", function () {
+      if (cursorRunning) document.documentElement.dataset.cursor = "on";
     });
     mapDialog.querySelector("[data-map-close]").addEventListener("click", function () {
       mapDialog.close();

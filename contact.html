@@ -44,11 +44,11 @@
       <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
     </a>
     <nav class="nav" aria-label="Primary">
-      <a href="storage-and-handling.html" data-index="01">Storage &amp; Handling</a>
-      <a href="exhibition-services.html" data-index="02">Exhibition Services</a>
-      <a href="collection-management.html" data-index="03">Collection Management</a>
-      <a href="about.html" data-index="04">About</a>
-      <a href="contact.html" data-index="05">Contact</a>
+      <a href="storage-and-handling.html"><span class="nav__n" aria-hidden="true">01</span><span class="nav__t">Storage &amp; Handling</span></a>
+      <a href="exhibition-services.html"><span class="nav__n" aria-hidden="true">02</span><span class="nav__t">Exhibition Services</span></a>
+      <a href="collection-management.html"><span class="nav__n" aria-hidden="true">03</span><span class="nav__t">Collection Management</span></a>
+      <a href="about.html"><span class="nav__n" aria-hidden="true">04</span><span class="nav__t">About</span></a>
+      <a href="contact.html" aria-current="page"><span class="nav__n" aria-hidden="true">05</span><span class="nav__t">Contact</span></a>
     </nav>
     <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
@@ -75,16 +75,23 @@
 </div>
 
 <main id="main">
-  <section class="page-head shell">
-    <span class="ledger">05</span>
-    <h1>Contact</h1>
-    <p class="lead">Whatever you need moved, stored, photographed, catalogued or hung, we would be glad to hear about it.</p>
-  </section>
-  <section class="shell band" style="padding-top:0">
-    <div class="contact-grid">
+  <div class="page--single">
+  <section class="shell band">
+    <div class="single-grid single-grid--contact">
 
-      <div data-reveal>
-        <p class="label" style="margin-bottom:1.25rem">Enquiries</p>
+      <div>
+        <span class="ledger">05</span>
+        <h1 class="single-title">Contact</h1>
+        <p style="margin-top:1rem;max-width:24em">Whatever you need moved, stored,
+           photographed, catalogued or hung, we would be glad to hear about it.</p>
+        <p style="margin-top:1rem;font-size:var(--t-small);color:var(--ink-muted);max-width:26em">
+          Each enquiry opens an email with the subject already filled in, or write to
+          <a class="link" href="mailto:info@storehousefinearts.com">info@storehousefinearts.com</a>.
+        </p>
+      </div>
+
+      <div>
+        <p class="label" style="margin-bottom:0.75rem">Enquiries</p>
         <div class="enquiries">
         <a id="rate-card" href="mailto:info@storehousefinearts.com?subject=Rate%20card%20request"><span>Request a rate card</span><span class="arrow" aria-hidden="true">&rarr;</span></a>
         <a id="storage" href="mailto:info@storehousefinearts.com?subject=Storage%20enquiry"><span>Storage</span><span class="arrow" aria-hidden="true">&rarr;</span></a>
@@ -95,21 +102,10 @@
         <a id="exhibition" href="mailto:info@storehousefinearts.com?subject=Exhibition%20services%20enquiry"><span>Exhibition services</span><span class="arrow" aria-hidden="true">&rarr;</span></a>
         <a id="collection" href="mailto:info@storehousefinearts.com?subject=Collection%20management%20enquiry"><span>Collection management</span><span class="arrow" aria-hidden="true">&rarr;</span></a>
         </div>
-        <p style="margin-top:1.5rem;font-size:var(--t-small);color:var(--ink-muted);max-width:30em">
-          Each of these opens an email to us with the subject already filled in.
-          Or write to <a class="link" href="mailto:info@storehousefinearts.com">info@storehousefinearts.com</a>.
-        </p>
       </div>
 
-      <div data-reveal>
-        <p class="label" style="margin-bottom:1.25rem">Facility</p>
-        <address style="font-size:var(--t-lead)">
-          Storehouse Fine Arts<br>
-          141 Acton Lane<br>
-          London NW10 7PB
-        </address>
-
-        <figure style="margin:var(--stack) 0 0;max-width:20rem">
+      <div>
+        <figure style="margin:0 0 1.25rem">
           <div class="plate plate--landscape">
             <img src="assets/img/facility-wide-900.webp" width="900" height="600" loading="lazy" decoding="async"
                  alt="The interior of the Storehouse facility, with racking and works along the far wall.">
@@ -117,19 +113,21 @@
           <figcaption>141 Acton Lane. The door is usually open.</figcaption>
         </figure>
 
-        <p class="label" style="margin:var(--stack) 0 1.25rem">Registered</p>
+        <p class="label" style="margin-bottom:0.5rem">Facility</p>
+        <address style="margin-bottom:1.25rem;font-size:var(--t-small)">
+          Storehouse Fine Arts<br>141 Acton Lane, London NW10 7PB
+        </address>
+
+        <p class="label" style="margin-bottom:0.5rem">Registered office</p>
         <address style="font-size:var(--t-small);color:var(--ink-muted)">
-          Storehouse Fine Arts Ltd &mdash; registered in England &amp; Wales<br>
-          Company number 16631030 &nbsp;&middot;&nbsp; VAT number 499103269<br><br>
-          Registered office: c/o Couch Bright King &amp; Co,<br>
-          2 Tolherst Court, Turkey Mill Business Park,<br>
-          Ashford Road, Maidstone, Kent, ME14 5SF
+          c/o Couch Bright King &amp; Co, 2 Tolherst Court, Turkey Mill
+          Business Park, Ashford Road, Maidstone, Kent, ME14 5SF
         </address>
       </div>
 
     </div>
   </section>
-
+  </div>
 
 </main>
 
