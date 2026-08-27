@@ -79,7 +79,7 @@ Everything visual is controlled by tokens at the top of `assets/css/site.css`.
 | Token | Value | Use |
 |---|---|---|
 | `--ultramarine` | `#0F1B70` | The one primary colour. Links, the open state of a service, full-bleed panels, text selection. |
-| `--charcoal` | `#1F1F1F` | Body text, and the dark ground behind The Passage. |
+| `--charcoal` | `#1F1F1F` | Body text, and the dark ground behind The Journey. |
 | `--slate` | `#9A9A9A` | Index numbers, captions, quiet labels. |
 | `--canvas` | `#FDFDFD` | The page. |
 | `--paper` | `#F4F4F4` | Behind an image while it loads. |
@@ -158,9 +158,11 @@ devices never see it.
 `Photography/Storehouse` and `Photography/Portraits`. Originals are not in the
 repository — they are large, and the site does not need them.
 
-- Feature images: 1600px and 900px wide
-- Passage frames: 760px wide (`assets/img/passage/`)
-- Total: about 5 MB
+- Feature images: 900px wide, which is what the pages use
+- Journey stages: 560px square (`assets/img/journey/`)
+- A 1600px variant exists for most feature images. Nothing references them yet;
+  they are there for `srcset` or for a future full-bleed treatment.
+- Total: about 4 MB
 
 To add an image, export a WebP at 900px or 1600px wide, drop it in
 `assets/img/`, and reference it with explicit `width` and `height` attributes so
