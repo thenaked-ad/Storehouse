@@ -194,53 +194,75 @@
   /* ---------------------------------------------- painting the first screen */
 
   var heroField = document.querySelector("[data-hero-field]");
-  if (heroField) {
-    var layer = document.createElement("div");
-    layer.className = "paint";
-    layer.setAttribute("aria-hidden", "true");
-    heroField.appendChild(layer);
+  if (heroField && !reduced) {
+    var canvas = document.createElement("canvas");
+    canvas.className = "paint";
+    canvas.setAttribute("aria-hidden", "true");
+    heroField.appendChild(canvas);
 
-    heroField.addEventListener("click", function (e) {
-      // Leave anything you can actually act on alone.
+    var ctx = null, dpr = 1;
+    var sizeCanvas = function () {
+      var r = heroField.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.round(r.width * dpr);
+      canvas.height = Math.round(r.height * dpr);
+      ctx = canvas.getContext("2d");
+      ctx.scale(dpr, dpr);
+      ctx.strokeStyle = ctx.fillStyle =
+        getComputedStyle(document.documentElement).getPropertyValue("--ultramarine").trim() || "#0f1b70";
+      ctx.lineWidth = 9;          // the width of the cursor dot
+      ctx.lineCap = ctx.lineJoin = "round";
+    };
+    sizeCanvas();
+    // Resizing resets the surface, so redraw nothing rather than smear it.
+    window.addEventListener("resize", sizeCanvas, { passive: true });
+
+    var down = false, lastX = 0, lastY = 0;
+    var at = function (e) {
+      var r = heroField.getBoundingClientRect();
+      return [e.clientX - r.left, e.clientY - r.top];
+    };
+
+    heroField.addEventListener("pointerdown", function (e) {
+      if (e.pointerType && e.pointerType !== "mouse") return;
       if (e.target.closest("a, button, summary, input, label")) return;
-
-      var host = heroField.getBoundingClientRect();
-      var x = e.clientX - host.left;
-      var y = e.clientY - host.top;
-      var r = Math.max(host.width, host.height) * 0.28;
-
-      var mark = document.createElement("span");
-      mark.style.left = x + "px";
-      mark.style.top = y + "px";
-      mark.style.width = mark.style.height = (r * 2) + "px";
-      layer.appendChild(mark);
-      // Next frame, so the transition has a zero state to grow from.
-      window.requestAnimationFrame(function () { mark.dataset.on = "true"; });
-
+      // Stop the drag from also dragging out a text selection behind the mark.
+      e.preventDefault();
+      down = true;
+      var p = at(e);
+      lastX = p[0]; lastY = p[1];
+      ctx.beginPath();
+      ctx.arc(lastX, lastY, ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fill();
     });
+
+    heroField.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var p = at(e);
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(p[0], p[1]);
+      ctx.stroke();
+      lastX = p[0]; lastY = p[1];
+    }, { passive: true });
+
+    var stop = function () { down = false; };
+    window.addEventListener("pointerup", stop);
+    window.addEventListener("pointercancel", stop);
   }
 
   /* ------------------------------------------------------------ the journey */
 
-  var track = document.querySelector("[data-journey-track]");
-  if (track) {
-    var haul = function () {
-      track.dataset.haul = "pulling";
-      // When the load is home the rope parts and the figure carries on.
-      window.setTimeout(function () { track.dataset.haul = "arrived"; }, 2600);
-    };
-    if (reduced || !("IntersectionObserver" in window)) {
-      track.dataset.haul = "arrived";
-    } else {
-      var haulIO = new IntersectionObserver(function (entries) {
-        if (!entries[0].isIntersecting) return;
-        haulIO.disconnect();
-        haul();
-      }, { threshold: 0.4 });
-      // Watch the section, not the track: the track starts off-screen by
-      // design, so observing it would wait for something that never happens.
-      haulIO.observe(track.closest(".journey") || track);
-    }
+  var strip = document.querySelector("[data-journey-strip]");
+  if (strip && "IntersectionObserver" in window && !reduced) {
+    var stripIO = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      stripIO.disconnect();
+      strip.dataset.shown = "true";
+    }, { threshold: 0.2 });
+    stripIO.observe(strip);
+  } else if (strip) {
+    strip.dataset.shown = "true";
   }
 
   /* ---------------------------------------------------------------- the map */

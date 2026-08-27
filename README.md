@@ -131,22 +131,23 @@ on each link and drawn by CSS.
 
 One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed. Seven real frames from the Storehouse shoot, in the
-order they happened, strung along a single line.
+order they happened, linked by a single line running through the gaps between
+them.
 
-On a wide screen the group waits off to the right. When the section is reached,
-a stick figure hauls the line in until the seven stages sit centred; the tow
-rope then parts and the figure carries on out of frame. One team, one record.
-The section is sized from viewport height so it holds a single screen.
+The row runs the full width of the window rather than the text measure, and the
+section's height follows the pictures instead of reserving a screen. Stages are
+equal-width flex items at 4:5, so adding or removing one needs no other change.
+Each settles in a beat after the one before it, and grows slightly on hover.
 
-On a phone the figure is dropped and the row becomes a swipeable strip with the
-line running through it.
+On a phone the row becomes a swipeable strip.
 
-The ground is `--slate` taken 55% toward `--charcoal`, which is what lets it
-carry white type at AA contrast. Straight `--slate` at `#9A9A9A` will not.
+The ground is `--ground-mid`, `#636363` — slate taken far enough toward charcoal
+to carry white type at AA contrast. Straight `--slate` at `#9A9A9A` will not.
+The masthead keeps a matching backdrop over this section rather than going
+transparent, because the pictures pass underneath it.
 
 To change a stage, edit the `<ol class="journey__strip">` list in `index.html`
-and drop a replacement square into `assets/img/journey/`. Stages are equal-width
-flex items, so adding or removing one needs no other change.
+and drop a replacement 4:5 image into `assets/img/journey/`.
 
 ## The services list
 
@@ -174,23 +175,19 @@ devices never see it.
 The hero is `100svh` minus the real masthead height, which JavaScript measures
 and writes to `--masthead-h`, so it ends exactly at the fold on any viewport.
 `scroll-padding-top` uses the same value, so anchor links land just under the
-masthead. `--footer-h` is measured the same way and used by Contact and About.
+masthead.
 
-Clicking anywhere on it that is not a link drops a mark of ultramarine that
-grows from the point you clicked — paint on paper, building up with each click.
-
-The type is never caught underneath it. Every text block carries its own ground
-of `--canvas`, which is invisible against the unpainted page and becomes a card
-once paint arrives, so the paint washes around the words rather than under
-them. Nothing changes state, so nothing can flicker, and no line is ever dark
-ink on dark blue.
+Dragging across it draws a mark of ultramarine the width of the cursor dot,
+exactly under the pointer. It is a `<canvas>` laid over the hero's content
+rather than behind it, so a stroke can cross type and photograph alike, and it
+does not intercept clicks. The drag suppresses text selection, so you get a
+mark rather than a mark plus a highlight.
 
 ## Single-screen pages
 
 Contact and About are laid out to hold one screen on desktop: the title sits in
-the grid beside the content rather than above it, and `.page--single` subtracts
-both the masthead and the footer from `100svh`. They fit from 1366x768 upward.
-On a 1280x720 screen Contact runs about 30px long.
+the grid beside the content rather than above it, and `.page--single` is
+`100svh` minus the masthead. The footer sits below that and is scrolled to.
 
 ## Case studies
 
