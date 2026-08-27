@@ -12,18 +12,32 @@
 
   var masthead = document.querySelector(".masthead");
   if (masthead) {
-    var darkZones = document.querySelectorAll("[data-dark]");
+    var setMastheadHeight = function () {
+      document.documentElement.style.setProperty(
+        "--masthead-h", masthead.offsetHeight + "px");
+    };
+    setMastheadHeight();
+    if ("ResizeObserver" in window) new ResizeObserver(setMastheadHeight).observe(masthead);
+    window.addEventListener("resize", setMastheadHeight, { passive: true });
+
     var mark = function () {
+      // Queried each time so the hero can join the dark grounds when inverted.
+      var darkZones = document.querySelectorAll("[data-dark]");
+      var midZones  = document.querySelectorAll("[data-ground='mid']");
       masthead.dataset.scrolled = window.scrollY > 8 ? "true" : "false";
 
       // Step out of the way where the masthead sits over a dark section.
-      var mid = masthead.offsetHeight / 2;
-      var over = false;
-      for (var i = 0; i < darkZones.length; i++) {
-        var r = darkZones[i].getBoundingClientRect();
-        if (r.top <= mid && r.bottom >= mid) { over = true; break; }
+      var line = masthead.offsetHeight / 2;
+      var straddles = function (el) {
+        var r = el.getBoundingClientRect();
+        return r.top <= line && r.bottom >= line;
+      };
+      var ground = "light";
+      for (var i = 0; i < darkZones.length; i++) if (straddles(darkZones[i])) { ground = "dark"; break; }
+      if (ground === "light") {
+        for (var j = 0; j < midZones.length; j++) if (straddles(midZones[j])) { ground = "mid"; break; }
       }
-      masthead.dataset.over = over ? "dark" : "light";
+      masthead.dataset.over = ground;
     };
     mark();
     window.addEventListener("scroll", mark, { passive: true });
@@ -139,19 +153,27 @@
     var draw = function () {
       drawing = false;
       dot.style.transform = "translate3d(" + dx + "px," + dy + "px,0)";
+      if (pending) { classify(pending); pending = null; }
     };
 
-    document.addEventListener("mousemove", function (e) {
+    // Position is the only thing touched per frame. Hit-testing writes to the
+    // DOM only when the answer actually changes, which is what was making the
+    // dot feel a step behind the mouse.
+    var lastOver = null, lastGround = null, pending = null;
+
+    var classify = function (el) {
+      if (!el || !el.closest) return;
+      var over = el.closest("a, button, summary, [role='button'], input, label") ? "link" : "";
+      if (over !== lastOver) { dot.dataset.over = over; lastOver = over; }
+      var ground = el.closest("[data-dark], .panel, .footer, .menu") ? "dark" : "";
+      if (ground !== lastGround) { dot.dataset.ground = ground; lastGround = ground; }
+    };
+
+    document.addEventListener("pointermove", function (e) {
+      if (e.pointerType && e.pointerType !== "mouse") return;
       dx = e.clientX; dy = e.clientY;
+      pending = e.target;
       if (!drawing) { drawing = true; window.requestAnimationFrame(draw); }
-
-      var el = e.target;
-      var interactive = el.closest && el.closest("a, button, summary, [role='button'], input, label");
-      dot.dataset.over = interactive ? "link" : "";
-
-      // Invert over the dark and ultramarine grounds.
-      var onDark = el.closest && el.closest("[data-dark], .journey, .panel, .footer, .menu");
-      dot.dataset.ground = onDark ? "dark" : "";
     }, { passive: true });
 
     // Hide the native cursor only now that the dot is definitely present.
@@ -159,6 +181,73 @@
 
     document.addEventListener("mouseleave", function () { dot.style.opacity = "0"; });
     document.addEventListener("mouseenter", function () { dot.style.opacity = ""; });
+  }
+
+  /* ------------------------------------- the first screen takes the colour */
+
+  var heroField = document.querySelector("[data-hero-field]");
+  if (heroField) {
+    heroField.addEventListener("click", function (e) {
+      // Leave anything you can actually act on alone.
+      if (e.target.closest("a, button, summary, input, label")) return;
+      var on = heroField.dataset.invert === "true";
+      heroField.dataset.invert = on ? "false" : "true";
+      // The masthead and the cursor both take their cue from this.
+      if (on) {
+        heroField.removeAttribute("data-dark");
+        document.documentElement.removeAttribute("data-hero-invert");
+      } else {
+        heroField.setAttribute("data-dark", "");
+        document.documentElement.setAttribute("data-hero-invert", "true");
+      }
+      window.dispatchEvent(new Event("scroll"));
+    });
+  }
+
+  /* ------------------------------------------------------------ the journey */
+
+  var strip = document.querySelector("[data-journey-strip]");
+  if (strip && "IntersectionObserver" in window && !reduced) {
+    var stripIO = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      stripIO.disconnect();
+      strip.dataset.shown = "true";
+    }, { threshold: 0.15 });
+    stripIO.observe(strip);
+  } else if (strip) {
+    strip.dataset.shown = "true";
+  }
+
+  /* ---------------------------------------------------------------- the map */
+
+  var mapDialog = document.querySelector("[data-map-dialog]");
+  var mapOpen = document.querySelector("[data-map-open]");
+  if (mapDialog && mapOpen && typeof mapDialog.showModal === "function") {
+    var mapFrame = mapDialog.querySelector("[data-map-frame]");
+    mapOpen.addEventListener("click", function () {
+      if (!mapFrame.firstChild) {
+        var f = document.createElement("iframe");
+        f.src = "https://www.google.com/maps?q=141+Acton+Lane,+London+NW10+7PB&output=embed";
+        f.loading = "lazy";
+        f.referrerPolicy = "no-referrer-when-downgrade";
+        f.title = "Map showing 141 Acton Lane, London NW10 7PB";
+        mapFrame.appendChild(f);
+      }
+      mapDialog.showModal();
+    });
+    mapDialog.querySelector("[data-map-close]").addEventListener("click", function () {
+      mapDialog.close();
+    });
+    // Clicking the backdrop closes it.
+    mapDialog.addEventListener("click", function (e) {
+      if (e.target === mapDialog) mapDialog.close();
+    });
+  } else if (mapOpen) {
+    // No dialog support: fall back to opening the map in a new tab.
+    mapOpen.addEventListener("click", function () {
+      window.open("https://www.google.com/maps/search/?api=1&query=141+Acton+Lane+London+NW10+7PB",
+                  "_blank", "noopener");
+    });
   }
 
   /* ------------------------------------------- one service open at a time */

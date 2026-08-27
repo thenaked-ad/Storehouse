@@ -28,10 +28,10 @@ change it — nothing is compiled or generated.
 The header and footer are repeated in each page. If you change a navigation
 link, change it in all seven files.
 
-**Two places are waiting on content**, marked with comments in `about.html`:
+**Two places are waiting on content:**
 
-- `FRED: your "Why we set up" copy goes here` — replace the comment with `<p>` paragraphs.
-- Case studies — not yet built; the copy document had no examples in it.
+- `about.html` — `FRED: your "Why we set up" copy goes here`; replace the comment with `<p>` paragraphs.
+- `index.html` — the case studies placeholder, see below.
 
 The team portraits on `about.html` are currently captioned "Storehouse". Swap
 those `<figcaption>` lines for real names and roles when you have them.
@@ -115,25 +115,40 @@ retype it as text.
 
 One grid, used everywhere: a short label in the left margin, the substance
 beside it (`.marginalia`). This is the layout system from page 11 of the brand
-document. Spacing comes from two variables — `--band` between sections and
-`--stack` within one.
+document.
+
+All vertical spacing comes from two variables — `--band` between major sections
+and `--stack` within one. Change those two and the whole site re-spaces
+coherently; avoid hard-coded margins. Figures inside a marginalia column are
+capped in width so the inner pages do not become an endless scroll.
+
+The main navigation carries a faint index number per page, set by `data-index`
+on each link and drawn by CSS.
 
 ---
 
 ## The Journey
 
-The row on the home page is one work travelling the whole service: received,
-wrapped, boarded, crated, stored, moved and installed. Seven real frames from
-the Storehouse shoot, in the order they happened, with an arrow in every gap.
+One work travelling the whole service: received, wrapped, boarded, crated,
+stored, moved, installed. Seven real frames from the Storehouse shoot, in the
+order they happened.
 
-It sits inside a single screen and never scroll-jacks. On a phone the row
-becomes a swipeable strip so the section still occupies one screen rather than
-growing down the page.
+On a wide screen it runs left to right along the top, turns down the right-hand
+side, and comes back along the bottom, with a long hairline arrow in every gap.
+The section is sized to end exactly at the fold — the stage size is derived from
+viewport height, and the internal spacing scales with height too, so it fits a
+short laptop screen as well as a large display. Each stage settles in a beat
+after the one before it, and grows slightly on hover.
 
-To change a stage, edit the `<ol class="journey__strip">` list in `index.html`
-and drop a replacement square into `assets/img/journey/`. The images are
-centre-cropped squares at 560px; a row of squares reads as a sequence far better
-than a row of tall portraits.
+On a phone it becomes a swipeable row and the section hugs its content instead
+of reserving a whole screen.
+
+The ground here is `--slate` with charcoal text. To change a stage, edit the
+`<ol class="journey__strip">` list in `index.html` and drop a replacement square
+into `assets/img/journey/`. The `data-arrow` attribute on each `<li>` says which
+way the work is travelling into that stage — `right`, `down` or `left`. If you
+add or remove a stage you will need to adjust the `grid-area` rules in
+`site.css`, which place the seven stages explicitly.
 
 ## The services list
 
@@ -147,10 +162,39 @@ image inside the panel it opens. The pairing is set by `data-service` on each
 
 An ultramarine dot replaces the cursor, as on Dougal's holding page, opening up
 over anything you can act on and inverting to white over the dark and blue
-grounds. It is gated three ways — a real mouse, scripting available, and motion
-not reduced — and the native cursor is only hidden once the dot is confirmed
+grounds. Position is the only thing updated per frame; hit-testing writes to the
+DOM only when the answer changes, which is what keeps it from feeling a step
+behind the mouse.
+
+It is gated three ways — a real mouse, scripting available, and motion not
+reduced — and the native cursor is only hidden once the dot is confirmed
 running, so a script failure can never leave someone without a pointer. Touch
 devices never see it.
+
+## The first screen
+
+The hero is `100svh` minus the real masthead height, which JavaScript measures
+and writes to `--masthead-h`, so it ends exactly at the fold on any viewport.
+`scroll-padding-top` uses the same value, so anchor links land just under the
+masthead.
+
+Clicking anywhere on it that is not a link turns the whole first screen
+ultramarine, masthead included. It is a toggle, it does nothing else, and
+clicks on links and buttons pass through untouched.
+
+## Case studies
+
+`index.html` carries a three-card placeholder with a comment showing where each
+project goes. Replace the placeholder text with the project name, the year and
+one line on the job; add an image by putting a `<div class="plate plate--wide">`
+above the `<h3>`.
+
+## The map
+
+"See on map" on the home page opens a `<dialog>` containing a Google Maps embed.
+The iframe is only created the first time it is opened, so no visitor loads
+Google unless they ask to see the map. Without `<dialog>` support the button
+opens Google Maps in a new tab instead.
 
 ## Imagery
 

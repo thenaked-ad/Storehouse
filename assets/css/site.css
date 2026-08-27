@@ -44,8 +44,12 @@
   /* Spacing — an 8px base, named by role rather than size. */
   --gutter:  clamp(1.25rem, 0.6rem + 2.6vw, 3.5rem);
   --measure: 34em;
-  --band:    clamp(4.5rem, 2rem + 9vw, 10rem);   /* between major sections */
-  --stack:   clamp(1.75rem, 1rem + 2vw, 3rem);   /* within a section       */
+  --band:    clamp(3.25rem, 1.6rem + 4.6vw, 6rem);   /* between major sections */
+  --stack:   clamp(1.5rem, 0.9rem + 1.5vw, 2.25rem); /* within a section       */
+
+  /* Set from the real masthead height on load, so the first screen ends
+     exactly at the fold on any viewport. */
+  --masthead-h: 5.5rem;
 
   --shell: 88rem;  /* maximum line of the page */
 
@@ -61,7 +65,7 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: 6rem;
+  scroll-padding-top: var(--masthead-h);
 }
 
 body {
@@ -243,6 +247,29 @@ figcaption {
 .masthead[data-over="dark"] .nav a,
 .masthead[data-over="dark"] .menu-toggle { color: var(--canvas); }
 .masthead[data-over="dark"] .nav a:hover { border-bottom-color: rgba(253, 253, 253, 0.5); }
+
+/* While the first screen is showing its colour, the masthead goes with it —
+   otherwise a white bar sits across the top of an otherwise blue screen. */
+html[data-hero-invert="true"] .masthead[data-scrolled="false"] {
+  background: var(--ultramarine);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+  color: var(--canvas);
+}
+html[data-hero-invert="true"] .masthead[data-scrolled="false"] .wordmark,
+html[data-hero-invert="true"] .masthead[data-scrolled="false"] .nav a,
+html[data-hero-invert="true"] .masthead[data-scrolled="false"] .menu-toggle { color: var(--canvas); }
+html[data-hero-invert="true"] .masthead[data-scrolled="false"] .nav a::before {
+  color: color-mix(in srgb, var(--canvas) 55%, var(--ultramarine));
+}
+
+.masthead[data-over="mid"] {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
+}
 .masthead[data-over="dark"][data-scrolled="true"] { border-bottom-color: transparent; }
 
 .masthead__inner {
@@ -271,6 +298,19 @@ a.wordmark-link { text-decoration: none; }
 @media (min-width: 56rem) {
   .nav { display: flex; align-items: baseline; gap: clamp(1.25rem, 2.4vw, 2.5rem); }
 }
+
+.nav a { display: inline-flex; align-items: baseline; gap: 0.5rem; }
+.nav a::before {
+  content: attr(data-index);
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  color: var(--slate);
+  transition: color 0.25s ease;
+}
+.masthead[data-over="dark"] .nav a::before { color: rgba(253, 253, 253, 0.45); }
+.nav a[aria-current="page"]::before { color: var(--ultramarine); }
+.masthead[data-over="dark"] .nav a[aria-current="page"]::before { color: var(--canvas); }
 
 .nav a {
   font-family: var(--sans);
@@ -324,13 +364,32 @@ a.wordmark-link { text-decoration: none; }
    -------------------------------------------------------------------------- */
 
 .hero {
-  padding-top: clamp(3rem, 8vw, 7rem);
-  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
-  min-height: calc(100vh - 5.5rem);
-  min-height: calc(100svh - 5.5rem);
+  padding-top: clamp(2.5rem, 6vw, 5.5rem);
+  padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  min-height: calc(100vh - var(--masthead-h));
+  min-height: calc(100svh - var(--masthead-h));
   display: flex;
   flex-direction: column;
+  transition: background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/* Click the first screen and it takes the brand colour. A small thing that
+   rewards curiosity; nothing depends on it. */
+.hero-field {
+  background: var(--canvas);
+  transition: background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.hero-field[data-invert="true"] { background: var(--ultramarine); }
+.hero-field[data-invert="true"] .hero { color: var(--canvas); }
+.hero-field[data-invert="true"] .hero__mark { color: var(--canvas); }
+.hero-field[data-invert="true"] .hero__disciplines,
+.hero-field[data-invert="true"] .label,
+.hero-field[data-invert="true"] .scroll-cue {
+  color: color-mix(in srgb, var(--canvas) 68%, var(--ultramarine));
+}
+.hero-field[data-invert="true"] .hero__note { color: var(--canvas); }
+html[data-cursor="on"] .hero-field { cursor: none; }
 
 .hero__mark { width: min(100%, 62rem); color: var(--charcoal); }
 
@@ -376,31 +435,24 @@ a.wordmark-link { text-decoration: none; }
 
 /* A quiet indication that the page continues. */
 .scroll-cue {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  margin-top: auto;          /* settles at the foot of the first screen */
-  align-self: flex-start;
-  padding-top: clamp(2rem, 5vw, 4rem);
-  transition: opacity 0.5s ease;
+  display: grid;
+  place-items: center;
+  margin-top: auto;               /* settles at the foot of the first screen */
+  align-self: center;
+  width: 3rem; height: 3rem;
+  padding: 0;
   background: none;
   border: 0;
-  padding: 0.5rem 0;
   color: var(--ink-muted);
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
   cursor: pointer;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, opacity 0.5s ease;
 }
 .scroll-cue:hover { color: var(--ultramarine); }
 .scroll-cue .chev {
-  width: 8px; height: 8px;
+  width: 11px; height: 11px;
   border-right: 1px solid currentColor;
   border-bottom: 1px solid currentColor;
   transform: rotate(45deg);
-  margin-bottom: 3px;
 }
 @media (prefers-reduced-motion: no-preference) {
   .scroll-cue .chev { animation: cue 2.6s ease-in-out infinite; }
@@ -425,85 +477,155 @@ a.wordmark-link { text-decoration: none; }
 }
 
 /* --------------------------------------------------------------------------
-   8. The Journey — one work, end to end, on a single screen
+   8. The Journey — one work, end to end, tracked across the page
    -------------------------------------------------------------------------- */
 
 .journey {
-  background: var(--charcoal);
-  color: var(--canvas);
-  min-height: 100vh;
-  min-height: 100svh;
+  background: var(--slate);
+  color: var(--charcoal);
+  min-height: calc(100vh - var(--masthead-h));
+  min-height: calc(100svh - var(--masthead-h));
   display: grid;
-  /* minmax(0,1fr) — without it the scrolling strip's min-content width forces
-     the grid wider than the viewport and the whole page scrolls sideways. */
+  /* minmax(0,1fr) — without it the phone's scrolling strip forces the grid
+     wider than the viewport and the whole page scrolls sideways. */
   grid-template-columns: minmax(0, 1fr);
   align-content: center;
-  padding-block: clamp(3.5rem, 8vw, 6rem);
+  padding-block: clamp(1.5rem, 3.6vh, 3.5rem);
 }
-.journey a { color: inherit; }
 
-.journey__head { max-width: 46rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
-.journey__head .ledger { display: block; margin-bottom: 1.1rem; }
+.journey__head { max-width: 44rem; margin-bottom: clamp(1rem, 2.6vh, 2.25rem); }
 .journey__head h2 { font-size: var(--t-title); }
 .journey__head p {
-  margin-top: 1.4rem;
-  color: rgba(253, 253, 253, 0.7);
+  margin-top: clamp(0.5rem, 1.4vh, 1.1rem);
+  color: color-mix(in srgb, var(--charcoal) 72%, var(--slate));
   max-width: 34em;
-}
-
-/* One row, one square per stage, an arrow in every gap. */
-.journey__strip {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(1.4rem, 2.4vw, 2.6rem);
-}
-
-.journey__stage {
-  position: relative;
-  flex: 1 1 0;
-  min-width: 0;
-}
-
-/* The arrow sits in the gap before every stage but the first. */
-.journey__stage + .journey__stage::before {
-  content: "";
-  position: absolute;
-  top: calc(50% - 0.5rem);
-  left: calc(clamp(1.4rem, 2.4vw, 2.6rem) / -2);
-  width: 9px;
-  height: 9px;
-  margin-top: -4px;
-  border-top: 1px solid rgba(253, 253, 253, 0.55);
-  border-right: 1px solid rgba(253, 253, 253, 0.55);
-  transform: translateX(-50%) rotate(45deg);
 }
 
 .journey__plate {
   aspect-ratio: 1 / 1;
-  background: #171717;
+  background: rgba(0, 0, 0, 0.14);
   overflow: hidden;
 }
-.journey__plate img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.001);
-  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
-}
-.journey__stage:hover .journey__plate img { transform: scale(1.05); }
+.journey__plate img { width: 100%; height: 100%; object-fit: cover; }
 
 .journey__stage figcaption {
-  margin-top: 0.85rem;
-  color: var(--slate);
+  margin-top: clamp(0.4rem, 1vh, 0.7rem);
+  color: color-mix(in srgb, var(--charcoal) 62%, var(--slate));
   letter-spacing: 0.13em;
   text-transform: uppercase;
 }
-.journey__stage .n { color: rgba(253, 253, 253, 0.35); margin-right: 0.5rem; }
+.journey__stage .n { opacity: 0.55; margin-right: 0.5rem; }
 
-/* On a phone the row becomes a swipeable strip, so the section still occupies
-   one screen rather than growing down the page. */
-@media (max-width: 56rem) {
+/* ---- Wide screens: the work runs left to right, turns, and comes back ---- */
+
+@media (min-width: 56rem) {
   .journey__strip {
+    --jgap: clamp(2.5rem, 4.5vw, 5rem);   /* room for a long arrow */
+    --turn: clamp(1.75rem, 4.4vh, 3.5rem);
+    --stage: min(20vw, 25vh);
+
+    display: grid;
+    grid-template-columns: repeat(4, var(--stage));
+    grid-template-rows: auto var(--turn) auto;
+    column-gap: var(--jgap);
+    row-gap: 0;
+    justify-content: space-between;
+  }
+
+  /* Along the top, then down the right-hand side, then back along the bottom. */
+  .journey__stage:nth-child(1) { grid-area: 1 / 1; }
+  .journey__stage:nth-child(2) { grid-area: 1 / 2; }
+  .journey__stage:nth-child(3) { grid-area: 1 / 3; }
+  .journey__stage:nth-child(4) { grid-area: 1 / 4; }
+  .journey__stage:nth-child(5) { grid-area: 3 / 4; }
+  .journey__stage:nth-child(6) { grid-area: 3 / 3; }
+  .journey__stage:nth-child(7) { grid-area: 3 / 2; }
+
+  .journey__stage {
+    position: relative;
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .journey__stage:hover { transform: scale(1.055); z-index: 2; }
+
+  /* A long hairline with a small head, drawn into the gap that precedes each
+     stage. data-arrow says which way the work is travelling. */
+  .journey__stage::before,
+  .journey__stage::after { content: ""; position: absolute; pointer-events: none; }
+
+  .journey__stage[data-arrow="right"]::before,
+  .journey__stage[data-arrow="left"]::before {
+    top: calc(var(--stage) / 2);
+    width: calc(var(--jgap) - 1.5rem);
+    height: 1px;
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .journey__stage[data-arrow="right"]::before { right: calc(100% + 0.75rem); }
+  .journey__stage[data-arrow="left"]::before  { left:  calc(100% + 0.75rem); }
+
+  .journey__stage[data-arrow="right"]::after,
+  .journey__stage[data-arrow="left"]::after {
+    top: calc(var(--stage) / 2);
+    width: 7px; height: 7px;
+    margin-top: -3.5px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    opacity: 0.5;
+  }
+  .journey__stage[data-arrow="right"]::after { right: calc(100% + 0.6rem); transform: rotate(45deg); }
+  .journey__stage[data-arrow="left"]::after  { left:  calc(100% + 0.6rem); transform: rotate(-135deg); }
+
+  /* The turn: straight down the right-hand edge. */
+  .journey__stage[data-arrow="down"]::before {
+    left: calc(var(--stage) / 2);
+    bottom: calc(100% + 0.95rem);
+    width: 1px;
+    height: calc(var(--turn) - 1.6rem);
+    background: currentColor;
+    opacity: 0.5;
+  }
+  .journey__stage[data-arrow="down"]::after {
+    left: calc(var(--stage) / 2);
+    bottom: calc(100% + 0.55rem);
+    width: 7px; height: 7px;
+    margin-left: -3.5px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    transform: rotate(135deg);
+    opacity: 0.5;
+  }
+
+  /* Each stage settles into place a beat after the one before it. */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .journey__strip[data-shown="true"] .journey__stage {
+      animation: settle 0.75s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+    .js .journey__strip:not([data-shown="true"]) .journey__stage { opacity: 0; }
+    .journey__stage:nth-child(1) { animation-delay: 0.00s; }
+    .journey__stage:nth-child(2) { animation-delay: 0.07s; }
+    .journey__stage:nth-child(3) { animation-delay: 0.14s; }
+    .journey__stage:nth-child(4) { animation-delay: 0.21s; }
+    .journey__stage:nth-child(5) { animation-delay: 0.28s; }
+    .journey__stage:nth-child(6) { animation-delay: 0.35s; }
+    .journey__stage:nth-child(7) { animation-delay: 0.42s; }
+    @keyframes settle {
+      from { opacity: 0; transform: translateY(0.9rem); }
+      to   { opacity: 1; transform: none; }
+    }
+  }
+}
+
+/* ---- Phones: one swipeable row, which still occupies a single screen ---- */
+
+/* On a phone the section hugs its content rather than reserving a whole
+   screen, which otherwise leaves a great deal of empty slate. */
+@media (max-width: 56rem) {
+  .journey { min-height: 0; padding-block: var(--band); }
+
+  .journey__strip {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     /* Without this the first snap point sits inside the padding, so the strip
@@ -516,7 +638,18 @@ a.wordmark-link { text-decoration: none; }
     scrollbar-width: none;
   }
   .journey__strip::-webkit-scrollbar { display: none; }
-  .journey__stage { flex: 0 0 44vw; scroll-snap-align: start; }
+  .journey__stage { position: relative; flex: 0 0 56vw; scroll-snap-align: start; }
+  .journey__stage + .journey__stage::before {
+    content: "";
+    position: absolute;
+    top: 28vw; left: -1.05rem;
+    width: 7px; height: 7px;
+    margin-top: -3.5px;
+    border-top: 1px solid currentColor;
+    border-right: 1px solid currentColor;
+    transform: rotate(45deg);
+    opacity: 0.5;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -678,7 +811,10 @@ figure { margin: 0; }
 
 /* A lone portrait plate is held back from the full column width, so it reads as
    a plate rather than a banner. */
-.figure-single { max-width: min(100%, 29rem); }
+.figure-single { max-width: min(100%, 24rem); }
+.marginalia > .main .pair { max-width: min(100%, 42rem); }
+.marginalia > .main .plate--wide,
+.marginalia > .main .figure-full { max-width: min(100%, 34rem); }
 
 .plate { background: var(--paper); overflow: hidden; }
 .plate img { width: 100%; }
@@ -740,6 +876,64 @@ figure { margin: 0; }
 .directory a:hover { color: var(--ultramarine); }
 .directory .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
 .directory a:hover .arrow { transform: translateX(0.35rem); }
+
+/* --------------------------------------------------------------------------
+   12b. Case studies and the map
+   -------------------------------------------------------------------------- */
+
+.cases {
+  display: grid;
+  gap: 1px;
+  margin-top: var(--stack);
+  background: var(--rule);
+  border-block: 1px solid var(--rule);
+}
+@media (min-width: 56rem) { .cases { grid-template-columns: repeat(3, 1fr); } }
+
+.case {
+  background: var(--canvas);
+  padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.75rem);
+  min-height: 9rem;
+}
+.case__index {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.13em;
+  color: var(--slate);
+  display: block;
+  margin-bottom: 1.75rem;
+}
+.case h3 { font-size: var(--t-body); letter-spacing: -0.016em; }
+.case p { margin: 0.4rem 0 0; font-size: var(--t-small); color: var(--ink-muted); }
+
+/* The map is fetched only when someone asks to see it. */
+.map-dialog {
+  width: min(92vw, 56rem);
+  max-height: 88vh;
+  padding: 0;
+  border: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  box-shadow: 0 2rem 5rem rgba(31, 31, 31, 0.28);
+}
+.map-dialog::backdrop { background: rgba(31, 31, 31, 0.55); }
+.map-dialog__bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1rem clamp(1rem, 2vw, 1.5rem);
+  border-bottom: 1px solid var(--rule);
+}
+.map-dialog__bar p { margin: 0; max-width: none; }
+.map-dialog__frame { aspect-ratio: 16 / 10; background: var(--paper); }
+.map-dialog__frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+.map-dialog__fallback { padding: 0.9rem clamp(1rem, 2vw, 1.5rem); margin: 0; }
+
+button.link { background: none; border: 0; border-bottom: 1px solid var(--rule-strong); cursor: pointer; font: inherit; }
+button.link { font-family: var(--sans); font-size: var(--t-small); }
+.panel button.link { color: inherit; border-bottom-color: color-mix(in srgb, var(--canvas) 50%, transparent); }
+.panel button.link:hover { border-bottom-color: var(--canvas); }
 
 /* --------------------------------------------------------------------------
    13. Contact

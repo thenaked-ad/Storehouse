@@ -63,11 +63,11 @@
       <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
     </a>
     <nav class="nav" aria-label="Primary">
-      <a href="storage-and-handling.html">Storage &amp; Handling</a>
-      <a href="exhibition-services.html">Exhibition Services</a>
-      <a href="collection-management.html">Collection Management</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="storage-and-handling.html" data-index="01">Storage &amp; Handling</a>
+      <a href="exhibition-services.html" data-index="02">Exhibition Services</a>
+      <a href="collection-management.html" data-index="03">Collection Management</a>
+      <a href="about.html" data-index="04">About</a>
+      <a href="contact.html" data-index="05">Contact</a>
     </nav>
     <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
@@ -96,6 +96,7 @@
 <main id="main">
 
   <!-- ============================================================ hero -->
+  <div class="hero-field" data-hero-field>
   <section class="hero shell">
     <h1 class="hero__mark">
       <span class="visually-hidden">Storehouse</span>
@@ -117,21 +118,20 @@
       </div>
     </div>
 
-    <button class="scroll-cue" type="button" data-scroll-cue="#journey">
-      <span>Scroll</span><span class="chev" aria-hidden="true"></span>
+    <button class="scroll-cue" type="button" data-scroll-cue="#journey" aria-label="Scroll to the journey">
+      <span class="chev" aria-hidden="true"></span>
     </button>
   </section>
+  </div>
 
   <!-- ===================================================== the journey -->
-  <section class="journey" id="journey" data-dark aria-labelledby="journey-title">
+  <section class="journey" id="journey" data-ground="mid" aria-labelledby="journey-title">
     <div class="shell">
       <div class="journey__head">
-        <span class="ledger">Fig. 01</span>
         <h2 id="journey-title">One work, end to end.</h2>
-        <p>Most of what we do is never seen. Received, wrapped, crated, stored, moved
-           and hung &mdash; by the same team, on one record.</p>
+        <p>Most of what we do is never seen. One work, by one team, on one record.</p>
       </div>
-      <ol class="journey__strip">
+      <ol class="journey__strip" data-journey-strip>
         <li class="journey__stage">
           <figure>
             <div class="journey__plate">
@@ -141,7 +141,7 @@
             <figcaption><span class="n">01</span>Received</figcaption>
           </figure>
         </li>
-        <li class="journey__stage">
+        <li class="journey__stage" data-arrow="right">
           <figure>
             <div class="journey__plate">
               <img src="assets/img/journey/wrapped.webp" width="560" height="560"
@@ -150,7 +150,7 @@
             <figcaption><span class="n">02</span>Wrapped</figcaption>
           </figure>
         </li>
-        <li class="journey__stage">
+        <li class="journey__stage" data-arrow="right">
           <figure>
             <div class="journey__plate">
               <img src="assets/img/journey/boarded.webp" width="560" height="560"
@@ -159,7 +159,7 @@
             <figcaption><span class="n">03</span>Boarded</figcaption>
           </figure>
         </li>
-        <li class="journey__stage">
+        <li class="journey__stage" data-arrow="right">
           <figure>
             <div class="journey__plate">
               <img src="assets/img/journey/crated.webp" width="560" height="560"
@@ -168,7 +168,7 @@
             <figcaption><span class="n">04</span>Crated</figcaption>
           </figure>
         </li>
-        <li class="journey__stage">
+        <li class="journey__stage" data-arrow="down">
           <figure>
             <div class="journey__plate">
               <img src="assets/img/journey/stored.webp" width="560" height="560"
@@ -177,7 +177,7 @@
             <figcaption><span class="n">05</span>Stored</figcaption>
           </figure>
         </li>
-        <li class="journey__stage">
+        <li class="journey__stage" data-arrow="left">
           <figure>
             <div class="journey__plate">
               <img src="assets/img/journey/transit.webp" width="560" height="560"
@@ -186,7 +186,7 @@
             <figcaption><span class="n">06</span>In transit</figcaption>
           </figure>
         </li>
-        <li class="journey__stage">
+        <li class="journey__stage" data-arrow="left">
           <figure>
             <div class="journey__plate">
               <img src="assets/img/journey/installed.webp" width="560" height="560"
@@ -202,7 +202,6 @@
   <!-- ========================================================= services -->
   <section class="shell band" aria-labelledby="services-title">
     <div class="section-head">
-      <span class="ledger">02</span>
       <h2 id="services-title">Services</h2>
     </div>
 
@@ -370,7 +369,7 @@
   <!-- ========================================================= facility -->
   <section class="panel" aria-labelledby="facility-title" data-dark data-reveal>
     <div class="shell marginalia">
-      <p class="aside ledger">Location</p>
+      <p class="aside label">Location</p>
       <div class="main">
         <h2 id="facility-title">Park Royal, north-west London.</h2>
         <p style="margin-top:1.75rem;font-size:var(--t-lead);line-height:1.5;max-width:32em">
@@ -383,35 +382,64 @@
           <li>Climate &amp; humidity controlled</li>
           <li>24-hour monitored</li>
         </ul>
-        <p style="margin-top:var(--stack)">
-          <a class="action" href="storage-and-handling.html">Storage &amp; Handling <span class="arrow" aria-hidden="true">→</span></a>
+        <p style="margin-top:var(--stack);display:flex;flex-wrap:wrap;gap:1.5rem 2.5rem;align-items:baseline">
+          <a class="action" href="storage-and-handling.html">Storage &amp; Handling <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          <button class="link" type="button" data-map-open>See on map</button>
         </p>
       </div>
     </div>
   </section>
 
-  <!-- ======================================================= imagery -->
-  <section class="shell band" data-reveal>
-    <div class="pair pair--offset">
-      <figure>
-        <div class="plate plate--tall">
-          <img src="assets/img/facility-racking-900.webp" width="900" height="1200" loading="lazy" decoding="async"
-               alt="Racking in the Storehouse facility, with wrapped works stacked against the bays.">
-        </div>
-        <figcaption>The racking. Sized for works large and small.</figcaption>
-      </figure>
-      <figure>
-        <div class="plate plate--tall">
-          <img src="assets/img/install-large-900.webp" width="900" height="1200" loading="lazy" decoding="async"
-               alt="Two Storehouse technicians lifting a large canvas into position against a wall.">
-        </div>
-        <figcaption>Installation. Any scale, any venue.</figcaption>
-      </figure>
+  <!-- ===================================================== case studies -->
+  <section class="shell band" aria-labelledby="cases-title" data-reveal>
+    <div class="section-head">
+      <h2 id="cases-title">Case studies</h2>
     </div>
+
+    <p style="max-width:34em;color:var(--ink-muted)">
+      A selection of recent projects &mdash; collections moved, shows installed,
+      archives built &mdash; is being prepared.
+    </p>
+
+    <!-- ====================================================================
+         FRED: each project becomes one <li> below. Replace the placeholder
+         text with the client or project name, the year, and one line on what
+         the job involved. Add an image by putting a <div class="plate
+         plate--wide"><img ...></div> above the <h3>.
+         ==================================================================== -->
+    <ol class="cases">
+      <li class="case">
+        <span class="case__index">01</span>
+        <h3>Project in preparation</h3>
+        <p>Details to follow.</p>
+      </li>
+      <li class="case">
+        <span class="case__index">02</span>
+        <h3>Project in preparation</h3>
+        <p>Details to follow.</p>
+      </li>
+      <li class="case">
+        <span class="case__index">03</span>
+        <h3>Project in preparation</h3>
+        <p>Details to follow.</p>
+      </li>
+    </ol>
   </section>
 
 
 </main>
+
+<dialog class="map-dialog" data-map-dialog aria-label="Storehouse on the map">
+  <div class="map-dialog__bar">
+    <p class="label">141 Acton Lane, London NW10 7PB</p>
+    <button class="link" type="button" data-map-close>Close</button>
+  </div>
+  <div class="map-dialog__frame" data-map-frame></div>
+  <p class="map-dialog__fallback label">
+    <a href="https://www.google.com/maps/search/?api=1&amp;query=141+Acton+Lane+London+NW10+7PB"
+       target="_blank" rel="noopener">Open in Google Maps</a>
+  </p>
+</dialog>
 
 <footer class="footer">
   <div class="shell">
