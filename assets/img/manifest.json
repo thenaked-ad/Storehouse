@@ -1,0 +1,614 @@
+{
+ "sequence": [
+  {
+   "file": "passage/passage-00.webp",
+   "src": 21,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-01.webp",
+   "src": 22,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-02.webp",
+   "src": 24,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-03.webp",
+   "src": 25,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-04.webp",
+   "src": 26,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-05.webp",
+   "src": 27,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-06.webp",
+   "src": 28,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-07.webp",
+   "src": 30,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-08.webp",
+   "src": 31,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-09.webp",
+   "src": 33,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-10.webp",
+   "src": 34,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-11.webp",
+   "src": 35,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-12.webp",
+   "src": 36,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-13.webp",
+   "src": 37,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-14.webp",
+   "src": 38,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-15.webp",
+   "src": 43,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-16.webp",
+   "src": 44,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-17.webp",
+   "src": 45,
+   "size": [
+    760,
+    1013
+   ]
+  },
+  {
+   "file": "passage/passage-18.webp",
+   "src": 47,
+   "size": [
+    760,
+    1013
+   ]
+  }
+ ],
+ "features": {
+  "facility-racking": {
+   "src": 3,
+   "widths": {
+    "1600": {
+     "file": "facility-racking-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 136938
+    },
+    "900": {
+     "file": "facility-racking-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 53188
+    }
+   },
+   "aspect": 0.75
+  },
+  "facility-crates": {
+   "src": 5,
+   "widths": {
+    "1600": {
+     "file": "facility-crates-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 139654
+    },
+    "900": {
+     "file": "facility-crates-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 57540
+    }
+   },
+   "aspect": 0.75
+  },
+  "condition-verso": {
+   "src": 93,
+   "widths": {
+    "1600": {
+     "file": "condition-verso-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 132464
+    },
+    "900": {
+     "file": "condition-verso-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 30514
+    }
+   },
+   "aspect": 0.75
+  },
+  "condition-notes": {
+   "src": 65,
+   "widths": {
+    "1600": {
+     "file": "condition-notes-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 77732
+    },
+    "900": {
+     "file": "condition-notes-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 26896
+    }
+   },
+   "aspect": 0.75
+  },
+  "packing-corner": {
+   "src": 45,
+   "widths": {
+    "1600": {
+     "file": "packing-corner-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 629848
+    },
+    "900": {
+     "file": "packing-corner-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 189082
+    }
+   },
+   "aspect": 0.75
+  },
+  "packing-wrap": {
+   "src": 16,
+   "widths": {
+    "1600": {
+     "file": "packing-wrap-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 85778
+    },
+    "900": {
+     "file": "packing-wrap-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 29404
+    }
+   },
+   "aspect": 0.75
+  },
+  "crate-finished": {
+   "src": 47,
+   "widths": {
+    "1600": {
+     "file": "crate-finished-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 52738
+    },
+    "900": {
+     "file": "crate-finished-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 17410
+    }
+   },
+   "aspect": 0.75
+  },
+  "crate-open": {
+   "src": 51,
+   "widths": {
+    "1600": {
+     "file": "crate-open-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 67968
+    },
+    "900": {
+     "file": "crate-open-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 27824
+    }
+   },
+   "aspect": 0.75
+  },
+  "transport-van": {
+   "src": 109,
+   "widths": {
+    "1600": {
+     "file": "transport-van-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 221458
+    },
+    "900": {
+     "file": "transport-van-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 76832
+    }
+   },
+   "aspect": 0.75
+  },
+  "photography-studio": {
+   "src": 71,
+   "widths": {
+    "1600": {
+     "file": "photography-studio-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 53854
+    },
+    "900": {
+     "file": "photography-studio-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 21012
+    }
+   },
+   "aspect": 0.75
+  },
+  "photography-camera": {
+   "src": 74,
+   "widths": {
+    "1600": {
+     "file": "photography-camera-1600.webp",
+     "size": [
+      1600,
+      1067
+     ],
+     "bytes": 44570
+    },
+    "900": {
+     "file": "photography-camera-900.webp",
+     "size": [
+      900,
+      600
+     ],
+     "bytes": 19278
+    }
+   },
+   "aspect": 1.4997
+  },
+  "install-large": {
+   "src": 85,
+   "widths": {
+    "1600": {
+     "file": "install-large-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 86794
+    },
+    "900": {
+     "file": "install-large-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 32900
+    }
+   },
+   "aspect": 0.75
+  },
+  "install-level": {
+   "src": 100,
+   "widths": {
+    "1600": {
+     "file": "install-level-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 64196
+    },
+    "900": {
+     "file": "install-level-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 24260
+    }
+   },
+   "aspect": 0.75
+  },
+  "install-measure": {
+   "src": 98,
+   "widths": {
+    "1600": {
+     "file": "install-measure-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 206818
+    },
+    "900": {
+     "file": "install-measure-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 53070
+    }
+   },
+   "aspect": 0.75
+  },
+  "install-hang": {
+   "src": 103,
+   "widths": {
+    "1600": {
+     "file": "install-hang-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 47018
+    },
+    "900": {
+     "file": "install-hang-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 19352
+    }
+   },
+   "aspect": 0.75
+  },
+  "install-situ": {
+   "src": 111,
+   "widths": {
+    "1600": {
+     "file": "install-situ-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 193598
+    },
+    "900": {
+     "file": "install-situ-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 69260
+    }
+   },
+   "aspect": 0.75
+  },
+  "install-small": {
+   "src": 62,
+   "widths": {
+    "1600": {
+     "file": "install-small-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 150338
+    },
+    "900": {
+     "file": "install-small-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 46918
+    }
+   },
+   "aspect": 0.75
+  },
+  "viewing-room": {
+   "src": 56,
+   "widths": {
+    "1600": {
+     "file": "viewing-room-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 49886
+    },
+    "900": {
+     "file": "viewing-room-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 20772
+    }
+   },
+   "aspect": 0.75
+  },
+  "tools": {
+   "src": 106,
+   "widths": {
+    "1600": {
+     "file": "tools-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 342720
+    },
+    "900": {
+     "file": "tools-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 97974
+    }
+   },
+   "aspect": 0.75
+  },
+  "team-mark": {
+   "src": 87,
+   "widths": {
+    "1600": {
+     "file": "team-mark-1600.webp",
+     "size": [
+      1600,
+      2133
+     ],
+     "bytes": 56706
+    },
+    "900": {
+     "file": "team-mark-900.webp",
+     "size": [
+      900,
+      1200
+     ],
+     "bytes": 14936
+    }
+   },
+   "aspect": 0.75
+  }
+ },
+ "portraits": {
+  "portrait-a": {
+   "file": "portrait-a-900.webp",
+   "size": [
+    900,
+    1200
+   ]
+  },
+  "portrait-b": {
+   "file": "portrait-b-900.webp",
+   "size": [
+    900,
+    1200
+   ]
+  }
+ }
+}
