@@ -117,69 +117,86 @@
         <p class="hero__note">We keep it competitive, and we keep it close.</p>
       </div>
     </div>
+
+    <button class="scroll-cue" type="button" data-scroll-cue="#journey">
+      <span>Scroll</span><span class="chev" aria-hidden="true"></span>
+    </button>
   </section>
 
-  <!-- ==================================================== the passage -->
-  <section class="passage" data-dark aria-labelledby="passage-title">
-    <div class="shell band" style="padding-bottom:0">
-      <div class="marginalia">
-        <p class="aside ledger">Fig. 01</p>
-        <div class="main">
-          <h2 id="passage-title" style="font-size:var(--t-title)">One work, wrapped.</h2>
-          <p style="margin-top:1.5rem;color:rgba(253,253,253,.72);max-width:32em">
-            Most of what we do is never seen. This is a single painting being prepared
-            for storage — every step recorded, as every job is.
-          </p>
-        </div>
+  <!-- ===================================================== the journey -->
+  <section class="journey" id="journey" data-dark aria-labelledby="journey-title">
+    <div class="shell">
+      <div class="journey__head">
+        <span class="ledger">Fig. 01</span>
+        <h2 id="journey-title">One work, end to end.</h2>
+        <p>Most of what we do is never seen. Received, wrapped, crated, stored, moved
+           and hung &mdash; by the same team, on one record.</p>
       </div>
-    </div>
-
-    <!-- Height is a function of the frame count: one screen to read, then a
-         short scroll per frame. --frames is set here so it stays with the markup. -->
-    <div class="passage__scroll" data-passage-scroll style="--frames:19">
-      <div class="passage__stage">
-        <div class="shell passage__grid">
-
-          <div class="passage__caption">
-            <span class="passage__step">01 / 19</span>
-            <p class="passage__text">Work received. Face and verso examined, and the condition recorded, before anything else happens.</p>
-            <div class="passage__ticks" aria-hidden="true"></div>
-          </div>
-
-          <div class="passage__plate">
-            <img src="assets/img/passage/passage-00.webp" width="760" height="1013"
-                 alt="A framed work laid face-down on a padded table, with its paperwork beside it."
-                 decoding="async" fetchpriority="high">
-          </div>
-
-        </div>
-      </div>
-
-      <!-- The written record. This is what the sequence says, and it is what a
-           visitor sees without JavaScript or with reduced motion turned on. -->
-      <div class="shell">
-        <ol class="passage__log">
-          <li><span class="n">01</span><p>Work received. Face and verso examined, and the condition recorded, before anything else happens.</p></li>
-          <li><span class="n">02</span><p>Glassine laid across the face. Nothing abrasive meets the surface.</p></li>
-          <li><span class="n">03</span><p>The first fold is made and held.</p></li>
-          <li><span class="n">04</span><p>Wrapped square. Tape is kept clear of the work itself.</p></li>
-          <li><span class="n">05</span><p>Seams closed, one at a time.</p></li>
-          <li><span class="n">06</span><p>The parcel is turned so every edge can be checked.</p></li>
-          <li><span class="n">07</span><p>Hands flat. Pressure spread, never concentrated.</p></li>
-          <li><span class="n">08</span><p>Edges taped back on themselves so nothing lifts in transit.</p></li>
-          <li><span class="n">09</span><p>The wrap is sealed along its length.</p></li>
-          <li><span class="n">10</span><p>A final band across the centre.</p></li>
-          <li><span class="n">11</span><p>Board cut to the work, rather than the work made to fit a box.</p></li>
-          <li><span class="n">12</span><p>Foam set at the corners to carry the load away from the frame.</p></li>
-          <li><span class="n">13</span><p>The board is lowered flat.</p></li>
-          <li><span class="n">14</span><p>A second sheet goes on to close the sandwich.</p></li>
-          <li><span class="n">15</span><p>Faces aligned and squared.</p></li>
-          <li><span class="n">16</span><p>The foam frame holds the work clear of every surface.</p></li>
-          <li><span class="n">17</span><p>Checked square once more before closing.</p></li>
-          <li><span class="n">18</span><p>The corner detail — foam, board, and air between them.</p></li>
-          <li><span class="n">19</span><p>Crated, marked and logged. Ready to move.</p></li>
-        </ol>
-      </div>
+      <ol class="journey__strip">
+        <li class="journey__stage">
+          <figure>
+            <div class="journey__plate">
+              <img src="assets/img/journey/received.webp" width="560" height="560"
+                   loading="lazy" decoding="async" alt="A framed work laid face-down on a padded table with its paperwork beside it.">
+            </div>
+            <figcaption><span class="n">01</span>Received</figcaption>
+          </figure>
+        </li>
+        <li class="journey__stage">
+          <figure>
+            <div class="journey__plate">
+              <img src="assets/img/journey/wrapped.webp" width="560" height="560"
+                   loading="lazy" decoding="async" alt="Gloved hands taping a wrapped work closed.">
+            </div>
+            <figcaption><span class="n">02</span>Wrapped</figcaption>
+          </figure>
+        </li>
+        <li class="journey__stage">
+          <figure>
+            <div class="journey__plate">
+              <img src="assets/img/journey/boarded.webp" width="560" height="560"
+                   loading="lazy" decoding="async" alt="The wrapped work set into a foam-cornered board.">
+            </div>
+            <figcaption><span class="n">03</span>Boarded</figcaption>
+          </figure>
+        </li>
+        <li class="journey__stage">
+          <figure>
+            <div class="journey__plate">
+              <img src="assets/img/journey/crated.webp" width="560" height="560"
+                   loading="lazy" decoding="async" alt="A finished timber crate, marked and labelled.">
+            </div>
+            <figcaption><span class="n">04</span>Crated</figcaption>
+          </figure>
+        </li>
+        <li class="journey__stage">
+          <figure>
+            <div class="journey__plate">
+              <img src="assets/img/journey/stored.webp" width="560" height="560"
+                   loading="lazy" decoding="async" alt="Crates and works held on racking inside the facility.">
+            </div>
+            <figcaption><span class="n">05</span>Stored</figcaption>
+          </figure>
+        </li>
+        <li class="journey__stage">
+          <figure>
+            <div class="journey__plate">
+              <img src="assets/img/journey/transit.webp" width="560" height="560"
+                   loading="lazy" decoding="async" alt="The padded interior of a fitted Storehouse vehicle.">
+            </div>
+            <figcaption><span class="n">06</span>In transit</figcaption>
+          </figure>
+        </li>
+        <li class="journey__stage">
+          <figure>
+            <div class="journey__plate">
+              <img src="assets/img/journey/installed.webp" width="560" height="560"
+                   loading="lazy" decoding="async" alt="A large framed painting hung on the wall of a private interior.">
+            </div>
+            <figcaption><span class="n">07</span>Installed</figcaption>
+          </figure>
+        </li>
+      </ol>
     </div>
   </section>
 
@@ -190,135 +207,171 @@
       <h2 id="services-title">Services</h2>
     </div>
 
-    <div class="services">
+    <div class="services-layout">
+      <div class="services__preview" data-services-preview aria-hidden="true">
+        <img src="assets/img/facility-racking-900.webp" width="900" height="1125" data-service="01"
+             loading="lazy" decoding="async" alt="">
+        <img src="assets/img/transport-van-900.webp" width="900" height="1125" data-service="02"
+             loading="lazy" decoding="async" alt="">
+        <img src="assets/img/packing-wrap-900.webp" width="900" height="1125" data-service="03"
+             loading="lazy" decoding="async" alt="">
+        <img src="assets/img/install-large-900.webp" width="900" height="1125" data-service="04"
+             loading="lazy" decoding="async" alt="">
+        <img src="assets/img/photography-studio-900.webp" width="900" height="1125" data-service="05"
+             loading="lazy" decoding="async" alt="">
+        <img src="assets/img/viewing-room-900.webp" width="900" height="1125" data-service="06"
+             loading="lazy" decoding="async" alt="">
+        <img src="assets/img/crate-open-900.webp" width="900" height="1125" data-service="07"
+             loading="lazy" decoding="async" alt="">
+        <img src="assets/img/condition-notes-900.webp" width="900" height="1125" data-service="08"
+             loading="lazy" decoding="async" alt="">
+      </div>
 
-      <details class="service" name="service">
-        <summary><span class="service__index">01</span><span>Storage</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
+      <div class="services">
+        <details class="service" name="service" data-service="01">
+          <summary><span class="service__index">01</span><span>Storage</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
             <p>Discreet, secure, climate-controlled storage in Park Royal, north-west London. We offer some of the most competitive storage rates in the city without compromising on the care of the work.</p>
-            <p><a class="link" href="storage-and-handling.html#storage">Storage in detail <span class="arrow" aria-hidden="true">→</span></a></p>
-          </div>
+              <figure class="service__figure">
+                <img src="assets/img/facility-racking-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Racking bays inside the Storehouse facility.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#storage">Storage in detail <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
           <ul class="spec">
-            <li>24-hour monitored security</li>
-            <li>Climate and humidity controlled throughout</li>
-            <li>Racking sized for works large and small</li>
-            <li>Every movement handled by trained fine art technicians</li>
+              <li>24-hour monitored security</li>
+              <li>Climate and humidity controlled throughout</li>
+              <li>Racking sized for works large and small</li>
+              <li>Every movement handled by trained fine art technicians</li>
           </ul>
-        </div>
-      </details>
-
-      <details class="service" name="service">
-        <summary><span class="service__index">02</span><span>Transportation</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
+          </div>
+        </details>
+        <details class="service" name="service" data-service="02">
+          <summary><span class="service__index">02</span><span>Transportation</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
             <p>Collection and delivery across the UK. Works move between your premises and our facility, with installation in London and nationwide.</p>
-            <p><a class="link" href="storage-and-handling.html#transport">Transport in detail <span class="arrow" aria-hidden="true">→</span></a></p>
-          </div>
+              <figure class="service__figure">
+                <img src="assets/img/transport-van-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="The padded interior of a fitted Storehouse vehicle.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#transport">Transport in detail <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
           <ul class="spec">
-            <li>UK-wide collection and delivery</li>
-            <li>Installation in London and nationwide</li>
+              <li>UK-wide collection and delivery</li>
+              <li>Installation in London and nationwide</li>
           </ul>
-        </div>
-      </details>
-
-      <details class="service" name="service">
-        <summary><span class="service__index">03</span><span>Packing</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
+          </div>
+        </details>
+        <details class="service" name="service" data-service="03">
+          <summary><span class="service__index">03</span><span>Packing</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
             <p>Bespoke packing and crating for storage and transit, built to the requirements of the work. Condition checking, packing and handling by experienced technicians.</p>
-            <p><a class="link" href="storage-and-handling.html#packing">Packing in detail <span class="arrow" aria-hidden="true">→</span></a></p>
-          </div>
+              <figure class="service__figure">
+                <img src="assets/img/packing-wrap-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A technician taping a wrapped work on a padded table.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#packing">Packing in detail <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
           <ul class="spec">
-            <li>Bespoke crates for storage and transit</li>
-            <li>Condition checking before and after</li>
+              <li>Bespoke crates for storage and transit</li>
+              <li>Condition checking before and after</li>
           </ul>
-        </div>
-      </details>
-
-      <details class="service" name="service">
-        <summary><span class="service__index">04</span><span>Installation</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
-            <p>Every install is planned at the level of detail the work and the venue require. Any scale, any venue — from a single painting in a collector's home to a complex gallery install.</p>
-            <p><a class="link" href="storage-and-handling.html#installation">Installation in detail <span class="arrow" aria-hidden="true">→</span></a></p>
           </div>
-        </div>
-      </details>
-
-      <details class="service" name="service">
-        <summary><span class="service__index">05</span><span>Photography</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
+        </details>
+        <details class="service" name="service" data-service="04">
+          <summary><span class="service__index">04</span><span>Installation</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
+            <p>Every install is planned at the level of detail the work and the venue require. Any scale, any venue &mdash; from a single painting in a collector&rsquo;s home to a complex gallery install.</p>
+              <figure class="service__figure">
+                <img src="assets/img/install-large-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Two technicians lifting a large canvas into position.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#installation">Installation in detail <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
+          </div>
+        </details>
+        <details class="service" name="service" data-service="05">
+          <summary><span class="service__index">05</span><span>Photography</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
             <p>Gallery-standard photography and post-production, shot in house. Onsite photography at your studio, gallery or home where the work cannot travel.</p>
-            <p><a class="link" href="storage-and-handling.html#photography">Photography in detail <span class="arrow" aria-hidden="true">→</span></a></p>
-          </div>
+              <figure class="service__figure">
+                <img src="assets/img/photography-studio-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A framed work lit by two studio lights against a plain wall.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#photography">Photography in detail <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
           <ul class="spec">
-            <li>Shot and post-produced in house</li>
-            <li>Onsite at studio, gallery or home</li>
+              <li>Shot and post-produced in house</li>
+              <li>Onsite at studio, gallery or home</li>
           </ul>
-        </div>
-      </details>
-
-      <details class="service" name="service">
-        <summary><span class="service__index">06</span><span>Viewing Room Hire</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
+          </div>
+        </details>
+        <details class="service" name="service" data-service="06">
+          <summary><span class="service__index">06</span><span>Viewing Room Hire</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
             <p>Our viewing room and conservation studio sit within a self-contained workspace with level access for large works. Available for viewings, photography and condition checking.</p>
-            <p><a class="link" href="storage-and-handling.html#viewing-room">The viewing room <span class="arrow" aria-hidden="true">→</span></a></p>
-          </div>
+              <figure class="service__figure">
+                <img src="assets/img/viewing-room-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A technician adjusting a framed work under studio lighting.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#viewing-room">The viewing room <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
           <ul class="spec">
-            <li>Level access for large works</li>
-            <li>Self-contained workspace</li>
+              <li>Level access for large works</li>
+              <li>Self-contained workspace</li>
           </ul>
-        </div>
-      </details>
-
-      <details class="service" name="service">
-        <summary><span class="service__index">07</span><span>Exhibition Services</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
-            <p>The back end of what a gallery does — budgets, timelines, agreements and shipping, run for exhibitions, fairs and projects.</p>
-            <p><a class="link" href="exhibition-services.html">Exhibition services <span class="arrow" aria-hidden="true">→</span></a></p>
           </div>
+        </details>
+        <details class="service" name="service" data-service="07">
+          <summary><span class="service__index">07</span><span>Exhibition Services</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
+            <p>The back end of what a gallery does &mdash; budgets, timelines, agreements and shipping, run for exhibitions, fairs and projects.</p>
+              <figure class="service__figure">
+                <img src="assets/img/crate-open-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="An open crate beside a large painting in a gallery space.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="exhibition-services.html">Exhibition services <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
           <ul class="spec">
-            <li>Budgets and logistical timelines</li>
-            <li>Consignment, loan and sales agreements</li>
-            <li>UK and international shipping</li>
+              <li>Budgets and logistical timelines</li>
+              <li>Consignment, loan and sales agreements</li>
+              <li>UK and international shipping</li>
           </ul>
-        </div>
-      </details>
-
-      <details class="service" name="service">
-        <summary><span class="service__index">08</span><span>Collection Management</span><span class="service__sign" aria-hidden="true"></span></summary>
-        <div class="service__body">
-          <div class="spacer"></div>
-          <div>
+          </div>
+        </details>
+        <details class="service" name="service" data-service="08">
+          <summary><span class="service__index">08</span><span>Collection Management</span><span class="service__sign" aria-hidden="true"></span></summary>
+          <div class="service__body">
+            <div class="spacer"></div>
+            <div>
             <p>Cataloguing, inventory, condition reporting and research, held in a database you own and can read.</p>
-            <p><a class="link" href="collection-management.html">Collection management <span class="arrow" aria-hidden="true">→</span></a></p>
-          </div>
+              <figure class="service__figure">
+                <img src="assets/img/condition-notes-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A gloved hand writing on a clipboard beside a framed work.">
+              </figure>
+              <p style="margin-top:1.1rem"><a class="link" href="collection-management.html">Collection management <span class="arrow" aria-hidden="true">&rarr;</span></a></p>
+            </div>
           <ul class="spec">
-            <li>Artlogic, ArtBinder or equivalent</li>
-            <li>Inventory and location records</li>
-            <li>Condition, provenance and market reporting</li>
+              <li>Artlogic, ArtBinder or equivalent</li>
+              <li>Inventory and location records</li>
+              <li>Condition, provenance and market reporting</li>
           </ul>
-        </div>
-      </details>
-
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
   <!-- ========================================================= facility -->
   <section class="panel" aria-labelledby="facility-title" data-dark data-reveal>
     <div class="shell marginalia">
-      <p class="aside ledger">Fig. 02</p>
+      <p class="aside ledger">Location</p>
       <div class="main">
         <h2 id="facility-title">Park Royal, north-west London.</h2>
         <p style="margin-top:1.75rem;font-size:var(--t-lead);line-height:1.5;max-width:32em">
@@ -358,19 +411,6 @@
     </div>
   </section>
 
-  <!-- ======================================================= directory -->
-  <section class="shell band" aria-labelledby="directory-title">
-    <div class="section-head">
-      <span class="ledger">03</span>
-      <h2 id="directory-title">Continue</h2>
-    </div>
-    <nav class="directory" aria-labelledby="directory-title">
-      <a href="storage-and-handling.html"><span class="service__index">01</span><span>Storage &amp; Handling</span><span class="arrow" aria-hidden="true">→</span></a>
-      <a href="exhibition-services.html"><span class="service__index">02</span><span>Exhibition Services</span><span class="arrow" aria-hidden="true">→</span></a>
-      <a href="collection-management.html"><span class="service__index">03</span><span>Collection Management</span><span class="arrow" aria-hidden="true">→</span></a>
-      <a href="contact.html"><span class="service__index">04</span><span>Contact</span><span class="arrow" aria-hidden="true">→</span></a>
-    </nav>
-  </section>
 
 </main>
 

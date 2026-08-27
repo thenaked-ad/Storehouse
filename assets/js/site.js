@@ -1,6 +1,7 @@
 /* Storehouse Fine Arts — progressive enhancement only.
-   Every page works with this file absent: the passage reads as a written log,
-   the services open as plain <details>, and the menu is a link list. */
+   Every page works with this file absent: the journey reads as a plain row of
+   captioned images, the services open as ordinary <details>, the menu is a
+   link list, and the pointer stays the one the operating system provides. */
 
 (function () {
   "use strict";
@@ -81,104 +82,83 @@
     }
   }
 
-  /* ----------------------------------------------------------- the passage */
+  /* ------------------------------------------- the services preview image */
 
-  var passage = document.querySelector("[data-passage-scroll]");
-  if (passage && !reduced) {
-    var plate    = passage.querySelector(".passage__plate");
-    var stepEl   = passage.querySelector(".passage__step");
-    var textEl   = passage.querySelector(".passage__text");
-    var ticksEl  = passage.querySelector(".passage__ticks");
-    var logItems = Array.prototype.slice.call(passage.querySelectorAll(".passage__log li"));
-    var total    = logItems.length;
+  var preview = document.querySelector("[data-services-preview]");
+  if (preview) {
+    var previewImgs = {};
+    Array.prototype.forEach.call(preview.querySelectorAll("img"), function (img) {
+      previewImgs[img.dataset.service] = img;
+    });
 
-    if (plate && total > 1) {
-      var captions = logItems.map(function (li) {
-        return (li.querySelector("p") || {}).textContent || "";
-      });
+    var activePreview = null;
+    var showPreview = function (key) {
+      var img = previewImgs[key];
+      if (!img || img === activePreview) return;
+      if (activePreview) activePreview.dataset.active = "false";
+      img.dataset.active = "true";
+      activePreview = img;
+    };
 
-      // Frame 0 is already in the markup; the rest are added only once the
-      // reader is approaching this section, so nobody downloads a megabyte of
-      // sequence to read the paragraph at the top of the page.
-      var frames = [plate.querySelector("img")];
-      var base   = frames[0].getAttribute("src").replace(/passage-\d+\.webp$/, "");
+    var rows = document.querySelectorAll(".services .service > summary");
+    Array.prototype.forEach.call(rows, function (row) {
+      var key = row.closest(".service").dataset.service;
+      row.addEventListener("mouseenter", function () { showPreview(key); });
+      row.addEventListener("focus", function () { showPreview(key); });
+    });
 
-      // Progress ticks, one per frame.
-      if (ticksEl) {
-        for (var t = 0; t < total; t++) ticksEl.appendChild(document.createElement("span"));
-      }
-      var ticks = ticksEl ? Array.prototype.slice.call(ticksEl.children) : [];
+    // Start on the first, so the column is never empty.
+    if (rows.length) showPreview(rows[0].closest(".service").dataset.service);
+  }
 
-      document.documentElement.dataset.passage = "on";
-      frames[0].dataset.active = "true";
+  /* ---------------------------------------------------------- the scroll cue */
 
-      var current = -1;
-      var show = function (index) {
-        if (index === current) return;
-        // Never fade to a frame that has not been created or has not arrived.
-        var next = frames[index];
-        if (!next || !next.complete || next.naturalWidth === 0) return;
-        if (current > -1) frames[current].dataset.active = "false";
-        frames[index].dataset.active = "true";
-        current = index;
+  var cue = document.querySelector("[data-scroll-cue]");
+  if (cue) {
+    cue.addEventListener("click", function () {
+      var target = document.querySelector(cue.dataset.scrollCue);
+      if (target) target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
+    });
+    // Once you have started scrolling it has done its job.
+    window.addEventListener("scroll", function () {
+      cue.style.opacity = window.scrollY > 120 ? "0" : "";
+      cue.style.pointerEvents = window.scrollY > 120 ? "none" : "";
+    }, { passive: true });
+  }
 
-        if (stepEl) stepEl.textContent =
-          String(index + 1).padStart(2, "0") + " / " + String(total).padStart(2, "0");
-        if (textEl) textEl.textContent = captions[index];
-        ticks.forEach(function (tick, n) { tick.dataset.on = n <= index ? "true" : "false"; });
-      };
+  /* ----------------------------------------------------------- the pointer */
 
-      var ticking = false;
-      var update = function () {
-        ticking = false;
-        var rect  = passage.getBoundingClientRect();
-        var span  = rect.height - window.innerHeight;
-        if (span <= 0) return;
-        var p     = Math.min(Math.max(-rect.top / span, 0), 1);
-        show(Math.min(total - 1, Math.floor(p * total)));
-      };
-      var onScroll = function () {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(update);
-      };
+  var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  if (finePointer && !reduced) {
+    var dot = document.createElement("div");
+    dot.className = "cursor-dot";
+    dot.setAttribute("aria-hidden", "true");
+    document.body.appendChild(dot);
 
-      // Fetch the remaining frames, each one re-running the scrub as it lands so
-      // a slow connection catches up rather than sticking on an early frame.
-      var loadFrames = function () {
-        for (var i = 1; i < total; i++) {
-          var img = document.createElement("img");
-          img.src = base + "passage-" + String(i).padStart(2, "0") + ".webp";
-          img.alt = "";
-          img.setAttribute("aria-hidden", "true");
-          img.decoding = "async";
-          if ("fetchPriority" in img) img.fetchPriority = i < 4 ? "high" : "low";
-          img.addEventListener("load", update, { once: true });
-          plate.appendChild(img);
-          frames.push(img);
-        }
-      };
+    var dx = 0, dy = 0, drawing = false;
+    var draw = function () {
+      drawing = false;
+      dot.style.transform = "translate3d(" + dx + "px," + dy + "px,0)";
+    };
 
-      if ("IntersectionObserver" in window) {
-        // The section begins just below the fold, so waiting for it to actually
-        // reach the viewport is what keeps the sequence off the initial load.
-        // The first frames are high priority and land while the reader scrolls.
-        var loader = new IntersectionObserver(function (entries) {
-          if (!entries[0].isIntersecting) return;
-          loader.disconnect();
-          loadFrames();
-        }, { rootMargin: "0px" });
-        loader.observe(passage);
-      } else {
-        loadFrames();
-      }
+    document.addEventListener("mousemove", function (e) {
+      dx = e.clientX; dy = e.clientY;
+      if (!drawing) { drawing = true; window.requestAnimationFrame(draw); }
 
-      show(0);
-      window.addEventListener("scroll", onScroll, { passive: true });
-      window.addEventListener("resize", onScroll, { passive: true });
-      frames[0].addEventListener("load", update, { once: true });
-      update();
-    }
+      var el = e.target;
+      var interactive = el.closest && el.closest("a, button, summary, [role='button'], input, label");
+      dot.dataset.over = interactive ? "link" : "";
+
+      // Invert over the dark and ultramarine grounds.
+      var onDark = el.closest && el.closest("[data-dark], .journey, .panel, .footer, .menu");
+      dot.dataset.ground = onDark ? "dark" : "";
+    }, { passive: true });
+
+    // Hide the native cursor only now that the dot is definitely present.
+    document.documentElement.dataset.cursor = "on";
+
+    document.addEventListener("mouseleave", function () { dot.style.opacity = "0"; });
+    document.addEventListener("mouseenter", function () { dot.style.opacity = ""; });
   }
 
   /* ------------------------------------------- one service open at a time */

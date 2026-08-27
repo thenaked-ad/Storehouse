@@ -120,31 +120,37 @@ document. Spacing comes from two variables — `--band` between sections and
 
 ---
 
-## The Passage
+## The Journey
 
-The sequence on the home page is the single artwork being wrapped and crated,
-frame by frame, driven by scroll position. Nineteen real frames from the
-Storehouse shoot, in the order they were taken.
+The row on the home page is one work travelling the whole service: received,
+wrapped, boarded, crated, stored, moved and installed. Seven real frames from
+the Storehouse shoot, in the order they happened, with an arrow in every gap.
 
-It is built to fail gracefully:
+It sits inside a single screen and never scroll-jacks. On a phone the row
+becomes a swipeable strip so the section still occupies one screen rather than
+growing down the page.
 
-- **No JavaScript** — the sequence reads as a numbered written log, and only one image is downloaded.
-- **Reduced motion** — the same written log; nothing moves.
-- **Slow connection** — the sequence is not fetched until the section reaches the viewport, and the scrub never advances to a frame that has not arrived.
+To change a stage, edit the `<ol class="journey__strip">` list in `index.html`
+and drop a replacement square into `assets/img/journey/`. The images are
+centre-cropped squares at 560px; a row of squares reads as a sequence far better
+than a row of tall portraits.
 
-To change the captions, edit the `<ol class="passage__log">` list in
-`index.html`. That list is the single source of truth: the script reads the
-captions from it, so the visible caption and the no-JavaScript fallback can
-never disagree.
+## The services list
 
-To change the length of the scroll, edit the inline `height` on
-`.passage__scroll` — `20vh` per frame at present.
+Compact rows, one per service, opening as ordinary `<details>`. On a wide screen
+the image of whichever service you are pointing at appears in the column beside
+the list; on a phone that column is dropped and each service carries its own
+image inside the panel it opens. The pairing is set by `data-service` on each
+`<details>` matching `data-service` on an image in `.services__preview`.
 
-**The captions are a first draft and should be checked.** They describe what is
-visibly happening in each photograph, but Fred should confirm the materials and
-methods are described correctly before this goes live.
+## The pointer
 
----
+An ultramarine dot replaces the cursor, as on Dougal's holding page, opening up
+over anything you can act on and inverting to white over the dark and blue
+grounds. It is gated three ways — a real mouse, scripting available, and motion
+not reduced — and the native cursor is only hidden once the dot is confirmed
+running, so a script failure can never leave someone without a pointer. Touch
+devices never see it.
 
 ## Imagery
 

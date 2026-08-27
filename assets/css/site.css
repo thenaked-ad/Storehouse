@@ -256,7 +256,14 @@ figcaption {
 .wordmark { display: block; width: clamp(8.5rem, 14vw, 12.5rem); color: var(--charcoal); }
 /* The symbol carries no fill of its own, so every instance takes the ink of
    whatever it sits on. This is what lets the masthead invert over dark sections. */
-.wordmark svg, .hero__mark svg { width: 100%; fill: currentColor; }
+.wordmark svg, .hero__mark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 702 / 45.31;   /* Safari will not infer this from the viewBox alone */
+  overflow: visible;
+  fill: currentColor;
+}
 a.wordmark-link { text-decoration: none; }
 
 .nav { display: none; }
@@ -316,7 +323,14 @@ a.wordmark-link { text-decoration: none; }
    6. Hero
    -------------------------------------------------------------------------- */
 
-.hero { padding-top: clamp(3rem, 8vw, 7rem); padding-bottom: var(--band); }
+.hero {
+  padding-top: clamp(3rem, 8vw, 7rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  min-height: calc(100vh - 5.5rem);
+  min-height: calc(100svh - 5.5rem);
+  display: flex;
+  flex-direction: column;
+}
 
 .hero__mark { width: min(100%, 62rem); color: var(--charcoal); }
 
@@ -360,6 +374,42 @@ a.wordmark-link { text-decoration: none; }
   max-width: none;
 }
 
+/* A quiet indication that the page continues. */
+.scroll-cue {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-top: auto;          /* settles at the foot of the first screen */
+  align-self: flex-start;
+  padding-top: clamp(2rem, 5vw, 4rem);
+  transition: opacity 0.5s ease;
+  background: none;
+  border: 0;
+  padding: 0.5rem 0;
+  color: var(--ink-muted);
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.scroll-cue:hover { color: var(--ultramarine); }
+.scroll-cue .chev {
+  width: 8px; height: 8px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: rotate(45deg);
+  margin-bottom: 3px;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-cue .chev { animation: cue 2.6s ease-in-out infinite; }
+  @keyframes cue {
+    0%, 60%, 100% { transform: rotate(45deg) translate(0, 0); }
+    30%           { transform: rotate(45deg) translate(3px, 3px); }
+  }
+}
+
 /* --------------------------------------------------------------------------
    7. Page titles (inner pages)
    -------------------------------------------------------------------------- */
@@ -375,105 +425,99 @@ a.wordmark-link { text-decoration: none; }
 }
 
 /* --------------------------------------------------------------------------
-   8. The Passage — a work wrapped and crated, frame by frame
+   8. The Journey — one work, end to end, on a single screen
    -------------------------------------------------------------------------- */
 
-.passage { background: var(--charcoal); color: var(--canvas); }
-.passage a { color: inherit; }
-
-.passage__scroll { position: relative; }
-
-/* The scroll budget only exists once the scrub is actually running. Without
-   scripting — or with reduced motion — the section collapses to one screen
-   followed by the written log, rather than a long empty void. */
-[data-passage="on"] .passage__scroll {
-  height: calc(100vh + (var(--frames, 19) * 20vh));
-}
-
-.passage__stage {
-  position: sticky;
-  top: 0;
-  min-height: 100vh;   /* stable fallback — svh can resolve oddly in embedded views */
+.journey {
+  background: var(--charcoal);
+  color: var(--canvas);
+  min-height: 100vh;
   min-height: 100svh;
   display: grid;
+  /* minmax(0,1fr) — without it the scrolling strip's min-content width forces
+     the grid wider than the viewport and the whole page scrolls sideways. */
+  grid-template-columns: minmax(0, 1fr);
   align-content: center;
-  padding-block: clamp(3rem, 8vw, 6rem);
+  padding-block: clamp(3.5rem, 8vw, 6rem);
+}
+.journey a { color: inherit; }
+
+.journey__head { max-width: 46rem; margin-bottom: clamp(2.5rem, 6vw, 4.5rem); }
+.journey__head .ledger { display: block; margin-bottom: 1.1rem; }
+.journey__head h2 { font-size: var(--t-title); }
+.journey__head p {
+  margin-top: 1.4rem;
+  color: rgba(253, 253, 253, 0.7);
+  max-width: 34em;
 }
 
-/* A plate, centred, with its caption set beneath it — the way a work is
-   reproduced in a catalogue. The width is derived from the viewport height so
-   the whole group always fits on one screen without scrolling inside itself. */
-.passage__grid {
-  --plate-w: min(86vw, 27rem, calc(54vh * 0.75));
+/* One row, one square per stage, an arrow in every gap. */
+.journey__strip {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(1.4rem, 3vw, 2.25rem);
+  align-items: flex-start;
+  gap: clamp(1.4rem, 2.4vw, 2.6rem);
 }
 
-.passage__plate {
+.journey__stage {
   position: relative;
-  width: var(--plate-w);
-  aspect-ratio: 3 / 4;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* The arrow sits in the gap before every stage but the first. */
+.journey__stage + .journey__stage::before {
+  content: "";
+  position: absolute;
+  top: calc(50% - 0.5rem);
+  left: calc(clamp(1.4rem, 2.4vw, 2.6rem) / -2);
+  width: 9px;
+  height: 9px;
+  margin-top: -4px;
+  border-top: 1px solid rgba(253, 253, 253, 0.55);
+  border-right: 1px solid rgba(253, 253, 253, 0.55);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.journey__plate {
+  aspect-ratio: 1 / 1;
   background: #171717;
   overflow: hidden;
 }
-
-.passage__caption { width: var(--plate-w); max-width: 100%; }
-
-.passage__plate img {
-  position: absolute;
-  inset: 0;
+.journey__plate img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.28s linear;
+  transform: scale(1.001);
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
 }
-.passage__plate img[data-active="true"] { opacity: 1; }
-/* Before scripting takes over, the first frame simply shows. */
-.passage__plate img:first-child { opacity: 1; }
+.journey__stage:hover .journey__plate img { transform: scale(1.05); }
 
-.passage__step {
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.13em;
+.journey__stage figcaption {
+  margin-top: 0.85rem;
   color: var(--slate);
-  font-variant-numeric: tabular-nums;
-  display: block;
-  margin-bottom: 0.75rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
 }
-.passage__text {
-  font-family: var(--sans);
-  font-size: clamp(1rem, 0.9rem + 0.45vw, 1.2rem);
-  letter-spacing: -0.017em;
-  line-height: 1.3;
-  min-height: 3.9em;   /* holds the line so the plate never shifts */
-  margin: 0;
-  max-width: none;
-}
+.journey__stage .n { color: rgba(253, 253, 253, 0.35); margin-right: 0.5rem; }
 
-/* Progress: one tick per frame, filling as the sequence advances. */
-.passage__ticks {
-  display: flex;
-  gap: 3px;
-  margin-top: 1.1rem;
+/* On a phone the row becomes a swipeable strip, so the section still occupies
+   one screen rather than growing down the page. */
+@media (max-width: 56rem) {
+  .journey__strip {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    /* Without this the first snap point sits inside the padding, so the strip
+       loads already nudged along and clips the opening frame. */
+    scroll-padding-inline: var(--gutter);
+    padding-bottom: 0.75rem;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .journey__strip::-webkit-scrollbar { display: none; }
+  .journey__stage { flex: 0 0 44vw; scroll-snap-align: start; }
 }
-.passage__ticks span {
-  height: 2px;
-  flex: 1;
-  background: rgba(253, 253, 253, 0.22);
-  transition: background-color 0.3s ease;
-}
-.passage__ticks span[data-on="true"] { background: var(--canvas); }
-
-/* Without scripting — or with reduced motion — the sequence reads as a list. */
-.passage__log { display: grid; gap: 0.9rem; margin-top: var(--stack); }
-.passage__log li { display: grid; grid-template-columns: 3rem 1fr; gap: 1rem; align-items: baseline; }
-.passage__log .n { font-family: var(--mono); font-size: var(--t-label); color: var(--slate); }
-.passage__log p { font-size: var(--t-small); color: rgba(253, 253, 253, 0.78); margin: 0; }
-
-html[data-passage="on"] .passage__log { display: none; }
 
 /* --------------------------------------------------------------------------
    9. Services — the expanding list from the brand document, page 13
@@ -485,15 +529,15 @@ html[data-passage="on"] .passage__log { display: none; }
 
 .service > summary {
   display: grid;
-  grid-template-columns: 3.25rem 1fr auto;
+  grid-template-columns: 2.5rem 1fr auto;
   align-items: baseline;
-  gap: 1rem;
-  padding-block: clamp(1.1rem, 2vw, 1.6rem);
+  gap: 0.75rem;
+  padding-block: 0.72rem;
   cursor: pointer;
   list-style: none;
   font-family: var(--sans);
-  font-size: clamp(1.05rem, 0.9rem + 0.55vw, 1.35rem);
-  letter-spacing: -0.019em;
+  font-size: var(--t-body);
+  letter-spacing: -0.016em;
   transition: color 0.25s ease;
 }
 .service > summary::-webkit-details-marker { display: none; }
@@ -520,7 +564,7 @@ html[data-passage="on"] .passage__log { display: none; }
 .service[open] .service__sign::after { transform: rotate(0deg); }
 
 .service__body {
-  padding: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+  padding: 0 0 1.5rem;
   display: grid;
   gap: 1rem var(--gutter);
   grid-template-columns: 1fr;
@@ -530,7 +574,7 @@ html[data-passage="on"] .passage__log { display: none; }
 .service__body > .spacer { display: none; }
 
 @media (min-width: 56rem) {
-  .service__body { grid-template-columns: 3.25rem minmax(0, 2fr) minmax(0, 1.4fr); }
+  .service__body { grid-template-columns: 2.5rem minmax(0, 2fr) minmax(0, 1.4fr); }
   .service__body > .spacer { display: block; }
 }
 
@@ -546,6 +590,45 @@ html[data-passage="on"] .passage__log { display: none; }
   color: var(--ink-muted);
 }
 .spec li::before { content: ""; width: 0.6rem; height: 1px; background: var(--slate); transform: translateY(0.7em); }
+
+/* The list sits to the right; the image of whichever service you are pointing
+   at appears in the space beside it. On a phone there is no space for that, so
+   each service carries its own image inside the panel it opens. */
+.services-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--stack) var(--gutter);
+}
+@media (min-width: 56rem) {
+  .services-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); align-items: start; }
+}
+
+.services__preview { display: none; }
+@media (min-width: 56rem) {
+  .services__preview {
+    display: block;
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: var(--paper);
+    overflow: hidden;
+  }
+  .services__preview img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 0.5s ease, transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .services__preview img[data-active="true"] { opacity: 1; transform: none; }
+}
+
+/* The in-panel image is the phone's version of the preview. */
+.service__figure { margin-top: 1.25rem; }
+.service__figure img { width: 100%; }
+@media (min-width: 56rem) { .service__figure { display: none; } }
 
 /* --------------------------------------------------------------------------
    10. Ultramarine panel — one caesura per page
@@ -697,37 +780,88 @@ address {
    -------------------------------------------------------------------------- */
 
 .footer {
-  border-top: 1px solid var(--rule);
-  padding-block: clamp(3rem, 6vw, 5rem) 2.5rem;
-  margin-top: var(--band);
+  background: var(--ultramarine);
+  color: var(--canvas);
+  padding-block: clamp(2.25rem, 4vw, 3.25rem) clamp(1.25rem, 2vw, 1.75rem);
 }
+.footer .wordmark { color: var(--canvas); }
 .footer__grid {
   display: grid;
-  gap: var(--stack) var(--gutter);
+  gap: 1.75rem var(--gutter);
   grid-template-columns: 1fr;
 }
 @media (min-width: 46rem) { .footer__grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 68rem) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; } }
 
-.footer h3 { font-size: var(--t-label); font-family: var(--mono); letter-spacing: 0.13em; text-transform: uppercase; color: var(--slate); margin-bottom: 1rem; font-weight: 400; }
-.footer ul { display: grid; gap: 0.4rem; }
-.footer a { font-family: var(--sans); font-size: var(--t-small); text-decoration: none; color: var(--ink); border-bottom: 1px solid transparent; transition: border-color 0.25s ease; }
-.footer a:hover { border-bottom-color: var(--rule-strong); }
-.footer .wordmark { width: 11rem; margin-bottom: 1.25rem; }
+.footer h3 {
+  font-size: var(--t-label); font-family: var(--mono); letter-spacing: 0.13em;
+  text-transform: uppercase; font-weight: 400; margin-bottom: 0.75rem;
+  color: color-mix(in srgb, var(--canvas) 55%, var(--ultramarine));
+}
+.footer ul { display: grid; gap: 0.3rem; }
+.footer a { font-family: var(--sans); font-size: var(--t-small); text-decoration: none; color: var(--canvas); border-bottom: 1px solid transparent; transition: border-color 0.25s ease; }
+.footer a:hover { border-bottom-color: color-mix(in srgb, var(--canvas) 60%, transparent); }
+.footer .wordmark { width: 10rem; margin-bottom: 0.9rem; }
+.footer .label, .footer address { color: color-mix(in srgb, var(--canvas) 70%, var(--ultramarine)); }
 
 .colophon {
-  margin-top: var(--band);
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--rule);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: 1.1rem;
+  border-top: 1px solid color-mix(in srgb, var(--canvas) 24%, transparent);
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 2rem;
   font-family: var(--mono);
   font-size: var(--t-label);
   letter-spacing: 0.07em;
-  color: var(--slate);
+  color: color-mix(in srgb, var(--canvas) 60%, var(--ultramarine));
 }
 .colophon p { margin: 0; max-width: none; }
+
+/* --------------------------------------------------------------------------
+   14b. The pointer — an ultramarine dot, as on Dougal's holding page
+   -------------------------------------------------------------------------- */
+
+/* Gated three ways: a real mouse, scripting available, and motion allowed.
+   The native cursor is only hidden once the dot is confirmed running, so a
+   script failure can never leave someone without a pointer. */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  html[data-cursor="on"] body { cursor: none; }
+  html[data-cursor="on"] a,
+  html[data-cursor="on"] button,
+  html[data-cursor="on"] summary,
+  html[data-cursor="on"] [role="button"] { cursor: none; }
+
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    z-index: 90;
+    width: 9px; height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    border-radius: 50%;
+    background: var(--ultramarine);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease, width 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                height 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                margin 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                background-color 0.3s ease;
+    will-change: transform;
+  }
+  html[data-cursor="on"] .cursor-dot { opacity: 1; }
+
+  /* It opens up over anything you can act on. */
+  .cursor-dot[data-over="link"] {
+    width: 34px; height: 34px;
+    margin: -17px 0 0 -17px;
+    background: color-mix(in srgb, var(--ultramarine) 34%, transparent);
+  }
+  /* On the dark and blue grounds it inverts so it stays visible. */
+  .cursor-dot[data-ground="dark"] { background: var(--canvas); }
+  .cursor-dot[data-ground="dark"][data-over="link"] {
+    background: color-mix(in srgb, var(--canvas) 28%, transparent);
+  }
+}
 
 /* --------------------------------------------------------------------------
    15. Motion — slow, and easily declined
