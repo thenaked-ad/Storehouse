@@ -97,22 +97,11 @@
         return (li.querySelector("p") || {}).textContent || "";
       });
 
-      // Frame 0 is already in the markup; the rest are added once we know
-      // scripting is available, so a no-JS visitor never pays for them.
+      // Frame 0 is already in the markup; the rest are added only once the
+      // reader is approaching this section, so nobody downloads a megabyte of
+      // sequence to read the paragraph at the top of the page.
       var frames = [plate.querySelector("img")];
       var base   = frames[0].getAttribute("src").replace(/passage-\d+\.webp$/, "");
-      var alt    = frames[0].getAttribute("alt") || "";
-
-      for (var i = 1; i < total; i++) {
-        var img = document.createElement("img");
-        img.src = base + "passage-" + String(i).padStart(2, "0") + ".webp";
-        img.alt = "";
-        img.setAttribute("aria-hidden", "true");
-        img.decoding = "async";
-        if ("fetchPriority" in img) img.fetchPriority = i < 4 ? "high" : "low";
-        plate.appendChild(img);
-        frames.push(img);
-      }
 
       // Progress ticks, one per frame.
       if (ticksEl) {
@@ -126,8 +115,9 @@
       var current = -1;
       var show = function (index) {
         if (index === current) return;
-        // Never fade to a frame that has not arrived yet.
-        if (!frames[index].complete || frames[index].naturalWidth === 0) return;
+        // Never fade to a frame that has not been created or has not arrived.
+        var next = frames[index];
+        if (!next || !next.complete || next.naturalWidth === 0) return;
         if (current > -1) frames[current].dataset.active = "false";
         frames[index].dataset.active = "true";
         current = index;
@@ -153,11 +143,40 @@
         window.requestAnimationFrame(update);
       };
 
+      // Fetch the remaining frames, each one re-running the scrub as it lands so
+      // a slow connection catches up rather than sticking on an early frame.
+      var loadFrames = function () {
+        for (var i = 1; i < total; i++) {
+          var img = document.createElement("img");
+          img.src = base + "passage-" + String(i).padStart(2, "0") + ".webp";
+          img.alt = "";
+          img.setAttribute("aria-hidden", "true");
+          img.decoding = "async";
+          if ("fetchPriority" in img) img.fetchPriority = i < 4 ? "high" : "low";
+          img.addEventListener("load", update, { once: true });
+          plate.appendChild(img);
+          frames.push(img);
+        }
+      };
+
+      if ("IntersectionObserver" in window) {
+        // The section begins just below the fold, so waiting for it to actually
+        // reach the viewport is what keeps the sequence off the initial load.
+        // The first frames are high priority and land while the reader scrolls.
+        var loader = new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting) return;
+          loader.disconnect();
+          loadFrames();
+        }, { rootMargin: "0px" });
+        loader.observe(passage);
+      } else {
+        loadFrames();
+      }
+
       show(0);
       window.addEventListener("scroll", onScroll, { passive: true });
       window.addEventListener("resize", onScroll, { passive: true });
-      // Re-run once late frames finish decoding, so a slow connection catches up.
-      frames.forEach(function (f) { f.addEventListener("load", update, { once: true }); });
+      frames[0].addEventListener("load", update, { once: true });
       update();
     }
   }

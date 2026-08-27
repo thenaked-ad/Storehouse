@@ -130,7 +130,7 @@ It is built to fail gracefully:
 
 - **No JavaScript** — the sequence reads as a numbered written log, and only one image is downloaded.
 - **Reduced motion** — the same written log; nothing moves.
-- **Slow connection** — frames are added progressively and the scrub never advances to a frame that has not arrived.
+- **Slow connection** — the sequence is not fetched until the section reaches the viewport, and the scrub never advances to a frame that has not arrived.
 
 To change the captions, edit the `<ol class="passage__log">` list in
 `index.html`. That list is the single source of truth: the script reads the
