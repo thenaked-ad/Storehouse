@@ -131,22 +131,29 @@ on each link and drawn by CSS.
 
 One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed. Seven real frames from the Storehouse shoot, in the
-order they happened, linked by a line running through the gaps between them.
+order they happened.
 
-Each frame is a card at 3:4 with its number top-left and its label bottom-left,
-both held against the picture by a gradient scrim. The row runs the full width
-of the window rather than the text measure, and the section's height follows
-the pictures instead of reserving a screen.
+Four to a row. The standfirst takes the first cell, where an eighth card would
+otherwise sit, so there is no band of empty ground above the pictures. Stages
+01 to 03 run along the top; 04 to 07 run back the other way along the bottom,
+so one line can carry the eye through the whole thing without a break: along
+the top row, down the right-hand side, back along the bottom.
 
-On a phone the row becomes a swipeable strip.
+Each frame is a card at 4:5 with its number top-left and its label bottom-left,
+both held against the picture by a gradient scrim. `--card-h` caps the card
+height at `42vh` so two rows always hold one screen, from 1280x720 up to
+2560x1440, and the row stays close to the full width of the window on a normal
+display.
+
+On a phone the row becomes a single swipeable strip and the lines are dropped.
 
 The ground is `--ground-mid`. The masthead borrows the same value for its
 backdrop over this section rather than going transparent, because the pictures
 pass underneath it and dark type on a photograph is not readable.
 
-To change a stage, edit the `<ol class="journey__strip">` list in `index.html`
-and drop a replacement 3:4 image into `assets/img/journey/`. Stages are
-equal-width flex items, so adding or removing one needs no other change.
+To change a stage, edit `index.html` and drop a replacement 4:5 image into
+`assets/img/journey/`. If you add or remove one, the `grid-area` rules in
+`site.css` place the seven stages explicitly and will need adjusting.
 
 ## The services list
 
@@ -194,9 +201,15 @@ Contact and About are laid out to hold one screen on desktop: the title sits in
 the grid beside the content rather than above it, and `.page--single` is
 `100svh` minus the masthead. The footer sits below that and is scrolled to.
 
-The columns stretch to that height and spread their contents down it rather
-than bunching at the top: Contact's eight enquiry rows share the column between
-them, and About's portraits take whatever height is left.
+Each column groups its content at the top. The one thing that stretches is
+Contact's enquiry list, whose eight rows share the column between them, so the
+page still reaches the foot of the screen; About's portraits do the same.
+
+The two portraits on About are captioned **Antony Cundy** and **Fred Henderson**
+in the order they were given. Which name belongs to which photograph has not
+been confirmed — swap the two `<figcaption>` lines if they are the wrong way
+round. Roles are not shown; the business card in the brand document gives Fred
+Henderson as Director, but Antony Cundy's is not recorded anywhere we have.
 
 ## Case studies
 

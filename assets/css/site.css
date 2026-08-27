@@ -160,17 +160,18 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 .band { padding-block: var(--band); }
+.band--ruled { padding-bottom: clamp(2rem, 1rem + 2.6vw, 3.25rem); }
 .band + .band { padding-top: 0; }
 
 /* A hairline above an entry, drawn inside the shell so it aligns with the text. */
-.band--ruled { position: relative; padding-top: clamp(2.5rem, 1.2rem + 4vw, 5rem); }
+.band--ruled { position: relative; padding-top: clamp(2rem, 1rem + 2.6vw, 3.25rem); }
 .band--ruled::before {
   content: "";
   position: absolute;
   inset: 0 0 auto 0;
   border-top: 1px solid var(--rule);
 }
-.band + .band--ruled { padding-top: clamp(2.5rem, 1.2rem + 4vw, 5rem); }
+.band + .band--ruled { padding-top: clamp(2rem, 1rem + 2.6vw, 3.25rem); }
 
 .rule { border: 0; border-top: 1px solid var(--rule); margin: 0; }
 
@@ -487,15 +488,17 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   /* Slate, taken far enough toward charcoal to carry white type at AA. */
   background: var(--ground-mid);
   color: var(--canvas);
-  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  padding-block: clamp(2rem, 3.5vw, 3.25rem);
 }
 
-.journey__head { max-width: 44rem; margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
-.journey__head h2 { font-size: var(--t-title); color: var(--canvas); }
-.journey__head p {
-  margin-top: 0;
-  color: color-mix(in srgb, var(--canvas) 78%, transparent);
-  max-width: 34em;
+/* The standfirst takes the first cell of the grid, where an eighth card would
+   otherwise sit, so there is no band of empty ground above the row. */
+.journey__intro { display: flex; align-items: center; }
+.journey__intro p {
+  margin: 0;
+  color: color-mix(in srgb, var(--canvas) 82%, transparent);
+  font-size: var(--t-body);
+  max-width: 22em;
 }
 
 /* The row runs the full width of the window, not the text measure. */
@@ -504,26 +507,49 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   padding-inline: var(--gutter);
 }
 
-.journey__strip {
-  position: relative;
-  display: flex;
-  gap: clamp(0.9rem, 1.5vw, 1.6rem);
+/* Four to a row: the standfirst, then 01 to 03; then 04 to 07 running back the
+   other way, so the line can carry on without a break. */
+.journey__grid {
+  --jgap: clamp(0.75rem, 1.3vw, 1.4rem);
+  --card-h: 42vh;                          /* keeps two rows on one screen */
+  --card-w: calc(var(--card-h) * 4 / 5);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--jgap);
+  width: min(100%, calc(var(--card-w) * 4 + var(--jgap) * 3));
+  margin-inline: auto;
 }
-.journey__stage { position: relative; flex: 1 1 0; min-width: 0; }
+.journey__stages { display: contents; }
+.journey__stage { position: relative; }
 
-/* The line every stage hangs from: visible in the gaps between them. */
-.journey__link {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
+.journey__intro           { grid-area: 1 / 1; }
+.journey__stage:nth-child(1) { grid-area: 1 / 2; }
+.journey__stage:nth-child(2) { grid-area: 1 / 3; }
+.journey__stage:nth-child(3) { grid-area: 1 / 4; }
+.journey__stage:nth-child(4) { grid-area: 2 / 4; }
+.journey__stage:nth-child(5) { grid-area: 2 / 3; }
+.journey__stage:nth-child(6) { grid-area: 2 / 2; }
+.journey__stage:nth-child(7) { grid-area: 2 / 1; }
+
+/* One line, along the top row, down the right-hand side, back along the bottom. */
+.journey__line {
   background: color-mix(in srgb, var(--canvas) 72%, transparent);
+  pointer-events: none;
+}
+.journey__line--top    { grid-area: 1 / 2 / 2 / 5; align-self: center; height: 1px; }
+.journey__line--bottom { grid-area: 2 / 1 / 3 / 5; align-self: center; height: 1px; }
+.journey__line--turn {
+  grid-area: 1 / 4 / 3 / 5;
+  justify-self: end;
+  align-self: center;
+  width: 1px;
+  /* Exactly centre-of-row-one to centre-of-row-two. */
+  height: calc(50% + var(--jgap) / 2);
 }
 
 .journey__plate {
   position: relative;
-  aspect-ratio: 3 / 4;
+  aspect-ratio: 4 / 5;
   background: rgba(0, 0, 0, 0.25);
   overflow: hidden;
 }
@@ -598,7 +624,11 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 @media (max-width: 56rem) {
   .journey__track { padding-inline: 0; }
-  .journey__strip {
+  .journey__intro { display: block; padding-inline: var(--gutter); margin-bottom: 1.5rem; }
+  .journey__line { display: none; }
+  .journey__grid { display: block; }
+  .journey__stages {
+    display: flex;
     gap: 1.25rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
@@ -787,10 +817,10 @@ figure { margin: 0; }
 
 /* A lone portrait plate is held back from the full column width, so it reads as
    a plate rather than a banner. */
-.figure-single { max-width: min(100%, 24rem); }
-.marginalia > .main .pair { max-width: min(100%, 42rem); }
+.figure-single { max-width: min(100%, 19rem); }
+.marginalia > .main .pair { max-width: min(100%, 32rem); }
 .marginalia > .main .plate--wide,
-.marginalia > .main .figure-full { max-width: min(100%, 34rem); }
+.marginalia > .main .figure-full { max-width: min(100%, 26rem); }
 
 .plate { background: var(--paper); overflow: hidden; }
 .plate img { width: 100%; }
@@ -947,11 +977,13 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
    contents spread down it rather than bunching at the top. */
 @media (min-width: 62rem) {
   .single-grid { flex: 1; align-items: stretch; }
-  /* .pair keeps its own two-column grid; only the text stacks become flex. */
+  /* .pair keeps its own two-column grid; only the text stacks become flex.
+     Content groups at the top of its column; the enquiry list is the one thing
+     that stretches, so the column still reaches the foot of the screen. */
   .single-grid > div:not(.pair) {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
   }
   .single-grid > div > :first-child { margin-top: 0; }
 
@@ -961,6 +993,13 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
 
   /* Portraits take whatever height is left. */
   .single-grid--about .pair { flex: 1; }
+  .single-grid--about .pair figcaption {
+    font-family: var(--sans);
+    font-size: var(--t-small);
+    letter-spacing: -0.012em;
+    text-transform: none;
+    color: var(--ink);
+  }
   .single-grid--about .pair figure { display: flex; flex-direction: column; }
   .single-grid--about .pair .plate { flex: 1; aspect-ratio: auto; }
 }
