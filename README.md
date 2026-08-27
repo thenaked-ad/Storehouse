@@ -131,23 +131,22 @@ on each link and drawn by CSS.
 
 One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed. Seven real frames from the Storehouse shoot, in the
-order they happened, linked by a single line running through the gaps between
-them.
+order they happened, linked by a line running through the gaps between them.
 
-The row runs the full width of the window rather than the text measure, and the
-section's height follows the pictures instead of reserving a screen. Stages are
-equal-width flex items at 4:5, so adding or removing one needs no other change.
-Each settles in a beat after the one before it, and grows slightly on hover.
+Each frame is a card at 3:4 with its number top-left and its label bottom-left,
+both held against the picture by a gradient scrim. The row runs the full width
+of the window rather than the text measure, and the section's height follows
+the pictures instead of reserving a screen.
 
 On a phone the row becomes a swipeable strip.
 
-The ground is `--ground-mid`, `#636363` — slate taken far enough toward charcoal
-to carry white type at AA contrast. Straight `--slate` at `#9A9A9A` will not.
-The masthead keeps a matching backdrop over this section rather than going
-transparent, because the pictures pass underneath it.
+The ground is `--ground-mid`. The masthead borrows the same value for its
+backdrop over this section rather than going transparent, because the pictures
+pass underneath it and dark type on a photograph is not readable.
 
 To change a stage, edit the `<ol class="journey__strip">` list in `index.html`
-and drop a replacement 4:5 image into `assets/img/journey/`.
+and drop a replacement 3:4 image into `assets/img/journey/`. Stages are
+equal-width flex items, so adding or removing one needs no other change.
 
 ## The services list
 
@@ -183,11 +182,21 @@ rather than behind it, so a stroke can cross type and photograph alike, and it
 does not intercept clicks. The drag suppresses text selection, so you get a
 mark rather than a mark plus a highlight.
 
+The canvas is given an explicit CSS `width` and `height`. A canvas is a
+replaced element: without them its layout size comes from the backing-store
+attributes, which are multiplied by the device pixel ratio — so on a retina
+screen it renders at twice the width of the page and scrolls the whole site
+sideways. Test this page at `devicePixelRatio` 2, not just 1.
+
 ## Single-screen pages
 
 Contact and About are laid out to hold one screen on desktop: the title sits in
 the grid beside the content rather than above it, and `.page--single` is
 `100svh` minus the masthead. The footer sits below that and is scrolled to.
+
+The columns stretch to that height and spread their contents down it rather
+than bunching at the top: Contact's eight enquiry rows share the column between
+them, and About's portraits take whatever height is left.
 
 ## Case studies
 
