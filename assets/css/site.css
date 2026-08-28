@@ -546,8 +546,9 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 .journey__grid { position: relative; }
 
 .journey__stages {
+  --jgap: clamp(0.75rem, 1.3vw, 1.4rem);
   display: flex;
-  gap: clamp(0.75rem, 1.3vw, 1.4rem);
+  gap: var(--jgap);
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
@@ -563,8 +564,8 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   content: "";
   position: absolute;
   top: 50%;
-  left: calc(clamp(0.75rem, 1.3vw, 1.4rem) * -1);
-  width: clamp(0.75rem, 1.3vw, 1.4rem);
+  left: calc(var(--jgap) * -1);
+  width: var(--jgap);
   height: 1px;
   background: color-mix(in srgb, var(--canvas) 72%, transparent);
 }
@@ -604,21 +605,10 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 @media (max-width: 56rem) {
   .journey__track { padding-inline: 0; }
-    .journey__grid { display: block; }
-  .journey__stages {
-    display: flex;
-    gap: 1.25rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    /* Without this the first snap point sits inside the padding, so the strip
-       loads already nudged along and clips the opening frame. */
-    scroll-padding-inline: var(--gutter);
-    padding: 0 var(--gutter) 0.75rem;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .journey__strip::-webkit-scrollbar { display: none; }
-  .journey__stage { flex: 0 0 52vw; scroll-snap-align: start; }
+  .journey__grid { display: block; }
+  /* Only the gap changes; the connector drawn across it follows from it. */
+  .journey__stages { --jgap: 1.25rem; }
+  .journey__stage { flex: 0 0 52vw; }
 }
 
 /* --------------------------------------------------------------------------

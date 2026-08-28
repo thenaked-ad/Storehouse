@@ -340,7 +340,7 @@
         if (!entries[0].isIntersecting) return;
         driftIO.disconnect();
         // A pause first, so the row is still when you arrive at it.
-        window.setTimeout(drift, 2600);
+        window.setTimeout(drift, 1100);
       }, { threshold: 0.2 });
       driftIO.observe(strip.closest(".journey"));
     }

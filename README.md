@@ -148,8 +148,8 @@ stored, moved, installed, photographed. Eight real frames from the Storehouse
 shoot, in the order they happen, on the charcoal ground.
 
 One line of 3:4 cards, each with its number top-left and its label bottom-left
-against a gradient scrim. The row waits a couple of seconds, then drifts along
-on its own at 18px a second, and can be dragged; a drag carries momentum when
+against a gradient scrim. The row waits a second, then drifts along on its own
+at 18px a second, and can be dragged; a drag carries momentum when
 you let go, and a click nudges it. A "Drag" mark sits at the right-hand edge to
 say so.
 
@@ -164,6 +164,9 @@ Two things worth knowing if you touch this:
 - Both the drift and its momentum are timed off the clock rather than counted
   in frames. A 120Hz display — which most recent Macs are — would otherwise run
   the whole thing at twice the intended speed.
+- The gap between cards and the short line drawn across it both come from
+  `--jgap` on the strip. They were separate values, and a mobile override moved
+  one without the other, so the line stopped 8px short of the next card.
 - The strip runs the full width of the window and insets its own content with
   padding. It used to pull itself out with negative margins, which escaped the
   page and scrolled the whole site sideways below 1024px.
