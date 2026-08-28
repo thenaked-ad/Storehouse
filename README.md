@@ -133,17 +133,16 @@ One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed. Seven real frames from the Storehouse shoot, in the
 order they happened.
 
-Four to a row. The standfirst takes the first cell, where an eighth card would
-otherwise sit, so there is no band of empty ground above the pictures. Stages
-01 to 03 run along the top; 04 to 07 run back the other way along the bottom,
-so one line can carry the eye through the whole thing without a break: along
-the top row, down the right-hand side, back along the bottom.
+Four to a row, the full width of the window. The standfirst takes the first
+cell, where an eighth card would otherwise sit, so there is no band of empty
+ground above the pictures. Stages 01 to 03 run along the top; 04 to 07 run back
+the other way along the bottom, and one line carries the eye through the whole
+thing: along the top row, out of 03 into the right-hand gutter, down, and back
+in to 04. That turn is a three-sided border on `.journey__line--turn`, sitting
+in space reserved by the track's right padding.
 
 Each frame is a card at 4:5 with its number top-left and its label bottom-left,
-both held against the picture by a gradient scrim. `--card-h` caps the card
-height at `42vh` so two rows always hold one screen, from 1280x720 up to
-2560x1440, and the row stays close to the full width of the window on a normal
-display.
+both held against the picture by a gradient scrim.
 
 On a phone the row becomes a single swipeable strip and the lines are dropped.
 
@@ -154,6 +153,13 @@ pass underneath it and dark type on a photograph is not readable.
 To change a stage, edit `index.html` and drop a replacement 4:5 image into
 `assets/img/journey/`. If you add or remove one, the `grid-area` rules in
 `site.css` place the seven stages explicitly and will need adjusting.
+
+## Alternating entries
+
+Exhibition Services and Collection Management lay each entry out as text beside
+a picture, swapping sides down the page so there is a flow to it. The side is
+set by `data-side` on the section rather than counted with `:nth-of-type`,
+which would also count the page heading and flip the whole sequence.
 
 ## The services list
 

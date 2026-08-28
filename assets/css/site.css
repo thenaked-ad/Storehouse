@@ -503,21 +503,21 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 /* The row runs the full width of the window, not the text measure. */
 .journey__track {
+  --turn-w: clamp(0.9rem, 1.5vw, 1.5rem);
   width: 100%;
-  padding-inline: var(--gutter);
+  /* The right gutter has to hold the turn bracket as well as the margin. */
+  padding-left: var(--gutter);
+  padding-right: calc(var(--gutter) + var(--turn-w));
 }
 
 /* Four to a row: the standfirst, then 01 to 03; then 04 to 07 running back the
    other way, so the line can carry on without a break. */
 .journey__grid {
   --jgap: clamp(0.75rem, 1.3vw, 1.4rem);
-  --card-h: 42vh;                          /* keeps two rows on one screen */
-  --card-w: calc(var(--card-h) * 4 / 5);
+  position: relative;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: var(--jgap);
-  width: min(100%, calc(var(--card-w) * 4 + var(--jgap) * 3));
-  margin-inline: auto;
 }
 .journey__stages { display: contents; }
 .journey__stage { position: relative; }
@@ -542,9 +542,15 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   grid-area: 1 / 4 / 3 / 5;
   justify-self: end;
   align-self: center;
-  width: 1px;
+  /* Steps outside the last card, drops, and comes back in to the one below,
+     so the change of direction is visible rather than hidden behind a frame. */
+  width: var(--turn-w, 1.35rem);
+  margin-right: calc(var(--turn-w, 1.35rem) * -1);
   /* Exactly centre-of-row-one to centre-of-row-two. */
   height: calc(50% + var(--jgap) / 2);
+  background: none;
+  border: 1px solid color-mix(in srgb, var(--canvas) 72%, transparent);
+  border-left: 0;
 }
 
 .journey__plate {
@@ -753,6 +759,42 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 .service__figure { margin-top: 1.25rem; }
 .service__figure img { width: 100%; }
 @media (min-width: 56rem) { .service__figure { display: none; } }
+
+/* Alternating entries: text and picture swap sides down the page, so the eye
+   is carried from one to the next rather than reading a single column. */
+.alt { position: relative; padding-block: clamp(2rem, 1rem + 2.6vw, 3.25rem); }
+.alt::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  border-top: 1px solid var(--rule);
+}
+
+.alt__grid {
+  display: grid;
+  gap: var(--stack) var(--gutter);
+  grid-template-columns: 1fr;
+  align-items: center;
+}
+@media (min-width: 56rem) {
+  .alt__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  /* The side is stated on the element rather than counted with nth-of-type,
+     which would also count the page heading and flip the whole sequence. */
+  .alt__text { grid-row: 1; grid-column: 1; }
+  .alt__figure { grid-row: 1; grid-column: 2; }
+  .alt[data-side="right"] .alt__text { grid-column: 2; }
+  .alt[data-side="right"] .alt__figure { grid-column: 1; }
+}
+
+.alt__text .ledger { display: block; margin-bottom: 0.6rem; }
+.alt__text h2 { font-size: var(--t-title); margin-bottom: 1.1rem; }
+.alt__text .spec { margin-top: 1.5rem; }
+
+.alt__figure { margin: 0; }
+.alt__figure .plate { max-width: min(100%, 30rem); }
+@media (min-width: 56rem) {
+  .alt[data-side="right"] .alt__figure .plate { margin-left: auto; }
+}
 
 /* --------------------------------------------------------------------------
    10. Ultramarine panel — one caesura per page
@@ -992,7 +1034,7 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
   .single-grid .enquiries a { flex: 1; align-items: center; }
 
   /* Portraits take whatever height is left. */
-  .single-grid--about .pair { flex: 1; }
+  .single-grid--about .pair { align-self: start; }
   .single-grid--about .pair figcaption {
     font-family: var(--sans);
     font-size: var(--t-small);
@@ -1000,8 +1042,8 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
     text-transform: none;
     color: var(--ink);
   }
-  .single-grid--about .pair figure { display: flex; flex-direction: column; }
-  .single-grid--about .pair .plate { flex: 1; aspect-ratio: auto; }
+  /* 3:4, as shot — not stretched to fill the column. */
+  .single-grid--about .pair .plate { aspect-ratio: 3 / 4; }
 }
 @media (min-width: 62rem) {
   .single-grid--contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr); }
