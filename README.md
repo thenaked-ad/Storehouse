@@ -129,20 +129,19 @@ on each link and drawn by CSS.
 
 ## The Journey
 
-One work travelling the whole service: received, wrapped, boarded, crated,
-stored, moved, installed. Seven real frames from the Storehouse shoot, in the
-order they happened.
+One work travelling the whole service: received, photographed, wrapped,
+boarded, crated, stored, moved, installed. Eight real frames from the
+Storehouse shoot, in the order they happen.
 
-Four to a row, the full width of the window. The standfirst takes the first
-cell, where an eighth card would otherwise sit, so there is no band of empty
-ground above the pictures. Stages 01 to 03 run along the top; 04 to 07 run back
-the other way along the bottom, and one line carries the eye through the whole
-thing: along the top row, out of 03 into the right-hand gutter, down, and back
-in to 04. That turn is a three-sided border on `.journey__line--turn`, sitting
-in space reserved by the track's right padding.
+Four to a row, the full width of the window. Stages 01 to 04 run along the top;
+05 to 08 run back the other way along the bottom, and one line carries the eye
+through the whole thing: along the top row, out of 04 into the right-hand
+gutter, down, and back in to 05. That turn is a three-sided border on
+`.journey__line--turn`, sitting in space reserved by the track's right padding.
 
-Each frame is a card at 4:5 with its number top-left and its label bottom-left,
-both held against the picture by a gradient scrim.
+Each frame is a card at 3:4 with its number top-left and its label
+bottom-left, both held against the picture by a gradient scrim. There is no
+heading or standfirst: the sequence speaks for itself.
 
 On a phone the row becomes a single swipeable strip and the lines are dropped.
 
@@ -150,9 +149,9 @@ The ground is `--ground-mid`. The masthead borrows the same value for its
 backdrop over this section rather than going transparent, because the pictures
 pass underneath it and dark type on a photograph is not readable.
 
-To change a stage, edit `index.html` and drop a replacement 4:5 image into
+To change a stage, edit `index.html` and drop a replacement 3:4 image into
 `assets/img/journey/`. If you add or remove one, the `grid-area` rules in
-`site.css` place the seven stages explicitly and will need adjusting.
+`site.css` place the eight stages explicitly and will need adjusting.
 
 ## Alternating entries
 
