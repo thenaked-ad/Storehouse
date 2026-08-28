@@ -371,6 +371,67 @@ Worth confirming before launch:
   They need no server and cannot break. If a real form is wanted later,
   Formspree or Netlify Forms will drop in without changing the design.
 
+## Performance
+
+Nothing is fetched from a third party. All three typefaces are self-hosted
+woff2 in `assets/fonts/` and the two used above the fold are preloaded; the
+mono is subsetted to the characters the site actually draws, which takes it
+from 10KB to 4KB. There is no Google Fonts request, no preconnect, no DNS
+lookup off-origin — the only external thing on the site is the Google Maps
+iframe, and that is only created when someone opens the map.
+
+Images are WebP, sized to about twice their largest rendered width, and every
+`<img>` carries explicit `width` and `height` so nothing shifts as the page
+loads. Keep those attributes matching the file if you swap an image.
+
+Weights, on a cold load: home 692KB, the service pages 360-465KB, About and
+Contact under 175KB. The home page is image-led and carries the most; the rest
+is a third of that. GitHub Pages compresses text assets on the wire, so the
+48KB stylesheet arrives at a fraction of that.
+
+## Security
+
+There is no back end. The site is static files, there is no form that posts
+anywhere, no cookie, no analytics and no third-party script, so most of the
+usual surface does not exist.
+
+A Content Security Policy is set by `<meta>` on every page, since GitHub Pages
+cannot send headers:
+
+```
+default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
+script-src 'self' 'sha256-…'; font-src 'self'; connect-src 'self';
+frame-src https://www.google.com; form-action 'self'; base-uri 'self';
+object-src 'none'; upgrade-insecure-requests
+```
+
+Two things to know if you edit it. `style-src` allows inline styles because the
+pages use `style="…"` attributes throughout. `script-src` names the SHA-256 hash
+of the one inline script — the line that adds the `js` class. **If you change
+that line by even a character, the hash no longer matches and the script is
+blocked**, which would leave the reveal animations and the card row inert.
+Recompute it, or move the line into `site.js`.
+
+`frame-src` exists only for the map. If the map goes, that can go too.
+
+## Search
+
+Every page carries a title, a description, a canonical URL, Open Graph and
+Twitter card tags with image alt text, and JSON-LD:
+
+- Home — `ProfessionalService` and `WebSite`, with the address and VAT number.
+- The three service pages — `Service` with an `OfferCatalog` of what each
+  covers, and a `BreadcrumbList`.
+- About and Contact — `AboutPage` / `ContactPage`, and a `BreadcrumbList`.
+
+`robots.txt` allows everything and points at `sitemap.xml`, which lists all six
+public pages with `lastmod` and priorities. The 404 page is `noindex`.
+
+**Before launch:** submit the sitemap in Google Search Console, and check the
+canonical URLs match the live domain. Everything currently says
+`storehousefinearts.com` — if that changes, search for it and replace
+throughout, including in `robots.txt`, `sitemap.xml` and the JSON-LD.
+
 ## Accessibility and standards
 
 - One `<h1>` per page; headings in order.

@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-tHd4qJ0R/vQfI0CbRTiL3XGSi+Tun7VhOcDbx08aLKA='; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>Storehouse Fine Arts — Art storage, handling and collection management, London</title>
 <meta name="description" content="Fine art storage, transport, packing, installation, photography and collection management from a secure, climate-controlled facility in Park Royal, north-west London.">
 <link rel="canonical" href="https://storehousefinearts.com/">
@@ -15,35 +17,55 @@
 <meta property="og:url" content="https://storehousefinearts.com/">
 <meta property="og:image" content="https://storehousefinearts.com/assets/img/install-large-1600.webp">
 <meta name="twitter:card" content="summary_large_image">
+<meta property="og:locale" content="en_GB">
+<meta property="og:image:alt" content="Two Storehouse technicians lifting a large canvas into position.">
+<meta name="twitter:title" content="Storehouse Fine Arts">
+<meta name="twitter:description" content="Storage &amp; handling, exhibition services and collection management. A single, joined-up service from north-west London.">
+<meta name="twitter:image" content="https://storehousefinearts.com/assets/img/install-large-1600.webp">
+<meta name="twitter:image:alt" content="Two Storehouse technicians lifting a large canvas into position.">
 
 <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap">
 <link rel="preload" href="assets/fonts/beausite-classic-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/rhymes-text-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
 <script>document.documentElement.className+=" js";</script>
 
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Storehouse Fine Arts",
-  "description": "Fine art storage, transport, packing, installation, photography, exhibition services and collection management.",
-  "url": "https://storehousefinearts.com/",
-  "email": "info@storehousefinearts.com",
-  "areaServed": "United Kingdom",
-  "address": {
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "ProfessionalService",
+   "@id": "https://storehousefinearts.com/#organisation",
+   "name": "Storehouse Fine Arts",
+   "url": "https://storehousefinearts.com/",
+   "email": "info@storehousefinearts.com",
+   "areaServed": "United Kingdom",
+   "address": {
     "@type": "PostalAddress",
     "streetAddress": "141 Acton Lane",
     "addressLocality": "London",
     "postalCode": "NW10 7PB",
     "addressCountry": "GB"
+   },
+   "vatID": "499103269",
+   "description": "Fine art storage, transport, packing, installation, photography, exhibition services and collection management, from a secure climate-controlled facility in Park Royal, north-west London."
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://storehousefinearts.com/#website",
+   "url": "https://storehousefinearts.com/",
+   "name": "Storehouse Fine Arts",
+   "publisher": {
+    "@id": "https://storehousefinearts.com/#organisation"
+   },
+   "inLanguage": "en-GB"
   }
+ ]
 }
 </script>
 </head>
@@ -225,21 +247,21 @@
 
     <div class="services-layout">
       <div class="services__preview" data-services-preview aria-hidden="true">
-        <img src="assets/img/facility-racking-900.webp" width="900" height="1125" data-service="01"
+        <img src="assets/img/facility-racking-900.webp" width="700" height="933" data-service="01"
              loading="lazy" decoding="async" alt="">
-        <img src="assets/img/transport-van-900.webp" width="900" height="1125" data-service="02"
+        <img src="assets/img/transport-van-900.webp" width="700" height="933" data-service="02"
              loading="lazy" decoding="async" alt="">
-        <img src="assets/img/packing-wrap-900.webp" width="900" height="1125" data-service="03"
+        <img src="assets/img/packing-wrap-900.webp" width="700" height="933" data-service="03"
              loading="lazy" decoding="async" alt="">
-        <img src="assets/img/install-large-900.webp" width="900" height="1125" data-service="04"
+        <img src="assets/img/install-large-900.webp" width="700" height="933" data-service="04"
              loading="lazy" decoding="async" alt="">
-        <img src="assets/img/photography-studio-900.webp" width="900" height="1125" data-service="05"
+        <img src="assets/img/photography-studio-900.webp" width="700" height="933" data-service="05"
              loading="lazy" decoding="async" alt="">
-        <img src="assets/img/viewing-room-900.webp" width="900" height="1125" data-service="06"
+        <img src="assets/img/viewing-room-900.webp" width="700" height="933" data-service="06"
              loading="lazy" decoding="async" alt="">
-        <img src="assets/img/crate-open-900.webp" width="900" height="1125" data-service="07"
+        <img src="assets/img/crate-open-900.webp" width="700" height="933" data-service="07"
              loading="lazy" decoding="async" alt="">
-        <img src="assets/img/condition-notes-900.webp" width="900" height="1125" data-service="08"
+        <img src="assets/img/condition-notes-900.webp" width="700" height="933" data-service="08"
              loading="lazy" decoding="async" alt="">
       </div>
 
@@ -251,7 +273,7 @@
             <div>
             <p>Discreet, secure, climate-controlled storage in Park Royal, north-west London. We offer some of the most competitive storage rates in the city without compromising on the care of the work.</p>
               <figure class="service__figure">
-                <img src="assets/img/facility-racking-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Racking bays inside the Storehouse facility.">
+                <img src="assets/img/facility-racking-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="Racking bays inside the Storehouse facility.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#storage">Storage in detail <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -270,7 +292,7 @@
             <div>
             <p>Collection and delivery across the UK. Works move between your premises and our facility, with installation in London and nationwide.</p>
               <figure class="service__figure">
-                <img src="assets/img/transport-van-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="The padded interior of a fitted Storehouse vehicle.">
+                <img src="assets/img/transport-van-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="The padded interior of a fitted Storehouse vehicle.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#transport">Transport in detail <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -287,7 +309,7 @@
             <div>
             <p>Bespoke packing and crating for storage and transit, built to the requirements of the work. Condition checking, packing and handling by experienced technicians.</p>
               <figure class="service__figure">
-                <img src="assets/img/packing-wrap-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A technician taping a wrapped work on a padded table.">
+                <img src="assets/img/packing-wrap-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="A technician taping a wrapped work on a padded table.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#packing">Packing in detail <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -302,9 +324,9 @@
           <div class="service__body">
             <div class="spacer"></div>
             <div>
-            <p>Every install is planned at the level of detail the work and the venue require. Any scale, any venue &mdash; from a single painting in a collector&rsquo;s home to a complex gallery install.</p>
+            <p>Every install is planned at the level of detail the work and the venue require. Any scale, any venue — from a single painting in a collector&rsquo;s home to a complex gallery install.</p>
               <figure class="service__figure">
-                <img src="assets/img/install-large-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="Two technicians lifting a large canvas into position.">
+                <img src="assets/img/install-large-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="Two technicians lifting a large canvas into position.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#installation">Installation in detail <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -317,7 +339,7 @@
             <div>
             <p>Gallery-standard photography and post-production, shot in house. Onsite photography at your studio, gallery or home where the work cannot travel.</p>
               <figure class="service__figure">
-                <img src="assets/img/photography-studio-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A framed work lit by two studio lights against a plain wall.">
+                <img src="assets/img/photography-studio-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="A framed work lit by two studio lights against a plain wall.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#photography">Photography in detail <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -334,7 +356,7 @@
             <div>
             <p>Our viewing room and conservation studio sit within a self-contained workspace with level access for large works. Available for viewings, photography and condition checking.</p>
               <figure class="service__figure">
-                <img src="assets/img/viewing-room-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A technician adjusting a framed work under studio lighting.">
+                <img src="assets/img/viewing-room-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="A technician adjusting a framed work under studio lighting.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="storage-and-handling.html#viewing-room">The viewing room <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -349,9 +371,9 @@
           <div class="service__body">
             <div class="spacer"></div>
             <div>
-            <p>The back end of what a gallery does &mdash; budgets, timelines, agreements and shipping, run for exhibitions, fairs and projects.</p>
+            <p>The back end of what a gallery does — budgets, timelines, agreements and shipping, run for exhibitions, fairs and projects.</p>
               <figure class="service__figure">
-                <img src="assets/img/crate-open-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="An open crate beside a large painting in a gallery space.">
+                <img src="assets/img/crate-open-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="An open crate beside a large painting in a gallery space.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="exhibition-services.html">Exhibition services <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -369,7 +391,7 @@
             <div>
             <p>Cataloguing, inventory, condition reporting and research, held in a database you own and can read.</p>
               <figure class="service__figure">
-                <img src="assets/img/condition-notes-900.webp" width="900" height="1125" loading="lazy" decoding="async" alt="A gloved hand writing on a clipboard beside a framed work.">
+                <img src="assets/img/condition-notes-900.webp" width="700" height="933" loading="lazy" decoding="async" alt="A gloved hand writing on a clipboard beside a framed work.">
               </figure>
               <p style="margin-top:1.1rem"><a class="link" href="collection-management.html">Collection management <span class="arrow" aria-hidden="true"></span></a></p>
             </div>
@@ -411,8 +433,8 @@
     </div>
 
     <p style="max-width:34em;color:var(--ink-muted)">
-      A selection of recent projects &mdash; collections moved, shows installed,
-      archives built &mdash; is being prepared.
+      A selection of recent projects — collections moved, shows installed,
+      archives built — is being prepared.
     </p>
 
     <!-- ====================================================================
