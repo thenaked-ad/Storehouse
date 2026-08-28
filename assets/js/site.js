@@ -31,7 +31,6 @@
       // Queried each time so the hero can join the dark grounds when inverted.
       var darkZones  = document.querySelectorAll("[data-dark]");
       var midZones   = document.querySelectorAll("[data-ground='mid']");
-      var slateZones = document.querySelectorAll("[data-ground='slate']");
       masthead.dataset.scrolled = window.scrollY > 8 ? "true" : "false";
 
       // Step out of the way where the masthead sits over a dark section.
@@ -44,9 +43,6 @@
       for (var i = 0; i < darkZones.length; i++) if (straddles(darkZones[i])) { ground = "dark"; break; }
       if (ground === "light") {
         for (var j = 0; j < midZones.length; j++) if (straddles(midZones[j])) { ground = "mid"; break; }
-      }
-      if (ground === "light") {
-        for (var k = 0; k < slateZones.length; k++) if (straddles(slateZones[k])) { ground = "slate"; break; }
       }
       masthead.dataset.over = ground;
     };

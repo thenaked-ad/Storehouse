@@ -155,20 +155,28 @@ To change a stage, edit `index.html` and drop a replacement 3:4 image into
 
 ## Alternating entries
 
-Exhibition Services and Collection Management lay each entry out as text beside
-a picture, swapping sides down the page so there is a flow to it.
+Exhibition Services and Collection Management share one shape, built to Tom's
+sketch:
 
-Both the words and the picture hold the same two columns all the way down: text
-and image each occupy exactly one edge of the page and alternate, rather than
-drifting about the middle. `data-side` names where the *text* sits; the picture
-takes the other edge. It is an attribute rather than `:nth-of-type`, which would
-also count the page heading and invert the whole sequence.
+1. `.page-split` — the title and standfirst on the left, a large picture beside
+   them on the right.
+2. `.two-up` — entries 1 and 2 side by side, divided by a vertical rule, each
+   with its own picture beneath the words.
+3. Two `.alt` rows — entries 3 and 4, text and picture swapping sides.
+
+In the `.alt` rows both the words and the picture hold the same two columns:
+each occupies exactly one edge of the page and alternates, rather than drifting
+about the middle. `data-side` names where the *text* sits; the picture takes the
+other edge. It is an attribute rather than `:nth-of-type`, which would also
+count the page heading and invert the whole sequence.
+
+Their imagery is a dedicated set at 4:3, prefixed `ex-` and `cm-`, chosen so
+each picture reads as the thing its section describes.
 
 ## The services list
 
-On the slate ground, first section below the fold. Charcoal type holds against
-`--ground-slate` at AA; white would not, at 2.6:1. `.section--slate` re-points
-the rule, muted-ink and paper tokens so everything inside it adjusts together.
+The first section below the fold, on canvas. The preview is a 3:4 portrait
+plate in a narrow column, which leaves the list most of the width.
 
 Compact rows, one per service, opening as ordinary `<details>`. On a wide screen
 the image of whichever service you are pointing at appears in the column beside
@@ -226,10 +234,10 @@ Henderson as Director, but Antony Cundy's is not recorded anywhere we have.
 
 ## The order of the home page
 
-Hero, services on slate, the journey cards on charcoal, Location in
-ultramarine, case studies, then the closing enquiry block. The masthead reads
-the ground beneath it as it goes — light, slate, mid, dark, light — and takes a
-matching backdrop each time.
+Hero, services, the journey cards on charcoal, case studies, Location in
+ultramarine, then the closing enquiry block. The masthead reads the ground
+beneath it as it goes — light, mid, dark — and takes a matching backdrop each
+time.
 
 ## Case studies
 

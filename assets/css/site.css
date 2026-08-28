@@ -53,8 +53,7 @@
   --footer-h: 16rem;
 
   /* Grounds the masthead has to sit over, and borrows a backdrop from. */
-  --ground-mid:   #1f1f1f;   /* the journey  */
-  --ground-slate: #9a9a9a;   /* the services */
+  --ground-mid: #1f1f1f;   /* the ground behind the journey */
 
   --shell: 88rem;  /* maximum line of the page */
 
@@ -253,13 +252,6 @@ figcaption {
 .masthead[data-over="dark"] .nav a,
 .masthead[data-over="dark"] .menu-toggle { color: var(--canvas); }
 .masthead[data-over="dark"] .nav a:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.5); }
-
-/* Over the slate the masthead takes the same colour, so the bar does not read
-   as a separate band across the top of the section. */
-.masthead[data-over="slate"] {
-  background: color-mix(in srgb, var(--ground-slate) 92%, transparent);
-  border-bottom-color: transparent;
-}
 
 /* Over the mid ground the masthead keeps a backdrop: the journey's images pass
    underneath it, and dark type on a photograph is not readable. */
@@ -728,7 +720,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   gap: var(--stack) var(--gutter);
 }
 @media (min-width: 56rem) {
-  .services-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); align-items: start; }
+  .services-layout { grid-template-columns: minmax(0, 0.62fr) minmax(0, 2fr); align-items: start; }
 }
 
 .services__preview { display: none; }
@@ -736,7 +728,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .services__preview {
     display: block;
     position: relative;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 4;
     background: var(--paper);
     overflow: hidden;
   }
@@ -758,18 +750,43 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 .service__figure img { width: 100%; }
 @media (min-width: 56rem) { .service__figure { display: none; } }
 
-/* The services take the brand's slate. Charcoal type holds against it at AA;
-   white would not, at 2.6:1. */
-.section--slate {
-  background: var(--ground-slate);
-  --rule: rgba(31, 31, 31, 0.3);
-  --rule-strong: rgba(31, 31, 31, 0.55);
-  --ink-muted: #3c3c3c;
-  --paper: rgba(31, 31, 31, 0.12);
+/* A page head with its picture beside it. */
+.page-split {
+  display: grid;
+  gap: var(--stack) var(--gutter);
+  grid-template-columns: 1fr;
+  align-items: start;
+  padding-block: clamp(1.5rem, 3.5vh, 3rem) clamp(2rem, 1rem + 2.6vw, 3.25rem);
 }
-.section--slate .ledger,
-.section--slate .service__index { color: rgba(31, 31, 31, 0.55); }
-.section--slate .spec li::before { background: rgba(31, 31, 31, 0.5); }
+@media (min-width: 56rem) {
+  .page-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+}
+.page-split .ledger { display: block; margin-bottom: 1rem; }
+.page-split h1 { font-size: clamp(2.1rem, 1rem + 3.6vw, 3.6rem); }
+.page-split .lead {
+  margin-top: clamp(1.25rem, 2.5vw, 2rem);
+  font-size: var(--t-body);
+  max-width: 30em;
+}
+.page-split__figure { margin: 0; }
+
+/* Two entries side by side, divided by a rule, as on the sketch. */
+.two-up {
+  display: grid;
+  gap: var(--stack) var(--gutter);
+  grid-template-columns: 1fr;
+  padding-block: clamp(2rem, 1rem + 2.6vw, 3.25rem);
+  border-top: 1px solid var(--rule);
+}
+@media (min-width: 56rem) {
+  .two-up { grid-template-columns: 1fr 1fr; column-gap: 0; }
+  .two-up > * + * { border-left: 1px solid var(--rule); padding-left: var(--gutter); }
+  .two-up > :first-child { padding-right: var(--gutter); }
+}
+.entry-card .ledger { display: block; margin-bottom: 0.7rem; }
+.entry-card h2 { font-size: var(--t-title); margin-bottom: 1rem; }
+.entry-card .spec { margin-top: 1.25rem; }
+.entry-card figure { margin: var(--stack) 0 0; }
 
 /* Alternating entries: text and picture swap sides down the page, so the eye
    is carried from one to the next rather than reading a single column. */
