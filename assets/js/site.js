@@ -255,98 +255,101 @@
 
   var strip = document.querySelector("[data-journey-strip] .journey__stages");
   if (strip) {
+    // Two separate questions. A mouse can't swipe a scroller, so wherever there
+    // is one — including a desktop window narrowed to a phone's width — the row
+    // is made draggable. The slow drift is a wide-screen thing on top of that.
+    // On a real touch device neither applies and nothing at all is bound: a
+    // non-passive pointer listener on a scroller makes the browser run it
+    // before it can decide whether to scroll, which is what made a swipe feel
+    // like it was fighting back.
+    var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
     var wide = window.matchMedia("(min-width: 56rem)");
 
-    // Drag to scrub, on any screen. Pointer capture keeps hold of it even if
-    // the pointer leaves the strip mid-drag.
-    var dragging = false, lastX = 0, velocity = 0, moved = 0;
+    if (finePointer.matches && !reduced) {
+      var dragging = false, lastX = 0, velocity = 0, moved = 0, drifting = false;
 
-    strip.addEventListener("pointerdown", function (e) {
-      if (e.pointerType && e.pointerType !== "mouse") return;
-      dragging = true; moved = 0; lastX = e.clientX; velocity = 0;
-      strip.dataset.dragging = "true";
-      strip.setPointerCapture(e.pointerId);
-      e.preventDefault();
-    });
-
-    strip.addEventListener("pointermove", function (e) {
-      if (!dragging) return;
-      var dx = e.clientX - lastX;
-      lastX = e.clientX;
-      moved += Math.abs(dx);
-      strip.scrollLeft -= dx;
-      velocity = -dx;               // carried on after release
-    });
-
-    var release = function () {
-      if (!dragging) return;
-      dragging = false;
-      strip.dataset.dragging = "false";
-    };
-    strip.addEventListener("pointerup", release);
-    strip.addEventListener("pointercancel", release);
-
-    // A click, rather than a drag, nudges it along — but only once the row is
-    // actually drifting, so a tap on a phone does nothing unexpected.
-    strip.addEventListener("click", function () {
-      if (document.documentElement.dataset.journey !== "drift") return;
-      if (moved < 5) velocity += 26;
-    });
-
-    // The slow drift, and the seamless loop it needs, are desktop only: on a
-    // phone a strip that moves while you are reading it is a nuisance.
-    var drift = function () {
-      if (!wide.matches || reduced) return;
-
-      // A second copy of the cards, so the loop has somewhere to run to.
-      var originals = Array.prototype.slice.call(strip.children);
-      originals.forEach(function (node) {
-        var copy = node.cloneNode(true);
-        copy.setAttribute("aria-hidden", "true");
-        copy.querySelectorAll("img").forEach(function (i) { i.loading = "lazy"; });
-        strip.appendChild(copy);
+      strip.addEventListener("pointerdown", function (e) {
+        if (e.pointerType && e.pointerType !== "mouse") return;
+        dragging = true; moved = 0; lastX = e.clientX; velocity = 0;
+        strip.dataset.dragging = "true";
+        strip.setPointerCapture(e.pointerId);
       });
-      document.documentElement.dataset.journey = "drift";
+
+      strip.addEventListener("pointermove", function (e) {
+        if (!dragging) return;
+        var dx = e.clientX - lastX;
+        lastX = e.clientX;
+        moved += Math.abs(dx);
+        strip.scrollLeft -= dx;
+        velocity = -dx;
+      }, { passive: true });
+
+      var release = function () {
+        if (!dragging) return;
+        dragging = false;
+        strip.dataset.dragging = "false";
+      };
+      strip.addEventListener("pointerup", release);
+      strip.addEventListener("pointercancel", release);
+      strip.addEventListener("click", function () { if (moved < 5) velocity += 26; });
+
+      document.documentElement.dataset.journey = "draggable";
 
       // The position is kept here rather than read back from scrollLeft: the
       // browser rounds that to whole pixels, so a sub-pixel drift added to it
       // each frame would be rounded away and never move at all.
       var pos = strip.scrollLeft;
       var last = 0;
-      var SPEED = 18;                 // pixels per second
+      var SPEED = 18;                     // pixels per second
 
       // Timed off the clock rather than counted in frames: a 120Hz display
       // would otherwise run this at twice the speed of a 60Hz one.
       var step = function (now) {
         var dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
         last = now;
-        var half = strip.scrollWidth / 2;
         if (dragging) {
-          pos = strip.scrollLeft;               // the hand is in charge
-        } else {
-          pos += SPEED * dt + velocity;
-          velocity *= Math.pow(0.02, dt);       // momentum, also time-based
+          pos = strip.scrollLeft;         // the hand is in charge
+        } else if (drifting || velocity) {
+          pos += (drifting ? SPEED * dt : 0) + velocity;
+          velocity *= Math.pow(0.02, dt); // momentum, also time-based
           if (Math.abs(velocity) < 0.01) velocity = 0;
-          if (half > 0) {
-            if (pos >= half) pos -= half;
-            else if (pos < 0) pos += half;
+          if (drifting) {
+            var half = strip.scrollWidth / 2;
+            if (half > 0) {
+              if (pos >= half) pos -= half;
+              else if (pos < 0) pos += half;
+            }
+          } else {
+            pos = Math.max(0, Math.min(pos, strip.scrollWidth - strip.clientWidth));
           }
           strip.scrollLeft = pos;
+        } else {
+          pos = strip.scrollLeft;         // wheel or trackpad moved it
         }
         window.requestAnimationFrame(step);
       };
       window.requestAnimationFrame(step);
-    };
 
-    // Start it once the section has been reached, not on page load.
-    if ("IntersectionObserver" in window && !reduced) {
-      var driftIO = new IntersectionObserver(function (entries) {
-        if (!entries[0].isIntersecting) return;
-        driftIO.disconnect();
-        // A pause first, so the row is still when you arrive at it.
-        window.setTimeout(drift, 1100);
-      }, { threshold: 0.2 });
-      driftIO.observe(strip.closest(".journey"));
+      // The endless drift, and the second set of cards it needs, are for wide
+      // screens only.
+      if (wide.matches && "IntersectionObserver" in window) {
+        var driftIO = new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting) return;
+          driftIO.disconnect();
+          window.setTimeout(function () {
+            Array.prototype.slice.call(strip.children).forEach(function (node) {
+              var copy = node.cloneNode(true);
+              copy.setAttribute("aria-hidden", "true");
+              copy.querySelectorAll("img").forEach(function (i) { i.loading = "lazy"; });
+              strip.appendChild(copy);
+            });
+            pos = strip.scrollLeft;
+            drifting = true;
+            document.documentElement.dataset.journey = "drift";
+          }, 1100);
+        }, { threshold: 0.2 });
+        driftIO.observe(strip.closest(".journey"));
+      }
     }
   }
 

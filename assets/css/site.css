@@ -551,19 +551,23 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   gap: var(--jgap);
   overflow-x: auto;
   scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  /* Proximity, not mandatory: mandatory fights a flick, and the last card can
-     never reach a valid snap position with scroll-padding set, so the strip
-     kept dragging itself back. */
-  scroll-snap-type: x proximity;
-  scroll-padding-inline: var(--gutter);
+  /* No scroll-snap and no -webkit-overflow-scrolling. Both fight a flick on
+     iOS, and with scroll-padding set the last card can never reach a valid
+     snap position, so the strip kept dragging itself back. A plain free scroll
+     is what a strip of cards wants. */
   padding-inline: var(--gutter);
   /* Stops a swipe past either end from chaining out to the browser's own
      back-and-forward gesture. */
   overscroll-behavior-x: contain;
 }
 .journey__stages::-webkit-scrollbar { display: none; }
-.journey__stage { position: relative; flex: 0 0 52vw; scroll-snap-align: start; }
+
+/* Draggable wherever there is a mouse, including a narrowed window. */
+html[data-journey] .journey__stages { cursor: grab; user-select: none; }
+html[data-journey] .journey__stages[data-dragging="true"] { cursor: grabbing; }
+html[data-cursor="on"] .journey__stages,
+html[data-cursor="on"] .journey__stages * { cursor: none; }
+.journey__stage { position: relative; flex: 0 0 52vw; }
 
 /* The line every card hangs from, drawn across each gap. */
 .journey__stage + .journey__stage::before {
@@ -580,8 +584,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .journey__stage { flex: 0 0 clamp(15rem, 21vw, 23rem); }
 
   /* Once it is moving of its own accord, snapping would fight the drift. */
-  html[data-journey="drift"] .journey__stages { scroll-snap-type: none; cursor: grab; }
-  html[data-journey="drift"] .journey__stages[data-dragging="true"] { cursor: grabbing; }
+
   html[data-cursor="on"] .journey__stages,
   html[data-cursor="on"] .journey__stages * { cursor: none; }
 
@@ -760,6 +763,15 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 @media (min-width: 56rem) {
   .entry-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Six entries, set two-thirds and one-third and turned about each row. */
+  .entry-grid--thirds { grid-template-columns: repeat(3, 1fr); }
+  .entry-grid--thirds > :nth-child(1),
+  .entry-grid--thirds > :nth-child(4),
+  .entry-grid--thirds > :nth-child(5) { grid-column: span 2; }
+  .entry-grid--thirds > :nth-child(2),
+  .entry-grid--thirds > :nth-child(3),
+  .entry-grid--thirds > :nth-child(6) { grid-column: span 1; }
   .entry-grid > :nth-child(odd)  { padding-right: var(--gutter); }
   .entry-grid > :nth-child(even) { padding-left: var(--gutter); border-left: 1px solid var(--rule); }
   /* Rules run between rows, not between the first pair. */
@@ -1272,6 +1284,20 @@ address {
 /* --------------------------------------------------------------------------
    15. Motion — slow, and easily declined
    -------------------------------------------------------------------------- */
+
+/* One turn of the H as the page arrives. transform-box: fill-box is what makes
+   the origin the letter's own centre rather than the whole artboard's. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__mark .wm-h {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: wordmark-h 1.15s cubic-bezier(0.66, 0, 0.34, 1) 0.5s 1 both;
+  }
+  @keyframes wordmark-h {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   /* Scoped to .js so that a script failure can never leave content invisible. */
