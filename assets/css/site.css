@@ -1,4 +1,44 @@
 @charset "utf-8";
+
+/* ==========================================================================
+   Typefaces
+
+   Beausite Classic and Rhymes Text, as specified in the brand document.
+
+   THESE ARE TRIAL FILES. "RhymesTextTrialUnlicensed" says so in its own name,
+   and the Beausite trial carries a cut-down character set — 155 glyphs, with
+   no ampersand and no arrow. Web licences must be bought before this site is
+   public, and the licensed files dropped in over these.
+   ========================================================================== */
+
+@font-face {
+  font-family: "Beausite Classic";
+  src: url("../fonts/beausite-classic-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Beausite Classic";
+  src: url("../fonts/beausite-classic-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rhymes Text";
+  src: url("../fonts/rhymes-text-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rhymes Text";
+  src: url("../fonts/rhymes-text-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
 /* ==========================================================================
    Storehouse Fine Arts
    Built from the Storehouse Brand Identity (2025) by Dougal.
@@ -26,11 +66,10 @@
   --rule:        rgba(31, 31, 31, 0.16);
   --rule-strong: rgba(31, 31, 31, 0.4);
 
-  /* Typography.
-     Beausite and Rhymes are licensed faces and are not embedded here.
-     These are close open substitutes — see README.md to swap them back in. */
-  --sans:  "Instrument Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --serif: "Newsreader", "Iowan Old Style", "Times New Roman", Georgia, serif;
+  /* Typography — the brand faces, with a close fallback while they load and
+     for the handful of characters the trial cut is missing. */
+  --sans:  "Beausite Classic", "Instrument Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --serif: "Rhymes Text", "Newsreader", "Iowan Old Style", "Times New Roman", Georgia, serif;
   --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* A single modular scale, fluid between 380px and 1600px. */
@@ -759,10 +798,10 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   padding-block: clamp(1.5rem, 3.5vh, 3rem) clamp(2rem, 1rem + 2.6vw, 3.25rem);
 }
 @media (min-width: 56rem) {
-  .page-split { grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr); }
+  .page-split { grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr); }
 }
 .page-split .ledger { display: block; margin-bottom: 1rem; }
-.page-split h1 { font-size: clamp(2.1rem, 1rem + 3.6vw, 3.6rem); }
+.page-split h1 { font-size: var(--t-display); }
 .page-split .lead {
   margin-top: clamp(1.25rem, 2.5vw, 2rem);
   font-size: var(--t-body);
@@ -907,6 +946,12 @@ figure { margin: 0; }
 .plate--tall img { height: 100%; object-fit: cover; }
 .plate--wide { aspect-ratio: 4 / 3; }
 .plate--wide img { height: 100%; object-fit: cover; }
+.plate--r32 { aspect-ratio: 3 / 2; }
+.plate--r32 img { height: 100%; object-fit: cover; }
+.plate--r52 { aspect-ratio: 5 / 2; }
+.plate--r52 img { height: 100%; object-fit: cover; }
+.plate--r53 { aspect-ratio: 5 / 3; }
+.plate--r53 img { height: 100%; object-fit: cover; }
 .plate--landscape { aspect-ratio: 16 / 9; }
 .plate--landscape img { height: 100%; object-fit: cover; }
 
@@ -940,6 +985,31 @@ figure { margin: 0; }
   padding-bottom: 0.15em;
 }
 .panel .action { color: var(--canvas); }
+.arrow {
+  display: inline-block;
+  position: relative;
+  width: 1.35em;
+  height: 0.62em;
+  flex: none;
+}
+.arrow::before {
+  content: "";
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 1px;
+  background: currentColor;
+}
+.arrow::after {
+  content: "";
+  position: absolute;
+  top: 50%; right: 0;
+  width: 0.34em; height: 0.34em;
+  margin-top: -0.17em;
+  border-top: 1px solid currentColor;
+  border-right: 1px solid currentColor;
+  transform: rotate(45deg);
+  transform-origin: top right;
+}
 .action .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
 .action:hover .arrow { transform: translateX(0.35rem); }
 

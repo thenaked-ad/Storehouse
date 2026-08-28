@@ -22,7 +22,9 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&family=Instrument+Sans:wght@400;500&family=Newsreader:opsz,wght@6..72,300;6..72,400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono&display=swap">
+<link rel="preload" href="assets/fonts/beausite-classic-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/rhymes-text-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="assets/css/site.css">
 <script>document.documentElement.className+=" js";</script>
 </head>
@@ -75,174 +77,126 @@
 </div>
 
 <main id="main">
-  <section class="page-head shell">
-    <span class="ledger">01</span>
-    <h1>Storage &amp; Handling</h1>
-    <p class="lead">Discreet, secure, climate-controlled storage in Park Royal, north-west London &mdash; and the technicians, vehicles and packing that move work in and out of it.</p>
-  </section>
-  <section class="shell band band--ruled" id="storage" data-reveal>
-    <div class="marginalia">
-      <div class="aside label--sticky">
-        <span class="ledger">01.1</span>
-        <h2>Storage</h2>
+  <section class="shell page-split">
+    <div class="page-split__text">
+      <span class="ledger">01</span>
+      <h1>Storage &amp; Handling</h1>
+      <p class="lead">Discreet, secure, climate-controlled storage in Park Royal, north-west London &mdash; and the technicians, vehicles and packing that move work in and out of it.</p>
+    </div>
+    <figure class="page-split__figure">
+      <div class="plate plate--wide">
+        <img src="assets/img/sh-hero-1200.webp" width="1200" height="900"
+             loading="eager" decoding="async" alt="The interior of the Storehouse facility, with racking along the far wall.">
       </div>
-      <div class="main">
-        <p>Discreet, secure, climate-controlled storage in Park Royal, north-west London.</p>
-        <p>We offer some of the most competitive storage rates in the city without compromising on artwork care.</p>
-        <ul class="spec" style="margin-top:1.75rem">
+      <figcaption>141 Acton Lane.</figcaption>
+    </figure>
+  </section>
+  <section class="shell two-up" data-reveal>
+    <article class="entry-card" id="storage">
+      <span class="ledger">01.1</span>
+      <h2>Storage</h2>
+      <p>Discreet, secure, climate-controlled storage in Park Royal, north-west London. We offer some of the most competitive storage rates in the city without compromising on the care of the work.</p>
+      <ul class="spec">
           <li>24-hour monitored security</li>
           <li>Climate and humidity controlled throughout</li>
           <li>Racking sized for works large and small</li>
           <li>Every movement handled by trained fine art technicians</li>
           <li>Declared values required for all works stored; insurance cover available through us or your own policy</li>
-        </ul>
-        <div class="pair" style="margin-top:var(--stack)">
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/facility-racking-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="Racking bays inside the Storehouse facility.">
-            </div>
-            <figcaption>Racking, sized for works large and small.</figcaption>
-          </figure>
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/facility-crates-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="Crated works stacked on racking in the facility.">
-            </div>
-            <figcaption>Crated works held on the rack.</figcaption>
-          </figure>
+      </ul>
+      <figure>
+        <div class="plate plate--r32">
+          <img src="assets/img/sh-storage-1200.webp" width="1200" height="900"
+               loading="lazy" decoding="async" alt="Racking bays inside the Storehouse facility.">
         </div>
-      </div>
-    </div>
-  </section>
-  <section class="shell band band--ruled" id="transport" data-reveal>
-    <div class="marginalia">
-      <div class="aside label--sticky">
-        <span class="ledger">01.2</span>
-        <h2>Transport</h2>
-      </div>
-      <div class="main">
-        <p>Collection and delivery across the UK. Works move between your premises and our facility, with installation in London and nationwide.</p>
-        <div  style="margin-top:var(--stack)">
-          <figure>
-            <div class="plate plate--wide">
-              <img src="assets/img/transport-van-900.webp" width="900" height="675"
-                   loading="lazy" decoding="async" alt="The interior of a Storehouse vehicle, fitted with padded racking and straps.">
-            </div>
-            <figcaption>Fitted vehicles. Padded, strapped, and loaded by the same people who pack.</figcaption>
-          </figure>
+        <figcaption>Racking, sized for works large and small.</figcaption>
+      </figure>
+    </article>
+    <article class="entry-card" id="transport">
+      <span class="ledger">01.2</span>
+      <h2>Transport</h2>
+      <p>Collection and delivery across the UK. Works move between your premises and our facility, with installation in London and nationwide.</p>
+      <figure>
+        <div class="plate plate--r32">
+          <img src="assets/img/sh-transport-1200.webp" width="1200" height="900"
+               loading="lazy" decoding="async" alt="The padded interior of a fitted Storehouse vehicle.">
         </div>
-      </div>
-    </div>
+        <figcaption>Fitted vehicles, loaded by the people who packed.</figcaption>
+      </figure>
+    </article>
   </section>
-  <section class="shell band band--ruled" id="packing" data-reveal>
-    <div class="marginalia">
-      <div class="aside label--sticky">
+  <section class="shell alt" id="packing" data-side="left" data-reveal>
+    <div class="alt__grid">
+      <div class="alt__text">
         <span class="ledger">01.3</span>
         <h2>Packing</h2>
-      </div>
-      <div class="main">
         <p>Bespoke packing and crating for storage and transit, built to the requirements of the work.</p>
         <p>Condition checking, packing and handling by experienced technicians.</p>
-        <div class="pair" style="margin-top:var(--stack)">
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/packing-wrap-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="A technician taping a wrapped work on a padded table.">
-            </div>
-            <figcaption>Wrapping. Tape kept clear of the work.</figcaption>
-          </figure>
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/packing-corner-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="A close detail of foam and board protecting the corner of a packed work.">
-            </div>
-            <figcaption>The corner detail.</figcaption>
-          </figure>
-        </div>
       </div>
+      <figure class="alt__figure">
+        <div class="plate plate--r52">
+          <img src="assets/img/sh-packing-1200.webp" width="1200" height="900"
+               loading="lazy" decoding="async" alt="A technician wrapping a work on a padded table.">
+        </div>
+        <figcaption>Wrapped, with tape kept clear of the work.</figcaption>
+      </figure>
     </div>
   </section>
-  <section class="shell band band--ruled" id="installation" data-reveal>
-    <div class="marginalia">
-      <div class="aside label--sticky">
+  <section class="shell alt" id="installation" data-side="right" data-reveal>
+    <div class="alt__grid">
+      <div class="alt__text">
         <span class="ledger">01.4</span>
         <h2>Installation</h2>
-      </div>
-      <div class="main">
         <p>Every install is planned at the level of detail the work and the venue require.</p>
         <p>Any scale, any venue &mdash; from a single painting in a collector&rsquo;s home to a complex gallery install.</p>
-        <div class="pair" style="margin-top:var(--stack)">
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/install-level-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="A technician holding a spirit level against a wall before hanging.">
-            </div>
-            <figcaption>Set out before anything goes up.</figcaption>
-          </figure>
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/install-situ-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="A large framed painting being positioned on a wall in a private interior.">
-            </div>
-            <figcaption>In situ.</figcaption>
-          </figure>
-        </div>
       </div>
+      <figure class="alt__figure">
+        <div class="plate plate--r53">
+          <img src="assets/img/sh-installation-1200.webp" width="1200" height="900"
+               loading="lazy" decoding="async" alt="Two technicians lifting a large canvas into position against a wall.">
+        </div>
+        <figcaption>Any scale, any venue.</figcaption>
+      </figure>
     </div>
   </section>
-  <section class="shell band band--ruled" id="photography" data-reveal>
-    <div class="marginalia">
-      <div class="aside label--sticky">
+  <section class="shell alt" id="photography" data-side="left" data-reveal>
+    <div class="alt__grid">
+      <div class="alt__text">
         <span class="ledger">01.5</span>
         <h2>Photography</h2>
-      </div>
-      <div class="main">
         <p>Gallery-standard photography and post-production &mdash; shot in house.</p>
         <p>Onsite photography at your studio, gallery or home, for work that should not travel.</p>
-        <div class="pair" style="margin-top:var(--stack)">
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/photography-studio-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="A framed work lit by two studio lights against a plain wall.">
-            </div>
-            <figcaption>Lit, squared, and shot.</figcaption>
-          </figure>
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/photography-camera-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="A technician photographing a framed work on a tripod-mounted camera.">
-            </div>
-            <figcaption>Post-produced in house.</figcaption>
-          </figure>
-        </div>
+        <ul class="spec">
+            <li>Shot and post-produced in house</li>
+            <li>Onsite at studio, gallery or home</li>
+        </ul>
       </div>
+      <figure class="alt__figure">
+        <div class="plate plate--r52">
+          <img src="assets/img/sh-photography-1200.webp" width="1200" height="900"
+               loading="lazy" decoding="async" alt="A technician photographing a framed work on a tripod-mounted camera.">
+        </div>
+        <figcaption>Shot and post-produced in house.</figcaption>
+      </figure>
     </div>
   </section>
-  <section class="shell band band--ruled" id="viewing-room" data-reveal>
-    <div class="marginalia">
-      <div class="aside label--sticky">
+  <section class="shell alt" id="viewing-room" data-side="right" data-reveal>
+    <div class="alt__grid">
+      <div class="alt__text">
         <span class="ledger">01.6</span>
         <h2>Viewing Room Hire</h2>
-      </div>
-      <div class="main">
-        <p>Our viewing room and conservation studio sit within a self-contained workspace with level access for large works.</p>
-        <p>Available for viewings, photography and condition checking.</p>
-        <ul class="spec" style="margin-top:1.75rem">
-          <li>Level access for large works</li>
-          <li>Self-contained workspace</li>
-          <li>Viewings, photography and condition checking</li>
+        <p>Our viewing room and conservation studio sit within a self-contained workspace with level access for large works. Available for viewings, photography and condition checking.</p>
+        <ul class="spec">
+            <li>Level access for large works</li>
+            <li>Self-contained workspace</li>
         </ul>
-        <div class="figure-single" style="margin-top:var(--stack)">
-          <figure>
-            <div class="plate plate--tall">
-              <img src="assets/img/viewing-room-900.webp" width="900" height="1200"
-                   loading="lazy" decoding="async" alt="A technician adjusting a framed work under studio lighting in the viewing room.">
-            </div>
-            <figcaption>The viewing room.</figcaption>
-          </figure>
-        </div>
       </div>
+      <figure class="alt__figure">
+        <div class="plate plate--r53">
+          <img src="assets/img/sh-viewing-1200.webp" width="1200" height="900"
+               loading="lazy" decoding="async" alt="A technician adjusting a framed work under studio lighting in the viewing room.">
+        </div>
+        <figcaption>The viewing room.</figcaption>
+      </figure>
     </div>
   </section>
   <section class="panel" data-dark data-reveal>
@@ -257,7 +211,7 @@
           <li>24-hour monitored</li>
         </ul>
         <p style="margin-top:var(--stack)">
-          <a class="action" href="contact.html#rate-card">Request a rate card <span class="arrow" aria-hidden="true">&rarr;</span></a>
+          <a class="action" href="contact.html#rate-card">Request a rate card <span class="arrow" aria-hidden="true"></span></a>
         </p>
       </div>
     </div>

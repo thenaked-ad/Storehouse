@@ -90,26 +90,35 @@ please resist spreading it around.
 
 ### Type
 
-The brand specifies **Beausite** (sans) and **Rhymes** (serif). Both are
-licensed faces and are not included here. The site currently uses close open
-substitutes served from Google Fonts:
+The brand faces, self-hosted as woff2 in `assets/fonts/`:
 
-| Role | Brand face | Substitute in use |
+| Role | Face | Files |
 |---|---|---|
-| Headings, navigation, labels | Beausite | Instrument Sans |
-| Body copy | Rhymes | Newsreader |
-| Index numbers, captions | — | IBM Plex Mono |
+| Headings, navigation, labels | Beausite Classic | `beausite-classic-400/500.woff2` |
+| Body copy | Rhymes Text | `rhymes-text-400/500.woff2` |
+| Index numbers, captions | IBM Plex Mono | Google Fonts |
 
-**To swap in the real faces**, buy web licences, drop the `.woff2` files into
-`assets/fonts/`, add `@font-face` rules at the top of `site.css`, change the
-`--sans` and `--serif` tokens, and delete the Google Fonts `<link>` from the
-`<head>` of each page. That is the whole job — nothing else references a
-typeface by name.
+> **These are trial files and are not licensed for use on a public site.**
+> One of them says so in its own filename
+> (`RhymesTextTrialUnlicensed`). Web licences must be bought and the licensed
+> woff2s dropped in over these before the site goes live. Nothing else has to
+> change: the `@font-face` blocks at the top of `site.css` point at those four
+> filenames and nowhere else names a typeface.
+>
+> The Beausite trial also carries a cut-down character set — 155 glyphs, where
+> the full face has far more. It has **no ampersand and no arrow**. Every
+> arrow on the site is drawn in CSS rather than typed, so those are fine, but
+> an `&` in a heading (`Storage & Handling`, `Budgets & timelines`,
+> `Framing & conservation`) falls back to Helvetica for that one character.
+> It is subtle but visible, and it will fix itself with the licensed files.
+
+Each token keeps a close open substitute behind the brand face, both for the
+moment before the font loads and for any character the trial is missing.
 
 Note that the **STOREHOUSE wordmark is not type**. It is vector artwork
 extracted from the brand PDF and inlined as an SVG `<symbol>` near the top of
-each page, so the logo is pixel-accurate regardless of which fonts load. Do not
-retype it as text.
+each page, so the logo is exact regardless of which fonts load. Do not retype
+it as text.
 
 ### Layout
 
@@ -153,25 +162,28 @@ To change a stage, edit `index.html` and drop a replacement 3:4 image into
 `assets/img/journey/`. If you add or remove one, the `grid-area` rules in
 `site.css` place the eight stages explicitly and will need adjusting.
 
-## Alternating entries
+## The three service pages
 
-Exhibition Services and Collection Management share one shape, built to Tom's
-sketch:
+Storage & Handling, Exhibition Services and Collection Management all share one
+shape, built to Tom's reference:
 
-1. `.page-split` — the title and standfirst on the left, a large picture beside
-   them on the right.
-2. `.two-up` — entries 1 and 2 side by side, divided by a vertical rule, each
-   with its own picture beneath the words.
-3. Two `.alt` rows — entries 3 and 4, text and picture swapping sides.
+1. `.page-split` — the number, a large two-line title and the standfirst in a
+   narrow left column; a 4:3 picture beside them, running to the right edge,
+   caption below its left edge.
+2. `.two-up` — the first two entries side by side, divided by a vertical rule,
+   each with heading, paragraph, any specification list, then its own 3:2
+   picture below and a caption.
+3. `.alt` rows for the rest — text and picture on opposite edges, alternating,
+   text vertically centred against the picture.
 
-In the `.alt` rows both the words and the picture hold the same two columns:
-each occupies exactly one edge of the page and alternates, rather than drifting
-about the middle. `data-side` names where the *text* sits; the picture takes the
-other edge. It is an attribute rather than `:nth-of-type`, which would also
-count the page heading and invert the whole sequence.
+The picture ratios differ by placement, as they do on the reference: 4:3 for
+the head, 3:2 in the pair, then 5:2 and 5:3 alternating down the page. Each
+image is cropped to its placement's ratio at source, with a focal point set per
+picture, rather than being cropped twice by `object-fit`.
 
-Their imagery is a dedicated set at 4:3, prefixed `ex-` and `cm-`, chosen so
-each picture reads as the thing its section describes.
+`data-side` names where the *text* sits; the picture takes the other edge. It is
+an attribute rather than `:nth-of-type`, which would also count the page heading
+and invert the whole sequence.
 
 ## The services list
 
