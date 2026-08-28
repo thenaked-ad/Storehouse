@@ -764,14 +764,6 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 @media (min-width: 56rem) {
   .entry-grid { grid-template-columns: 1fr 1fr; }
 
-  /* Six entries, set two-thirds and one-third and turned about each row. */
-  .entry-grid--thirds { grid-template-columns: repeat(3, 1fr); }
-  .entry-grid--thirds > :nth-child(1),
-  .entry-grid--thirds > :nth-child(4),
-  .entry-grid--thirds > :nth-child(5) { grid-column: span 2; }
-  .entry-grid--thirds > :nth-child(2),
-  .entry-grid--thirds > :nth-child(3),
-  .entry-grid--thirds > :nth-child(6) { grid-column: span 1; }
   .entry-grid > :nth-child(odd)  { padding-right: var(--gutter); }
   .entry-grid > :nth-child(even) { padding-left: var(--gutter); border-left: 1px solid var(--rule); }
   /* Rules run between rows, not between the first pair. */
@@ -801,6 +793,29 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 .entry-full__text h2 { font-size: var(--t-title); }
 .entry-full__text .spec { margin-top: 1.5rem; }
 .entry-full__figure { margin: 0; }
+
+/* One entry to a row across three columns: the words in one outer third, the
+   picture in the other, the middle left open. Each row turns the arrangement
+   round, so the page reads down the page in a zig-zag. */
+.entry-row {
+  display: grid;
+  gap: var(--stack) var(--gutter);
+  grid-template-columns: 1fr;
+  align-items: center;
+  padding-block: clamp(2rem, 1rem + 2.6vw, 3.25rem);
+  border-top: 1px solid var(--rule);
+}
+@media (min-width: 56rem) {
+  .entry-row { grid-template-columns: repeat(3, 1fr); }
+  .entry-row__text   { grid-column: 1; grid-row: 1; }
+  .entry-row__figure { grid-column: 3; grid-row: 1; }
+  .entry-row[data-side="right"] .entry-row__text   { grid-column: 3; }
+  .entry-row[data-side="right"] .entry-row__figure { grid-column: 1; }
+}
+.entry-row__text .ledger { display: block; margin-bottom: 0.7rem; }
+.entry-row__text h2 { font-size: var(--t-title); margin-bottom: 1rem; }
+.entry-row__text .spec { margin-top: 1.25rem; }
+.entry-row__figure { margin: 0; }
 
 /* Alternating entries: text and picture swap sides down the page, so the eye
    is carried from one to the next rather than reading a single column. */
@@ -923,10 +938,6 @@ figure { margin: 0; }
 .plate--wide img { height: 100%; object-fit: cover; }
 .plate--r32 { aspect-ratio: 3 / 2; }
 .plate--r32 img { height: 100%; object-fit: cover; }
-.plate--r52 { aspect-ratio: 5 / 2; }
-.plate--r52 img { height: 100%; object-fit: cover; }
-.plate--r53 { aspect-ratio: 5 / 3; }
-.plate--r53 img { height: 100%; object-fit: cover; }
 .plate--landscape { aspect-ratio: 16 / 9; }
 .plate--landscape img { height: 100%; object-fit: cover; }
 
@@ -1284,20 +1295,6 @@ address {
 /* --------------------------------------------------------------------------
    15. Motion — slow, and easily declined
    -------------------------------------------------------------------------- */
-
-/* One turn of the H as the page arrives. transform-box: fill-box is what makes
-   the origin the letter's own centre rather than the whole artboard's. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero__mark .wm-h {
-    transform-box: fill-box;
-    transform-origin: 50% 50%;
-    animation: wordmark-h 1.15s cubic-bezier(0.66, 0, 0.34, 1) 0.5s 1 both;
-  }
-  @keyframes wordmark-h {
-    from { transform: rotate(0deg); }
-    to   { transform: rotate(360deg); }
-  }
-}
 
 @media (prefers-reduced-motion: no-preference) {
   /* Scoped to .js so that a script failure can never leave content invisible. */

@@ -120,12 +120,6 @@ on from the words, as on the About page's "Get in touch".
 Each token keeps a close open substitute behind the brand face, both for the
 moment before the font loads and for any character the trial is missing.
 
-The **H turns once** as the home page arrives. For that the hero's wordmark is
-inlined as ten separate paths, one per letter, rather than the shared
-`<symbol>` — author CSS cannot reach inside a `<use>` shadow tree to style one
-of them. `transform-box: fill-box` is what makes the origin the letter's own
-centre rather than the whole artboard's. It is pure CSS, so it runs without
-JavaScript, and reduced motion skips it.
 
 Note that the **STOREHOUSE wordmark is not type**. It is vector artwork
 extracted from the brand PDF and inlined as an SVG `<symbol>` near the top of
@@ -208,16 +202,21 @@ shape, built to Tom's reference:
    divided by a vertical rule, each with heading, paragraph, any specification
    list, then its own 3:2 picture beneath.
 
-Storage & Handling has six entries and runs to three rows on a three-column
-grid, its cards two-thirds and one-third and turned about each row
-(`.entry-grid--thirds`). The other two have four entries in even halves. No picture carries a caption on these pages.
+Exhibition Services and Collection Management have four entries each, two to a
+row in even halves (`.entry-grid`).
+
+Storage & Handling has six and takes a row each (`.entry-row`): a three-column
+grid with the words in one outer third and the picture in the other, the middle
+third left open, turned round on every row. On a phone both layouts stack to a
+single column, words then picture.
+
+Every entry picture is 3:2 at every width and on all three pages; only the lead
+is 4:3. There is no breakpoint where a ratio changes. No picture carries a caption on these pages.
 
 Cards are flex columns with the picture pushed to the foot (`margin-top: auto`).
 Grid items are the same height across a row, so this lines every picture up
 with the one beside it however much text sits above it.
 
-The picture ratios are 4:3 for the head and 3:2 for every entry below it. On a
-phone every entry picture takes 5:3, so the three pages read as one rhythm.
 
 
 
