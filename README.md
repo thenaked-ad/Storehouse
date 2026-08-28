@@ -98,6 +98,11 @@ The brand faces, self-hosted as woff2 in `assets/fonts/`:
 | Body copy | Rhymes Text | `rhymes-text-400/500.woff2` |
 | Index numbers, captions | IBM Plex Mono | Google Fonts |
 
+Arrows are drawn in CSS rather than typed — a shaft with a square turned about
+its own centre so the vertex lands exactly on the end of it. That is both
+because the Beausite trial has no arrow glyph and because it lets the line run
+on from the words, as on the About page's "Get in touch".
+
 > **These are trial files and are not licensed for use on a public site.**
 > One of them says so in its own filename
 > (`RhymesTextTrialUnlicensed`). Web licences must be bought and the licensed
@@ -176,10 +181,18 @@ shape, built to Tom's reference:
 3. `.alt` rows for the rest — text and picture on opposite edges, alternating,
    text vertically centred against the picture.
 
-The picture ratios differ by placement, as they do on the reference: 4:3 for
-the head, 3:2 in the pair, then 5:2 and 5:3 alternating down the page. Each
-image is cropped to its placement's ratio at source, with a focal point set per
-picture, rather than being cropped twice by `object-fit`.
+The picture ratios are 4:3 for the head and 5:3 for every entry below it, with
+the pair on Exhibition Services and Collection Management at 3:2. Alternating
+rows are the same layout and the same ratio, simply mirrored. Each image is
+cropped to its placement's ratio at source, with a focal point set per picture,
+rather than being cropped twice by `object-fit`.
+
+On a phone every picture below the lead takes 5:3, so the three pages read as
+one rhythm.
+
+Storage & Handling has six entries rather than four, so it runs head, then
+01.1 full width (`.entry-full` — the words in two columns, the picture across
+the page), then five alternating rows starting on the left.
 
 `data-side` names where the *text* sits; the picture takes the other edge. It is
 an attribute rather than `:nth-of-type`, which would also count the page heading
