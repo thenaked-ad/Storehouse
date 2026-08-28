@@ -308,13 +308,20 @@
       // browser rounds that to whole pixels, so a sub-pixel drift added to it
       // each frame would be rounded away and never move at all.
       var pos = strip.scrollLeft;
-      var step = function () {
+      var last = 0;
+      var SPEED = 18;                 // pixels per second
+
+      // Timed off the clock rather than counted in frames: a 120Hz display
+      // would otherwise run this at twice the speed of a 60Hz one.
+      var step = function (now) {
+        var dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
+        last = now;
         var half = strip.scrollWidth / 2;
         if (dragging) {
           pos = strip.scrollLeft;               // the hand is in charge
         } else {
-          pos += 0.5 + velocity;
-          velocity *= 0.93;
+          pos += SPEED * dt + velocity;
+          velocity *= Math.pow(0.02, dt);       // momentum, also time-based
           if (Math.abs(velocity) < 0.01) velocity = 0;
           if (half > 0) {
             if (pos >= half) pos -= half;
@@ -332,7 +339,8 @@
       var driftIO = new IntersectionObserver(function (entries) {
         if (!entries[0].isIntersecting) return;
         driftIO.disconnect();
-        drift();
+        // A pause first, so the row is still when you arrive at it.
+        window.setTimeout(drift, 2600);
       }, { threshold: 0.2 });
       driftIO.observe(strip.closest(".journey"));
     }

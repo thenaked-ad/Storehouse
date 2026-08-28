@@ -148,9 +148,10 @@ stored, moved, installed, photographed. Eight real frames from the Storehouse
 shoot, in the order they happen, on the charcoal ground.
 
 One line of 3:4 cards, each with its number top-left and its label bottom-left
-against a gradient scrim. The row drifts along on its own at about 30px a
-second and can be dragged; a drag carries momentum when you let go, and a click
-nudges it. A "Drag" mark sits at the right-hand edge to say so.
+against a gradient scrim. The row waits a couple of seconds, then drifts along
+on its own at 18px a second, and can be dragged; a drag carries momentum when
+you let go, and a click nudges it. A "Drag" mark sits at the right-hand edge to
+say so.
 
 The loop is seamless because the eight cards are cloned once at runtime and the
 scroll position wraps at half the width. The clones are `aria-hidden`.
@@ -160,6 +161,9 @@ Two things worth knowing if you touch this:
 - The drift keeps its own `pos` variable rather than adding to `scrollLeft`
   directly. The browser rounds `scrollLeft` to whole pixels, so a sub-pixel
   step added to it each frame is rounded away and nothing moves at all.
+- Both the drift and its momentum are timed off the clock rather than counted
+  in frames. A 120Hz display — which most recent Macs are — would otherwise run
+  the whole thing at twice the intended speed.
 - The strip runs the full width of the window and insets its own content with
   padding. It used to pull itself out with negative margins, which escaped the
   page and scrolled the whole site sideways below 1024px.
@@ -184,6 +188,10 @@ shape, built to Tom's reference:
 
 Storage & Handling has six entries and so runs to three rows; the other two
 have four and run to two. No picture carries a caption on these pages.
+
+Cards are flex columns with the picture pushed to the foot (`margin-top: auto`).
+Grid items are the same height across a row, so this lines every picture up
+with the one beside it however much text sits above it.
 
 The picture ratios are 4:3 for the head and 3:2 for every entry below it. On a
 phone every entry picture takes 5:3, so the three pages read as one rhythm.
@@ -255,6 +263,13 @@ Hero, services, the journey cards on charcoal, case studies, Location in
 ultramarine, then the closing enquiry block. The masthead reads the ground
 beneath it as it goes — light, mid, dark — and takes a matching backdrop each
 time.
+
+## The ultramarine panels
+
+The enquiry block that closes each page, and Location on the home page, are
+`.panel` sections. They are deliberately **not** given `data-reveal`: the reveal
+fades a whole section, background included, so the page showed through the blue
+for a moment as it scrolled into view.
 
 ## Case studies
 
