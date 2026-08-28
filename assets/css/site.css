@@ -552,9 +552,15 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   overflow-x: auto;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  scroll-snap-type: x mandatory;
+  /* Proximity, not mandatory: mandatory fights a flick, and the last card can
+     never reach a valid snap position with scroll-padding set, so the strip
+     kept dragging itself back. */
+  scroll-snap-type: x proximity;
   scroll-padding-inline: var(--gutter);
   padding-inline: var(--gutter);
+  /* Stops a swipe past either end from chaining out to the browser's own
+     back-and-forward gesture. */
+  overscroll-behavior-x: contain;
 }
 .journey__stages::-webkit-scrollbar { display: none; }
 .journey__stage { position: relative; flex: 0 0 52vw; scroll-snap-align: start; }

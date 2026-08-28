@@ -286,8 +286,12 @@
     strip.addEventListener("pointerup", release);
     strip.addEventListener("pointercancel", release);
 
-    // A click, rather than a drag, nudges it along.
-    strip.addEventListener("click", function () { if (moved < 5) velocity += 26; });
+    // A click, rather than a drag, nudges it along — but only once the row is
+    // actually drifting, so a tap on a phone does nothing unexpected.
+    strip.addEventListener("click", function () {
+      if (document.documentElement.dataset.journey !== "drift") return;
+      if (moved < 5) velocity += 26;
+    });
 
     // The slow drift, and the seamless loop it needs, are desktop only: on a
     // phone a strip that moves while you are reading it is a nuisance.

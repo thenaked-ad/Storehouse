@@ -167,6 +167,11 @@ Two things worth knowing if you touch this:
 - The gap between cards and the short line drawn across it both come from
   `--jgap` on the strip. They were separate values, and a mobile override moved
   one without the other, so the line stopped 8px short of the next card.
+- Snapping is `proximity`, not `mandatory`. Mandatory fights a flick, and with
+  `scroll-padding` set the last card can never reach a valid snap position, so
+  the strip kept dragging itself back — which is what made swiping on a phone
+  feel glitchy. `overscroll-behavior-x: contain` stops a swipe past either end
+  chaining out to the browser's own back gesture.
 - The strip runs the full width of the window and insets its own content with
   padding. It used to pull itself out with negative margins, which escaped the
   page and scrolled the whole site sideways below 1024px.
