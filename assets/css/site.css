@@ -759,7 +759,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   padding-block: clamp(1.5rem, 3.5vh, 3rem) clamp(2rem, 1rem + 2.6vw, 3.25rem);
 }
 @media (min-width: 56rem) {
-  .page-split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+  .page-split { grid-template-columns: minmax(0, 0.68fr) minmax(0, 1.32fr); }
 }
 .page-split .ledger { display: block; margin-bottom: 1rem; }
 .page-split h1 { font-size: clamp(2.1rem, 1rem + 3.6vw, 3.6rem); }
@@ -819,7 +819,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 .alt__text .spec { margin-top: 1.5rem; }
 
 .alt__figure { margin: 0; }
-.alt__figure .plate { max-width: min(100%, 30rem); }
+.alt__figure .plate { max-width: 100%; }
 
 @media (min-width: 56rem) {
   /* Each picture hugs the outer edge of the page on its own side, so the run
