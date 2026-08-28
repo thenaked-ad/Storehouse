@@ -52,8 +52,9 @@
   --masthead-h: 5.5rem;
   --footer-h: 16rem;
 
-  /* The ground behind the journey. The masthead borrows it too. */
-  --ground-mid: #1f1f1f;
+  /* Grounds the masthead has to sit over, and borrows a backdrop from. */
+  --ground-mid:   #1f1f1f;   /* the journey  */
+  --ground-slate: #9a9a9a;   /* the services */
 
   --shell: 88rem;  /* maximum line of the page */
 
@@ -252,6 +253,13 @@ figcaption {
 .masthead[data-over="dark"] .nav a,
 .masthead[data-over="dark"] .menu-toggle { color: var(--canvas); }
 .masthead[data-over="dark"] .nav a:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.5); }
+
+/* Over the slate the masthead takes the same colour, so the bar does not read
+   as a separate band across the top of the section. */
+.masthead[data-over="slate"] {
+  background: color-mix(in srgb, var(--ground-slate) 92%, transparent);
+  border-bottom-color: transparent;
+}
 
 /* Over the mid ground the masthead keeps a backdrop: the journey's images pass
    underneath it, and dark type on a photograph is not readable. */
@@ -728,7 +736,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .services__preview {
     display: block;
     position: relative;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 3;
     background: var(--paper);
     overflow: hidden;
   }
@@ -749,6 +757,19 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 .service__figure { margin-top: 1.25rem; }
 .service__figure img { width: 100%; }
 @media (min-width: 56rem) { .service__figure { display: none; } }
+
+/* The services take the brand's slate. Charcoal type holds against it at AA;
+   white would not, at 2.6:1. */
+.section--slate {
+  background: var(--ground-slate);
+  --rule: rgba(31, 31, 31, 0.3);
+  --rule-strong: rgba(31, 31, 31, 0.55);
+  --ink-muted: #3c3c3c;
+  --paper: rgba(31, 31, 31, 0.12);
+}
+.section--slate .ledger,
+.section--slate .service__index { color: rgba(31, 31, 31, 0.55); }
+.section--slate .spec li::before { background: rgba(31, 31, 31, 0.5); }
 
 /* Alternating entries: text and picture swap sides down the page, so the eye
    is carried from one to the next rather than reading a single column. */
@@ -782,8 +803,17 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 .alt__figure { margin: 0; }
 .alt__figure .plate { max-width: min(100%, 30rem); }
+
 @media (min-width: 56rem) {
-  .alt[data-side="right"] .alt__figure .plate { margin-left: auto; }
+  /* Each picture hugs the outer edge of the page on its own side, so the run
+     of them reads as two clean columns rather than drifting about the middle.
+     data-side names where the TEXT sits, so the picture takes the other edge. */
+  .alt[data-side="left"]  .alt__figure .plate { margin-left: auto; margin-right: 0; }
+  .alt[data-side="right"] .alt__figure .plate { margin-left: 0; margin-right: auto; }
+
+  /* The words hold a fixed measure against the same two edges. */
+  .alt__text { max-width: 30rem; }
+  .alt[data-side="right"] .alt__text { margin-left: auto; }
 }
 
 /* --------------------------------------------------------------------------

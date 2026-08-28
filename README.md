@@ -129,14 +129,14 @@ on each link and drawn by CSS.
 
 ## The Journey
 
-One work travelling the whole service: received, photographed, wrapped,
-boarded, crated, stored, moved, installed. Eight real frames from the
-Storehouse shoot, in the order they happen.
+One work travelling the whole service: received, wrapped, boarded, crated,
+stored, moved, installed, photographed. Eight real frames from the Storehouse
+shoot, in the order they happen.
 
-Four to a row, the full width of the window. Stages 01 to 04 run along the top;
-05 to 08 run back the other way along the bottom, and one line carries the eye
-through the whole thing: along the top row, out of 04 into the right-hand
-gutter, down, and back in to 05. That turn is a three-sided border on
+Four to a row, the full width of the window, on the charcoal ground. Stages 01
+to 04 run along the top; 05 to 08 run back the other way along the bottom, and
+one line carries the eye through the whole thing: along the top row, out of 04
+into the right-hand gutter, down, and back in to 05. That turn is a three-sided border on
 `.journey__line--turn`, sitting in space reserved by the track's right padding.
 
 Each frame is a card at 3:4 with its number top-left and its label
@@ -156,11 +156,19 @@ To change a stage, edit `index.html` and drop a replacement 3:4 image into
 ## Alternating entries
 
 Exhibition Services and Collection Management lay each entry out as text beside
-a picture, swapping sides down the page so there is a flow to it. The side is
-set by `data-side` on the section rather than counted with `:nth-of-type`,
-which would also count the page heading and flip the whole sequence.
+a picture, swapping sides down the page so there is a flow to it.
+
+Both the words and the picture hold the same two columns all the way down: text
+and image each occupy exactly one edge of the page and alternate, rather than
+drifting about the middle. `data-side` names where the *text* sits; the picture
+takes the other edge. It is an attribute rather than `:nth-of-type`, which would
+also count the page heading and invert the whole sequence.
 
 ## The services list
+
+On the slate ground, first section below the fold. Charcoal type holds against
+`--ground-slate` at AA; white would not, at 2.6:1. `.section--slate` re-points
+the rule, muted-ink and paper tokens so everything inside it adjusts together.
 
 Compact rows, one per service, opening as ordinary `<details>`. On a wide screen
 the image of whichever service you are pointing at appears in the column beside
@@ -215,6 +223,13 @@ in the order they were given. Which name belongs to which photograph has not
 been confirmed — swap the two `<figcaption>` lines if they are the wrong way
 round. Roles are not shown; the business card in the brand document gives Fred
 Henderson as Director, but Antony Cundy's is not recorded anywhere we have.
+
+## The order of the home page
+
+Hero, services on slate, the journey cards on charcoal, Location in
+ultramarine, case studies, then the closing enquiry block. The masthead reads
+the ground beneath it as it goes — light, slate, mid, dark, light — and takes a
+matching backdrop each time.
 
 ## Case studies
 
