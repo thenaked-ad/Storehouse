@@ -160,16 +160,19 @@
     var draw = function () {
       drawing = false;
       dot.style.transform = "translate3d(" + dx + "px," + dy + "px,0)";
-      if (pending) { classify(pending); pending = null; }
+      if (pending) { classify(pending); pending = null; }   // off the hot path
     };
 
     // Position is the only thing touched per frame. Hit-testing writes to the
     // DOM only when the answer actually changes, which is what was making the
     // dot feel a step behind the mouse.
-    var lastOver = null, lastGround = null, pending = null;
+    var lastOver = null, lastGround = null, pending = null, lastTarget = null;
 
     var classify = function (el) {
-      if (!el || !el.closest) return;
+      // The two closest() walks are the only real work here, so they are
+      // skipped entirely while the pointer stays over the same element.
+      if (!el || !el.closest || el === lastTarget) return;
+      lastTarget = el;
       var over = el.closest("a, button, summary, [role='button'], input, label") ? "link" : "";
       if (over !== lastOver) { dot.dataset.over = over; lastOver = over; }
       var ground = el.closest("[data-dark], .panel, .footer, .menu") ? "dark" : "";
@@ -179,6 +182,7 @@
     document.addEventListener("pointermove", function (e) {
       if (e.pointerType && e.pointerType !== "mouse") return;
       dx = e.clientX; dy = e.clientY;
+      dot.style.transform = "translate3d(" + dx + "px," + dy + "px,0)";
       pending = e.target;
       if (!drawing) { drawing = true; window.requestAnimationFrame(draw); }
     }, { passive: true });

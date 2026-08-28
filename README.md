@@ -258,9 +258,11 @@ image inside the panel it opens. The pairing is set by `data-service` on each
 
 An ultramarine dot replaces the cursor, as on Dougal's holding page, opening up
 over anything you can act on and inverting to white over the dark and blue
-grounds. Position is the only thing updated per frame; hit-testing writes to the
-DOM only when the answer changes, which is what keeps it from feeling a step
-behind the mouse.
+grounds. It is painted straight from the pointer event rather than waiting for the next
+animation frame — a rendering opportunity can be a frame away, and that reads
+as lag. The two `closest()` walks that decide its size and colour are skipped
+entirely while the pointer stays over the same element, and the dot is given
+its own compositor layer so moving it never repaints the page.
 
 It is gated three ways — a real mouse, scripting available, and motion not
 reduced — and the native cursor is only hidden once the dot is confirmed
