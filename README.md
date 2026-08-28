@@ -224,6 +224,15 @@ The picture column keeps the larger share whichever side it is on
 (`1fr 1.12fr`, reversed for `data-side="right"`), so every photograph on the
 page comes out the same size — verified identical from 768px to 2560px.
 
+There is an empty fourth row in the grid, `slack`, sized `1fr`. It exists to
+absorb however much taller the picture is than the words beside it. Without it
+that slack is shared between the head and tail rows, which pushes the service
+points away from the paragraph by a different amount on every section,
+depending on how long the paragraph happens to be.
+
+The call to action is `.btn`: an outlined button in the brand blue that fills
+on hover.
+
 Every entry picture is 3:2 at every width and on all three pages; only the lead
 is 4:3. There is no breakpoint where a ratio changes. No picture carries a caption on these pages.
 

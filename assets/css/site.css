@@ -833,7 +833,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 .svc-row__figure { margin: 0; }
 .svc-row__figure .plate { width: 100%; }
 
-.svc-row__tail { display: grid; gap: 1.1rem; align-content: start; }
+.svc-row__tail { display: grid; gap: 1.6rem; align-content: start; }
 .svc-row__tail .spec { margin: 0; }
 .svc-row__tail .spec li { color: var(--ink-strong-muted); }
 .svc-row__tail .spec li::before { background: var(--ink-strong-muted); }
@@ -842,21 +842,28 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   .svc-row {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
     column-gap: clamp(2rem, 3.6vw, 3.75rem);
-    row-gap: clamp(1.25rem, 2vw, 1.75rem);
+    row-gap: 0.9rem;                 /* points sit close under the text */
     align-items: start;
+    /* The empty fourth row takes up whatever the picture is taller by. Without
+       it that slack is shared between the head and tail rows, which pushes the
+       points away from the paragraph by a different amount on every section. */
+    grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
       "rule rule"
       "head figure"
-      "tail figure";
+      "tail figure"
+      "slack figure";
   }
   .svc-row[data-side="right"] {
     /* The picture column keeps the larger share whichever side it is on, so
        every photograph on the page comes out the same size. */
     grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
       "rule rule"
       "figure head"
-      "figure tail";
+      "figure tail"
+      "figure slack";
   }
   .svc-row::before { grid-area: rule; }
 
@@ -1022,6 +1029,29 @@ figure { margin: 0; }
 .link--trail:hover { color: var(--ultramarine); }
 .link--trail .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
 .link--trail:hover .arrow { transform: translateX(0.3rem); }
+
+/* An outlined button in the brand blue, for the call to action on a service. */
+.btn {
+  --arrow-w: 1.6em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.62rem 1.05rem;
+  border: 1px solid var(--ultramarine);
+  color: var(--ultramarine);
+  background: none;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+.btn:hover { background: var(--ultramarine); color: var(--canvas); }
+.btn .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
+.btn:hover .arrow { transform: translateX(0.25rem); }
+.btn--self { justify-self: start; }
 
 
 .action {
