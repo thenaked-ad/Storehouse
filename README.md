@@ -145,27 +145,31 @@ on each link and drawn by CSS.
 
 One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed, photographed. Eight real frames from the Storehouse
-shoot, in the order they happen.
+shoot, in the order they happen, on the charcoal ground.
 
-Four to a row, the full width of the window, on the charcoal ground. Stages 01
-to 04 run along the top; 05 to 08 run back the other way along the bottom, and
-one line carries the eye through the whole thing: along the top row, out of 04
-into the right-hand gutter, down, and back in to 05. That turn is a three-sided border on
-`.journey__line--turn`, sitting in space reserved by the track's right padding.
+One line of 3:4 cards, each with its number top-left and its label bottom-left
+against a gradient scrim. The row drifts along on its own at about 30px a
+second and can be dragged; a drag carries momentum when you let go, and a click
+nudges it. A "Drag" mark sits at the right-hand edge to say so.
 
-Each frame is a card at 3:4 with its number top-left and its label
-bottom-left, both held against the picture by a gradient scrim. There is no
-heading or standfirst: the sequence speaks for itself.
+The loop is seamless because the eight cards are cloned once at runtime and the
+scroll position wraps at half the width. The clones are `aria-hidden`.
 
-On a phone the row becomes a single swipeable strip and the lines are dropped.
+Two things worth knowing if you touch this:
 
-The ground is `--ground-mid`. The masthead borrows the same value for its
-backdrop over this section rather than going transparent, because the pictures
-pass underneath it and dark type on a photograph is not readable.
+- The drift keeps its own `pos` variable rather than adding to `scrollLeft`
+  directly. The browser rounds `scrollLeft` to whole pixels, so a sub-pixel
+  step added to it each frame is rounded away and nothing moves at all.
+- The strip runs the full width of the window and insets its own content with
+  padding. It used to pull itself out with negative margins, which escaped the
+  page and scrolled the whole site sideways below 1024px.
+
+Drift and cloning are desktop-only and are skipped for reduced motion: on a
+phone a strip that moves while you are reading it is a nuisance, so it stays a
+plain swipe. Without JavaScript it is eight cards you can scroll by hand.
 
 To change a stage, edit `index.html` and drop a replacement 3:4 image into
-`assets/img/journey/`. If you add or remove one, the `grid-area` rules in
-`site.css` place the eight stages explicitly and will need adjusting.
+`assets/img/journey/`.
 
 ## The three service pages
 
@@ -173,30 +177,18 @@ Storage & Handling, Exhibition Services and Collection Management all share one
 shape, built to Tom's reference:
 
 1. `.page-split` — the number, a large two-line title and the standfirst in a
-   narrow left column; a 4:3 picture beside them, running to the right edge,
-   caption below its left edge.
-2. `.two-up` — the first two entries side by side, divided by a vertical rule,
-   each with heading, paragraph, any specification list, then its own 3:2
-   picture below and a caption.
-3. `.alt` rows for the rest — text and picture on opposite edges, alternating,
-   text vertically centred against the picture.
+   narrow left column; a 4:3 picture beside them, running to the right edge.
+2. `.entry-grid` — every entry as a card, two to a row, ruled between and
+   divided by a vertical rule, each with heading, paragraph, any specification
+   list, then its own 3:2 picture beneath.
 
-The picture ratios are 4:3 for the head and 5:3 for every entry below it, with
-the pair on Exhibition Services and Collection Management at 3:2. Alternating
-rows are the same layout and the same ratio, simply mirrored. Each image is
-cropped to its placement's ratio at source, with a focal point set per picture,
-rather than being cropped twice by `object-fit`.
+Storage & Handling has six entries and so runs to three rows; the other two
+have four and run to two. No picture carries a caption on these pages.
 
-On a phone every picture below the lead takes 5:3, so the three pages read as
-one rhythm.
+The picture ratios are 4:3 for the head and 3:2 for every entry below it. On a
+phone every entry picture takes 5:3, so the three pages read as one rhythm.
 
-Storage & Handling has six entries rather than four, so it runs head, then
-01.1 full width (`.entry-full` — the words in two columns, the picture across
-the page), then five alternating rows starting on the left.
 
-`data-side` names where the *text* sits; the picture takes the other edge. It is
-an attribute rather than `:nth-of-type`, which would also count the page heading
-and invert the whole sequence.
 
 ## The services list
 
