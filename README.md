@@ -83,6 +83,8 @@ Everything visual is controlled by tokens at the top of `assets/css/site.css`.
 | `--slate` | `#9A9A9A` | Index numbers, captions, quiet labels. |
 | `--canvas` | `#FDFDFD` | The page. |
 | `--paper` | `#F4F4F4` | Behind an image while it loads. |
+| `--ink-muted` | `#6B6B6B` | Captions and secondary text. |
+| `--ink-strong-muted` | `#4A4A4A` | Section numbers and service points, where a little more contrast helps. Same charcoal-to-slate family; not a new brand colour. |
 
 Ultramarine is used sparingly and deliberately — once per page as a full-bleed
 panel, and otherwise only on things you can act on. That restraint is the point;
@@ -205,10 +207,22 @@ shape, built to Tom's reference:
 Exhibition Services and Collection Management have four entries each, two to a
 row in even halves (`.entry-grid`).
 
-Storage & Handling has six and takes a row each (`.entry-row`): a three-column
-grid with the words in one outer third and the picture in the other, the middle
-third left open, turned round on every row. On a phone both layouts stack to a
-single column, words then picture.
+Storage & Handling has six and takes a row each (`.svc-row`), in a container
+capped at 1400px and centred. Two columns sitting close together — the words
+one side, the picture the other, turned round on each row — with a short rule
+at the head of every section aligned to the grid rather than ruled across the
+page.
+
+Each row has three parts, and the split matters: `__head` (number, heading,
+description), `__figure`, and `__tail` (service points and the call to action).
+On a wide screen `grid-template-areas` puts head and tail in one column with
+the picture beside them; on a phone the areas fall away and the DOM order gives
+number, heading, description, picture, points, call to action, which is the
+order the brief asked for.
+
+The picture column keeps the larger share whichever side it is on
+(`1fr 1.12fr`, reversed for `data-side="right"`), so every photograph on the
+page comes out the same size — verified identical from 768px to 2560px.
 
 Every entry picture is 3:2 at every width and on all three pages; only the lead
 is 4:3. There is no breakpoint where a ratio changes. No picture carries a caption on these pages.

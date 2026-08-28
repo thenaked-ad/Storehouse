@@ -63,6 +63,8 @@
 
   --ink:         var(--charcoal);
   --ink-muted:   #6b6b6b;
+  /* Charcoal lifted toward slate: darker than --ink-muted, same family. */
+  --ink-strong-muted: #4a4a4a;
   --rule:        rgba(31, 31, 31, 0.16);
   --rule-strong: rgba(31, 31, 31, 0.4);
 
@@ -794,30 +796,78 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 .entry-full__text .spec { margin-top: 1.5rem; }
 .entry-full__figure { margin: 0; }
 
-/* One entry to a row across three columns: the words in one outer third, the
-   picture in the other, the middle left open. Each row turns the arrangement
-   round, so the page reads down the page in a zig-zag. */
-.entry-row {
+/* One entry to a row. The words sit in one column and the picture beside them
+   in the other, close enough to read as a pair; the arrangement turns round on
+   each row. The specification and the call to action fall below the words on a
+   wide screen, and below the picture on a narrow one. */
+.svc-row {
+  --svc-shell: 87.5rem;                       /* 1400px */
+  width: min(100% - (var(--gutter) * 2), var(--svc-shell));
+  margin-inline: auto;
   display: grid;
-  gap: var(--stack) var(--gutter);
-  grid-template-columns: 1fr;
-  align-items: center;
-  padding-block: clamp(2rem, 1rem + 2.6vw, 3.25rem);
-  border-top: 1px solid var(--rule);
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1.1rem, 2vw, 1.6rem);
+  padding-block: clamp(1.4rem, 0.8rem + 1.6vw, 2.2rem);
 }
-@media (min-width: 56rem) {
-  .entry-row { grid-template-columns: repeat(3, 1fr); }
-  .entry-row__text   { grid-column: 1; grid-row: 1; }
-  .entry-row__figure { grid-column: 3; grid-row: 1; }
-  .entry-row[data-side="right"] .entry-row__text   { grid-column: 3; }
-  .entry-row[data-side="right"] .entry-row__figure { grid-column: 1; }
-}
-.entry-row__text .ledger { display: block; margin-bottom: 0.7rem; }
-.entry-row__text h2 { font-size: var(--t-title); margin-bottom: 1rem; }
-.entry-row__text .spec { margin-top: 1.25rem; }
-.entry-row__figure { margin: 0; }
 
-/* Alternating entries: text and picture swap sides down the page, so the eye
+/* A short rule at the head of each row, set to the content grid rather than
+   ruled across the whole page. */
+.svc-row::before {
+  content: "";
+  display: block;
+  width: 4.5rem;
+  height: 1px;
+  background: var(--rule-strong);
+  margin-bottom: clamp(0.9rem, 1.6vw, 1.4rem);
+}
+
+.svc-row__head .ledger {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: var(--ink-strong-muted);
+}
+.svc-row__head h2 { font-size: var(--t-title); margin-bottom: 0.9rem; }
+.svc-row__head p { max-width: 34ch; }        /* a comfortable line */
+.svc-row__head p + p { margin-top: 0.8em; }
+
+.svc-row__figure { margin: 0; }
+.svc-row__figure .plate { width: 100%; }
+
+.svc-row__tail { display: grid; gap: 1.1rem; align-content: start; }
+.svc-row__tail .spec { margin: 0; }
+.svc-row__tail .spec li { color: var(--ink-strong-muted); }
+.svc-row__tail .spec li::before { background: var(--ink-strong-muted); }
+
+@media (min-width: 56rem) {
+  .svc-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    column-gap: clamp(2rem, 3.6vw, 3.75rem);
+    row-gap: clamp(1.25rem, 2vw, 1.75rem);
+    align-items: start;
+    grid-template-areas:
+      "rule rule"
+      "head figure"
+      "tail figure";
+  }
+  .svc-row[data-side="right"] {
+    /* The picture column keeps the larger share whichever side it is on, so
+       every photograph on the page comes out the same size. */
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    grid-template-areas:
+      "rule rule"
+      "figure head"
+      "figure tail";
+  }
+  .svc-row::before { grid-area: rule; }
+
+  .svc-row__head   { grid-area: head; }
+  .svc-row__tail   { grid-area: tail; }
+  .svc-row__figure { grid-area: figure; }
+
+  .svc-row__head p { max-width: 42ch; }
+}
+
+/* Alternating entries: text and picture swap sides down the page, so the eye/* Alternating entries: text and picture swap sides down the page, so the eye
    is carried from one to the next rather than reading a single column. */
 .alt { position: relative; padding-block: clamp(2rem, 1rem + 2.6vw, 3.25rem); }
 .alt::before {
