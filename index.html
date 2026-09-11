@@ -122,35 +122,46 @@
   <!-- ============================================================ hero -->
   <div class="hero-field" data-hero-field>
   <section class="hero shell">
-    <h1 class="hero__mark">
-      <span class="visually-hidden">Storehouse</span>
-      <svg viewBox="0 0 702 45.31" aria-hidden="true"><use href="#wordmark"/></svg>
-    </h1>
+    <div class="hero__centre">
+      <h1 class="hero__mark">
+        <span class="visually-hidden">Storehouse</span>
+        <svg viewBox="0 0 702 45.31" aria-hidden="true"><use href="#wordmark"/></svg>
+      </h1>
 
-    <ul class="hero__disciplines">
-      <li>Exhibition Consulting</li>
-      <li>Collection Management</li>
-      <li>Artist</li>
-      <li>Artist Estate</li>
-    </ul>
-
-    <div class="marginalia" style="margin-top:clamp(3rem,8vw,6rem)">
-      <p class="aside label label--sticky">Overview</p>
-      <div class="main">
-        <p class="hero__lead">An exhibition or a collection has more moving parts than any one person can hold in their head. Storehouse is a consultancy for galleries, artists, collectors and estates: we run the parts of a project that sit outside your own expertise &mdash; the artwork lists, the agreements, the budgets, the cataloguing &mdash; without taking over the vision behind it.</p>
-        <p class="hero__lead">Underneath the consultancy sits our own logistics operation: storage, transport, packing, installation and photography, from a secure, climate-controlled facility in Acton, north-west London. One team, one set of records, from the first condition report to the wall.</p>
-      </div>
+      <!-- The four come in one after another, wiped in from the left. It is a
+           CSS animation, so it needs no script; the whole thing is inside a
+           prefers-reduced-motion guard, which is why the resting state is the
+           visible one. -->
+      <ul class="hero__disciplines">
+        <li>Exhibition Consulting</li>
+        <li>Collection Management</li>
+        <li>Artist</li>
+        <li>Artist Estate</li>
+      </ul>
     </div>
 
-    <button class="scroll-cue" type="button" data-scroll-cue="#cases" aria-label="Scroll to the case studies">
+    <button class="scroll-cue" type="button" data-scroll-cue="#overview" aria-label="Scroll to the overview">
       <span class="chev" aria-hidden="true"></span>
     </button>
   </section>
   </div>
 
 
+  <!-- ========================================================= overview -->
+  <section class="panel panel--slate" id="overview" data-paper data-ground="slate"
+           aria-labelledby="overview-title">
+    <div class="shell marginalia">
+      <p class="aside label" id="overview-title">Overview</p>
+      <div class="main overview">
+        <p>An exhibition or a collection has more moving parts than any one person can hold in their head. Storehouse is a consultancy for galleries, artists, collectors and estates: we run the parts of a project that sit outside your own expertise &mdash; the artwork lists, the agreements, the budgets, the cataloguing &mdash; without taking over the vision behind it.</p>
+        <p>Underneath the consultancy sits our own logistics operation: storage, transport, packing, installation and photography, from a secure, climate-controlled facility in Acton, north-west London. One team, one set of records, from the first condition report to the wall.</p>
+      </div>
+    </div>
+  </section>
+
+
   <!-- ===================================================== case studies -->
-  <section class="shell band" id="cases" aria-labelledby="cases-title">
+  <section class="shell band band--head" id="cases" aria-labelledby="cases-title">
     <div class="section-head">
       <h2 id="cases-title">Case studies</h2>
     </div>
@@ -237,7 +248,7 @@
   </section>
 
   <!-- ========================================================= facility -->
-  <section class="panel panel--slate" aria-labelledby="facility-title" data-paper>
+  <section class="panel panel--charcoal" aria-labelledby="facility-title" data-paper data-ground="charcoal">
     <div class="shell marginalia">
       <p class="aside label">Location</p>
       <div class="main">
@@ -256,7 +267,7 @@
       </div>
   </section>
   <!-- ==================================================== get in touch -->
-  <section class="panel" data-paper aria-labelledby="enquire-title">
+  <section class="panel" data-paper data-ground="paper" aria-labelledby="enquire-title">
     <div class="shell marginalia">
       <p class="aside ledger">Enquiries</p>
       <div class="main">

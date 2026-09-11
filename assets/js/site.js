@@ -42,9 +42,10 @@
       var ground = "blue";
       for (var i = 0; i < paperZones.length; i++) {
         if (straddles(paperZones[i])) {
-          // Location is on the slate, which needs its own backdrop rather than
-          // the paper one — a paper bar over slate reads as a stray rectangle.
-          ground = paperZones[i].classList.contains("panel--slate") ? "slate" : "paper";
+          // Each section names its own ground, so a new one only has to carry
+          // data-ground and a matching masthead rule. A bar in the wrong
+          // colour over a section reads as a stray rectangle.
+          ground = paperZones[i].dataset.ground || "paper";
           break;
         }
       }

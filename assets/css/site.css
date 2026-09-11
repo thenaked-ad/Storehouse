@@ -214,6 +214,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 .band { padding-block: var(--band); }
+/* A band holding nothing but its own heading: what follows brings its own
+   top padding, so this one does not need a bottom. */
+.band--head { padding-bottom: 0; }
 .band + .band { padding-top: 0; }
 
 /* A hairline above an entry, drawn inside the shell so it aligns with the text. */
@@ -235,7 +238,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 .ledger { color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 
-.label--sticky { position: sticky; top: 6.5rem; align-self: start; }
 
 /* The title in the margin — the brand document's own page structure. */
 .marginalia > .aside .ledger { display: block; margin-bottom: 0.6rem; }
@@ -307,6 +309,19 @@ figcaption {
 .masthead[data-over="paper"] .nav a:hover .nav__t { border-bottom-color: rgba(31, 31, 31, 0.4); }
 
 /* The same again over the slate, with the backdrop taken from that ground. */
+.masthead[data-over="charcoal"] {
+  background: color-mix(in srgb, var(--charcoal) 92%, transparent);
+  color: var(--canvas);
+}
+.masthead[data-over="charcoal"] .wordmark,
+.masthead[data-over="charcoal"] .nav a,
+.masthead[data-over="charcoal"] .menu-toggle { color: var(--canvas); }
+.masthead[data-over="charcoal"] .nav__n { color: rgba(253, 253, 253, 0.6); }
+.masthead[data-over="charcoal"] .nav a[aria-current="page"],
+.masthead[data-over="charcoal"] .nav a[aria-current="page"] .nav__n { color: var(--canvas); }
+.masthead[data-over="charcoal"] .nav a[aria-current="page"] .nav__t { border-bottom-color: var(--canvas); }
+.masthead[data-over="charcoal"] .nav a:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.5); }
+
 .masthead[data-over="slate"] {
   background: color-mix(in srgb, var(--slate) 92%, transparent);
   color: var(--canvas);
@@ -422,6 +437,12 @@ a.wordmark-link { text-decoration: none; }
               color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* With the overview moved out, the wordmark and the four disciplines are all
+   the first screen holds, so they sit on its centre line rather than at the
+   top of it. The auto margins take the free space above and below, which
+   leaves the cue at the foot of the screen without an auto of its own. */
+.hero__centre { margin-block: auto; }
+
 /* Drag across the first screen and it takes the brand colour under the
    pointer — a mark the width of the cursor, laid over everything rather than
    behind it, so it can cross type and image alike. */
@@ -457,6 +478,32 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   color: var(--ink);
 }
 .hero__disciplines li { display: flex; align-items: center; gap: 1.6rem; }
+
+/* One after another, wiped in from the left with a little lift under them.
+   The whole thing lives inside the motion guard, so the resting state — the
+   one anybody who has asked for less movement sees — is simply visible. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero__disciplines li {
+    animation: discipline-in 1.15s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero__disciplines li:nth-child(1) { animation-delay: 0.30s; }
+  .hero__disciplines li:nth-child(2) { animation-delay: 0.43s; }
+  .hero__disciplines li:nth-child(3) { animation-delay: 0.56s; }
+  .hero__disciplines li:nth-child(4) { animation-delay: 0.69s; }
+
+  @keyframes discipline-in {
+    from {
+      opacity: 0;
+      transform: translateY(0.55rem);
+      clip-path: inset(0 100% -20% 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(0 0 -20% 0);
+    }
+  }
+}
 .hero__disciplines li:not(:last-child)::after {
   content: "";
   width: 3px; height: 3px; border-radius: 50%;
@@ -470,19 +517,12 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .hero__disciplines li::after { display: none; }
 }
 
-.hero__lead {
-  font-size: var(--t-lead);
-  line-height: 1.5;
-  max-width: 38em;
-}
-.hero__lead + .hero__lead { margin-top: 1.4em; }
 
 
 /* A quiet indication that the page continues. */
 .scroll-cue {
   display: grid;
   place-items: center;
-  margin-top: auto;               /* settles at the foot of the first screen */
   align-self: center;
   width: 3rem; height: 3rem;
   padding: 0;
@@ -841,8 +881,23 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    -------------------------------------------------------------------------- */
 
 .panel { padding-block: var(--band); }
+.overview p { font-size: var(--t-lead); line-height: 1.5; max-width: 38em; }
+.overview p + p { margin-top: 1.3em; }
 
-/* Location takes the third brand value as its ground, set in white.
+/* Location takes the charcoal, which carries white at 15:1 and gives the page
+   a third value between the slate above it and the paper below. */
+.panel--charcoal {
+  --ground: var(--charcoal);
+  --ink: var(--canvas);
+  --ink-muted:        color-mix(in srgb, var(--canvas) 66%, var(--charcoal));
+  --ink-strong-muted: color-mix(in srgb, var(--canvas) 86%, var(--charcoal));
+  --accent: var(--canvas);
+  --rule:        rgba(253, 253, 253, 0.22);
+  --rule-strong: rgba(253, 253, 253, 0.5);
+  --plate-bg: color-mix(in srgb, var(--canvas) 12%, var(--charcoal));
+}
+
+/* The overview takes the third brand value as its ground, set in white.
    NOTE: slate is mid-toned, so white sits at about 2.8:1 against it — under
    the 4.5:1 every other surface on this site holds to. It is the client's
    call. If it ever needs to pass, the ground has to come down to about

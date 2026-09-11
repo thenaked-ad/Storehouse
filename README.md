@@ -311,6 +311,22 @@ easiest things to tuck underneath by mistake. The mark follows the same line.
 for it. On a narrow screen the row scrolls sideways rather than wrapping, so the
 bar is one line high at every width.
 
+## The four disciplines arriving
+
+The only entrance animation on the site. Each of the four is wiped in from the
+left with a small lift under it, 130ms apart, on the slow ease used everywhere
+else.
+
+It is a plain CSS animation with `animation-delay` doing the stagger — no
+script, nothing to observe, nothing to fail. The whole block sits inside
+`@media (prefers-reduced-motion: no-preference)`, which is deliberate and the
+right way round: the resting state in the stylesheet is the **visible** one, so
+anyone who has asked for less movement simply gets four lines of type. Putting
+the hidden state outside the guard would leave them looking at nothing.
+
+The wipe is `clip-path: inset(0 100% -20% 0)` opening to `inset(0 0 -20% 0)`.
+The `-20%` at the bottom is what stops the clip cutting the descenders off.
+
 ## The pointer
 
 A dot replaces the cursor, as on Dougal's holding page, opening up over anything
@@ -394,27 +410,41 @@ reads — there is a small drop shadow behind it for exactly that case.
 
 ## The order of the home page
 
-Hero, the four case studies, Location on the slate, then the closing enquiry
-block. The case studies come second because they are the quickest way to explain
-what a consultancy does.
+The first screen is the wordmark and the four disciplines on the ultramarine,
+and nothing else — no prose, no picture. They sit on the centre line (the auto
+margins on `.hero__centre` take the space above and below), with the scroll cue
+at the foot.
+
+Then: the overview on the slate, the four case studies back on the blue,
+Location on the charcoal, and the closing enquiry block on the paper. Four
+grounds in order down one page, which is the whole reason the palette is written
+as tokens rather than as colours.
 
 The masthead reads the ground beneath it as it goes and takes a matching
-backdrop: `data-over="blue"` by default, `data-over="paper"` where it is sitting
-on one of the paper sections. `assets/js/site.js` looks for `[data-paper]` and
-`.footer`, so a new paper section only has to carry `data-paper` to be picked up.
+backdrop: `data-over="blue"` by default, or the value of the section's own
+`data-ground` (`paper`, `slate`, `charcoal`). `assets/js/site.js` looks for
+`[data-paper]` and `.footer`, so **a new ground needs two things and no
+JavaScript**: `data-paper data-ground="x"` on the section, and a
+`.masthead[data-over="x"]` rule beside the others.
 
-## The paper and slate panels
+## The paper, slate and charcoal panels
 
 The enquiry block that closes each page is a `.panel` — paper, the inverse
-ground, and the one moment of rest in a blue page. Location adds `.panel--slate`, which is the third brand value used as a ground,
-set in white at the client's request.
+ground, and the one moment of rest in a blue page. The overview on the home page adds `.panel--slate`, the third brand value used
+as a ground, set in white at the client's request. Location adds
+`.panel--charcoal`, which carries white at 12:1 and up.
 
-> **Contrast note.** Slate is mid-toned, so white sits at about **2.8:1**
-> against it — under the 4.5:1 every other surface on this site holds to, and
-> under the 3:1 that even large text is meant to clear. It is a deliberate
-> client decision, recorded in the stylesheet next to the rule. If it ever has
-> to pass, the ground is the thing that has to move: about `#767676` puts white
-> at 4.5:1. The ink has nowhere left to go.
+> **Contrast note — the slate section.** Slate is mid-toned, so white sits at
+> about **2.6:1** against it: under the 4.5:1 every other surface on this site
+> holds to, and under the 3:1 that even large text is meant to clear. This
+> matters more than it used to, because the slate now carries the home page's
+> main paragraph rather than a four-line address block.
+>
+> It is a deliberate client decision, recorded in the stylesheet next to the
+> rule. Two ways out if it is ever wanted: bring the ground down to about
+> `#767676`, which still reads as slate and puts white at 4.5:1, or put the
+> charcoal ink back on the slate, which measures 5.9:1. The white ink itself
+> has nowhere left to go.
 
 The masthead has a third state to match, `data-over="slate"`. A paper bar over
 the slate reads as a stray rectangle, which is what the state exists to avoid.
