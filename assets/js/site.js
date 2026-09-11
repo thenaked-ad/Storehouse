@@ -265,11 +265,6 @@
     // scroll-padding, which lands the entry a little under the bar. Taking the
     // scroll ourselves puts it exactly where it belongs. Without the script the
     // plain anchor and scroll-padding still get within a few pixels.
-    var currentLink = null;
-    // The entry the reader asked for. Kept separately from the mark because the
-    // mark is cleared and redrawn on every scroll event of the journey there.
-    var askedFor = null;
-
     filter.addEventListener("click", function (e) {
       var a = e.target.closest ? e.target.closest("[data-filter-link]") : null;
       if (!a) return;
@@ -289,9 +284,9 @@
       if (window.history && window.history.replaceState) {
         window.history.replaceState(null, "", a.getAttribute("href"));
       }
-      askedFor = a;
     });
 
+    var currentLink = null;
     var markFilter = function () {
       // The entry you are "in" is the last one whose top has passed under the
       // chrome. Read off the elements rather than an observer, so the answer is
@@ -299,17 +294,9 @@
       // A shade below where a jump puts an entry, so arriving by the bar marks
       // the entry you asked for rather than the one above it.
       var line = filter.getBoundingClientRect().bottom + 34;
-      var found = null, bestTop = -Infinity;
+      var found = null;
       for (var i = 0; i < targets.length; i++) {
-        if (!targets[i]) continue;
-        var top = targets[i].getBoundingClientRect().top;
-        if (top > line) continue;
-        // Entries sit two to a row, so a pair shares a top to the pixel. On a
-        // tie the one the reader actually asked for wins, so a jump to the
-        // right-hand entry of a row stays on it instead of sliding to its
-        // neighbour; failing that the left-hand one does.
-        if (top > bestTop) { bestTop = top; found = fLinks[i]; }
-        else if (top === bestTop && fLinks[i] === askedFor) { found = fLinks[i]; }
+        if (targets[i] && targets[i].getBoundingClientRect().top <= line) found = fLinks[i];
       }
       if (found === currentLink) return;
       if (currentLink) currentLink.removeAttribute("data-current");

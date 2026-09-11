@@ -227,57 +227,55 @@ plain swipe. Without JavaScript it is eight cards you can scroll by hand.
 To change a stage, edit `index.html` and drop a replacement 3:4 image into
 `assets/img/journey/`.
 
-## One spine, and everything hung off it
-
-`.marginalia` is the only layout primitive on the site: a label column and a
-content column, `minmax(9rem, 1fr)` and `minmax(0, 3fr)` with the page gutter
-between them. It came from page 11 of the brand document, and everything now
-sits on it — the overview, Location, Enquiries, the case studies, the service
-entries and the footer.
-
-That is not decoration. Measured at 1440, every label, number and wordmark on
-the home page starts at **x = 47**, and every piece of content beside them at
-**x = 419**, footer included. One vertical line down the left of the page, and
-one down the middle, on every section of every page.
-
-If you add a section, give it `class="shell marginalia"`, put the label in a
-child with `class="aside"` and the content in one with `class="main"`, and it
-will line up with the rest without your having to think about it.
-
 ## The three service pages
 
-Storage & Handling, Exhibition Services and Collection Management share one
-shape:
+Storage & Handling, Exhibition Services and Collection Management all share one
+shape, built to Tom's reference:
 
-1. `.page-head` — the number and the title.
-2. `.filter` — the sticky jump bar (see below).
-3. `.entries` — a `.marginalia` section whose content column holds `.entry-pair`,
-   a two-column grid of entries.
+1. `.page-split` — the number, a large two-line title and the standfirst in a
+   narrow left column; a 4:3 picture beside them, running to the right edge.
+2. `.entry-grid` — every entry as a card, two to a row, ruled between and
+   divided by a vertical rule, each with heading, paragraph, any specification
+   list, then its own 3:2 picture beneath.
 
-Each entry carries a square plate, the number and heading above it, and the
-sentence or two of copy beneath. The entries on these pages hold one or two
-lines each; a full-width row per entry left a very tall photograph beside a
-single sentence, which is what this replaced. The pages came down by **a third
-to a bit over two fifths** — Exhibition Services 4091px → 2347px, Collection
-Management 4854px → 2993px, Storage & Handling 6324px → 4267px, all at 1440.
+Exhibition Services and Collection Management have four entries each, two to a
+row in even halves (`.entry-grid`).
 
-The plates are square rather than 4:5 for the same reason. A 3:4 original gives
-up only its top and bottom quarter to a square, and the fifteen of them together
-went from 1167KB to 757KB in the process.
+Storage & Handling has six and takes a row each (`.svc-row`), in a container
+capped at 1400px and centred. Two columns sitting close together — the words
+one side, the picture the other, turned round on each row — with a short rule
+at the head of every section aligned to the grid rather than ruled across the
+page.
 
-### Subgrid
+Each row has three parts, and the split matters: `__head` (number, heading,
+description), `__figure`, and `__tail` (service points and the call to action).
+On a wide screen `grid-template-areas` puts head and tail in one column with
+the picture beside them; on a phone the areas fall away and the DOM order gives
+number, heading, description, picture, points, call to action, which is the
+order the brief asked for.
 
-`.entry` is `grid-template-rows: subgrid` spanning three of the parent's rows —
-heading, plate, words. That is what puts the plates of a pair on exactly one
-line however long the two headings are. Where subgrid is not supported the
-declaration is dropped, `.entry` stays a plain grid, and the entry simply
-stacks: same order, same content, plates no longer aligned to the pixel.
+The picture column keeps the larger share whichever side it is on
+(`1fr 1.12fr`, reversed for `data-side="right"`), so every photograph on the
+page comes out the same size — verified identical from 768px to 2560px.
 
-### The margin label
+There is an empty fourth row in the grid, `slack`, sized `1fr`. It exists to
+absorb however much taller the picture is than the words beside it. Without it
+that slack is shared between the head and tail rows, which pushes the service
+points away from the paragraph by a different amount on every section,
+depending on how long the paragraph happens to be.
 
-`.entries > .aside` is sticky, offset by `calc(var(--masthead-h) +
-var(--filter-h, 0px) + 1.6rem)`, so the label rides down the margin beside the
-entries instead of leaving the column empty below the first row.
+The call to action is `.btn`: an outlined button in the brand blue that fills
+on hover.
+
+Every entry picture is 3:2 at every width and on all three pages; only the lead
+is 4:3. There is no breakpoint where a ratio changes. No picture carries a caption on these pages.
+
+Cards are flex columns with the picture pushed to the foot (`margin-top: auto`).
+Grid items are the same height across a row, so this lines every picture up
+with the one beside it however much text sits above it.
+
+
+
 
 ## The services list (removed)
 
@@ -346,20 +344,21 @@ devices never see it.
 
 ## The first screen
 
-The hero is `100svh`, minus the real masthead height that JavaScript measures
-into `--masthead-h`, **minus another `clamp(3rem, 7vh, 5.5rem)`**. That last
-term is the point of it: the first screen deliberately stops short of the fold,
-so a band of the slate section below shows underneath it and says the page
-continues without having to announce it.
+The hero is `100svh` minus the real masthead height, which JavaScript measures
+and writes to `--masthead-h`, so it ends **exactly** at the fold on any viewport
+— nothing of the section below shows above it. Checked at ten sizes from
+1600x1000 down to 360x560 and a landscape phone: 0px of slate visible at every
+one. If you ever put a term back into that `calc()`, that is what you are
+trading away.
 
-Inside, `.hero__centre` takes `margin-top: auto` — the free space is all spent
-above it, so the wordmark sits low on the screen the way a title sits low on an
-exhibition poster, with the four disciplines under it and the cue beneath them.
-`.hero__mark` is `width: 100%`, so the wordmark runs out to the page's right
-margin rather than stopping at a measure of its own.
+`scroll-padding-top` uses the same value, so anchor links land just under the
+masthead.
 
-`scroll-padding-top` uses `--masthead-h` plus `--filter-h`, so anchor links land
-under both bars rather than beneath them.
+Inside, `.hero__centre` takes a single auto margin **above** it, so the free
+space is all spent there and the wordmark sits low on the screen the way a title
+sits low on an exhibition poster, with the four disciplines under it and the cue
+beneath them. `.hero__mark` is `width: 100%`, so the wordmark runs out to the
+page's right margin rather than stopping at a measure of its own.
 
 Dragging across it draws a mark in the paper colour, the width of the cursor dot,
 exactly under the pointer. It is a `<canvas>` laid over the hero's content
@@ -467,41 +466,14 @@ scrolled into view.
 
 ## Case studies
 
-Four in full: Exhibition Consulting, Collection Management, Artist, Artist
-Estate. The copy is Fred's, from the consulting document.
+Four in full, directly under the first screen: Exhibition Consulting,
+Collection Management, Artist, Artist Estate. The copy is Fred's, from the
+consulting document.
 
-Each is a `.case`, which is a `.marginalia` section: the number in the margin,
-lining up with Overview and Location and Enquiries, and everything else in the
-content column. Inside that column `.case__body` is a two-column grid whose
-channel is held to `clamp(5rem, 5.5vw, 7.5rem)` — **80px at 1440** — so the
-words and the picture read as one thing rather than two things either side of a
-gap.
-
-What changes between them is the arrangement, set by `data-layout` on the
-section, so four case studies read as four spreads rather than the same spread
-four times:
-
-| | |
-|---|---|
-| **a** Exhibition Consulting | the title runs the width of the pair; words left, picture right |
-| **b** Collection Management | the picture takes the left and drops below the top line; words right |
-| **c** Artist | compact — a wide column of words, a smaller picture held to the top |
-| **d** Artist Estate | a narrow column of words against the largest picture of the four |
-
-They share one grid and one set of alignment points; only the column ratios and
-the row spans differ. Adding a fifth means adding a letter, not a layout.
-
-## The last page
-
-`.panel--close` — the closing invitation on every page — carries
-`padding-bottom: clamp(4.5rem, 11vh, 8.5rem)`, so the enquiry links are given
-room to finish rather than running straight into what follows.
-
-The rule between it and the footer is drawn on `.footer > .shell` rather than
-across the whole window, so it starts and stops on the same two lines as every
-other rule on the site. The footer itself is on the spine: the wordmark in the
-margin column, `.footer__cols` — Services, Company, Contact — in the content
-column.
+They are built from the same `.svc-row` as the service entries, alternating side
+down the page: `.svc-row__head` takes the number, the title and the situation,
+and `.svc-row__tail` takes what Storehouse did about it and the link on to the
+relevant page.
 
 ## The map
 
