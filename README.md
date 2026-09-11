@@ -360,6 +360,28 @@ sits low on an exhibition poster, with the four disciplines under it and the cue
 beneath them. `.hero__mark` is `width: 100%`, so the wordmark runs out to the
 page's right margin rather than stopping at a measure of its own.
 
+Two values decide how low the whole group sits, and nothing else needs to move:
+`.hero`'s `padding-bottom` and `.hero__centre`'s `margin-bottom`. At 1440 they
+put the cue 10px above the fold and the wordmark 135px above it.
+
+### The cue arrives late
+
+`.scroll-cue` carries `animation: cue-in 0.9s ease 2.2s backwards`, so the first
+thing anyone sees is the wordmark on its own; the arrow fades up a couple of
+seconds later.
+
+The fill mode is **`backwards`, not `both`**, and that is the whole trick. CSS
+animations outrank author declarations — inline styles included — so a finished
+`both` animation would go on asserting `opacity: 1` and the script could never
+fade the cue out once you started scrolling. `backwards` holds the opening frame
+through the delay and then stops contributing, which leaves the inline style
+free to work. Measured: opacity 0 at 0.4s, 1.2s and 2.1s; 0.92 at 2.8s; 1 at
+3.6s; 0 again after scrolling 400px; back to 1 at the top of the page.
+
+The block sits inside the reduced-motion guard, so anyone who has asked for less
+movement gets the cue immediately and without the fade. With JavaScript off the
+entrance still happens — it is CSS, and nothing about it needs a script.
+
 Dragging across it draws a mark in the paper colour, the width of the cursor dot,
 exactly under the pointer. It is a `<canvas>` laid over the hero's content
 rather than behind it, so a stroke can cross type and photograph alike, and it

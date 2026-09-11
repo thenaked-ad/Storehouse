@@ -428,7 +428,7 @@ a.wordmark-link { text-decoration: none; }
 
 .hero {
   padding-top: clamp(2.5rem, 6vw, 5.5rem);
-  padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  padding-bottom: clamp(0.5rem, 1.2vh, 1rem);
   min-height: calc(100vh - var(--masthead-h));
   min-height: calc(100svh - var(--masthead-h));
   display: flex;
@@ -440,7 +440,7 @@ a.wordmark-link { text-decoration: none; }
 /* The wordmark sits low on the screen rather than on its centre line, the way a
    title sits low on an exhibition poster. One auto margin, above it, so the free
    space is all spent there and the cue follows underneath. */
-.hero__centre { margin-top: auto; margin-bottom: clamp(1.25rem, 4vh, 3rem); }
+.hero__centre { margin-top: auto; margin-bottom: clamp(0.6rem, 1.6vh, 1.25rem); }
 
 /* Drag across the first screen and it takes the brand colour under the
    pointer — a mark the width of the cursor, laid over everything rather than
@@ -540,6 +540,12 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   transform: rotate(45deg);
 }
 @media (prefers-reduced-motion: no-preference) {
+  .scroll-cue { animation: cue-in 0.9s ease 2.2s backwards; }
+  @keyframes cue-in {
+    from { opacity: 0; transform: translateY(-0.4rem); }
+    to   { opacity: 1; transform: none; }
+  }
+
   .scroll-cue .chev { animation: cue 2.6s ease-in-out infinite; }
   @keyframes cue {
     0%, 60%, 100% { transform: rotate(45deg) translate(0, 0); }
