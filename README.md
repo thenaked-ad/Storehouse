@@ -290,8 +290,9 @@ image inside the panel it opens. The pairing is set by `data-service` on each
 
 ## The jump filter
 
-One sticky line under the masthead on `storage-and-handling.html`, in place of
-the title picture that used to be there. In the markup it is a plain list of
+One sticky line under the masthead on **all three service pages**, in place of
+the title picture that used to be there. Each page is now the same shape: a
+title, the filter, then its entries alternating side down the page. In the markup it is a plain list of
 anchors and works as a contents list on its own; the script adds two things:
 
 - the mark showing which entry you are currently in front of, and
@@ -301,6 +302,10 @@ anchors and works as a contents list on its own; the script adds two things:
   **layout** position rather than a bounding rect — an entry that has not been
   revealed yet is still translated down by the reveal, and scrolling to a
   transformed position lands it short once the transform comes off.
+
+The jump clears the bar by 26px rather than sitting flush against it, because
+the first things in an entry are its hairline and its number, and those are the
+easiest things to tuck underneath by mistake. The mark follows the same line.
 
 `--filter-h` is written from the real height so `scroll-padding-top` can allow
 for it. On a narrow screen the row scrolls sideways rather than wrapping, so the
@@ -362,14 +367,27 @@ About carries a single portrait, captioned Director as the business card in the
 brand document has it. The second portrait came off at the client's request.
 
 His name is signed across the bottom-right corner of the plate and off the edge
-of it, so the photograph is not a sealed rectangle. It is **drawn**, not set: a
-few hundred bytes of SVG path built by `tools/signature.py`, which writes cursive in
-handwriting coordinates (y up, baseline 0, x-height 20) and corrects each
-letter's net displacement to `(advance, 0)` so the run stays on its baseline.
+of it, so the photograph is not a sealed rectangle. It is **drawn**, not set, by
+`tools/signature.py`.
+
+That script defines each letter as a list of **waypoints the pen passes
+through**, in handwriting coordinates (y up, baseline 0, x-height 20, ascenders
+42), and fits a Catmull-Rom spline through them. Waypoints are far easier to
+reason about than bezier control points, which is the whole reason for the
+approach: to change a letter, move a point. Two things are worth knowing — every
+lower-case letter begins and ends on the join line (y = 6) so letters chain
+without the pen lifting, and two waypoints placed close together give the spline
+a corner to turn on, which is what makes an s an s rather than a loop. The
+capitals are printed rather than looped, which is what keeps it legible.
+
+The `viewBox` is cropped to the ink. If you change the letters or the tilt,
+re-measure it — render the SVG and call `getBBox()` on a wrapper group — or the
+signature will sit off-centre in its box.
+
 There is no script typeface to license and nothing extra to load. The corner of
 this photograph is almost black and the page behind it is the ultramarine, so a
-single white ink reads on both; the name is in the caption for anything that is
-reading rather than looking.
+single white ink reads on both; the name is in the photograph's alt text for
+anything that is reading rather than looking.
 
 If the portrait is ever swapped for a lighter one, check the signature still
 reads — there is a small drop shadow behind it for exactly that case.
@@ -388,10 +406,15 @@ on one of the paper sections. `assets/js/site.js` looks for `[data-paper]` and
 ## The paper and slate panels
 
 The enquiry block that closes each page is a `.panel` — paper, the inverse
-ground, and the one moment of rest in a blue page. Location adds
-`.panel--slate`, which is the third brand value used as a ground; its inks are
-taken a step darker than they are on paper, because slate is mid-toned and the
-paper inks would not clear 4.5:1 against it.
+ground, and the one moment of rest in a blue page. Location adds `.panel--slate`, which is the third brand value used as a ground,
+set in white at the client's request.
+
+> **Contrast note.** Slate is mid-toned, so white sits at about **2.8:1**
+> against it — under the 4.5:1 every other surface on this site holds to, and
+> under the 3:1 that even large text is meant to clear. It is a deliberate
+> client decision, recorded in the stylesheet next to the rule. If it ever has
+> to pass, the ground is the thing that has to move: about `#767676` puts white
+> at 4.5:1. The ink has nowhere left to go.
 
 The masthead has a third state to match, `data-over="slate"`. A paper bar over
 the slate reads as a stray rectangle, which is what the state exists to avoid.

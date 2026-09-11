@@ -309,16 +309,16 @@ figcaption {
 /* The same again over the slate, with the backdrop taken from that ground. */
 .masthead[data-over="slate"] {
   background: color-mix(in srgb, var(--slate) 92%, transparent);
-  color: var(--charcoal);
+  color: var(--canvas);
 }
 .masthead[data-over="slate"] .wordmark,
 .masthead[data-over="slate"] .nav a,
-.masthead[data-over="slate"] .menu-toggle { color: var(--charcoal); }
-.masthead[data-over="slate"] .nav__n { color: #303030; }
+.masthead[data-over="slate"] .menu-toggle { color: var(--canvas); }
+.masthead[data-over="slate"] .nav__n { color: rgba(253, 253, 253, 0.8); }
 .masthead[data-over="slate"] .nav a[aria-current="page"],
-.masthead[data-over="slate"] .nav a[aria-current="page"] .nav__n { color: var(--ultramarine); }
-.masthead[data-over="slate"] .nav a[aria-current="page"] .nav__t { border-bottom-color: var(--ultramarine); }
-.masthead[data-over="slate"] .nav a:hover .nav__t { border-bottom-color: rgba(31, 31, 31, 0.5); }
+.masthead[data-over="slate"] .nav a[aria-current="page"] .nav__n { color: var(--canvas); }
+.masthead[data-over="slate"] .nav a[aria-current="page"] .nav__t { border-bottom-color: var(--canvas); }
+.masthead[data-over="slate"] .nav a:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.6); }
 
 .masthead__inner {
   display: flex;
@@ -536,18 +536,6 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 /* The row sits inside the page rhythm, not as a full-bleed band of its own. */
 .journey { padding-block: var(--band) 0; }
 .journey .section-head { margin-bottom: 1.25rem; }
-.journey__blurb {
-  margin: 0;
-  max-width: 42em;
-  font-size: var(--t-small);
-  font-family: var(--sans);
-  color: var(--ink-strong-muted);
-}
-@media (min-width: 56rem) {
-  .journey .section-head { align-items: baseline; }
-  .journey__blurb { margin-left: auto; text-align: right; max-width: 34em; }
-}
-
 .journey__track { width: 100%; margin-top: var(--stack); }
 
 /* One card: the photograph, its number, and what is happening in it. */
@@ -748,66 +736,6 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   transform: translateY(0.7em);
 }
 
-/* A page head with its picture beside it. */
-.page-split {
-  display: grid;
-  gap: var(--stack) var(--gutter);
-  grid-template-columns: 1fr;
-  align-items: start;
-  padding-block: clamp(1.5rem, 3.5vh, 3rem) clamp(2rem, 1rem + 2.6vw, 3.25rem);
-}
-@media (min-width: 56rem) {
-  .page-split { grid-template-columns: minmax(0, 0.62fr) minmax(0, 1fr); }
-}
-.page-split .ledger { display: block; margin-bottom: 1rem; }
-.page-split h1 { font-size: clamp(2.4rem, 1.1rem + 4.2vw, 4.6rem); }
-.page-split .lead {
-  margin-top: clamp(1.25rem, 2.5vw, 2rem);
-  font-size: var(--t-body);
-  max-width: 30em;
-}
-.page-split__figure { margin: 0; }
-/* Held to a plate, for the same reason the service rows are: a portrait
-   photograph given the full column would stand twice the height of the title. */
-@media (min-width: 56rem) {
-  .page-split__figure .plate { max-width: 30rem; margin-left: auto; }
-}
-
-/* Entries two to a row, ruled between, as on the sketch. */
-.entry-grid {
-  display: grid;
-  gap: 0;
-  grid-template-columns: 1fr;
-  border-top: 1px solid var(--rule);
-}
-.entry-grid > * { padding-block: clamp(2rem, 1rem + 2.6vw, 3.25rem); }
-.entry-grid > * + * { border-top: 1px solid var(--rule); }
-
-@media (min-width: 56rem) {
-  .entry-grid { grid-template-columns: 1fr 1fr; }
-
-  .entry-grid > :nth-child(odd)  { padding-right: var(--gutter); }
-  .entry-grid > :nth-child(even) { padding-left: var(--gutter); border-left: 1px solid var(--rule); }
-  /* Rules run between rows, not between the first pair. */
-  .entry-grid > * + * { border-top: 0; }
-  .entry-grid > :nth-child(n+3) { border-top: 1px solid var(--rule); }
-}
-
-.entry-card { display: flex; flex-direction: column; }
-.entry-card .ledger { display: block; margin-bottom: 0.7rem; }
-.entry-card h2 { font-size: var(--t-title); margin-bottom: 1rem; }
-.entry-card .spec { margin-top: 1.25rem; }
-.entry-card figure { margin: var(--stack) 0 0; margin-top: auto; padding-top: var(--stack); }
-
-/* A full-width entry: the words in two columns across the top, the picture
-   spanning the page beneath them. */
-@media (min-width: 56rem) {
-}
-
-/* One entry to a row. The words sit in one column and the picture beside them
-   in the other, close enough to read as a pair; the arrangement turns round on
-   each row. The specification and the call to action fall below the words on a
-   wide screen, and below the picture on a narrow one. */
 .svc-row {
   --svc-shell: 87.5rem;                       /* 1400px */
   width: min(100% - (var(--gutter) * 2), var(--svc-shell));
@@ -914,18 +842,20 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 
 .panel { padding-block: var(--band); }
 
-/* Location takes the third brand value as its ground. Slate is mid-toned, so
-   the inks are taken a step darker than they are on paper to keep every line
-   above 4.5:1 against it. */
+/* Location takes the third brand value as its ground, set in white.
+   NOTE: slate is mid-toned, so white sits at about 2.8:1 against it — under
+   the 4.5:1 every other surface on this site holds to. It is the client's
+   call. If it ever needs to pass, the ground has to come down to about
+   #767676; the ink does not have anywhere left to go. */
 .panel--slate {
   --ground: var(--slate);
-  --ink: var(--charcoal);
-  --ink-muted:        #303030;
-  --ink-strong-muted: #262626;
-  --accent: var(--ultramarine);
-  --rule:        rgba(31, 31, 31, 0.3);
-  --rule-strong: rgba(31, 31, 31, 0.55);
-  --plate-bg: color-mix(in srgb, var(--charcoal) 10%, var(--slate));
+  --ink: var(--canvas);
+  --ink-muted:        color-mix(in srgb, var(--canvas) 82%, var(--slate));
+  --ink-strong-muted: color-mix(in srgb, var(--canvas) 92%, var(--slate));
+  --accent: var(--canvas);
+  --rule:        rgba(253, 253, 253, 0.4);
+  --rule-strong: rgba(253, 253, 253, 0.7);
+  --plate-bg: color-mix(in srgb, var(--canvas) 14%, var(--slate));
 }
 /* Where two paper sections run on into each other, and into the footer below
    them, a hairline keeps them from reading as one undivided block. */
@@ -980,9 +910,9 @@ figure { margin: 0; }
    that is reading rather than looking. */
 .signature {
   position: absolute;
-  right: -14%;
-  bottom: 9%;
-  width: 90%;
+  right: -17%;
+  bottom: -3%;
+  width: 95%;
   color: var(--canvas);
   pointer-events: none;
   /* Just enough shadow to hold the stroke together if the photograph is ever
@@ -994,15 +924,8 @@ figure { margin: 0; }
 /* On a phone the plate fills its column, so the overhang has to stay inside
    the gutter or it drags the whole page sideways. */
 @media (max-width: 27rem) {
-  .signature { right: -4%; width: 84%; }
+  .signature { right: -4%; bottom: 0; width: 86%; }
 }
-.portrait figcaption {
-  margin-top: 0.7rem;
-  font-family: var(--sans);
-  font-size: var(--t-small);
-  color: var(--ink-strong-muted);
-}
-
 .plate { background: var(--plate-bg); overflow: hidden; }
 .plate img { width: 100%; }
 .plate--tall { aspect-ratio: 3 / 4; }

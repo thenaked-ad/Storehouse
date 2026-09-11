@@ -151,74 +151,101 @@
 </div>
 
 <main id="main">
-  <section class="shell page-split">
-    <div class="page-split__text">
-      <span class="ledger">02</span>
-      <h1>Collection Management</h1>
-    </div>
-    <figure class="page-split__figure">
-      <div class="plate plate--tall">
-        <img src="assets/img/cm-hero-1000.webp" width="1000" height="1333"
-             loading="eager" decoding="async" alt="Two marked Storehouse crates standing on their bearers inside the facility.">
-      </div>
-    </figure>
+  <section class="shell page-head">
+    <span class="ledger">02</span>
+    <h1>Collection Management</h1>
   </section>
-  <section class="shell entry-grid" data-reveal>
-    <article class="entry-card" id="cataloguing">
+
+  <!-- ==================================================== the jump filter -->
+  <!-- One line, sticky under the masthead. It is a plain list of anchors, so
+       it works as a contents list with the script absent; the script only adds
+       the mark showing which entry you are currently in front of. -->
+  <nav class="filter" aria-label="Collection management on this page" data-filter>
+    <div class="shell filter__inner">
+      <span class="filter__label" aria-hidden="true">Jump to</span>
+      <div class="filter__links">
+      <a href="#cataloguing" data-filter-link>Cataloguing</a>
+      <a href="#inventory" data-filter-link>Inventory</a>
+      <a href="#research" data-filter-link>Research</a>
+      <a href="#logistics" data-filter-link>Logistics</a>
+      <a href="#rotations" data-filter-link>Rotations</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="svc-row" id="cataloguing" data-side="left" data-reveal>
+    <div class="svc-row__head">
       <span class="ledger">02.1</span>
       <h2>Cataloguing</h2>
       <p>Cataloguing and archiving into Artlogic, ArtBinder or an equivalent database</p>
-      <figure>
-        <div class="plate plate--r45">
-          <img src="assets/img/cm-cataloguing-1000.webp" width="1000" height="1250"
-               loading="lazy" decoding="async" alt="A framed work laid face-down on a padded table with its paperwork beside it.">
-        </div>
-      </figure>
-    </article>
-    <article class="entry-card" id="inventory">
+    </div>
+
+    <figure class="svc-row__figure">
+      <div class="plate plate--r45">
+        <img src="assets/img/cm-cataloguing-1000.webp" width="1000" height="1250"
+             loading="lazy" decoding="async" alt="A framed work laid face-down on a padded table with its paperwork beside it.">
+      </div>
+    </figure>
+  </section>
+
+  <section class="svc-row" id="inventory" data-side="right" data-reveal>
+    <div class="svc-row__head">
       <span class="ledger">02.2</span>
       <h2>Inventory</h2>
       <p>Inventory and location records maintained across the collection</p>
-      <figure>
-        <div class="plate plate--r45">
-          <img src="assets/img/cm-inventory-1000.webp" width="1000" height="1250"
-               loading="lazy" decoding="async" alt="Crates and a fitted flight case held together in the facility.">
-        </div>
-      </figure>
-    </article>
-    <article class="entry-card" id="research">
+    </div>
+
+    <figure class="svc-row__figure">
+      <div class="plate plate--r45">
+        <img src="assets/img/cm-inventory-1000.webp" width="1000" height="1250"
+             loading="lazy" decoding="async" alt="Crates and a fitted flight case held together in the facility.">
+      </div>
+    </figure>
+  </section>
+
+  <section class="svc-row" id="research" data-side="left" data-reveal>
+    <div class="svc-row__head">
       <span class="ledger">02.3</span>
       <h2>Research &amp; reporting</h2>
       <p>Condition reporting, provenance and art historical research, market reporting</p>
-      <figure>
-        <div class="plate plate--r45">
-          <img src="assets/img/cm-research-1000.webp" width="1000" height="1250"
-               loading="lazy" decoding="async" alt="A tape measure held against the edge of a stretcher.">
-        </div>
-      </figure>
-    </article>
-    <article class="entry-card" id="logistics">
+    </div>
+
+    <figure class="svc-row__figure">
+      <div class="plate plate--r45">
+        <img src="assets/img/cm-research-1000.webp" width="1000" height="1250"
+             loading="lazy" decoding="async" alt="A tape measure held against the edge of a stretcher.">
+      </div>
+    </figure>
+  </section>
+
+  <section class="svc-row" id="logistics" data-side="right" data-reveal>
+    <div class="svc-row__head">
       <span class="ledger">02.4</span>
       <h2>Logistics</h2>
       <p>Storage, transport, photography, framing and conservation arranged as required</p>
-      <figure>
-        <div class="plate plate--r45">
-          <img src="assets/img/cm-logistics-1000.webp" width="1000" height="1250"
-               loading="lazy" decoding="async" alt="A technician sliding a large boarded work into place.">
-        </div>
-      </figure>
-    </article>
-    <article class="entry-card" id="rotations">
+    </div>
+
+    <figure class="svc-row__figure">
+      <div class="plate plate--r45">
+        <img src="assets/img/cm-logistics-1000.webp" width="1000" height="1250"
+             loading="lazy" decoding="async" alt="A technician sliding a large boarded work into place.">
+      </div>
+    </figure>
+  </section>
+
+  <section class="svc-row" id="rotations" data-side="left" data-reveal>
+    <div class="svc-row__head">
       <span class="ledger">02.5</span>
       <h2>Rotations</h2>
       <p>Collection rotations coordinated</p>
-      <figure>
-        <div class="plate plate--r45">
-          <img src="assets/img/cm-rotations-1000.webp" width="1000" height="1250"
-               loading="lazy" decoding="async" alt="A work seated in its foam profiles, ready to be moved.">
-        </div>
-      </figure>
-    </article>
+    </div>
+
+    <figure class="svc-row__figure">
+      <div class="plate plate--r45">
+        <img src="assets/img/cm-rotations-1000.webp" width="1000" height="1250"
+             loading="lazy" decoding="async" alt="A work seated in its foam profiles, ready to be moved.">
+      </div>
+    </figure>
   </section>
   <section class="panel" data-paper>
     <div class="shell marginalia">

@@ -272,7 +272,10 @@
       e.preventDefault();
       // The height the bar occupies once it is stuck, which is not where it is
       // sitting at the moment of a click from the top of the page.
-      var chrome = (masthead ? masthead.offsetHeight : 0) + filter.offsetHeight + 8;
+      // Enough clearance for the hairline and the number above the heading,
+      // which are the first things in an entry and the easiest to tuck under
+      // the bar by mistake.
+      var chrome = (masthead ? masthead.offsetHeight : 0) + filter.offsetHeight + 26;
       window.scrollTo({
         top: Math.max(0, layoutTop(el) - chrome),
         behavior: reduced ? "auto" : "smooth"
@@ -289,7 +292,7 @@
       // the same whichever direction you arrived from.
       // A shade below where a jump puts an entry, so arriving by the bar marks
       // the entry you asked for rather than the one above it.
-      var line = filter.getBoundingClientRect().bottom + 16;
+      var line = filter.getBoundingClientRect().bottom + 34;
       var found = null;
       for (var i = 0; i < targets.length; i++) {
         if (targets[i] && targets[i].getBoundingClientRect().top <= line) found = fLinks[i];
