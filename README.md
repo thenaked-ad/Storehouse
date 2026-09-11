@@ -410,10 +410,22 @@ reads — there is a small drop shadow behind it for exactly that case.
 
 ## The order of the home page
 
-The first screen is the wordmark and the four disciplines on the ultramarine,
-and nothing else — no prose, no picture. They sit on the centre line (the auto
-margins on `.hero__centre` take the space above and below), with the scroll cue
-at the foot.
+The first screen is the cover of the brand document, rebuilt: an open field of
+ultramarine with the wordmark laid across the foot and bled to both edges, the
+four disciplines on the line above it, and nothing else — no prose, no picture.
+
+`.hero` is `justify-content: flex-end`, so everything settles on the bottom
+edge whatever the screen height. `.hero__above` holds the disciplines and the
+scroll cue to the page gutter; `.hero__mark` is `width: 100%` and ignores it.
+It is the only element on the site that does, and it does so on purpose — the
+wordmark artwork carries no side bearings of its own, so the S and the E land
+exactly on the two edges of the screen.
+
+The phone gets the same arrangement rather than a different one: the four
+disciplines stack, the cue sits on the last of them, and the wordmark still runs
+the full width. Measured at ten viewports from 1600×1000 down to 360×560,
+including a landscape phone: edge to edge every time, 10–19px of air beneath it,
+and the type above never reaching it.
 
 Then: the overview on the slate, the four case studies back on the blue,
 Location on the charcoal, and the closing enquiry block on the paper. Four

@@ -428,20 +428,27 @@ a.wordmark-link { text-decoration: none; }
 
 .hero {
   padding-top: clamp(2.5rem, 6vw, 5.5rem);
-  padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
+  padding-bottom: clamp(0.6rem, 1.8vh, 1.4rem);
   min-height: calc(100vh - var(--masthead-h));
   min-height: calc(100svh - var(--masthead-h));
   display: flex;
   flex-direction: column;
+  /* Everything settles on the bottom edge, as on the cover of the brand
+     document: an open field of blue with the wordmark laid across the foot. */
+  justify-content: flex-end;
   transition: background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1),
               color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* With the overview moved out, the wordmark and the four disciplines are all
-   the first screen holds, so they sit on its centre line rather than at the
-   top of it. The auto margins take the free space above and below, which
-   leaves the cue at the foot of the screen without an auto of its own. */
-.hero__centre { margin-block: auto; }
+/* The disciplines and the cue share one line directly above the wordmark, held
+   to the page gutter. The wordmark below them is not. */
+.hero__above {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--gutter);
+  margin-bottom: clamp(1rem, 3.2vh, 2.5rem);
+}
 
 /* Drag across the first screen and it takes the brand colour under the
    pointer — a mark the width of the cursor, laid over everything rather than
@@ -465,7 +472,9 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .paint span { transition: none; }
 }
 
-.hero__mark { width: min(100%, 62rem); color: var(--ink); }
+/* Full width, gutter and all. The wordmark artwork carries no side bearings of
+   its own, so the S and the E sit on the two edges of the screen. */
+.hero__mark { width: 100%; color: var(--ink); }
 
 .hero__disciplines {
   margin-top: clamp(1.25rem, 3vw, 2.25rem);
@@ -523,7 +532,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 .scroll-cue {
   display: grid;
   place-items: center;
-  align-self: center;
+  flex: none;
   width: 3rem; height: 3rem;
   padding: 0;
   background: none;

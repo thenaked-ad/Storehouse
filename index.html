@@ -121,13 +121,8 @@
 
   <!-- ============================================================ hero -->
   <div class="hero-field" data-hero-field>
-  <section class="hero shell">
-    <div class="hero__centre">
-      <h1 class="hero__mark">
-        <span class="visually-hidden">Storehouse</span>
-        <svg viewBox="0 0 702 45.31" aria-hidden="true"><use href="#wordmark"/></svg>
-      </h1>
-
+  <section class="hero">
+    <div class="shell hero__above">
       <!-- The four come in one after another, wiped in from the left. It is a
            CSS animation, so it needs no script; the whole thing is inside a
            prefers-reduced-motion guard, which is why the resting state is the
@@ -138,11 +133,19 @@
         <li>Artist</li>
         <li>Artist Estate</li>
       </ul>
+
+      <button class="scroll-cue" type="button" data-scroll-cue="#overview" aria-label="Scroll to the overview">
+        <span class="chev" aria-hidden="true"></span>
+      </button>
     </div>
 
-    <button class="scroll-cue" type="button" data-scroll-cue="#overview" aria-label="Scroll to the overview">
-      <span class="chev" aria-hidden="true"></span>
-    </button>
+    <!-- Laid across the foot of the screen and bled to both edges, which is how
+         the brand document opens. It is the only thing on the site that ignores
+         the page gutter, and it does so on purpose. -->
+    <h1 class="hero__mark">
+      <span class="visually-hidden">Storehouse</span>
+      <svg viewBox="0 0 702 45.31" aria-hidden="true"><use href="#wordmark"/></svg>
+    </h1>
   </section>
   </div>
 
