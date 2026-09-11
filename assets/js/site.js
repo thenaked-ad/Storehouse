@@ -28,21 +28,20 @@
     window.addEventListener("resize", setChromeHeights, { passive: true });
 
     var mark = function () {
-      // Queried each time so the hero can join the dark grounds when inverted.
-      var darkZones  = document.querySelectorAll("[data-dark]");
-      var midZones   = document.querySelectorAll("[data-ground='mid']");
+      // Queried each time, so a section added to the page is picked up without
+      // the list having to be rebuilt.
+      var paperZones = document.querySelectorAll("[data-paper], .footer");
       masthead.dataset.scrolled = window.scrollY > 8 ? "true" : "false";
 
-      // Step out of the way where the masthead sits over a dark section.
+      // Turn over wherever the masthead is sitting on one of the paper sections.
       var line = masthead.offsetHeight / 2;
       var straddles = function (el) {
         var r = el.getBoundingClientRect();
         return r.top <= line && r.bottom >= line;
       };
-      var ground = "light";
-      for (var i = 0; i < darkZones.length; i++) if (straddles(darkZones[i])) { ground = "dark"; break; }
-      if (ground === "light") {
-        for (var j = 0; j < midZones.length; j++) if (straddles(midZones[j])) { ground = "mid"; break; }
+      var ground = "blue";
+      for (var i = 0; i < paperZones.length; i++) {
+        if (straddles(paperZones[i])) { ground = "paper"; break; }
       }
       masthead.dataset.over = ground;
     };
@@ -175,7 +174,7 @@
       lastTarget = el;
       var over = el.closest("a, button, summary, [role='button'], input, label") ? "link" : "";
       if (over !== lastOver) { dot.dataset.over = over; lastOver = over; }
-      var ground = el.closest("[data-dark], .panel, .footer, .menu") ? "dark" : "";
+      var ground = el.closest("[data-paper], .panel, .footer, .menu, .map-dialog") ? "paper" : "";
       if (ground !== lastGround) { dot.dataset.ground = ground; lastGround = ground; }
     };
 
@@ -213,7 +212,7 @@
       ctx = canvas.getContext("2d");
       ctx.scale(dpr, dpr);
       ctx.strokeStyle = ctx.fillStyle =
-        getComputedStyle(document.documentElement).getPropertyValue("--ultramarine").trim() || "#0f1b70";
+        getComputedStyle(document.documentElement).getPropertyValue("--canvas").trim() || "#fdfdfd";
       ctx.lineWidth = 9;          // the width of the cursor dot
       ctx.lineCap = ctx.lineJoin = "round";
     };
@@ -366,10 +365,10 @@
     mapOpen.addEventListener("click", function () {
       if (!mapFrame.firstChild) {
         var f = document.createElement("iframe");
-        f.src = "https://www.google.com/maps?q=141+Acton+Lane,+London+NW10+7PB&output=embed";
+        f.src = "https://www.google.com/maps?q=Acton,+London+NW10&z=13&output=embed";
         f.loading = "lazy";
         f.referrerPolicy = "no-referrer-when-downgrade";
-        f.title = "Map showing 141 Acton Lane, London NW10 7PB";
+        f.title = "Map showing Acton, London NW10";
         mapFrame.appendChild(f);
       }
       mapDialog.showModal();
@@ -388,7 +387,7 @@
   } else if (mapOpen) {
     // No dialog support: fall back to opening the map in a new tab.
     mapOpen.addEventListener("click", function () {
-      window.open("https://www.google.com/maps/search/?api=1&query=141+Acton+Lane+London+NW10+7PB",
+      window.open("https://www.google.com/maps/search/?api=1&query=Acton+London+NW10",
                   "_blank", "noopener");
     });
   }

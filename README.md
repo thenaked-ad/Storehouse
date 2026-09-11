@@ -10,15 +10,19 @@ Built from the *Storehouse Brand Identity* (2025) document and Fred's copy.
 
 ## Pages
 
-| File | Page |
-|---|---|
-| `index.html` | Home |
-| `storage-and-handling.html` | Storage, transport, packing, installation, photography, viewing room |
-| `exhibition-services.html` | Budgets, agreements, shipping, framing |
-| `collection-management.html` | Cataloguing, inventory, reporting |
-| `about.html` | About |
-| `contact.html` | Contact |
-| `404.html` | Not found |
+Storehouse is a consultancy with a logistics operation underneath it, and the
+site is ordered to say so: the two consultancy pages come first, and Storage &
+Handling third.
+
+| File | Nav | Page |
+|---|---|---|
+| `index.html` | — | Home |
+| `exhibition-services.html` | 01 | Budgets, agreements, shipping, framing |
+| `collection-management.html` | 02 | Cataloguing, inventory, reporting |
+| `storage-and-handling.html` | 03 | The list of services, the card row, and the six entries in full |
+| `about.html` | 04 | About |
+| `contact.html` | 05 | Contact |
+| `404.html` | — | Not found |
 
 ## Editing the copy
 
@@ -76,19 +80,33 @@ Everything visual is controlled by tokens at the top of `assets/css/site.css`.
 
 ### Colour — from page 10 of the brand document
 
+The four brand values are unchanged; what changed is which one is the ground.
+**The page sits on the ultramarine, and the paper colour is the ink.**
+
 | Token | Value | Use |
 |---|---|---|
-| `--ultramarine` | `#0F1B70` | The one primary colour. Links, the open state of a service, full-bleed panels, text selection. |
-| `--charcoal` | `#1F1F1F` | Body text, and the dark ground behind The Journey. |
-| `--slate` | `#9A9A9A` | Index numbers, captions, quiet labels. |
-| `--canvas` | `#FDFDFD` | The page. |
-| `--paper` | `#F4F4F4` | Behind an image while it loads. |
-| `--ink-muted` | `#6B6B6B` | Captions and secondary text. |
-| `--ink-strong-muted` | `#4A4A4A` | Section numbers and service points, where a little more contrast helps. Same charcoal-to-slate family; not a new brand colour. |
+| `--ultramarine` | `#0F1B70` | The ground of the whole site. |
+| `--canvas` | `#FDFDFD` | The ink on it — type, rules, the brush, the pointer. |
+| `--charcoal` | `#1F1F1F` | Ink on the paper sections. |
+| `--paper` | `#F4F4F4` | Behind an image while it loads, on a paper section. |
+| `--slate` | `#9A9A9A` | Kept as a brand value; the interface now uses the muted inks below instead. |
 
-Ultramarine is used sparingly and deliberately — once per page as a full-bleed
-panel, and otherwise only on things you can act on. That restraint is the point;
-please resist spreading it around.
+Nothing in the stylesheet names a brand colour directly. Six semantic tokens
+carry it, and a section inverts by redeclaring them — nothing else:
+
+| Token | On the blue | On the paper |
+|---|---|---|
+| `--ground` | ultramarine | canvas |
+| `--ink` | canvas | charcoal |
+| `--ink-muted` | canvas at 62% | `#6B6B6B` |
+| `--ink-strong-muted` | canvas at 84% | `#4A4A4A` |
+| `--accent` | canvas | ultramarine |
+| `--rule` / `--rule-strong` | white at 20% / 48% | black at 16% / 40% |
+
+`.on-paper` holds the second column, and `.panel`, `.footer`, `.menu` and
+`.map-dialog` share the rule. To turn any new section over, give it one of those
+classes — do not write a colour into it. The print stylesheet redeclares the same
+six tokens as black on white, so the site prints as a document either way up.
 
 ### Type
 
@@ -148,7 +166,10 @@ on each link and drawn by CSS.
 
 One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed, photographed. Eight real frames from the Storehouse
-shoot, in the order they happen, on the charcoal ground.
+shoot, in the order they happen.
+
+**It lives on `storage-and-handling.html`,** directly under the list of services
+— not on the home page, where the case studies now take that position.
 
 One line of 3:4 cards, each with its number top-left and its label bottom-left
 against a gradient scrim. The row waits a second, then drifts along on its own
@@ -245,8 +266,13 @@ with the one beside it however much text sits above it.
 
 ## The services list
 
-The first section below the fold, on canvas. The preview is a 3:4 portrait
-plate in a narrow column, which leaves the list most of the width.
+At the head of `storage-and-handling.html`, in place of a title picture. The
+preview is a 3:4 portrait plate in a narrow column, which leaves the list most of
+the width. Each service opens to a short paragraph and a **More details** button
+that jumps to the full entry further down the same page.
+
+Exhibition Services and Collection Management are deliberately **not** in this
+list: they are consultancy, not logistics, and have pages of their own.
 
 Compact rows, one per service, opening as ordinary `<details>`. On a wide screen
 the image of whichever service you are pointing at appears in the column beside
@@ -256,9 +282,9 @@ image inside the panel it opens. The pairing is set by `data-service` on each
 
 ## The pointer
 
-An ultramarine dot replaces the cursor, as on Dougal's holding page, opening up
-over anything you can act on and inverting to white over the dark and blue
-grounds. It is painted straight from the pointer event rather than waiting for the next
+A dot replaces the cursor, as on Dougal's holding page, opening up over anything
+you can act on. It is the paper colour on the blue and turns over to ultramarine
+on the paper sections, so it stays visible either way up. It is painted straight from the pointer event rather than waiting for the next
 animation frame — a rendering opportunity can be a frame away, and that reads
 as lag. The two `closest()` walks that decide its size and colour are skipped
 entirely while the pointer stays over the same element, and the dot is given
@@ -276,7 +302,7 @@ and writes to `--masthead-h`, so it ends exactly at the fold on any viewport.
 `scroll-padding-top` uses the same value, so anchor links land just under the
 masthead.
 
-Dragging across it draws a mark of ultramarine the width of the cursor dot,
+Dragging across it draws a mark in the paper colour, the width of the cursor dot,
 exactly under the pointer. It is a `<canvas>` laid over the hero's content
 rather than behind it, so a stroke can cross type and photograph alike, and it
 does not intercept clicks. The drag suppresses text selection, so you get a
@@ -296,34 +322,41 @@ the grid beside the content rather than above it, and `.page--single` is
 
 Each column groups its content at the top. The one thing that stretches is
 Contact's enquiry list, whose eight rows share the column between them, so the
-page still reaches the foot of the screen; About's portraits do the same.
+page still reaches the foot of the screen.
 
-The two portraits on About are captioned **Antony Cundy** and **Fred Henderson**
-in the order they were given. Which name belongs to which photograph has not
-been confirmed — swap the two `<figcaption>` lines if they are the wrong way
-round. Roles are not shown; the business card in the brand document gives Fred
-Henderson as Director, but Antony Cundy's is not recorded anywhere we have.
+About carries a single portrait, Fred Henderson, captioned Director as the
+business card in the brand document has it. The second portrait came off at the
+client's request.
 
 ## The order of the home page
 
-Hero, services, the journey cards on charcoal, case studies, Location in
-ultramarine, then the closing enquiry block. The masthead reads the ground
-beneath it as it goes — light, mid, dark — and takes a matching backdrop each
-time.
+Hero, the four case studies, What we do, Location, then the closing enquiry
+block. The case studies come second because they are the quickest way to explain
+what a consultancy actually does.
 
-## The ultramarine panels
+The masthead reads the ground beneath it as it goes and takes a matching
+backdrop: `data-over="blue"` by default, `data-over="paper"` where it is sitting
+on one of the paper sections. `assets/js/site.js` looks for `[data-paper]` and
+`.footer`, so a new paper section only has to carry `data-paper` to be picked up.
+
+## The paper panels
 
 The enquiry block that closes each page, and Location on the home page, are
-`.panel` sections. They are deliberately **not** given `data-reveal`: the reveal
-fades a whole section, background included, so the page showed through the blue
-for a moment as it scrolled into view.
+`.panel` sections — the inverse ground, and the one moment of rest in a blue
+page. They are deliberately **not** given `data-reveal`: the reveal fades a whole
+section, background included, so the page showed through for a moment as it
+scrolled into view.
 
 ## Case studies
 
-`index.html` carries a three-card placeholder with a comment showing where each
-project goes. Replace the placeholder text with the project name, the year and
-one line on the job; add an image by putting a `<div class="plate plate--wide">`
-above the `<h3>`.
+Four in full, directly under the first screen: Exhibition Consulting,
+Collection Management, Artist, Artist Estate. The copy is Fred's, from the
+consulting document.
+
+They are built from the same `.svc-row` as the service entries, alternating side
+down the page: `.svc-row__head` takes the number, the title and the situation,
+and `.svc-row__tail` takes what Storehouse did about it and the link on to the
+relevant page.
 
 ## The map
 
@@ -338,19 +371,40 @@ while the dialog is open and taken again when it closes.
 
 ## Imagery
 
-`assets/img/` holds WebP derivatives generated from the client photography in
-`Photography/Storehouse` and `Photography/Portraits`. Originals are not in the
-repository — they are large, and the site does not need them.
+`assets/img/` holds WebP derivatives cut from the client photography. Originals
+are not in the repository — they are large, and the site does not need them.
 
-- Feature images: 900px wide, which is what the pages use
-- Journey stages: 560px square (`assets/img/journey/`)
-- A 1600px variant exists for most feature images. Nothing references them yet;
-  they are there for `srcset` or for a future full-bleed treatment.
-- Total: about 4 MB
+**Every picture on the site comes from `Photography/Udpated`** (the folder is
+spelled that way on the client's disk) and from `Photography/Portraits`. Nothing
+from the older `Photography/Storehouse` folder is used.
 
-To add an image, export a WebP at 900px or 1600px wide, drop it in
-`assets/img/`, and reference it with explicit `width` and `height` attributes so
-the page does not jump while it loads.
+Two things follow from that set, and both are worth knowing before swapping a
+picture:
+
+- **It is all 3:4 portrait,** bar one frame. That is why the plates are cut to
+  3:4 and 4:5 and nothing else, and why the portrait plates are held to a
+  `max-width` rather than filling their column — at full width they would stand
+  about twice the height of the words beside them.
+- **There is no facility, racking or vehicle photography in it.** Storage and
+  Transport are therefore carried by the crate frames, which are the closest
+  thing the shoot has. If a warehouse or a van is ever shot, those two are the
+  first pictures to replace.
+
+Frames showing a technician's face or the back of their head are avoided
+everywhere except About, which is a portrait.
+
+| Set | Size | Ratio |
+|---|---|---|
+| Card row (`assets/img/journey/`) | 690 × 920 | 3:4 |
+| Service entries (`sh-*`, `ex-*`, `cm-*`) | 1000 × 1250 | 4:5 |
+| Page titles (`*-hero`) | 1000 × 1333 | 3:4 |
+| The list preview (`svc-0*`) | 700 × 933 | 3:4 |
+| Case studies (`case-*`) | 900 × 1125 | 4:5 |
+| Social card (`og-1600`) | 1600 × 900 | 16:9 |
+
+To add one, export a WebP at the size in that table, drop it in `assets/img/`,
+and reference it with explicit `width` and `height` attributes so the page does
+not jump while it loads.
 
 ---
 
@@ -438,7 +492,7 @@ throughout, including in `robots.txt`, `sitemap.xml` and the JSON-LD.
 
 - One `<h1>` per page; headings in order.
 - Every image has an `alt` attribute; decorative frames are `aria-hidden`.
-- Keyboard reachable throughout, with a visible ultramarine focus ring and a skip link.
+- Keyboard reachable throughout, with a visible focus ring in the current ink and a skip link.
 - `prefers-reduced-motion` disables the scrub, the reveals and the page transitions.
 - Content is never hidden by CSS that depends on JavaScript succeeding.
 - A print stylesheet renders the site as a plain document — this trade still prints things.

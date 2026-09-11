@@ -54,12 +54,18 @@
   --canvas:      #fdfdfd;
   --paper:       #f4f4f4;
 
-  --ink:         var(--charcoal);
-  --ink-muted:   #6b6b6b;
-  /* Charcoal lifted toward slate: darker than --ink-muted, same family. */
-  --ink-strong-muted: #4a4a4a;
-  --rule:        rgba(31, 31, 31, 0.16);
-  --rule-strong: rgba(31, 31, 31, 0.4);
+  /* The page sits on the brand blue, and the ink is the paper colour. Every
+     rule below is written against --ground / --ink rather than against a fixed
+     colour, so a section can invert simply by redeclaring these six lines.
+     .on-paper does exactly that. */
+  --ground:      var(--ultramarine);
+  --ink:         var(--canvas);
+  --ink-muted:        color-mix(in srgb, var(--canvas) 62%, var(--ultramarine));
+  --ink-strong-muted: color-mix(in srgb, var(--canvas) 84%, var(--ultramarine));
+  --accent:      var(--canvas);          /* the hover / active colour */
+  --rule:        rgba(253, 253, 253, 0.2);
+  --rule-strong: rgba(253, 253, 253, 0.48);
+  --plate-bg:    color-mix(in srgb, var(--canvas) 10%, var(--ultramarine));
 
   /* Typography — the brand faces, with a close fallback while they load and
      for the handful of characters the trial cut is missing. */
@@ -86,12 +92,26 @@
   --masthead-h: 5.5rem;
   --footer-h: 16rem;
 
-  /* Grounds the masthead has to sit over, and borrows a backdrop from. */
-  --ground-mid: #1f1f1f;   /* the ground behind the journey */
-
   --shell: 88rem;  /* maximum line of the page */
 
-  color-scheme: light;
+  color-scheme: dark;
+}
+
+/* The inverse ground: paper, with the blue as ink. Used by the panels, the
+   footer, the mobile menu and the map dialog — anything that was blue before
+   the palette was turned over. */
+.on-paper, .panel, .footer, .menu, .map-dialog {
+  --ground:      var(--canvas);
+  --ink:         var(--charcoal);
+  --ink-muted:        #6b6b6b;
+  /* Charcoal lifted toward slate: darker than --ink-muted, same family. */
+  --ink-strong-muted: #4a4a4a;
+  --accent:      var(--ultramarine);
+  --rule:        rgba(31, 31, 31, 0.16);
+  --rule-strong: rgba(31, 31, 31, 0.4);
+  --plate-bg:    var(--paper);
+  background: var(--ground);
+  color: var(--ink);
 }
 
 /* --------------------------------------------------------------------------
@@ -108,7 +128,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--canvas);
+  background: var(--ground);
   color: var(--ink);
   font-family: var(--serif);
   font-size: var(--t-body);
@@ -138,10 +158,10 @@ img, svg, video, canvas { display: block; max-width: 100%; height: auto; }
 
 ul, ol { margin: 0; padding: 0; list-style: none; }
 
-::selection { background: var(--ultramarine); color: var(--canvas); }
+::selection { background: var(--ink); color: var(--ground); }
 
 :focus-visible {
-  outline: 2px solid var(--ultramarine);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
   border-radius: 1px;
 }
@@ -155,7 +175,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .skip-link {
   position: absolute; top: 0; left: 0; z-index: 100;
   transform: translateY(-110%);
-  background: var(--ultramarine); color: var(--canvas);
+  background: var(--ink); color: var(--ground);
   padding: 0.75rem 1.25rem;
   font: 400 var(--t-small)/1 var(--sans);
   text-decoration: none;
@@ -213,7 +233,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   line-height: 1.5;
 }
 
-.ledger { color: var(--slate); font-variant-numeric: tabular-nums; }
+.ledger { color: var(--ink-muted); font-variant-numeric: tabular-nums; }
 
 .label--sticky { position: sticky; top: 6.5rem; align-self: start; }
 
@@ -263,7 +283,7 @@ figcaption {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: color-mix(in srgb, var(--canvas) 88%, transparent);
+  background: color-mix(in srgb, var(--ultramarine) 88%, transparent);
   backdrop-filter: saturate(150%) blur(14px);
   -webkit-backdrop-filter: saturate(150%) blur(14px);
   border-bottom: 1px solid transparent;
@@ -271,31 +291,20 @@ figcaption {
 }
 .masthead[data-scrolled="true"] { border-bottom-color: var(--rule); }
 
-/* Over a dark section the masthead steps out of the way entirely. */
-.masthead[data-over="dark"] {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  color: var(--canvas);
+/* Where the masthead is sitting over one of the paper sections it turns over
+   with it, so the wordmark never disappears into the ground behind it. */
+.masthead[data-over="paper"] {
+  background: color-mix(in srgb, var(--canvas) 88%, transparent);
+  color: var(--charcoal);
 }
-.masthead[data-over="dark"] .wordmark,
-.masthead[data-over="dark"] .nav a,
-.masthead[data-over="dark"] .menu-toggle { color: var(--canvas); }
-.masthead[data-over="dark"] .nav a:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.5); }
-
-/* Over the mid ground the masthead keeps a backdrop: the journey's images pass
-   underneath it, and dark type on a photograph is not readable. */
-.masthead[data-over="mid"] {
-  background: color-mix(in srgb, var(--ground-mid) 90%, transparent);
-  border-bottom-color: transparent;
-  color: var(--canvas);
-}
-.masthead[data-over="mid"] .wordmark,
-.masthead[data-over="mid"] .nav a,
-.masthead[data-over="mid"] .menu-toggle { color: var(--canvas); }
-.masthead[data-over="mid"] .nav__n { color: rgba(253, 253, 253, 0.5); }
-.masthead[data-over="mid"] .nav a:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.5); }
-.masthead[data-over="dark"][data-scrolled="true"] { border-bottom-color: transparent; }
+.masthead[data-over="paper"] .wordmark,
+.masthead[data-over="paper"] .nav a,
+.masthead[data-over="paper"] .menu-toggle { color: var(--charcoal); }
+.masthead[data-over="paper"] .nav__n { color: #6b6b6b; }
+.masthead[data-over="paper"] .nav a[aria-current="page"],
+.masthead[data-over="paper"] .nav a[aria-current="page"] .nav__n { color: var(--ultramarine); }
+.masthead[data-over="paper"] .nav a[aria-current="page"] .nav__t { border-bottom-color: var(--ultramarine); }
+.masthead[data-over="paper"] .nav a:hover .nav__t { border-bottom-color: rgba(31, 31, 31, 0.4); }
 
 .masthead__inner {
   display: flex;
@@ -305,7 +314,7 @@ figcaption {
   padding-block: 1.4rem;
 }
 
-.wordmark { display: block; width: clamp(8.5rem, 14vw, 12.5rem); color: var(--charcoal); }
+.wordmark { display: block; width: clamp(8.5rem, 14vw, 12.5rem); color: var(--ink); }
 /* The symbol carries no fill of its own, so every instance takes the ink of
    whatever it sits on. This is what lets the masthead invert over dark sections. */
 .wordmark svg, .hero__mark svg {
@@ -330,12 +339,10 @@ a.wordmark-link { text-decoration: none; }
   font-size: 0.5938rem;
   line-height: 1.32;          /* sets the number against the top of the label */
   letter-spacing: 0.08em;
-  color: var(--slate);
+  color: var(--ink-muted);
   transition: color 0.25s ease;
 }
-.masthead[data-over="dark"] .nav__n { color: rgba(253, 253, 253, 0.45); }
-.nav a[aria-current="page"] .nav__n { color: var(--ultramarine); }
-.masthead[data-over="dark"] .nav a[aria-current="page"] .nav__n { color: var(--canvas); }
+.nav a[aria-current="page"] .nav__n { color: var(--accent); }
 
 .nav a {
   font-family: var(--sans);
@@ -351,8 +358,8 @@ a.wordmark-link { text-decoration: none; }
   transition: border-color 0.25s ease;
 }
 .nav a:hover .nav__t { border-bottom-color: var(--rule-strong); }
-.nav a[aria-current="page"] { color: var(--ultramarine); }
-.nav a[aria-current="page"] .nav__t { border-bottom-color: var(--ultramarine); }
+.nav a[aria-current="page"] { color: var(--accent); }
+.nav a[aria-current="page"] .nav__t { border-bottom-color: var(--accent); }
 
 /* Mobile menu */
 .menu-toggle {
@@ -365,7 +372,6 @@ a.wordmark-link { text-decoration: none; }
 
 .menu {
   position: fixed; inset: 0; z-index: 50;
-  background: var(--ultramarine); color: var(--canvas);
   display: flex; flex-direction: column;
   padding: 1.4rem var(--gutter) var(--band);
   transform: translateY(-100%);
@@ -374,8 +380,7 @@ a.wordmark-link { text-decoration: none; }
 }
 .menu[data-open="true"] { transform: translateY(0); }
 .menu__top { display: flex; justify-content: space-between; align-items: center; }
-.menu__top .wordmark { color: var(--canvas); }
-.menu__top .menu-toggle { color: var(--canvas); display: block; }
+.menu__top .menu-toggle { display: block; }
 .menu__links { margin-top: auto; padding-top: var(--band); display: grid; gap: 0.35rem; }
 .menu__links a {
   font-family: var(--sans);
@@ -385,7 +390,7 @@ a.wordmark-link { text-decoration: none; }
   text-decoration: none;
   padding-block: 0.18em;
 }
-.menu__meta { margin-top: var(--stack); color: color-mix(in srgb, var(--canvas) 70%, var(--ultramarine)); }
+.menu__meta { margin-top: var(--stack); color: var(--ink-muted); }
 .menu__meta a { color: inherit; }
 
 /* --------------------------------------------------------------------------
@@ -425,7 +430,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .paint span { transition: none; }
 }
 
-.hero__mark { width: min(100%, 62rem); color: var(--charcoal); }
+.hero__mark { width: min(100%, 62rem); color: var(--ink); }
 
 .hero__disciplines {
   margin-top: clamp(1.25rem, 3vw, 2.25rem);
@@ -435,13 +440,13 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   font-family: var(--sans);
   font-size: clamp(0.8rem, 0.68rem + 0.5vw, 1rem);
   letter-spacing: 0.02em;
-  color: var(--ink-muted);
+  color: var(--ink);
 }
 .hero__disciplines li { display: flex; align-items: center; gap: 1.6rem; }
 .hero__disciplines li:not(:last-child)::after {
   content: "";
   width: 3px; height: 3px; border-radius: 50%;
-  background: var(--slate);
+  background: var(--ink-muted);
   flex: none;
 }
 
@@ -463,7 +468,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   font-family: var(--sans);
   font-size: var(--t-lead);
   letter-spacing: -0.015em;
-  color: var(--ultramarine);
+  color: var(--ink);
   max-width: none;
 }
 
@@ -481,7 +486,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   cursor: pointer;
   transition: color 0.3s ease, opacity 0.5s ease;
 }
-.scroll-cue:hover { color: var(--ultramarine); }
+.scroll-cue:hover { color: var(--ink); }
 .scroll-cue .chev {
   width: 11px; height: 11px;
   border-right: 1px solid currentColor;
@@ -501,6 +506,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
    -------------------------------------------------------------------------- */
 
 .page-head { padding-top: clamp(2.5rem, 6vw, 5.5rem); padding-bottom: var(--band); }
+.page-head + .band { padding-top: 0; }
 .page-head h1 { font-size: clamp(2.4rem, 1.1rem + 4.2vw, 4.6rem); }
 .page-head .ledger { margin-bottom: 1.4rem; display: block; }
 .page-head .lead {
@@ -515,16 +521,51 @@ html[data-cursor="on"] .hero-field { cursor: none; }
    -------------------------------------------------------------------------- */
 
 .journey {
-  /* Slate, taken far enough toward charcoal to carry white type at AA. */
-  background: var(--ground-mid);
-  color: var(--canvas);
   padding-block: clamp(2rem, 3.5vw, 3.25rem);
 }
 
 /* The row runs the full width of the window, not the text measure. */
 /* The strip runs the full width of the window and insets its own content, so
    there are no negative margins to escape the page. */
-.journey__track { width: 100%; }
+/* The row sits inside the page rhythm, not as a full-bleed band of its own. */
+.journey { padding-block: var(--band) 0; }
+.journey .section-head { margin-bottom: 1.25rem; }
+.journey__blurb {
+  margin: 0;
+  max-width: 42em;
+  font-size: var(--t-small);
+  font-family: var(--sans);
+  color: var(--ink-strong-muted);
+}
+@media (min-width: 56rem) {
+  .journey .section-head { align-items: baseline; }
+  .journey__blurb { margin-left: auto; text-align: right; max-width: 34em; }
+}
+
+.journey__track { width: 100%; margin-top: var(--stack); }
+
+/* One card: the photograph, its number, and what is happening in it. */
+.journey__plate { position: relative; }
+.journey__plate img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  background: var(--plate-bg);
+}
+.journey__n {
+  display: block;
+  margin-top: 0.7rem;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.13em;
+  color: var(--ink-muted);
+}
+.journey__stage figcaption {
+  margin-top: 0.15rem;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  letter-spacing: -0.01em;
+}
 
 /* One line of cards that drifts along on its own, and can be dragged. */
 .journey__grid { position: relative; }
@@ -588,7 +629,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
     text-transform: uppercase;
     color: color-mix(in srgb, var(--canvas) 60%, transparent);
     pointer-events: none;
-    background: linear-gradient(to right, transparent, var(--ground-mid) 62%);
+    background: linear-gradient(to right, transparent, var(--ground) 62%);
   }
   .journey__hint .arrow { --arrow-w: 2.2em; }
 }
@@ -626,10 +667,13 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   transition: color 0.25s ease;
 }
 .service > summary::-webkit-details-marker { display: none; }
-.service > summary:hover { color: var(--ultramarine); }
-.service[open] > summary { color: var(--ultramarine); }
+/* At rest the list is one step back from the ground; pointing at a row, or
+   opening it, brings it forward. That reads the same either way up. */
+.service > summary { color: var(--ink-strong-muted); }
+.service > summary:hover,
+.service[open] > summary { color: var(--accent); }
 
-.service__index { font-family: var(--mono); font-size: var(--t-label); color: var(--slate); letter-spacing: 0.1em; }
+.service__index { font-family: var(--mono); font-size: var(--t-label); color: var(--ink-muted); letter-spacing: 0.1em; }
 
 .service__sign {
   position: relative;
@@ -716,6 +760,9 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 }
 
 /* The in-panel image is the phone's version of the preview. */
+.service__go { margin-top: 1.25rem; }
+@media (min-width: 56rem) { .service__go { margin-top: 0; align-self: start; } }
+
 .service__figure { margin-top: 1.25rem; }
 .service__figure img { width: 100%; }
 @media (min-width: 56rem) { .service__figure { display: none; } }
@@ -739,6 +786,11 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   max-width: 30em;
 }
 .page-split__figure { margin: 0; }
+/* Held to a plate, for the same reason the service rows are: a portrait
+   photograph given the full column would stand twice the height of the title. */
+@media (min-width: 56rem) {
+  .page-split__figure .plate { max-width: 30rem; margin-left: auto; }
+}
 
 /* Entries two to a row, ruled between, as on the sketch. */
 .entry-grid {
@@ -801,15 +853,27 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   margin-bottom: 0.6rem;
   color: var(--ink-strong-muted);
 }
-.svc-row__head h2 { font-size: var(--t-title); margin-bottom: 0.9rem; }
+.svc-row__head h2,
+.svc-row__head h3 { font-size: var(--t-title); margin-bottom: 0.9rem; }
 .svc-row__head p { max-width: 34ch; }        /* a comfortable line */
 .svc-row__head p + p { margin-top: 0.8em; }
 
 .svc-row__figure { margin: 0; }
 .svc-row__figure .plate { width: 100%; }
 
-.svc-row__tail { display: grid; gap: 1.6rem; align-content: start; }
+/* The photographs are portrait, so a plate given the full half-width would
+   stand about twice the height of the words beside it. It is held to a plate
+   width instead and pushed out to the edge of the row, which keeps the two
+   columns in proportion and the outer margin straight down the page. */
+@media (min-width: 56rem) {
+  .svc-row__figure .plate { max-width: 32rem; }
+  .svc-row[data-side="left"]  .svc-row__figure .plate { margin-left: auto; }
+  .svc-row[data-side="right"] .svc-row__figure .plate { margin-right: auto; }
+}
+
+.svc-row__tail { display: grid; gap: 1.6rem; align-content: start; justify-items: start; }
 .svc-row__tail .spec { margin: 0; }
+.svc-row__tail p { max-width: 44ch; }
 
 @media (min-width: 56rem) {
   .svc-row {
@@ -867,15 +931,13 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    10. Ultramarine panel — one caesura per page
    -------------------------------------------------------------------------- */
 
-.panel {
-  background: var(--ultramarine);
-  color: var(--canvas);
-  padding-block: var(--band);
-}
+.panel { padding-block: var(--band); }
+/* Where two paper sections run on into each other, and into the footer below
+   them, a hairline keeps them from reading as one undivided block. */
+.panel + .panel, .panel + .footer { border-top: 1px solid var(--rule); }
 .panel a { color: inherit; }
-.panel .label, .panel .ledger { color: color-mix(in srgb, var(--canvas) 62%, var(--ultramarine)); }
 .panel h2 { font-size: var(--t-title); }
-.panel p { color: color-mix(in srgb, var(--canvas) 88%, var(--ultramarine)); }
+.panel p { color: var(--ink-strong-muted); }
 
 /* The facility line — stated conditions, set as a specification. */
 .conditions li { display: inline-flex; }
@@ -891,7 +953,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   border-bottom: 1px solid currentColor;
   transition: color 0.25s ease;
 }
-.conditions button:hover { color: var(--canvas); }
+.conditions button:hover { color: var(--accent); }
 
 .conditions {
   display: flex;
@@ -899,12 +961,12 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   gap: 0.5rem 2.5rem;
   margin-top: var(--stack);
   padding-top: 1.25rem;
-  border-top: 1px solid color-mix(in srgb, var(--canvas) 28%, var(--ultramarine));
+  border-top: 1px solid var(--rule);
   font-family: var(--mono);
   font-size: var(--t-label);
   letter-spacing: 0.13em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--canvas) 78%, var(--ultramarine));
+  color: var(--ink-strong-muted);
 }
 
 /* --------------------------------------------------------------------------
@@ -913,28 +975,22 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 
 figure { margin: 0; }
 
-.pair {
-  display: grid;
-  gap: var(--gutter);
-  grid-template-columns: 1fr;
+.portrait { max-width: min(100%, 22rem); }
+.portrait figcaption {
+  margin-top: 0.7rem;
+  font-family: var(--sans);
+  font-size: var(--t-small);
+  color: var(--ink-strong-muted);
 }
-@media (min-width: 46rem) { .pair { grid-template-columns: 1fr 1fr; } }
 
-/* A lone portrait plate is held back from the full column width, so it reads as
-   a plate rather than a banner. */
-.marginalia > .main .pair { max-width: min(100%, 32rem); }
-.marginalia > .main .plate--wide,
-
-.plate { background: var(--paper); overflow: hidden; }
+.plate { background: var(--plate-bg); overflow: hidden; }
 .plate img { width: 100%; }
 .plate--tall { aspect-ratio: 3 / 4; }
 .plate--tall img { height: 100%; object-fit: cover; }
-.plate--wide { aspect-ratio: 4 / 3; }
-.plate--wide img { height: 100%; object-fit: cover; }
-.plate--r32 { aspect-ratio: 3 / 2; }
-.plate--r32 img { height: 100%; object-fit: cover; }
-.plate--landscape { aspect-ratio: 16 / 9; }
-.plate--landscape img { height: 100%; object-fit: cover; }
+/* The 2025 photography is all 3:4, so the plates that carry it are cut to
+   that or to 4:5, rather than to a landscape frame they would be gutted for. */
+.plate--r45 { aspect-ratio: 4 / 5; }
+.plate--r45 img { height: 100%; object-fit: cover; }
 
 /* --------------------------------------------------------------------------
    12. Links, actions
@@ -949,9 +1005,7 @@ figure { margin: 0; }
   transition: border-color 0.25s ease, color 0.25s ease;
   display: inline-block;
 }
-.link:hover { color: var(--ultramarine); border-bottom-color: var(--ultramarine); }
-.panel .link { border-bottom-color: color-mix(in srgb, var(--canvas) 50%, transparent); }
-.panel .link:hover { color: var(--canvas); border-bottom-color: var(--canvas); }
+.link:hover { color: var(--accent); border-bottom-color: var(--accent); }
 
 .link--trail {
   --arrow-w: 3.4em;
@@ -964,20 +1018,21 @@ figure { margin: 0; }
   border: 0;
   transition: color 0.25s ease;
 }
-.link--trail:hover { color: var(--ultramarine); }
+.link--trail:hover { color: var(--accent); }
 .link--trail .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
 .link--trail:hover .arrow { transform: translateX(0.3rem); }
 
-/* An outlined button in the brand blue, for the call to action on a service. */
+/* A filled button. It takes the ink of whatever ground it is on and prints the
+   ground back out of it, so it reverses cleanly on the paper sections. */
 .btn {
   --arrow-w: 1.6em;
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
   padding: 0.62rem 1.05rem;
-  border: 1px solid var(--ultramarine);
-  background: var(--ultramarine);
-  color: var(--canvas);
+  border: 1px solid var(--ink);
+  background: var(--ink);
+  color: var(--ground);
   font-family: var(--sans);
   font-size: var(--t-small);
   letter-spacing: -0.01em;
@@ -986,7 +1041,7 @@ figure { margin: 0; }
   cursor: pointer;
   transition: background-color 0.25s ease, color 0.25s ease;
 }
-.btn:hover { background: var(--charcoal); border-color: var(--charcoal); }
+.btn:hover { background: var(--ink-strong-muted); border-color: var(--ink-strong-muted); }
 .btn .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
 .btn:hover .arrow { transform: translateX(0.25rem); }
 .btn--self { justify-self: start; }
@@ -999,11 +1054,10 @@ figure { margin: 0; }
   font-size: clamp(1.1rem, 0.95rem + 0.8vw, 1.6rem);
   letter-spacing: -0.021em;
   text-decoration: none;
-  color: var(--ultramarine);
+  color: var(--ink);
   border-bottom: 1px solid currentColor;
   padding-bottom: 0.15em;
 }
-.panel .action { color: var(--canvas); }
 .arrow {
   display: inline-block;
   position: relative;
@@ -1052,38 +1106,13 @@ figure { margin: 0; }
   letter-spacing: -0.023em;
   transition: color 0.25s ease;
 }
-.directory a:hover { color: var(--ultramarine); }
+.directory a:hover { color: var(--accent); }
 .directory .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
 .directory a:hover .arrow { transform: translateX(0.35rem); }
 
 /* --------------------------------------------------------------------------
    12b. Case studies and the map
    -------------------------------------------------------------------------- */
-
-.cases {
-  display: grid;
-  gap: 1px;
-  margin-top: var(--stack);
-  background: var(--rule);
-  border-block: 1px solid var(--rule);
-}
-@media (min-width: 56rem) { .cases { grid-template-columns: repeat(3, 1fr); } }
-
-.case {
-  background: var(--canvas);
-  padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.75rem);
-  min-height: 9rem;
-}
-.case__index {
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.13em;
-  color: var(--slate);
-  display: block;
-  margin-bottom: 1.75rem;
-}
-.case h3 { font-size: var(--t-body); letter-spacing: -0.016em; }
-.case p { margin: 0.4rem 0 0; font-size: var(--t-small); color: var(--ink-muted); }
 
 /* The map is fetched only when someone asks to see it. */
 .map-dialog, .map-dialog * { cursor: auto; }
@@ -1094,11 +1123,9 @@ figure { margin: 0; }
   max-height: 88vh;
   padding: 0;
   border: 0;
-  background: var(--canvas);
-  color: var(--ink);
-  box-shadow: 0 2rem 5rem rgba(31, 31, 31, 0.28);
+  box-shadow: 0 2rem 5rem rgba(15, 27, 112, 0.4);
 }
-.map-dialog::backdrop { background: rgba(31, 31, 31, 0.55); }
+.map-dialog::backdrop { background: rgba(15, 27, 112, 0.62); }
 .map-dialog__bar {
   display: flex;
   align-items: baseline;
@@ -1108,14 +1135,27 @@ figure { margin: 0; }
   border-bottom: 1px solid var(--rule);
 }
 .map-dialog__bar p { margin: 0; max-width: none; }
-.map-dialog__frame { aspect-ratio: 16 / 10; background: var(--paper); }
+.map-dialog__frame { aspect-ratio: 16 / 10; background: var(--plate-bg); }
+.map-dialog__frame { position: relative; }
 .map-dialog__frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+/* We publish the district rather than the street, so the map is marked as an
+   area. The ring is drawn over the tiles and never takes the pointer. */
+.map-dialog__frame::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  width: min(42%, 15rem); aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 1px solid color-mix(in srgb, var(--ultramarine) 70%, transparent);
+  background: color-mix(in srgb, var(--ultramarine) 12%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.map-dialog__frame:empty::after { display: none; }
 .map-dialog__fallback { padding: 0.9rem clamp(1rem, 2vw, 1.5rem); margin: 0; }
 
-button.link { background: none; border: 0; border-bottom: 1px solid var(--rule-strong); cursor: pointer; font: inherit; }
+button.link { background: none; border: 0; border-bottom: 1px solid var(--rule-strong); cursor: pointer; font: inherit; color: inherit; }
 button.link { font-family: var(--sans); font-size: var(--t-small); }
-.panel button.link { color: inherit; border-bottom-color: color-mix(in srgb, var(--canvas) 50%, transparent); }
-.panel button.link:hover { border-bottom-color: var(--canvas); }
 
 /* Contact and About are short enough to hold one screen, so their title sits
    beside the content rather than above it. */
@@ -1150,10 +1190,10 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
    contents spread down it rather than bunching at the top. */
 @media (min-width: 62rem) {
   .single-grid { flex: 1; align-items: stretch; }
-  /* .pair keeps its own two-column grid; only the text stacks become flex.
+  /* The portrait keeps its own block; only the text stacks become flex.
      Content groups at the top of its column; the enquiry list is the one thing
      that stretches, so the column still reaches the foot of the screen. */
-  .single-grid > div:not(.pair) {
+  .single-grid > div:not(.portrait) {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -1164,17 +1204,8 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
   .single-grid .enquiries { flex: 1; }
   .single-grid .enquiries a { flex: 1; align-items: center; }
 
-  /* Portraits take whatever height is left. */
-  .single-grid--about .pair { align-self: start; }
-  .single-grid--about .pair figcaption {
-    font-family: var(--sans);
-    font-size: var(--t-small);
-    letter-spacing: -0.012em;
-    text-transform: none;
-    color: var(--ink);
-  }
-  /* 3:4, as shot — not stretched to fill the column. */
-  .single-grid--about .pair .plate { aspect-ratio: 3 / 4; }
+  /* The portrait takes whatever height is left. */
+  .single-grid--about .portrait { align-self: start; }
 }
 @media (min-width: 62rem) {
   .single-grid--contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr); }
@@ -1205,9 +1236,9 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
   letter-spacing: -0.014em;
   transition: color 0.25s ease;
 }
-.enquiries a:hover { color: var(--ultramarine); }
-.enquiries .arrow { color: var(--slate); transition: transform 0.3s ease, color 0.25s ease; }
-.enquiries a:hover .arrow { color: var(--ultramarine); transform: translateX(0.3rem); }
+.enquiries a:hover { color: var(--accent); }
+.enquiries .arrow { color: var(--ink-muted); transition: transform 0.3s ease, color 0.25s ease; }
+.enquiries a:hover .arrow { color: var(--accent); transform: translateX(0.3rem); }
 
 address {
   font-style: normal;
@@ -1219,11 +1250,8 @@ address {
    -------------------------------------------------------------------------- */
 
 .footer {
-  background: var(--ultramarine);
-  color: var(--canvas);
   padding-block: clamp(1.25rem, 2.6vh, 2.5rem) clamp(0.75rem, 1.4vh, 1.25rem);
 }
-.footer .wordmark { color: var(--canvas); }
 .footer__grid {
   display: grid;
   gap: clamp(1rem, 2vh, 1.5rem) var(--gutter);
@@ -1235,30 +1263,31 @@ address {
 .footer h3 {
   font-size: var(--t-label); font-family: var(--mono); letter-spacing: 0.13em;
   text-transform: uppercase; font-weight: 400; margin-bottom: 0.75rem;
-  color: color-mix(in srgb, var(--canvas) 55%, var(--ultramarine));
+  color: var(--ink-muted);
 }
 .footer ul { display: grid; gap: 0.3rem; }
-.footer a { font-family: var(--sans); font-size: var(--t-small); text-decoration: none; color: var(--canvas); border-bottom: 1px solid transparent; transition: border-color 0.25s ease; }
-.footer a:hover { border-bottom-color: color-mix(in srgb, var(--canvas) 60%, transparent); }
+.footer a { font-family: var(--sans); font-size: var(--t-small); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.25s ease; }
+.footer a:hover { border-bottom-color: var(--rule-strong); }
 .footer .wordmark { width: 10rem; margin-bottom: 0.9rem; }
-.footer .label, .footer address { color: color-mix(in srgb, var(--canvas) 70%, var(--ultramarine)); }
+.footer .label, .footer address { color: var(--ink-muted); }
 
 .colophon {
   margin-top: clamp(0.9rem, 2vh, 1.75rem);
   padding-top: clamp(0.7rem, 1.4vh, 1.1rem);
-  border-top: 1px solid color-mix(in srgb, var(--canvas) 24%, transparent);
+  border-top: 1px solid var(--rule);
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 2rem;
   font-family: var(--mono);
   font-size: var(--t-label);
   letter-spacing: 0.07em;
-  color: color-mix(in srgb, var(--canvas) 60%, var(--ultramarine));
+  color: var(--ink-muted);
 }
 .colophon p { margin: 0; max-width: none; }
 
 /* --------------------------------------------------------------------------
-   14b. The pointer — an ultramarine dot, as on Dougal's holding page
+   14b. The pointer — the dot from Dougal's holding page, turned over with
+        the rest of the palette: paper on the blue, blue on the paper
    -------------------------------------------------------------------------- */
 
 /* Gated three ways: a real mouse, scripting available, and motion allowed.
@@ -1278,7 +1307,7 @@ address {
     width: 9px; height: 9px;
     margin: -4.5px 0 0 -4.5px;
     border-radius: 50%;
-    background: var(--ultramarine);
+    background: var(--canvas);
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.3s ease, width 0.28s cubic-bezier(0.22, 1, 0.36, 1),
@@ -1296,12 +1325,12 @@ address {
   .cursor-dot[data-over="link"] {
     width: 22px; height: 22px;
     margin: -11px 0 0 -11px;
-    background: color-mix(in srgb, var(--ultramarine) 34%, transparent);
-  }
-  /* On the dark and blue grounds it inverts so it stays visible. */
-  .cursor-dot[data-ground="dark"] { background: var(--canvas); }
-  .cursor-dot[data-ground="dark"][data-over="link"] {
     background: color-mix(in srgb, var(--canvas) 28%, transparent);
+  }
+  /* Over the paper sections it inverts, so it stays visible either way. */
+  .cursor-dot[data-ground="paper"] { background: var(--ultramarine); }
+  .cursor-dot[data-ground="paper"][data-over="link"] {
+    background: color-mix(in srgb, var(--ultramarine) 34%, transparent);
   }
 }
 
@@ -1337,11 +1366,18 @@ address {
    -------------------------------------------------------------------------- */
 
 @media print {
-  :root { --ink: #000; --ink-muted: #333; --rule: #ccc; }
-  body { background: #fff; font-size: 10.5pt; line-height: 1.45; }
+  /* On paper the site is a document: black on white, whichever way the
+     screen palette happens to be turned. */
+  :root, .on-paper, .panel, .footer, .menu, .map-dialog {
+    --ground: #fff; --ink: #000; --ink-muted: #333;
+    --ink-strong-muted: #222; --accent: #000;
+    --rule: #ccc; --rule-strong: #999; --plate-bg: #fff;
+  }
+  body { background: #fff; color: #000; font-size: 10.5pt; line-height: 1.45; }
   .band { padding-block: 0.6cm; }
-  .panel { background: #fff !important; color: #000 !important; border-block: 1px solid #000; }
-  .panel p, .panel .label, .panel .ledger, .conditions { color: #000 !important; }
+  .masthead, .panel, .footer, .menu { background: #fff !important; color: #000 !important; }
+  .panel { border-block: 1px solid #000; }
+  .btn { background: #fff !important; color: #000 !important; border-color: #000 !important; }
   .service[open] > summary, .service > summary { color: #000; }
   .service__body { display: block !important; }
   details { break-inside: avoid; }
