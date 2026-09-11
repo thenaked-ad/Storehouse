@@ -1,7 +1,7 @@
 /* Storehouse Fine Arts — progressive enhancement only.
    Every page works with this file absent: the journey reads as a plain row of
-   captioned images, the services open as ordinary <details>, the menu is a
-   link list, and the pointer stays the one the operating system provides. */
+   captioned images, the jump filter is an ordinary contents list, the menu is
+   a link list, and the pointer stays the one the operating system provides. */
 
 (function () {
   "use strict";
@@ -41,7 +41,12 @@
       };
       var ground = "blue";
       for (var i = 0; i < paperZones.length; i++) {
-        if (straddles(paperZones[i])) { ground = "paper"; break; }
+        if (straddles(paperZones[i])) {
+          // Location is on the slate, which needs its own backdrop rather than
+          // the paper one — a paper bar over slate reads as a stray rectangle.
+          ground = paperZones[i].classList.contains("panel--slate") ? "slate" : "paper";
+          break;
+        }
       }
       masthead.dataset.over = ground;
     };
@@ -100,35 +105,6 @@
       }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
       revealables.forEach(function (el) { io.observe(el); });
     }
-  }
-
-  /* ------------------------------------------- the services preview image */
-
-  var preview = document.querySelector("[data-services-preview]");
-  if (preview) {
-    var previewImgs = {};
-    Array.prototype.forEach.call(preview.querySelectorAll("img"), function (img) {
-      previewImgs[img.dataset.service] = img;
-    });
-
-    var activePreview = null;
-    var showPreview = function (key) {
-      var img = previewImgs[key];
-      if (!img || img === activePreview) return;
-      if (activePreview) activePreview.dataset.active = "false";
-      img.dataset.active = "true";
-      activePreview = img;
-    };
-
-    var rows = document.querySelectorAll(".services .service > summary");
-    Array.prototype.forEach.call(rows, function (row) {
-      var key = row.closest(".service").dataset.service;
-      row.addEventListener("mouseenter", function () { showPreview(key); });
-      row.addEventListener("focus", function () { showPreview(key); });
-    });
-
-    // Start on the first, so the column is never empty.
-    if (rows.length) showPreview(rows[0].closest(".service").dataset.service);
   }
 
   /* ---------------------------------------------------------- the scroll cue */
@@ -252,6 +228,80 @@
     var stop = function () { down = false; };
     window.addEventListener("pointerup", stop);
     window.addEventListener("pointercancel", stop);
+  }
+
+  /* -------------------------------------------------------- the jump filter */
+
+  /* The bar is a plain list of anchors in the markup and works as a contents
+     list on its own. All this adds is the mark showing which entry you are in
+     front of, and the height it occupies, which the scroll padding needs so an
+     anchor does not land underneath it. */
+
+  var filter = document.querySelector("[data-filter]");
+  if (filter) {
+    var fLinks = Array.prototype.slice.call(filter.querySelectorAll("[data-filter-link]"));
+    var targets = fLinks.map(function (a) {
+      return document.getElementById(a.getAttribute("href").slice(1));
+    });
+
+    var setFilterHeight = function () {
+      document.documentElement.style.setProperty("--filter-h", filter.offsetHeight + "px");
+    };
+    setFilterHeight();
+    if ("ResizeObserver" in window) new ResizeObserver(setFilterHeight).observe(filter);
+
+    // Where the entry sits in the layout. Deliberately not a bounding rect:
+    // an entry that has not been revealed yet is still translated down by the
+    // reveal, and scrolling to a transformed position lands it short once the
+    // transform comes off.
+    var layoutTop = function (el) {
+      var y = 0;
+      for (var node = el; node; node = node.offsetParent) y += node.offsetTop;
+      return y;
+    };
+
+    // Chrome adds its own allowance for a sticky header on top of
+    // scroll-padding, which lands the entry a little under the bar. Taking the
+    // scroll ourselves puts it exactly where it belongs. Without the script the
+    // plain anchor and scroll-padding still get within a few pixels.
+    filter.addEventListener("click", function (e) {
+      var a = e.target.closest ? e.target.closest("[data-filter-link]") : null;
+      if (!a) return;
+      var el = document.getElementById(a.getAttribute("href").slice(1));
+      if (!el) return;
+      e.preventDefault();
+      // The height the bar occupies once it is stuck, which is not where it is
+      // sitting at the moment of a click from the top of the page.
+      var chrome = (masthead ? masthead.offsetHeight : 0) + filter.offsetHeight + 8;
+      window.scrollTo({
+        top: Math.max(0, layoutTop(el) - chrome),
+        behavior: reduced ? "auto" : "smooth"
+      });
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, "", a.getAttribute("href"));
+      }
+    });
+
+    var currentLink = null;
+    var markFilter = function () {
+      // The entry you are "in" is the last one whose top has passed under the
+      // chrome. Read off the elements rather than an observer, so the answer is
+      // the same whichever direction you arrived from.
+      // A shade below where a jump puts an entry, so arriving by the bar marks
+      // the entry you asked for rather than the one above it.
+      var line = filter.getBoundingClientRect().bottom + 16;
+      var found = null;
+      for (var i = 0; i < targets.length; i++) {
+        if (targets[i] && targets[i].getBoundingClientRect().top <= line) found = fLinks[i];
+      }
+      if (found === currentLink) return;
+      if (currentLink) currentLink.removeAttribute("data-current");
+      if (found) found.setAttribute("data-current", "true");
+      currentLink = found;
+    };
+    markFilter();
+    window.addEventListener("scroll", markFilter, { passive: true });
+    window.addEventListener("resize", markFilter, { passive: true });
   }
 
   /* ------------------------------------------------------------ the journey */
@@ -392,15 +442,4 @@
     });
   }
 
-  /* ------------------------------------------- one service open at a time */
-
-  var services = document.querySelectorAll(".services .service");
-  if (services.length) {
-    services.forEach(function (d) {
-      d.addEventListener("toggle", function () {
-        if (!d.open) return;
-        services.forEach(function (other) { if (other !== d) other.open = false; });
-      });
-    });
-  }
 })();

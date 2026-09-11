@@ -24,6 +24,19 @@ Handling third.
 | `contact.html` | 05 | Contact |
 | `404.html` | — | Not found |
 
+## Where the copy comes from
+
+**Every descriptive line on the service pages is verbatim from Fred's copy
+document, and nothing has been added to it.** If a service has no points under
+it, that is because the document gives it none. Before writing anything new on
+those pages, check the document first and add it there.
+
+The four case studies come from the separate consulting document, also his.
+
+Three things on the site are ours rather than his, and are the places to look
+if something reads oddly: the home page overview, the button labels on the
+service entries, and the enquiry rows on Contact.
+
 ## Editing the copy
 
 All text lives directly in the `.html` files. Find the sentence you want and
@@ -264,21 +277,34 @@ with the one beside it however much text sits above it.
 
 
 
-## The services list
+## The services list (removed)
 
-At the head of `storage-and-handling.html`, in place of a title picture. The
-preview is a 3:4 portrait plate in a narrow column, which leaves the list most of
-the width. Each service opens to a short paragraph and a **More details** button
-that jumps to the full entry further down the same page.
-
-Exhibition Services and Collection Management are deliberately **not** in this
-list: they are consultancy, not logistics, and have pages of their own.
+Gone. It was replaced by the jump filter below, which does the same job for a
+single line of height.
 
 Compact rows, one per service, opening as ordinary `<details>`. On a wide screen
 the image of whichever service you are pointing at appears in the column beside
 the list; on a phone that column is dropped and each service carries its own
 image inside the panel it opens. The pairing is set by `data-service` on each
 `<details>` matching `data-service` on an image in `.services__preview`.
+
+## The jump filter
+
+One sticky line under the masthead on `storage-and-handling.html`, in place of
+the title picture that used to be there. In the markup it is a plain list of
+anchors and works as a contents list on its own; the script adds two things:
+
+- the mark showing which entry you are currently in front of, and
+- the jump itself. Chrome adds its own allowance for a sticky header on top of
+  `scroll-padding-top`, which lands the entry a little underneath the bar, so
+  the scroll is taken in JavaScript instead. That calculation reads the entry's
+  **layout** position rather than a bounding rect — an entry that has not been
+  revealed yet is still translated down by the reveal, and scrolling to a
+  transformed position lands it short once the transform comes off.
+
+`--filter-h` is written from the real height so `scroll-padding-top` can allow
+for it. On a narrow screen the row scrolls sideways rather than wrapping, so the
+bar is one line high at every width.
 
 ## The pointer
 
@@ -324,26 +350,53 @@ Each column groups its content at the top. The one thing that stretches is
 Contact's enquiry list, whose eight rows share the column between them, so the
 page still reaches the foot of the screen.
 
-About carries a single portrait, Fred Henderson, captioned Director as the
-business card in the brand document has it. The second portrait came off at the
-client's request.
+Contact is meant to hold one screen with no scrolling, and it does from about
+700px of viewport height upward. Three things make that work, and all three are
+worth knowing before adding anything to the page: the photograph is sized from
+the height going spare (`clamp(6rem, 22vh, 15rem)`) rather than from its own
+ratio; below 62rem the enquiry list runs as two columns of four instead of one
+of eight; and below 30rem the photograph is dropped, as the one thing on the
+page carrying no information. On a very short phone it still scrolls a little.
+
+About carries a single portrait, captioned Director as the business card in the
+brand document has it. The second portrait came off at the client's request.
+
+His name is signed across the bottom-right corner of the plate and off the edge
+of it, so the photograph is not a sealed rectangle. It is **drawn**, not set: a
+few hundred bytes of SVG path built by `tools/signature.py`, which writes cursive in
+handwriting coordinates (y up, baseline 0, x-height 20) and corrects each
+letter's net displacement to `(advance, 0)` so the run stays on its baseline.
+There is no script typeface to license and nothing extra to load. The corner of
+this photograph is almost black and the page behind it is the ultramarine, so a
+single white ink reads on both; the name is in the caption for anything that is
+reading rather than looking.
+
+If the portrait is ever swapped for a lighter one, check the signature still
+reads — there is a small drop shadow behind it for exactly that case.
 
 ## The order of the home page
 
-Hero, the four case studies, What we do, Location, then the closing enquiry
+Hero, the four case studies, Location on the slate, then the closing enquiry
 block. The case studies come second because they are the quickest way to explain
-what a consultancy actually does.
+what a consultancy does.
 
 The masthead reads the ground beneath it as it goes and takes a matching
 backdrop: `data-over="blue"` by default, `data-over="paper"` where it is sitting
 on one of the paper sections. `assets/js/site.js` looks for `[data-paper]` and
 `.footer`, so a new paper section only has to carry `data-paper` to be picked up.
 
-## The paper panels
+## The paper and slate panels
 
-The enquiry block that closes each page, and Location on the home page, are
-`.panel` sections — the inverse ground, and the one moment of rest in a blue
-page. They are deliberately **not** given `data-reveal`: the reveal fades a whole
+The enquiry block that closes each page is a `.panel` — paper, the inverse
+ground, and the one moment of rest in a blue page. Location adds
+`.panel--slate`, which is the third brand value used as a ground; its inks are
+taken a step darker than they are on paper, because slate is mid-toned and the
+paper inks would not clear 4.5:1 against it.
+
+The masthead has a third state to match, `data-over="slate"`. A paper bar over
+the slate reads as a stray rectangle, which is what the state exists to avoid.
+
+Panels are deliberately **not** given `data-reveal`: the reveal fades a whole
 section, background included, so the page showed through for a moment as it
 scrolled into view.
 
