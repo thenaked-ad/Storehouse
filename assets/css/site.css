@@ -429,19 +429,21 @@ a.wordmark-link { text-decoration: none; }
 .hero {
   padding-top: clamp(2.5rem, 6vw, 5.5rem);
   padding-bottom: clamp(1.25rem, 2.5vw, 2rem);
-  min-height: calc(100vh - var(--masthead-h));
-  min-height: calc(100svh - var(--masthead-h));
+  /* Deliberately short of the full screen: the top of the section below shows
+     under the fold, which says the page continues without having to announce
+     it. */
+  min-height: calc(100vh - var(--masthead-h) - 5rem);
+  min-height: calc(100svh - var(--masthead-h) - clamp(3rem, 7vh, 5.5rem));
   display: flex;
   flex-direction: column;
   transition: background-color 0.7s cubic-bezier(0.22, 1, 0.36, 1),
               color 0.7s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* With the overview moved out, the wordmark and the four disciplines are all
-   the first screen holds, so they sit on its centre line rather than at the
-   top of it. The auto margins take the free space above and below, which
-   leaves the cue at the foot of the screen without an auto of its own. */
-.hero__centre { margin-block: auto; }
+/* The wordmark sits low on the screen rather than on its centre line, the way a
+   title sits on an exhibition poster: the free space is all taken above it by
+   the auto margin, and the cue follows underneath. */
+.hero__centre { margin-top: auto; margin-bottom: clamp(1.25rem, 4vh, 3rem); }
 
 /* Drag across the first screen and it takes the brand colour under the
    pointer — a mark the width of the cursor, laid over everything rather than
@@ -465,7 +467,8 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .paint span { transition: none; }
 }
 
-.hero__mark { width: min(100%, 62rem); color: var(--ink); }
+/* Out to the right margin of the page, not to a measure of its own. */
+.hero__mark { width: 100%; color: var(--ink); }
 
 .hero__disciplines {
   margin-top: clamp(1.25rem, 3vw, 2.25rem);
@@ -776,104 +779,111 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   transform: translateY(0.7em);
 }
 
-.svc-row {
-  --svc-shell: 87.5rem;                       /* 1400px */
-  width: min(100% - (var(--gutter) * 2), var(--svc-shell));
-  margin-inline: auto;
+/* --------------------------------------------------------------------------
+   9b. Case studies — four compositions on one spine
+
+   Every one of them hangs off .marginalia, so the number in the margin lines up
+   with Overview, Location and Enquiries, and the words start on the same line
+   their prose does. What changes between them is the arrangement inside that
+   column, so the four read as a sequence of spreads rather than the same spread
+   four times.
+   -------------------------------------------------------------------------- */
+
+.case { padding-block: clamp(2rem, 1rem + 2.6vw, 3.5rem); }
+.case .aside .ledger { display: block; }
+
+.case__body {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: clamp(1.1rem, 2vw, 1.6rem);
-  padding-block: clamp(1.4rem, 0.8rem + 1.6vw, 2.2rem);
+  gap: var(--stack);
 }
-
-/* A short rule at the head of each row, set to the content grid rather than
-   ruled across the whole page. */
-.svc-row::before {
-  content: "";
-  display: block;
-  width: 4.5rem;
-  height: 1px;
-  background: var(--rule-strong);
-  margin-bottom: clamp(0.9rem, 1.6vw, 1.4rem);
-}
-
-.svc-row__head .ledger {
-  display: block;
-  margin-bottom: 0.6rem;
-  color: var(--ink-strong-muted);
-}
-.svc-row__head h2,
-.svc-row__head h3 { font-size: var(--t-title); margin-bottom: 0.9rem; }
-.svc-row__head p { max-width: 34ch; }        /* a comfortable line */
-.svc-row__head p + p { margin-top: 0.8em; }
-
-.svc-row__figure { margin: 0; }
-.svc-row__figure .plate { width: 100%; }
-
-/* The photographs are portrait, so a plate given the full half-width would
-   stand about twice the height of the words beside it. It is held to a plate
-   width instead and pushed out to the edge of the row, which keeps the two
-   columns in proportion and the outer margin straight down the page. */
-@media (min-width: 56rem) {
-  .svc-row__figure .plate { max-width: 32rem; }
-  .svc-row[data-side="left"]  .svc-row__figure .plate { margin-left: auto; }
-  .svc-row[data-side="right"] .svc-row__figure .plate { margin-right: auto; }
-}
-
-.svc-row__tail { display: grid; gap: 1.6rem; align-content: start; justify-items: start; }
-.svc-row__tail .spec { margin: 0; }
-.svc-row__tail p { max-width: 44ch; }
+.case__title { font-size: var(--t-title); }
+.case__text { display: grid; gap: 1.15rem; justify-items: start; align-content: start; }
+.case__text p { max-width: 46ch; margin: 0; }
+.case__figure { margin: 0; }
+.case__figure .plate { width: 100%; }
 
 @media (min-width: 56rem) {
-  .svc-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
-    column-gap: clamp(2rem, 3.6vw, 3.75rem);
-    row-gap: 1.8rem;                 /* a clear step down to the points */
+  .case__body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+    /* The channel between the words and the picture, held deliberately to
+       80-120px: enough air to separate them, not so much that they stop
+       reading as one thing. */
+    column-gap: clamp(5rem, 5.5vw, 7.5rem);
+    row-gap: clamp(1.1rem, 1.8vw, 1.9rem);
     align-items: start;
-    /* The empty fourth row takes up whatever the picture is taller by. Without
-       it that slack is shared between the head and tail rows, which pushes the
-       points away from the paragraph by a different amount on every section. */
-    grid-template-rows: auto auto auto 1fr;
-    grid-template-areas:
-      "rule  ."
-      "head  figure"
-      "tail  figure"
-      "slack figure";
   }
-  .svc-row[data-side="right"] {
-    /* The picture column keeps the larger share whichever side it is on, so
-       every photograph on the page comes out the same size. */
-    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
-    grid-template-rows: auto auto auto 1fr;
-    grid-template-areas:
-      ".      rule"
-      "figure head"
-      "figure tail"
-      "figure slack";
-  }
-  .svc-row::before { grid-area: rule; }
 
-  .svc-row__head   { grid-area: head; }
-  .svc-row__tail   { grid-area: tail; }
-  .svc-row__figure { grid-area: figure; }
+  /* a — the title runs the width of the pair; words left, picture right */
+  .case[data-layout="a"] .case__title  { grid-column: 1 / -1; }
+  .case[data-layout="a"] .case__text   { grid-column: 1; }
+  .case[data-layout="a"] .case__figure { grid-column: 2; grid-row: 2; }
 
-  .svc-row__head p { max-width: 42ch; }
+  /* b — the picture takes the left and drops below the top line */
+  .case[data-layout="b"] .case__body   { grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr); }
+  .case[data-layout="b"] .case__figure { grid-column: 1; grid-row: 1 / span 2;
+                                         margin-top: clamp(2rem, 3.5vw, 3.75rem); }
+  .case[data-layout="b"] .case__title  { grid-column: 2; grid-row: 1; }
+  .case[data-layout="b"] .case__text   { grid-column: 2; grid-row: 2; }
+
+  /* c — compact: a wide column of words, a smaller picture held to the top */
+  .case[data-layout="c"] .case__body   { grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.62fr); }
+  .case[data-layout="c"] .case__title  { grid-column: 1; grid-row: 1; }
+  .case[data-layout="c"] .case__text   { grid-column: 1; grid-row: 2; }
+  .case[data-layout="c"] .case__figure { grid-column: 2; grid-row: 1 / span 2; }
+
+  /* d — a narrow column of words against the largest picture of the four */
+  .case[data-layout="d"] .case__body   { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.12fr); }
+  .case[data-layout="d"] .case__title  { grid-column: 1; grid-row: 1; }
+  .case[data-layout="d"] .case__text   { grid-column: 1; grid-row: 2; }
+  .case[data-layout="d"] .case__figure { grid-column: 2; grid-row: 1 / span 2; }
+  .case[data-layout="d"] .case__text p { max-width: 38ch; }
 }
 
-/* Alternating entries: text and picture swap sides down the page, so the eye/* Alternating entries: text and picture swap sides down the page, so the eye
-   is carried from one to the next rather than reading a single column. */
+/* --------------------------------------------------------------------------
+   9c. Service entries — two to a row
 
+   The entries on the three service pages carry a sentence or two each, which is
+   nowhere near enough to hold a full-width row open. Two to a row on the same
+   spine brings the page down to the scale of what is actually on it.
+   -------------------------------------------------------------------------- */
+
+.entry-pair { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--band) 0; }
+
+.entry__head .ledger { display: block; margin-bottom: 0.5rem; }
+.entry__head h2 { font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.9rem); margin-bottom: clamp(0.9rem, 1.4vw, 1.35rem); }
+/* The label rides down the margin beside the entries, so the column it sits in
+   is doing something the whole way rather than only at the top. */
 @media (min-width: 56rem) {
-  /* The side is stated on the element rather than counted with nth-of-type,
-     which would also count the page heading and flip the whole sequence. */
+  .entries > .aside {
+    position: sticky;
+    top: calc(var(--masthead-h) + var(--filter-h, 0px) + 1.6rem);
+    align-self: start;
+  }
 }
 
-@media (min-width: 56rem) {
-  /* Each picture hugs the outer edge of the page on its own side, so the run
-     of them reads as two clean columns rather than drifting about the middle.
-     data-side names where the TEXT sits, so the picture takes the other edge. */
+.entry__figure { margin: 0 0 clamp(0.9rem, 1.4vw, 1.35rem); }
+.entry__figure .plate { width: 100%; }
+.entry__text { display: grid; gap: 1.4rem; justify-items: start; align-content: start; }
+.entry__text p { max-width: 42ch; margin: 0; }
+.entry__text .spec { margin: 0; }
 
-  /* The words hold a fixed measure against the same two edges. */
+@media (min-width: 64rem) {
+  .entry-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2.5rem, 3.4vw, 4.5rem);
+    row-gap: clamp(2.75rem, 4vw, 4.5rem);
+  }
+  /* Subgrid lines the three bands up across a row, so the pictures sit on one
+     line whatever the headings above them do. Where it is not supported the
+     declaration is dropped and each entry simply stacks, which is the same
+     reading order and the same content. */
+  .entry {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 3;
+    row-gap: 0;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -881,6 +891,10 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    -------------------------------------------------------------------------- */
 
 .panel { padding-block: var(--band); }
+
+/* The closing invitation is given room to finish, and the footer is ruled off
+   from it, so the two do not read as one undivided sheet of white. */
+.panel--close { padding-bottom: clamp(4.5rem, 11vh, 8.5rem); }
 .overview p { font-size: var(--t-lead); line-height: 1.5; max-width: 38em; }
 .overview p + p { margin-top: 1.3em; }
 
@@ -912,9 +926,10 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   --rule-strong: rgba(253, 253, 253, 0.7);
   --plate-bg: color-mix(in srgb, var(--canvas) 14%, var(--slate));
 }
-/* Where two paper sections run on into each other, and into the footer below
-   them, a hairline keeps them from reading as one undivided block. */
-.panel + .panel, .panel + .footer { border-top: 1px solid var(--rule); }
+/* Where two paper sections run on into each other a hairline keeps them apart.
+   The one above the footer is drawn inside the shell instead, so it starts and
+   finishes on the same two lines as every other rule on the site. */
+.panel + .panel { border-top: 1px solid var(--rule); }
 .panel a { color: inherit; }
 .panel h2 { font-size: var(--t-title); }
 .panel p { color: var(--ink-strong-muted); }
@@ -989,6 +1004,11 @@ figure { margin: 0; }
    that or to 4:5, rather than to a landscape frame they would be gutted for. */
 .plate--r45 { aspect-ratio: 4 / 5; }
 .plate--r45 img { height: 100%; object-fit: cover; }
+/* The square is for the service entries, which carry a sentence each and do not
+   need a plate standing taller than the words underneath it. A 3:4 original
+   gives up only its top and bottom quarter to it. */
+.plate--sq { aspect-ratio: 1; }
+.plate--sq img { height: 100%; object-fit: cover; }
 
 /* --------------------------------------------------------------------------
    12. Links, actions
@@ -1296,16 +1316,22 @@ address {
    14. Footer
    -------------------------------------------------------------------------- */
 
-.footer {
-  padding-block: clamp(1.25rem, 2.6vh, 2.5rem) clamp(0.75rem, 1.4vh, 1.25rem);
+.footer { padding-bottom: clamp(0.75rem, 1.4vh, 1.25rem); }
+.footer > .shell {
+  border-top: 1px solid var(--rule-strong);
+  padding-top: clamp(1.5rem, 3vh, 2.75rem);
 }
 .footer__grid {
   display: grid;
   gap: clamp(1rem, 2vh, 1.5rem) var(--gutter);
   grid-template-columns: 1fr;
 }
-@media (min-width: 46rem) { .footer__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 68rem) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; } }
+/* On the same spine as everything above it: the wordmark in the margin column,
+   the three lists in the content column. */
+@media (min-width: 46rem) { .footer__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); } }
+@media (min-width: 56rem) {
+  .footer__grid { grid-template-columns: minmax(9rem, 1fr) minmax(0, 3fr); column-gap: var(--gutter); }
+}
 
 .footer h3 {
   font-size: var(--t-label); font-family: var(--mono); letter-spacing: 0.13em;
