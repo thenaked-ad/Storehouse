@@ -340,6 +340,24 @@ the reveal itself is, and for the same reason: the state written in the
 stylesheet is the **finished** one. No script, or no motion, still leaves a
 drawn arrow rather than a blank space.
 
+## The masthead arrives with the scroll
+
+At the top of a page the masthead is **transparent, with no backdrop at all** —
+measured pixel for pixel, the bar, the seam under it and the ground below it are
+all `rgb(15, 27, 112)`. It used to carry an 88% ultramarine plus a saturating
+backdrop from the start, and against the plain ultramarine behind it that read
+as a slightly different blue: a visible band across the top of the page before
+anyone had done anything.
+
+`[data-scrolled="true"]` — set by the script past 8px — brings on the backdrop
+and draws the hairline. The 1px border is declared `transparent` in the resting
+rule rather than added later, so it is always in the box and the masthead never
+changes height, which matters because `--masthead-h` is measured from it.
+
+The `[data-over]` rules come after `[data-scrolled]` in the stylesheet and carry
+the same specificity, so a paper, slate or charcoal section still overrides the
+blue backdrop when the masthead is sitting on one.
+
 ## The pointer
 
 A dot replaces the cursor, as on Dougal's holding page, opening up over anything

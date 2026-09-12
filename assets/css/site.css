@@ -292,13 +292,25 @@ figcaption {
   position: sticky;
   top: 0;
   z-index: 40;
+  /* Nothing at all at the top of a page: an 88% ultramarine bar plus a
+     saturating backdrop reads as a slightly different blue against the plain
+     ultramarine behind it, which is exactly what you do not want the first
+     thing on the page to be. The border is declared transparent rather than
+     added later so the 1px is always in the box and the masthead never
+     changes height. */
+  background: transparent;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+/* Once the page is moving, the bar separates itself from what is passing
+   underneath: the backdrop comes on and the hairline is drawn. */
+.masthead[data-scrolled="true"] {
   background: color-mix(in srgb, var(--ultramarine) 88%, transparent);
   backdrop-filter: saturate(150%) blur(14px);
   -webkit-backdrop-filter: saturate(150%) blur(14px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.4s ease;
+  border-bottom-color: var(--rule);
 }
-.masthead[data-scrolled="true"] { border-bottom-color: var(--rule); }
 
 /* Where the masthead is sitting over one of the paper sections it turns over
    with it, so the wordmark never disappears into the ground behind it. */
