@@ -350,7 +350,26 @@ as a slightly different blue: a visible band across the top of the page before
 anyone had done anything.
 
 `[data-scrolled="true"]` — set by the script past 8px — brings on the backdrop
-and draws the hairline. The 1px border is declared `transparent` in the resting
+and draws the hairline.
+
+**The backdrop is in the transition, and it has no `saturate()`.** Both matter.
+It was `saturate(150%) blur(14px)` with `backdrop-filter` left out of the
+transition list, so the filter landed whole on the first frame while the 88%
+ultramarine was still fading in behind it — for a moment you saw the saturation
+boost with nothing damping it, and the bar went bright blue before settling.
+Measured on the home page, it jumped `rgb(15, 27, 112)` → `rgb(13, 26, 122)` and
+eased back to `rgb(14, 27, 117)`.
+
+Putting the filter in the transition removed the jump but left a 3-unit hump,
+because `saturate` brightens faster in the middle of the curve than the
+half-transparent colour damps it. Dropping the saturation removed that too: over
+a flat ground it did nothing but brighten, while the **blur** is what actually
+frosts photographs passing underneath. The bar now holds `rgb(15, 27, 112)` the
+whole way through the transition on the home page — no jump, no hump.
+
+The identity `blur(0px)` in the resting rule is there so the filter has
+something to grow out of; without a filter to interpolate from, it switches on
+whole again. The 1px border is declared `transparent` in the resting
 rule rather than added later, so it is always in the box and the masthead never
 changes height, which matters because `--masthead-h` is measured from it.
 

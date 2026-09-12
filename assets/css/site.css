@@ -299,16 +299,34 @@ figcaption {
      added later so the 1px is always in the box and the masthead never
      changes height. */
   background: transparent;
+  /* Two things keep the bar from flashing as the page starts to move.
+     
+     It used to be saturate(150%) blur(14px), and backdrop-filter was not in the
+     transition list, so the filter landed whole on the first frame while the
+     88% ultramarine was still fading in behind it: for a moment you saw the
+     saturation boost with nothing damping it, and the bar went bright blue
+     before settling. Measured, it jumped from rgb(15,27,112) to rgb(13,26,122)
+     and eased back to rgb(14,27,117).
+     
+     So the filter is in the transition now, and it starts from an identity
+     blur(0px) so there is something for the real one to grow out of. And the
+     saturation is gone: over a flat ground it did nothing but brighten, which
+     is what produced the overshoot, while the blur is what actually frosts the
+     photographs that pass underneath. The bar now holds rgb(15,27,112) the
+     whole way through — no jump, no hump. */
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
   border-bottom: 1px solid transparent;
-  transition: background-color 0.4s ease, border-color 0.4s ease;
+  transition: background-color 0.4s ease, border-color 0.4s ease,
+              backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
 }
 
 /* Once the page is moving, the bar separates itself from what is passing
    underneath: the backdrop comes on and the hairline is drawn. */
 .masthead[data-scrolled="true"] {
   background: color-mix(in srgb, var(--ultramarine) 88%, transparent);
-  backdrop-filter: saturate(150%) blur(14px);
-  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom-color: var(--rule);
 }
 
@@ -715,8 +733,8 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   top: var(--masthead-h);
   z-index: 30;
   background: color-mix(in srgb, var(--ultramarine) 92%, transparent);
-  backdrop-filter: saturate(150%) blur(14px);
-  -webkit-backdrop-filter: saturate(150%) blur(14px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-block: 1px solid var(--rule);
 }
 
