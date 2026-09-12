@@ -327,10 +327,19 @@
 
       strip.addEventListener("pointerdown", function (e) {
         if (e.pointerType && e.pointerType !== "mouse") return;
+        // Press on one of the photographs and the browser would rather start
+        // its own drag of the image than let us have the pointer: you get a
+        // ghost of the picture stuck to the cursor and the row never moves.
+        // Preventing the default here is what stops that happening, and it is
+        // safe to do because nothing above has run for anything but a mouse.
+        e.preventDefault();
         dragging = true; moved = 0; lastX = e.clientX; velocity = 0;
         strip.dataset.dragging = "true";
         strip.setPointerCapture(e.pointerId);
       });
+
+      // Belt and braces: if a native drag begins by some other route, refuse it.
+      strip.addEventListener("dragstart", function (e) { e.preventDefault(); });
 
       strip.addEventListener("pointermove", function (e) {
         if (!dragging) return;

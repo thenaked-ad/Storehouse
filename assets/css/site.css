@@ -666,6 +666,8 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 /* Draggable wherever there is a mouse, including a narrowed window. */
 html[data-journey] .journey__stages { cursor: grab; user-select: none; }
+/* The photographs are part of the row, not things to be dragged out of it. */
+html[data-journey] .journey__stages img { -webkit-user-drag: none; user-select: none; }
 html[data-journey] .journey__stages[data-dragging="true"] { cursor: grabbing; }
 html[data-cursor="on"] .journey__stages,
 html[data-cursor="on"] .journey__stages * { cursor: none; }

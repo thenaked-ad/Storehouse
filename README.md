@@ -377,6 +377,20 @@ The `[data-over]` rules come after `[data-scrolled]` in the stylesheet and carry
 the same specificity, so a paper, slate or charcoal section still overrides the
 blue backdrop when the masthead is sitting on one.
 
+### The browser's own image drag
+
+Press on one of the photographs in the card row and the browser would rather
+start its own drag of the image than hand us the pointer: you get a ghost of the
+picture stuck to the cursor and the row never moves. Three things refuse it —
+`preventDefault()` on `pointerdown` (safe, because nothing above it has run for
+anything but a mouse), a `dragstart` handler that refuses as well, and
+`-webkit-user-drag: none` on the images.
+
+Worth knowing if you ever test this: **Playwright's synthetic mouse events do
+not start a native drag**, so the drag test passed for weeks while the bug was
+live. Verify it by dispatching a real `dragstart` and checking `defaultPrevented`,
+not by driving the mouse.
+
 ## The pointer
 
 A dot replaces the cursor, as on Dougal's holding page, opening up over anything
