@@ -174,13 +174,20 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 .skip-link {
   position: absolute; top: 0; left: 0; z-index: 100;
-  transform: translateY(-110%);
   background: var(--ink); color: var(--ground);
-  padding: 0.75rem 1.25rem;
   font: 400 var(--t-small)/1 var(--sans);
   text-decoration: none;
+  /* Clipped where it stands rather than moved above the page. Safari paints
+     the area above the document origin during a rubber-band scroll, so a link
+     parked up there appeared every time anyone over-scrolled at the top. */
+  width: 1px; height: 1px; padding: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap;
 }
-.skip-link:focus { transform: translateY(0); }
+.skip-link:focus {
+  width: auto; height: auto;
+  padding: 0.75rem 1.25rem;
+  overflow: visible; clip-path: none;
+}
 
 /* --------------------------------------------------------------------------
    3. Layout primitives
@@ -1094,6 +1101,29 @@ figure { margin: 0; }
 }
 .action .arrow { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); }
 .action:hover .arrow { transform: translateX(0.35rem); }
+
+/* As a case study is revealed, its arrow draws: the shaft runs out from the
+   words and the head follows it. Scoped to .js and inside the motion guard for
+   the same reason the reveal itself is — the state in the stylesheet is the
+   finished one, so no script and no animation still leaves a drawn arrow. */
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] .link--trail .arrow::before {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.22s;
+  }
+  .js [data-reveal] .link--trail .arrow::after {
+    opacity: 0;
+    transform: translateX(-0.55em) rotate(45deg);
+    transition: opacity 0.45s ease 0.5s,
+                transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.34s;
+  }
+  .js [data-reveal][data-shown="true"] .link--trail .arrow::before { transform: scaleX(1); }
+  .js [data-reveal][data-shown="true"] .link--trail .arrow::after {
+    opacity: 1;
+    transform: translateX(0) rotate(45deg);
+  }
+}
 
 /* Directory of onward pages */
 .directory { border-top: 1px solid var(--rule); }

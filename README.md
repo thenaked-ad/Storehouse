@@ -327,6 +327,19 @@ the hidden state outside the guard would leave them looking at nothing.
 The wipe is `clip-path: inset(0 100% -20% 0)` opening to `inset(0 0 -20% 0)`.
 The `-20%` at the bottom is what stops the clip cutting the descenders off.
 
+## The case-study arrows draw themselves
+
+As a case study is revealed, its arrow is drawn: the shaft runs out from the
+words on `scaleX` with a left origin, and the head catches up behind it on
+opacity and a small `translateX`. It hangs off the `data-shown` attribute the
+reveal observer already sets, so there is no second observer and no extra
+script.
+
+Scoped to `.js` and inside `prefers-reduced-motion: no-preference`, the same way
+the reveal itself is, and for the same reason: the state written in the
+stylesheet is the **finished** one. No script, or no motion, still leaves a
+drawn arrow rather than a blank space.
+
 ## The pointer
 
 A dot replaces the cursor, as on Dougal's holding page, opening up over anything
@@ -632,6 +645,21 @@ throughout, including in `robots.txt`, `sitemap.xml` and the JSON-LD.
 - One `<h1>` per page; headings in order.
 - Every image has an `alt` attribute; decorative frames are `aria-hidden`.
 - Keyboard reachable throughout, with a visible focus ring in the current ink and a skip link.
+
+### The skip link is clipped, not parked above the page
+
+`.skip-link` is hidden the visually-hidden way — 1px box, `overflow: hidden`,
+`clip-path: inset(50%)` — and unfolds on `:focus`. It is **not** hidden with
+`transform: translateY(-110%)`, which is what it used to do.
+
+Safari paints the region above the document origin during a rubber-band
+over-scroll, so a link parked up there appeared on screen every time anyone
+pulled down at the top of the page. Chrome does not repaint that region, which
+is why it only ever showed on one of them. Clipped in place there is nothing up
+there to reveal; nothing on the page now renders above y = 0.
+
+If you ever move an element off-screen to hide it, move it **down or sideways**,
+or clip it. Never up.
 - `prefers-reduced-motion` disables the scrub, the reveals and the page transitions.
 - Content is never hidden by CSS that depends on JavaScript succeeding.
 - A print stylesheet renders the site as a plain document — this trade still prints things.
