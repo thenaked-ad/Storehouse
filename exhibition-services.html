@@ -152,17 +152,19 @@
 
 <main id="main">
   <!-- ================================================ the expanding index -->
-  <!-- The title on one side, the services on the other. Each is an ordinary
-       <details>, so with the script absent every one still opens and closes and
-       the page reads as a plain list of headings with their copy underneath.
-       The shared name attribute is what makes only one stand open at a time. -->
+  <!-- Title and services down one side, one standing photograph down the other.
+       Each service is an ordinary <details>, so with the script absent every one
+       still opens and closes and the page reads as a plain list of headings with
+       their copy underneath. The shared name attribute is what makes only one
+       stand open at a time. -->
   <section class="shell services-page">
-    <div class="services-page__head">
-      <span class="ledger">01</span>
-      <h1>Exhibition Services</h1>
-    </div>
+    <div class="services-page__main">
+      <div class="services-page__head">
+        <span class="ledger">01</span>
+        <h1>Exhibition Services</h1>
+      </div>
 
-    <div class="services">
+      <div class="services">
         <details class="service" name="exhibition" id="planning">
           <summary>
             <span class="service__index">01.1</span>
@@ -171,12 +173,6 @@
           </summary>
           <div class="service__body">
             <p>Budgets and logistical timelines for exhibitions, fairs and projects</p>
-            <figure>
-              <div class="plate plate--r45">
-                <img src="assets/img/ex-planning-1000.webp" width="1000" height="1250"
-                     loading="lazy" decoding="async" alt="A tape measure laid across the stretcher bars on the back of a canvas.">
-              </div>
-            </figure>
           </div>
         </details>
         <details class="service" name="exhibition" id="agreements">
@@ -187,12 +183,6 @@
           </summary>
           <div class="service__body">
             <p>Consignment agreements, loan agreements and sales contracts</p>
-            <figure>
-              <div class="plate plate--r45">
-                <img src="assets/img/ex-agreements-1000.webp" width="1000" height="1250"
-                     loading="lazy" decoding="async" alt="A framed work face-down on the bench with its paperwork beside it.">
-              </div>
-            </figure>
           </div>
         </details>
         <details class="service" name="exhibition" id="shipping">
@@ -203,12 +193,6 @@
           </summary>
           <div class="service__body">
             <p>UK and international shipping: quotations, import and export documentation, delivery and installation</p>
-            <figure>
-              <div class="plate plate--r45">
-                <img src="assets/img/ex-shipping-1000.webp" width="1000" height="1250"
-                     loading="lazy" decoding="async" alt="Two marked Storehouse crates standing on their bearers.">
-              </div>
-            </figure>
           </div>
         </details>
         <details class="service" name="exhibition" id="framing">
@@ -219,15 +203,17 @@
           </summary>
           <div class="service__body">
             <p>Framing and conservation coordinated as the project requires</p>
-            <figure>
-              <div class="plate plate--r45">
-                <img src="assets/img/ex-framing-1000.webp" width="1000" height="1250"
-                     loading="lazy" decoding="async" alt="The corner of a frame, boarded and protected for travel.">
-              </div>
-            </figure>
           </div>
         </details>
+      </div>
     </div>
+
+    <figure class="services-page__figure">
+      <div class="plate plate--r45">
+        <img src="assets/img/ex-planning-1000.webp" width="1000" height="1250"
+             loading="eager" decoding="async" alt="A tape measure laid across the stretcher bars on the back of a canvas.">
+      </div>
+    </figure>
   </section>
 
   <section class="panel" data-paper>

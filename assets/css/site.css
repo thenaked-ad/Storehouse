@@ -976,15 +976,20 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    9c. The expanding index — Exhibition Services and Collection Management
 
    These two pages carry a sentence per service, which is too little to hold an
-   alternating row and far too little to hold a page of them. The title sits on
-   one side and the services on the other, and each opens to its copy and its
-   photograph. It replaces the jump filter on these two pages: a list you can
-   see all of at once does not need a contents bar above it.
+   alternating row and far too little to hold a page of them. Title and services
+   run down one side, one standing photograph down the other, and each service
+   opens to its copy. It replaces the jump filter on these two pages: a list you
+   can see all of at once does not need a contents bar above it.
    -------------------------------------------------------------------------- */
 
 .services-page {
   padding-top: clamp(2.5rem, 6vw, 5.5rem);
   padding-bottom: var(--band);
+  /* The blue holds the screen whatever the window. Without this the paper panel
+     below it climbs up into the first screen on a tall display, and the page
+     reads as a short blue band with a white page underneath it. */
+  min-height: calc(100vh - var(--masthead-h));
+  min-height: calc(100svh - var(--masthead-h));
 }
 @media (min-width: 56rem) {
   .services-page {
@@ -997,8 +1002,19 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 .services-page__head .ledger { display: block; margin-bottom: 1.4rem; }
 .services-page__head h1 { font-size: clamp(2.4rem, 1.1rem + 4.2vw, 4.6rem); }
 
-.services { border-top: 1px solid var(--rule); }
-@media (max-width: 55.999rem) { .services { margin-top: var(--band); } }
+/* The standing photograph. Its width comes from the height of the window, so it
+   fills the screen it is on rather than the column it is in — the same trick as
+   the About portrait. */
+.services-page__figure { margin: 0; }
+@media (min-width: 56rem) {
+  .services-page__figure .plate {
+    width: min(100%, clamp(18rem, 58vh, 38rem));
+    margin-left: auto;
+  }
+}
+@media (max-width: 55.999rem) { .services-page__figure { margin-top: var(--band); } }
+
+.services { margin-top: clamp(2rem, 4vw, 3.25rem); border-top: 1px solid var(--rule); }
 
 .service { border-bottom: 1px solid var(--rule); }
 
@@ -1057,7 +1073,6 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    with the heading it belongs to. */
 @media (min-width: 40rem) { .service__body { padding-left: 3.9rem; } }
 .service__body p { max-width: 42ch; }
-.service__body .plate { max-width: 22rem; }
 
 /* --------------------------------------------------------------------------
    10. Ultramarine panel — one caesura per page

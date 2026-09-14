@@ -486,8 +486,24 @@ and 123% on Artist, whose copy is shortest.
 
 These two pages carry a sentence per service, which is too little to hold an
 alternating row and far too little to hold a page of them. They no longer use
-`.svc-row` at all. The title sits on one side and the services on the other, and
-each opens to its copy and its photograph.
+`.svc-row` at all. **Title and services run down one side, one standing
+photograph down the other**, and each service opens to its copy — the pictures
+are out of the entries entirely.
+
+`.services-page` carries `min-height: calc(100svh - var(--masthead-h))`, so the
+blue holds the screen whatever the window. Without it the paper panel below
+climbs into the first screen on a tall display and the page reads as a short
+blue band with a white page underneath. Checked at five sizes from 1280×800 to
+1920×1200: the white never starts above the fold.
+
+The standing photograph takes its width from the **height** of the window —
+`clamp(18rem, 58vh, 38rem)` — so it fills the screen it is on rather than the
+column it sits in. Same trick as the About portrait. It is the one `loading`
+value on the site set to `eager`, because it is above the fold on both pages.
+
+One picture a page means seven of the old entry photographs are no longer
+referenced, and they are deleted rather than left in the repo. The image folder
+is 1.4MB, down from 2.8MB.
 
 Each entry is an ordinary `<details>`, so **with the script absent every one
 still opens and closes** — the browser does it, not us. The shared `name`
