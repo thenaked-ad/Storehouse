@@ -587,6 +587,13 @@ Below about 850px tall the page still compresses the rows to hold one screen,
 because Contact fitting the screen is the older requirement and it wins. So the
 two only match on a tall window, which is where anyone is comparing them.
 
+**One column of eight at every width.** It used to split into two of four below
+62rem, which halved the height but read as a grid of tiles rather than a list.
+The cost is honest and worth knowing: at 390×844 and 430×932 — most current
+phones — the page still holds one screen, but a small phone (360×640) now runs
+about 190px over, and a tablet about 130px. Contact scrolls a little on those.
+The list reading as a list was judged worth it.
+
 ## The About portrait is sized from the window, not its column
 
 `clamp(20rem, 46vh, 30rem)`: the plate is 3:4, so a width of 46vh stands about
