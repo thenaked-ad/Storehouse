@@ -448,30 +448,28 @@ not by driving the mouse.
 
 ## Service pages: the alternating row, with a smaller plate
 
-Text one side, picture the other, swapping down the page. The layout was never
-the problem — the pictures were. At half the row they stood 640px tall against
-two or three lines of copy, which is what made the pages feel mostly empty and
-take so long to scroll.
+Text on one margin, picture on the other, swapping down the page. The row spans
+the page (`--svc-shell: 87.5rem`) and each picture is pushed out to the margin
+on its own side with an auto margin, so the run of them reads as one clean edge.
+`data-side` names where the **text** sits, so the picture takes the other edge.
 
-Three numbers do the work, all on `.svc-row`:
+The layout was never the problem — the pictures were. At half the row they stood
+640px tall against two or three lines of copy, which is what made these pages
+feel mostly empty and take so long to scroll.
 
-| | Was | Now |
-|---|---|---|
-| `--svc-plate` — the picture, and the column that holds it | half the row, capped 32rem | `clamp(17rem, 24vw, 21rem)` |
-| `--svc-shell` — the row | 87.5rem | 60rem |
-| Text measure | 42ch on the paragraph only | 36rem on the paragraph **and** the points |
+One number fixes that: `--svc-plate: clamp(17rem, 24vw, 21rem)`, so the plate is
+**336×420 at 1440 rather than 512×640**. Storage & Handling comes down from
+6,324px to about 5,000px.
 
-The picture column is the picture's own width rather than a share of the row,
-so shrinking the plate cannot open a channel beside it. And the row is only as
-wide as its contents need — 36rem of text, the gutter, the plate — because the
-measure is capped: widening the row past that only ever widens the hole. At
-87.5rem with the smaller plate the gap between the end of the prose and the
-picture measured **470px**. It is now 56–111px from 1024 to 1920, which is a
-gutter rather than a void, and Storage & Handling is 4,967px instead of 6,324px.
+Worth knowing if this is ever revisited: narrowing the row to close the gap
+between the prose and the picture is a dead end. It does close it — but it also
+pulls both columns into the middle of the screen and the alternation stops
+reading as alternation, because nothing is on a margin any more. The gap is the
+price of the edge-to-edge layout, and the layout is the point.
 
-The text measure now covers the points as well as the paragraph. Capping only
-the paragraph left the block visibly ragged — a short paragraph above a bullet
-running almost to the picture.
+The text measure is `36rem` on the paragraph **and** the points. Capping only
+the paragraph, as it was, left the block visibly ragged — a short paragraph
+sitting above a bullet that ran almost to the picture.
 
 ## The About portrait is sized from the window, not its column
 

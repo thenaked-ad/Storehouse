@@ -866,15 +866,10 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 }
 
 .svc-row {
-  /* 1088px, not the 1400 it was. With the plate down to 21rem a 1400px row
-     left a 470px channel between the end of the prose and the picture: the
-     measure is capped at 42 characters, so widening the row only ever widens
-     the hole. Bringing the two edges in is what closes it. */
-  --svc-shell: 60rem;   /* 36rem of text + the gutter + the plate */
-  /* The picture's width on a desktop, and the width of the column that holds
-     it — so shrinking the plate does not open a channel between the words and
-     the picture. At half the row it stood 640px tall against two or three
-     lines of text, which is what made the page feel mostly empty. */
+  --svc-shell: 87.5rem;                       /* 1400px */
+  /* The picture's width on a desktop. At half the row it stood 640px tall
+     against two or three lines of text, which is what made these pages feel
+     mostly empty and take so long to scroll. */
   --svc-plate: clamp(17rem, 24vw, 21rem);
   width: min(100% - (var(--gutter) * 2), var(--svc-shell));
   margin-inline: auto;
@@ -913,7 +908,11 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    width instead and pushed out to the edge of the row, which keeps the two
    columns in proportion and the outer margin straight down the page. */
 @media (min-width: 56rem) {
-  .svc-row__figure .plate { max-width: none; margin: 0; }
+  /* Held to its own size and pushed out to the margin on its own side, so the
+     run of pictures reads as one clean edge down the page. */
+  .svc-row__figure .plate { max-width: var(--svc-plate); }
+  .svc-row[data-side="left"]  .svc-row__figure .plate { margin-left: auto; }
+  .svc-row[data-side="right"] .svc-row__figure .plate { margin-right: auto; }
 }
 
 .svc-row__tail { display: grid; gap: 1.6rem; align-content: start; justify-items: start; }
@@ -922,7 +921,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 
 @media (min-width: 56rem) {
   .svc-row {
-    grid-template-columns: minmax(0, 1fr) var(--svc-plate);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
     column-gap: clamp(2rem, 3.6vw, 3.75rem);
     row-gap: 1.8rem;                 /* a clear step down to the points */
     align-items: start;
@@ -939,7 +938,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   .svc-row[data-side="right"] {
     /* The picture column keeps the larger share whichever side it is on, so
        every photograph on the page comes out the same size. */
-    grid-template-columns: var(--svc-plate) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
     grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
       ".      rule"
