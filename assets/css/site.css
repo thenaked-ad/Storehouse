@@ -661,7 +661,9 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 /* The strip runs the full width of the window and insets its own content, so
    there are no negative margins to escape the page. */
 /* The row sits inside the page rhythm, not as a full-bleed band of its own. */
-.journey { padding-block: var(--band) 0; }
+/* The captions used to sit hard against the section below, so the colour
+   changed a line under the last word. */
+.journey { padding-block: var(--band); }
 .journey .section-head { margin-bottom: 1.25rem; }
 .journey__track { width: 100%; margin-top: var(--stack); }
 
@@ -983,6 +985,8 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    -------------------------------------------------------------------------- */
 
 .services-page {
+  /* One width for the standing photograph and for the dots under it. */
+  --standing-w: min(100%, clamp(18rem, 58vh, 38rem));
   padding-top: clamp(2.5rem, 6vw, 5.5rem);
   padding-bottom: var(--band);
   /* The blue holds the screen whatever the window. Without this the paper panel
@@ -1029,11 +1033,32 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    the About portrait. */
 .services-page__figure { margin: 0; }
 @media (min-width: 56rem) {
-  .services-page__figure .plate {
-    width: min(100%, clamp(18rem, 58vh, 38rem));
+  .services-page__figure .plate,
+  .services-page__figure .slideshow__dots {
+    width: var(--standing-w);
     margin-left: auto;
   }
 }
+
+/* A set, not a photograph that happens to change. Each dot is a button, so the
+   frames can be looked through by hand as well as watched. */
+.slideshow__dots {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.85rem;
+}
+.slideshow__dot {
+  width: 7px; height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.32;
+  cursor: pointer;
+  transition: opacity 0.35s ease;
+}
+.slideshow__dot:hover { opacity: 0.66; }
+.slideshow__dot[data-on="true"] { opacity: 1; }
 @media (max-width: 55.999rem) { .services-page__figure { margin-top: var(--band); } }
 
 .services { margin-top: clamp(2rem, 4vw, 3.25rem); border-top: 1px solid var(--rule); }

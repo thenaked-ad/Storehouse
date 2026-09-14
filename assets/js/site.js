@@ -130,37 +130,57 @@
      own, so with this absent the panel is simply a photograph. */
 
   var shows = document.querySelectorAll("[data-slideshow]");
-  if (shows.length && !reduced) {
-    Array.prototype.forEach.call(shows, function (box) {
-      var imgs = Array.prototype.slice.call(box.querySelectorAll("img"));
-      if (imgs.length < 2) return;
+  Array.prototype.forEach.call(shows, function (box) {
+    var imgs = Array.prototype.slice.call(box.querySelectorAll("img"));
+    if (imgs.length < 2) return;
 
-      var at = 0, timer = null;
-      imgs[0].dataset.on = "true";
+    var at = 0, timer = null;
+    imgs[0].dataset.on = "true";
 
-      var step = function () {
-        imgs[at].dataset.on = "false";
-        at = (at + 1) % imgs.length;
-        imgs[at].dataset.on = "true";
-      };
-      var start = function () { if (!timer) timer = window.setInterval(step, 1500); };
-      var stop  = function () { if (timer) { window.clearInterval(timer); timer = null; } };
-
-      // Nothing turns over while it is off screen or the tab is in the
-      // background: a timer nobody can see is only work and battery.
-      if ("IntersectionObserver" in window) {
-        new IntersectionObserver(function (entries) {
-          entries[0].isIntersecting ? start() : stop();
-        }, { threshold: 0.15 }).observe(box);
-      } else {
-        start();
-      }
-      document.addEventListener("visibilitychange", function () {
-        if (document.hidden) stop();
-        else if (box.getBoundingClientRect().top < window.innerHeight) start();
-      });
+    // The dots are built here rather than written into the page, because
+    // without this script there is nothing for them to indicate.
+    var dots = document.createElement("div");
+    dots.className = "slideshow__dots";
+    var marks = imgs.map(function (_, i) {
+      var d = document.createElement("button");
+      d.type = "button";
+      d.className = "slideshow__dot";
+      d.setAttribute("aria-label", "Show photograph " + (i + 1) + " of " + imgs.length);
+      d.addEventListener("click", function () { go(i); restart(); });
+      dots.appendChild(d);
+      return d;
     });
-  }
+    marks[0].dataset.on = "true";
+    box.parentNode.appendChild(dots);
+
+    var go = function (i) {
+      imgs[at].dataset.on = "false"; marks[at].dataset.on = "false";
+      at = i;
+      imgs[at].dataset.on = "true";  marks[at].dataset.on = "true";
+    };
+    var step  = function () { go((at + 1) % imgs.length); };
+    var start = function () { if (!timer && !reduced) timer = window.setInterval(step, 2000); };
+    var stop  = function () { if (timer) { window.clearInterval(timer); timer = null; } };
+    var restart = function () { stop(); start(); };
+
+    // Anyone who has asked for less movement gets the dots and no turning: the
+    // set is still theirs to look through, it just does not move on its own.
+    if (reduced) return;
+
+    // Nothing turns over while it is off screen or the tab is in the
+    // background: a timer nobody can see is only work and battery.
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        entries[0].isIntersecting ? start() : stop();
+      }, { threshold: 0.15 }).observe(box);
+    } else {
+      start();
+    }
+    document.addEventListener("visibilitychange", function () {
+      if (document.hidden) stop();
+      else if (box.getBoundingClientRect().top < window.innerHeight) start();
+    });
+  });
 
   /* ----------------------------------------------------------- the pointer */
 

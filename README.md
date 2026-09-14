@@ -503,10 +503,20 @@ value on the site set to `eager`, because it is above the fold on both pages.
 
 ### The standing photograph is a slideshow
 
-It turns over every 1.5s through that page's own frames — four on Exhibition
+It turns over every 2s through that page's own frames — four on Exhibition
 Services, five on Collection Management, six on Storage & Handling. Every frame
 is in the markup and **the first is the only one that starts opaque**, so with
 the script absent the panel is simply a photograph.
+
+A row of dots sits under it, built in script rather than written into the page,
+because without the script there is nothing for them to indicate. They are
+buttons, not marks: the frames can be looked through by hand as well as watched,
+and each carries an "Show photograph 3 of 6" label. They take their width from
+the same `--standing-w` as the plate, so the two line up exactly.
+
+**Reduced motion keeps the dots and loses the turning.** The set is still there
+to look through, it just does not move on its own — a better answer than showing
+one frame and hiding the rest.
 
 It stops when it cannot be seen: an IntersectionObserver pauses it off screen
 and `visibilitychange` pauses it in a background tab. A timer nobody can watch
