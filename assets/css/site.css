@@ -1002,6 +1002,28 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 .services-page__head .ledger { display: block; margin-bottom: 1.4rem; }
 .services-page__head h1 { font-size: clamp(2.4rem, 1.1rem + 4.2vw, 4.6rem); }
 
+/* The page's own photographs, one at a time. Every frame is stacked in the same
+   plate; the first is the one that shows with the script absent, which is why
+   it is the only one that starts opaque. */
+/* The plate has to be the containing block. Without this the frames take their
+   inset from the page itself, stretch across the whole document and sit on top
+   of the services, which swallows every click on them. */
+.slideshow { position: relative; }
+.slideshow img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+}
+.slideshow img:first-child { opacity: 1; }
+.slideshow img[data-on="true"]  { opacity: 1; }
+.slideshow img[data-on="false"] { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .slideshow img { transition: opacity 0.55s ease; }
+}
+
 /* The standing photograph. Its width comes from the height of the window, so it
    fills the screen it is on rather than the column it is in — the same trick as
    the About portrait. */
@@ -1184,6 +1206,22 @@ figure { margin: 0; }
 }
 .signature__ink { width: 100%; height: auto; display: block; overflow: visible; }
 
+/* Written rather than revealed. pathLength="1" normalises each path to a length
+   of one, so a single dash covers it and the offset can run from 1 to 0 — no
+   getTotalLength, no script. The two paths are the two words, so Henderson
+   starts after Fred has finished. Outside the guard the signature is simply
+   there, drawn, which is the right resting state. */
+@media (prefers-reduced-motion: no-preference) {
+  .signature__ink path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: sign-on 1.5s cubic-bezier(0.4, 0.1, 0.4, 1) both;
+  }
+  .signature__ink .sig-a { animation-delay: 0.75s; }
+  .signature__ink .sig-b { animation-delay: 2.05s; animation-duration: 2.1s; }
+  @keyframes sign-on { to { stroke-dashoffset: 0; } }
+}
+
 /* On a phone the plate fills its column, so the overhang has to stay inside
    the gutter or it drags the whole page sideways. */
 @media (max-width: 27rem) {
@@ -1301,20 +1339,25 @@ figure { margin: 0; }
    words and the head follows it. Scoped to .js and inside the motion guard for
    the same reason the reveal itself is — the state in the stylesheet is the
    finished one, so no script and no animation still leaves a drawn arrow. */
+/* The link carries its own data-reveal rather than inheriting its row's. A case
+   study is a screen and a half tall, and the observer fires at 8% of it, so
+   keying the arrow to the row drew it while the link was still well below the
+   fold — the animation was over before it came into view. Watching the link
+   itself is what puts it on screen at the moment it draws. */
 @media (prefers-reduced-motion: no-preference) {
-  .js [data-reveal] .link--trail .arrow::before {
+  .js .link--trail[data-reveal] .arrow::before {
     transform: scaleX(0);
     transform-origin: left center;
     transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.22s;
   }
-  .js [data-reveal] .link--trail .arrow::after {
+  .js .link--trail[data-reveal] .arrow::after {
     opacity: 0;
     transform: translateX(-0.55em) rotate(45deg);
     transition: opacity 0.45s ease 0.5s,
                 transform 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.34s;
   }
-  .js [data-reveal][data-shown="true"] .link--trail .arrow::before { transform: scaleX(1); }
-  .js [data-reveal][data-shown="true"] .link--trail .arrow::after {
+  .js .link--trail[data-reveal][data-shown="true"] .arrow::before { transform: scaleX(1); }
+  .js .link--trail[data-reveal][data-shown="true"] .arrow::after {
     opacity: 1;
     transform: translateX(0) rotate(45deg);
   }

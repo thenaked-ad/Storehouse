@@ -482,11 +482,11 @@ The case study plate is sized to stand beside its text rather than beside a
 single sentence: measured, it is 90–99% of the text height on three of the four,
 and 123% on Artist, whose copy is shortest.
 
-## The expanding index — Exhibition Services and Collection Management
+## The expanding index — all three service pages
 
-These two pages carry a sentence per service, which is too little to hold an
-alternating row and far too little to hold a page of them. They no longer use
-`.svc-row` at all. **Title and services run down one side, one standing
+All three service pages use it now, Storage & Handling included; the card row
+follows underneath on that page. None of them uses `.svc-row` any more — that is
+the home page's case studies only. **Title and services run down one side, one standing
 photograph down the other**, and each service opens to its copy — the pictures
 are out of the entries entirely.
 
@@ -501,9 +501,26 @@ The standing photograph takes its width from the **height** of the window —
 column it sits in. Same trick as the About portrait. It is the one `loading`
 value on the site set to `eager`, because it is above the fold on both pages.
 
-One picture a page means seven of the old entry photographs are no longer
-referenced, and they are deleted rather than left in the repo. The image folder
-is 1.4MB, down from 2.8MB.
+### The standing photograph is a slideshow
+
+It turns over every 1.5s through that page's own frames — four on Exhibition
+Services, five on Collection Management, six on Storage & Handling. Every frame
+is in the markup and **the first is the only one that starts opaque**, so with
+the script absent the panel is simply a photograph.
+
+It stops when it cannot be seen: an IntersectionObserver pauses it off screen
+and `visibilitychange` pauses it in a background tab. A timer nobody can watch
+is only work and battery.
+
+> **`.slideshow` must stay `position: relative`.** The frames are absolutely
+> positioned, and without a positioned plate they take their inset from the page
+> itself — they stretch across the whole document, sit on top of the services and
+> swallow every click on them. Found by a Playwright click timing out, not by
+> looking: the page still rendered correctly.
+
+Only the first frame carries alt text. The rest are `alt=""`, because a rotation
+of six descriptions read aloud is noise, and the page's own copy carries the
+meaning.
 
 Each entry is an ordinary `<details>`, so **with the script absent every one
 still opens and closes** — the browser does it, not us. The shared `name`
@@ -526,6 +543,17 @@ It is the layout at every width, not just desktop. Exhibition Services is
 The text measure is `36rem` on the paragraph **and** the points. Capping only
 the paragraph, as it was, left the block visibly ragged — a short paragraph
 sitting above a bullet that ran almost to the picture.
+
+## The signature writes itself
+
+`pathLength="1"` normalises each path to a length of one, so a single dash
+covers it and `stroke-dashoffset` can run from 1 to 0 in CSS — no
+`getTotalLength`, no script, no measuring. The two paths are the two words, so
+Henderson starts once Fred has finished. Measured: Fred draws 0.75–2.25s,
+Henderson 2.05–4.15s.
+
+Outside the reduced-motion guard there is no dash at all and the signature is
+simply there, drawn, which is the right resting state.
 
 ## The About portrait is sized from the window, not its column
 

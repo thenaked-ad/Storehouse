@@ -123,6 +123,45 @@
     }, { passive: true });
   }
 
+  /* --------------------------------------------------------- the slideshow */
+
+  /* The standing photograph on a service page cycles through that page's own
+     frames. Every frame is already in the markup and the first one shows on its
+     own, so with this absent the panel is simply a photograph. */
+
+  var shows = document.querySelectorAll("[data-slideshow]");
+  if (shows.length && !reduced) {
+    Array.prototype.forEach.call(shows, function (box) {
+      var imgs = Array.prototype.slice.call(box.querySelectorAll("img"));
+      if (imgs.length < 2) return;
+
+      var at = 0, timer = null;
+      imgs[0].dataset.on = "true";
+
+      var step = function () {
+        imgs[at].dataset.on = "false";
+        at = (at + 1) % imgs.length;
+        imgs[at].dataset.on = "true";
+      };
+      var start = function () { if (!timer) timer = window.setInterval(step, 1500); };
+      var stop  = function () { if (timer) { window.clearInterval(timer); timer = null; } };
+
+      // Nothing turns over while it is off screen or the tab is in the
+      // background: a timer nobody can see is only work and battery.
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          entries[0].isIntersecting ? start() : stop();
+        }, { threshold: 0.15 }).observe(box);
+      } else {
+        start();
+      }
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) stop();
+        else if (box.getBoundingClientRect().top < window.innerHeight) start();
+      });
+    });
+  }
+
   /* ----------------------------------------------------------- the pointer */
 
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
