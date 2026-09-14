@@ -467,6 +467,33 @@ pulls both columns into the middle of the screen and the alternation stops
 reading as alternation, because nothing is on a margin any more. The gap is the
 price of the edge-to-edge layout, and the layout is the point.
 
+### Three plate sizes, one variable
+
+`--svc-plate` is set once on `.svc-row` and overridden by two modifiers, because
+the same row markup carries three very different amounts of copy:
+
+| | `--svc-plate` | At 1440 |
+|---|---|---|
+| `.svc-row` — a service entry | `clamp(17rem, 24vw, 21rem)` | 336×420 |
+| `.svc-row--case` — a home page case study, two paragraphs | `clamp(20rem, 34vw, 30rem)` | 480×600 |
+| `.svc-row--pair` — a consultancy entry, two photographs | `clamp(20rem, 46vw, 42rem)` | two at 324×405 |
+
+The case study plate is sized to stand beside its text rather than beside a
+single sentence: measured, it is 90–99% of the text height on three of the four,
+and 123% on Artist, whose copy is shortest.
+
+### Two photographs where there is one line of copy
+
+Exhibition Services and Collection Management carry a sentence per entry, so one
+plate could only fill the width the words leave by growing tall again — and tall
+was the whole problem. `.svc-row__figure--pair` puts two side by side instead.
+The pair takes the margin, so the plates inside give up their own cap and auto
+margins.
+
+Below 56rem the second is `display: none`, which is doing two jobs: the phone
+column has room for one, **and a lazy image that can never be shown is never
+fetched**. Measured — Exhibition Services pulls 4 images at 390px and 8 at 1440.
+
 The text measure is `36rem` on the paragraph **and** the points. Capping only
 the paragraph, as it was, left the block visibly ragged — a short paragraph
 sitting above a bullet that ran almost to the picture.

@@ -900,6 +900,19 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 .svc-row__head p { max-width: 34ch; }        /* a comfortable line */
 .svc-row__head p + p { margin-top: 0.8em; }
 
+/* A case study runs to two paragraphs, so its picture is sized to stand beside
+   them rather than to the service entries' single sentence. */
+.svc-row--case { --svc-plate: clamp(20rem, 34vw, 30rem); }
+
+/* A pair needs the room for two. */
+.svc-row--pair { --svc-plate: clamp(20rem, 46vw, 42rem); }
+
+/* On a phone the column has room for one, and display:none also means the
+   second is never fetched: a lazy image that can never be shown is not loaded. */
+@media (max-width: 55.999rem) {
+  .plate--second { display: none; }
+}
+
 .svc-row__figure { margin: 0; }
 .svc-row__figure .plate { width: 100%; }
 
@@ -913,6 +926,20 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   .svc-row__figure .plate { max-width: var(--svc-plate); }
   .svc-row[data-side="left"]  .svc-row__figure .plate { margin-left: auto; }
   .svc-row[data-side="right"] .svc-row__figure .plate { margin-right: auto; }
+
+  /* Two photographs where a service has one line of copy. The pair fills the
+     width the words leave, which one plate could only do by growing tall again
+     — and tall was the whole problem. The pair is what takes the margin now,
+     so the plates inside it give up their own cap and auto margins. */
+  .svc-row__figure--pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(0.5rem, 1vw, 0.9rem);
+    max-width: var(--svc-plate);
+  }
+  .svc-row__figure--pair .plate { max-width: none; margin: 0; }
+  .svc-row[data-side="left"]  .svc-row__figure--pair { margin-left: auto; }
+  .svc-row[data-side="right"] .svc-row__figure--pair { margin-right: auto; }
 }
 
 .svc-row__tail { display: grid; gap: 1.6rem; align-content: start; justify-items: start; }
