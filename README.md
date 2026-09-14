@@ -572,6 +572,21 @@ by 1.35s, Henderson done by 3.15s.
 Outside the reduced-motion guard there is no dash at all and the signature is
 simply there, drawn, which is the right resting state.
 
+## The Contact list keeps its own rhythm
+
+The eight enquiry rows used to carry `flex: 1` and share out the whole height of
+their column, which made each one about 90px tall with the words floating in the
+middle. That reads nothing like the ruled lists on the service pages, which are
+set by their padding and come out around 60px.
+
+They now take the same `padding-block: 0.95rem` and sit at their own height:
+56px against the service pages' 60px at a 900px window. The list ends where it
+ends rather than being stretched to the foot of the column.
+
+Below about 850px tall the page still compresses the rows to hold one screen,
+because Contact fitting the screen is the older requirement and it wins. So the
+two only match on a tall window, which is where anyone is comparing them.
+
 ## The About portrait is sized from the window, not its column
 
 `clamp(20rem, 46vh, 30rem)`: the plate is 3:4, so a width of 46vh stands about

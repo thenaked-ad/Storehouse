@@ -1519,9 +1519,12 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
   }
   .single-grid > div > :first-child { margin-top: 0; }
 
-  /* Eight rows sharing the full height of the column. */
-  .single-grid .enquiries { flex: 1; }
-  .single-grid .enquiries a { flex: 1; align-items: center; }
+  /* The rows keep their own rhythm rather than sharing out the height of the
+     column. Stretched to fill, each one stood 90px tall with the words floating
+     in the middle of it, which read nothing like the ruled lists on the service
+     pages — those are set by their padding and come out around 54px. Same
+     padding here, same line. */
+  .single-grid .enquiries a { align-items: baseline; padding-block: 0.95rem; }
 
   /* The portrait takes whatever height is left. */
   .single-grid--about .portrait { align-self: center; }
