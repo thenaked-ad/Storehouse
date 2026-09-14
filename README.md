@@ -129,7 +129,8 @@ The brand faces, self-hosted as woff2 in `assets/fonts/`:
 |---|---|---|---|
 | Headings, navigation, labels | Beausite Classic Clear | `BeausiteClassicWeb-Clear.woff2` | bought (Fatype) |
 | — available, nothing uses it yet | Beausite Classic Medium | `BeausiteClassicWeb-Medium.woff2` | bought (Fatype) |
-| Body copy | Rhymes Text | `rhymes-text-400.woff2` | **still the trial** |
+| Body copy | Rhymes Text Light | `RhymesText-Light.woff` | bought (MaxiType) |
+| — available, nothing uses it yet | Rhymes Text Medium | `RhymesText-Medium.woff` | bought (MaxiType) |
 | Index numbers, captions | IBM Plex Mono | `ibm-plex-mono-400.woff2` | open (SIL OFL) |
 
 Arrows are drawn in CSS rather than typed — a shaft with a square turned about
@@ -171,21 +172,34 @@ wired up and costs one `font-weight`.
 >    (Netlify, Cloudflare, anything Apache/nginx) or written confirmation from
 >    Fatype that they accept the site as hosted.
 
-### Rhymes Text is still the trial file
+### Rhymes is licensed, and shipped as WOFF
 
-The 2026 order contains **desktop OTF and TTF only — no webfont**. MaxiType's
-licence string excludes *"modifying, reassembling, renaming, storing on
-publicly available servers"*, which rules out both routes: the OTF cannot be
-converted to WOFF2 (modifying) and cannot be uploaded as-is (storing on a
-public server). Fatype's policy says the same of their own formats —
-*"Uploading OTF and TTF files is strictly forbidden"*.
+MaxiType's files exactly as delivered, verified by sha256. **WOFF, not WOFF2,
+on purpose:** their licence excludes *"modifying, reassembling"*, and
+recompressing a WOFF into a WOFF2 is arguably both. It costs about 17KB a face
+and WOFF is supported everywhere, so the only thing lost is bytes. Fonts are
+164KB on first load, all self-hosted, still zero external requests.
 
-The weights do not line up either: the order has Light (300) and Medium (500),
-where the site uses 400.
+#### The body copy moved from 400 to 300
 
-So `rhymes-text-400.woff2` is untouched and still the unlicensed trial. **A
-separate webfont licence is needed from MaxiType (maxitype.com)** before this
-site is public. When the WOFF2 arrives, drop it in and change one `src` line.
+The order has **Light (300) and Medium (500) and no 400**, which is what the
+body copy was set in. So it had to move one way or the other, and it shows on
+every paragraph.
+
+It is **Light**. Almost all the body copy is white on the ultramarine, and light
+type on a dark ground blooms optically — it prints heavier than the same weight
+would on paper. Medium reads chunky against the hairline wordmark and the 1px
+rules. One number on `body` changes it back.
+
+A consequence worth knowing: **the sans and mono elements inherit that 300** and
+none of them declares its own weight. They do not render light, because neither
+family has a face below 400 — the font-matching rules say a request under 400
+with nothing at or below it takes the next weight up. Verified rather than
+assumed: `Handling` set in Beausite at an inherited 300 measures 496.33px, which
+is identical to an explicit 400 and nothing like Medium's 480.25px.
+
+Medium is declared at 500 for both families so they are complete. Nothing asks
+for either, so neither is ever downloaded.
 
 Each token keeps a close open substitute behind the brand face, for the moment
 before the font loads.

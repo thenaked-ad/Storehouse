@@ -18,10 +18,17 @@
        say in the policy that failing to install it terminates the agreement.
        GitHub Pages cannot run htaccess at all. See README, "Fonts".
 
-   RHYMES TEXT IS STILL THE TRIAL. The 2026 order contains desktop OTF and TTF
-   only, no webfont, and MaxiType's licence excludes "modifying, reassembling,
-   renaming, storing on publicly available servers". So the OTF cannot be
-   converted and cannot be uploaded: a separate webfont licence is needed.
+   RHYMES IS LICENSED TOO, and shipped as WOFF rather than WOFF2. That is on
+   purpose: MaxiType's licence excludes "modifying, reassembling", and
+   recompressing a WOFF into a WOFF2 is arguably both, so these are their files
+   exactly as delivered. It costs about 17KB a face over WOFF2 and WOFF is
+   supported everywhere, so nothing is lost but bytes.
+
+   The order has Light (300) and Medium (500) and no 400, which is what the
+   body copy used to be set in. Body copy is now Light: almost all of it is
+   white on the ultramarine, and light type on a dark ground blooms optically —
+   it prints heavier than the same weight would on paper. Medium reads chunky
+   against the hairline wordmark. One number changes it back, on body below.
    ========================================================================== */
 
 @font-face {
@@ -42,8 +49,15 @@
 }
 @font-face {
   font-family: "Rhymes Text";
-  src: url("../fonts/rhymes-text-400.woff2") format("woff2");
-  font-weight: 400;
+  src: url("../fonts/RhymesText-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Rhymes Text";
+  src: url("../fonts/RhymesText-Medium.woff") format("woff");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -154,7 +168,15 @@ body {
   color: var(--ink);
   font-family: var(--serif);
   font-size: var(--t-body);
-  font-weight: 400;
+  /* Rhymes Light. This is the serif's weight, and the one number to change if
+     the body copy should be Medium instead.
+
+     Everything set in the sans or the mono inherits this 300 and never gets a
+     light face, because neither family has one: the font-matching rules say a
+     request below 400 with nothing at or under it takes the next weight up,
+     which is Beausite Clear and Plex Mono at 400. Verified in the browser
+     rather than assumed. */
+  font-weight: 300;
   line-height: 1.62;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
