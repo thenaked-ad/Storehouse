@@ -446,28 +446,43 @@ not start a native drag**, so the drag test passed for weeks while the bug was
 live. Verify it by dispatching a real `dragstart` and checking `defaultPrevented`,
 not by driving the mouse.
 
-## Service pages: two to a line above 64rem
+## Service pages: the alternating row, with a smaller plate
 
-The three service pages carry a sentence or two per entry, so the alternating
-full-width row gave a 600px photograph half a screen of empty blue beside it,
-six times over. `.svc-grid` wraps the same rows and, above 64rem, lays them two
-to a line with the picture beside the words.
+Text one side, picture the other, swapping down the page. The layout was never
+the problem — the pictures were. At half the row they stood 640px tall against
+two or three lines of copy, which is what made the pages feel mostly empty and
+take so long to scroll.
 
-Nothing is re-ordered in the HTML and the alternation simply stops applying;
-`data-side` is still on every row and still drives the phone layout untouched.
+Three numbers do the work, all on `.svc-row`:
 
-Measured on Storage & Handling either side of the breakpoint — the same content
-at effectively the same width — the page goes from **5,898px at 1023px wide to
-2,953px at 1024px**. It halves.
+| | Was | Now |
+|---|---|---|
+| `--svc-plate` — the picture, and the column that holds it | half the row, capped 32rem | `clamp(17rem, 24vw, 21rem)` |
+| `--svc-shell` — the row | 87.5rem | 60rem |
+| Text measure | 42ch on the paragraph only | 36rem on the paragraph **and** the points |
 
-The breakpoint is 64rem rather than the 56rem used everywhere else on purpose:
-between the two, two columns of prose come out around 30 characters, which is
-not worth the compactness. Below 64rem the alternating row stays.
+The picture column is the picture's own width rather than a share of the row,
+so shrinking the plate cannot open a channel beside it. And the row is only as
+wide as its contents need — 36rem of text, the gutter, the plate — because the
+measure is capped: widening the row past that only ever widens the hole. At
+87.5rem with the smaller plate the gap between the end of the prose and the
+picture measured **470px**. It is now 56–111px from 1024 to 1920, which is a
+gutter rather than a void, and Storage & Handling is 4,967px instead of 6,324px.
 
-The picture column is `clamp(9.5rem, 13vw, 16.25rem)` — a plate that grows with
-the page rather than a fraction of the cell, so the words keep a readable
-measure at every width (34–48 characters across 1024–1920) instead of being
-squeezed as the columns narrow.
+The text measure now covers the points as well as the paragraph. Capping only
+the paragraph left the block visibly ragged — a short paragraph above a bullet
+running almost to the picture.
+
+## The About portrait is sized from the window, not its column
+
+`clamp(20rem, 46vh, 30rem)`: the plate is 3:4, so a width of 46vh stands about
+61vh tall and sits on the centre line of the screen with room above and below.
+It is 414×552 at 1440×900, against 352×469 before.
+
+`min(100% - 6rem, …)` holds 6rem back from the column, because the signature
+hangs 17% of the plate past its right edge. Without that, the bigger plate
+pushed the flourish off the side of the page and the whole document scrolled
+sideways — 37px over at 480px wide. Checked at thirteen widths from 360 to 1920.
 
 ## Two closing tags the browsers had been repairing
 

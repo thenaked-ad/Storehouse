@@ -866,13 +866,22 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 }
 
 .svc-row {
-  --svc-shell: 87.5rem;                       /* 1400px */
+  /* 1088px, not the 1400 it was. With the plate down to 21rem a 1400px row
+     left a 470px channel between the end of the prose and the picture: the
+     measure is capped at 42 characters, so widening the row only ever widens
+     the hole. Bringing the two edges in is what closes it. */
+  --svc-shell: 60rem;   /* 36rem of text + the gutter + the plate */
+  /* The picture's width on a desktop, and the width of the column that holds
+     it — so shrinking the plate does not open a channel between the words and
+     the picture. At half the row it stood 640px tall against two or three
+     lines of text, which is what made the page feel mostly empty. */
+  --svc-plate: clamp(17rem, 24vw, 21rem);
   width: min(100% - (var(--gutter) * 2), var(--svc-shell));
   margin-inline: auto;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: clamp(1.1rem, 2vw, 1.6rem);
-  padding-block: clamp(1.4rem, 0.8rem + 1.6vw, 2.2rem);
+  padding-block: clamp(1.2rem, 0.75rem + 1.2vw, 1.8rem);
 }
 
 /* A short rule at the head of each row, set to the content grid rather than
@@ -904,9 +913,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    width instead and pushed out to the edge of the row, which keeps the two
    columns in proportion and the outer margin straight down the page. */
 @media (min-width: 56rem) {
-  .svc-row__figure .plate { max-width: 32rem; }
-  .svc-row[data-side="left"]  .svc-row__figure .plate { margin-left: auto; }
-  .svc-row[data-side="right"] .svc-row__figure .plate { margin-right: auto; }
+  .svc-row__figure .plate { max-width: none; margin: 0; }
 }
 
 .svc-row__tail { display: grid; gap: 1.6rem; align-content: start; justify-items: start; }
@@ -915,7 +922,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 
 @media (min-width: 56rem) {
   .svc-row {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr);
+    grid-template-columns: minmax(0, 1fr) var(--svc-plate);
     column-gap: clamp(2rem, 3.6vw, 3.75rem);
     row-gap: 1.8rem;                 /* a clear step down to the points */
     align-items: start;
@@ -932,7 +939,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   .svc-row[data-side="right"] {
     /* The picture column keeps the larger share whichever side it is on, so
        every photograph on the page comes out the same size. */
-    grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+    grid-template-columns: var(--svc-plate) minmax(0, 1fr);
     grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
       ".      rule"
@@ -946,59 +953,20 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   .svc-row__tail   { grid-area: tail; }
   .svc-row__figure { grid-area: figure; }
 
-  .svc-row__head p { max-width: 42ch; }
+  /* One measure for the whole text column. The paragraph used to be capped at
+     42ch while the points ran the full width of the column, which left the
+     block visibly ragged — a short paragraph above a bullet reaching almost to
+     the picture. */
+  .svc-row__head p,
+  .svc-row__tail { max-width: 36rem; }
 }
 
-/* Alternating entries: below 56rem a service is one full-width row, text then
-   picture, and data-side does nothing. That is the phone layout and it stays.
+/* Alternating entries: text and picture swap sides down the page, so the eye
+   is carried from one to the next rather than reading a single column.
 
-   On a desktop the alternation was the problem rather than the point. These
-   entries carry a sentence or two each, so a row gave a 600px photograph half a
-   screen of empty blue beside it, six times over. Inside .svc-grid the same
-   markup becomes two entries to a line, each with its picture beside its words:
-   no alternation, nothing re-ordered in the HTML.
-
-   Measured on Storage & Handling either side of the breakpoint, so the same
-   content at effectively the same width: 5,898px at 1023px wide, 2,953px at
-   1024px. The page halves. */
-
-/* 64rem, not 56rem: between the two the alternating row still reads better,
-   because two columns of prose that narrow are not worth the compactness. */
-@media (min-width: 64rem) {
-  .svc-grid {
-    width: min(100% - (var(--gutter) * 2), var(--shell));
-    margin-inline: auto;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    column-gap: clamp(2.5rem, 4.4vw, 4.5rem);
-    row-gap: clamp(2.75rem, 4.4vw, 4.25rem);
-    padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
-  }
-
-  /* In the grid a row stops being a row: it is a cell, and it gives up the
-     width, the padding and the alternation it sets for itself. */
-  .svc-grid .svc-row,
-  .svc-grid .svc-row[data-side="right"] {
-    width: auto;
-    margin-inline: 0;
-    padding-block: 0;
-    /* The picture is a fixed plate that grows with the page rather than a
-       fraction of the cell, so the words keep a readable measure at every
-       width instead of being squeezed as the columns narrow. */
-    grid-template-columns: clamp(9.5rem, 13vw, 16.25rem) minmax(0, 1fr);
-    column-gap: clamp(1.25rem, 2.2vw, 2rem);
-    row-gap: 0;
-    grid-template-rows: auto auto 1fr;
-    grid-template-areas:
-      "rule   rule"
-      "figure head"
-      "figure tail";
-  }
-  .svc-grid .svc-row::before { grid-area: rule; }
-  .svc-grid .svc-row__figure .plate { max-width: none; margin: 0; }
-  .svc-grid .svc-row__head p { max-width: none; }
-  .svc-grid .svc-row__tail { margin-top: 1.1rem; gap: 1.1rem; }
-}
+   The pictures are deliberately modest on a desktop. At half the column width
+   they stood 640px tall against two or three lines of text, which is what made
+   the page feel mostly empty and take so long to scroll. */
 
 /* --------------------------------------------------------------------------
    10. Ultramarine panel — one caesura per page
@@ -1079,7 +1047,17 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 
 figure { margin: 0; }
 
-.portrait { max-width: min(100%, 22rem); margin-inline: auto; }
+/* Sized from the height of the window rather than the width of its column, so
+   it fills the screen it is on: the plate is 3:4, so a width of 46vh stands
+   about 61vh tall and sits on the centre line with room above and below. */
+.portrait {
+  /* 6rem is held back from the column for the signature, which hangs 17% of the
+     plate past its right edge. Without it a bigger plate pushed the flourish
+     off the side of the page and the whole document scrolled sideways —
+     measured at 37px over at 480px wide. */
+  max-width: min(100% - 6rem, clamp(20rem, 46vh, 30rem));
+  margin-inline: auto;
+}
 .portrait__figure { position: relative; }
 
 /* The name signed across the corner of the plate and off the edge of it, so
@@ -1350,7 +1328,7 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
   .single-grid .enquiries a { flex: 1; align-items: center; }
 
   /* The portrait takes whatever height is left. */
-  .single-grid--about .portrait { align-self: start; }
+  .single-grid--about .portrait { align-self: center; }
 }
 @media (min-width: 62rem) {
   .single-grid--contact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 1fr); }
