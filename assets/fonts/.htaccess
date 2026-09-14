@@ -1,0 +1,41 @@
+# Fatype's referrer guard for the licensed webfonts, shipped with the Beausite
+# order and required by their Web Fonts Policy: "Failing to do so will terminate
+# the licensing agreement." example.com has been replaced with the live domain.
+#
+# THIS FILE DOES NOTHING ON GITHUB PAGES. Pages is static hosting with no Apache
+# and no server configuration, so htaccess is never read. It is committed here
+# so that the day the site moves to a host that does read it — Netlify,
+# Cloudflare, any Apache or nginx box — the condition is already met. See the
+# README, "Fonts", for the rest of the licensing position.
+
+<FilesMatch "\.(eot|woff|woff2|svg|ttf)$">
+    RewriteEngine On
+
+    # Let proxy servers with empty referer through
+
+    RewriteCond %{HTTP_REFERER}             ^$
+    RewriteCond %{HTTP:VIA}                 !^$ [OR]
+    RewriteCond %{HTTP:USERAGENT_VIA}       !^$ [OR]
+    RewriteCond %{HTTP:FORWARDED}           !^$ [OR]
+    RewriteCond %{HTTP:FORWARDED-FOR}       !^$ [OR]
+    RewriteCond %{HTTP:X-FORWARDED}         !^$ [OR]
+    RewriteCond %{HTTP:X-FORWARDED-FOR}     !^$ [OR]
+    RewriteCond %{HTTP:X_FORWARDED_FOR}     !^$ [OR]
+    RewriteCond %{HTTP:PROXY_CONNECTION}    !^$ [OR]
+    RewriteCond %{HTTP:XPROXY_CONNECTION}   !^$ [OR]
+    RewriteCond %{HTTP:HTTP_PC_REMOTE_ADDR} !^$ [OR]
+    RewriteCond %{HTTP:HTTP_CLIENT_IP}      !^$
+    RewriteRule .* - [PT,L]
+    Options -Indexes
+
+    # For everybody else, the referer must match the domains for which this
+    # web-font is licensed.
+
+    RewriteCond %{HTTP_REFERER} !:\/\/([^.]+\.|)storehousefinearts.com
+    RewriteRule .* - [F]
+
+    # Set Cache-Control header to must-revalidate, as we want clients to check
+    # against the above rules on each request.
+    Header set Cache-Control "must-revalidate"
+
+</FilesMatch>

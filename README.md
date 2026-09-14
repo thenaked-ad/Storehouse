@@ -164,7 +164,11 @@ wired up and costs one `font-weight`.
 >    The live URL today is `thenaked-ad.github.io`, which is unlikely to be
 >    what was registered.
 >
-> 2. **The referrer guard.** Fatype ship an `htaccess` beside the fonts and
+> 2. **The referrer guard.** `assets/fonts/.htaccess` is Fatype's file with the
+>    domain filled in as `storehousefinearts.com`. **It does nothing on GitHub
+>    Pages** — Pages is static hosting with no Apache and no server config, so
+>    htaccess is never read. It is committed so the condition is already met the
+>    day the site moves to a host that does read it. Fatype ship it beside the fonts and
 >    state in their Web Fonts Policy that *"failing to do so will terminate the
 >    licensing agreement"*. **GitHub Pages cannot run htaccess at all** — it is
 >    static hosting with no rewrite layer — so this cannot be satisfied on the
@@ -441,6 +445,37 @@ Worth knowing if you ever test this: **Playwright's synthetic mouse events do
 not start a native drag**, so the drag test passed for weeks while the bug was
 live. Verify it by dispatching a real `dragstart` and checking `defaultPrevented`,
 not by driving the mouse.
+
+## Service pages: two to a line above 64rem
+
+The three service pages carry a sentence or two per entry, so the alternating
+full-width row gave a 600px photograph half a screen of empty blue beside it,
+six times over. `.svc-grid` wraps the same rows and, above 64rem, lays them two
+to a line with the picture beside the words.
+
+Nothing is re-ordered in the HTML and the alternation simply stops applying;
+`data-side` is still on every row and still drives the phone layout untouched.
+
+Measured on Storage & Handling either side of the breakpoint — the same content
+at effectively the same width — the page goes from **5,898px at 1023px wide to
+2,953px at 1024px**. It halves.
+
+The breakpoint is 64rem rather than the 56rem used everywhere else on purpose:
+between the two, two columns of prose come out around 30 characters, which is
+not worth the compactness. Below 64rem the alternating row stays.
+
+The picture column is `clamp(9.5rem, 13vw, 16.25rem)` — a plate that grows with
+the page rather than a fraction of the cell, so the words keep a readable
+measure at every width (34–48 characters across 1024–1920) instead of being
+squeezed as the columns narrow.
+
+## Two closing tags the browsers had been repairing
+
+`journey__track` on Storage & Handling and `.shell.marginalia` on the home
+page's Location panel were never closed. Browsers repair that silently, so
+nothing ever looked wrong, but the markup did not parse as written. Both are
+closed now and all seven pages parse with no unclosed or mismatched tags —
+worth re-checking with a parser rather than by eye if sections get moved again.
 
 ## The pointer
 

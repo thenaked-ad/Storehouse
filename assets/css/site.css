@@ -949,20 +949,55 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   .svc-row__head p { max-width: 42ch; }
 }
 
-/* Alternating entries: text and picture swap sides down the page, so the eye/* Alternating entries: text and picture swap sides down the page, so the eye
-   is carried from one to the next rather than reading a single column. */
+/* Alternating entries: below 56rem a service is one full-width row, text then
+   picture, and data-side does nothing. That is the phone layout and it stays.
 
-@media (min-width: 56rem) {
-  /* The side is stated on the element rather than counted with nth-of-type,
-     which would also count the page heading and flip the whole sequence. */
-}
+   On a desktop the alternation was the problem rather than the point. These
+   entries carry a sentence or two each, so a row gave a 600px photograph half a
+   screen of empty blue beside it, six times over. Inside .svc-grid the same
+   markup becomes two entries to a line, each with its picture beside its words:
+   no alternation, nothing re-ordered in the HTML.
 
-@media (min-width: 56rem) {
-  /* Each picture hugs the outer edge of the page on its own side, so the run
-     of them reads as two clean columns rather than drifting about the middle.
-     data-side names where the TEXT sits, so the picture takes the other edge. */
+   Measured on Storage & Handling either side of the breakpoint, so the same
+   content at effectively the same width: 5,898px at 1023px wide, 2,953px at
+   1024px. The page halves. */
 
-  /* The words hold a fixed measure against the same two edges. */
+/* 64rem, not 56rem: between the two the alternating row still reads better,
+   because two columns of prose that narrow are not worth the compactness. */
+@media (min-width: 64rem) {
+  .svc-grid {
+    width: min(100% - (var(--gutter) * 2), var(--shell));
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(2.5rem, 4.4vw, 4.5rem);
+    row-gap: clamp(2.75rem, 4.4vw, 4.25rem);
+    padding-top: clamp(1.5rem, 2.5vw, 2.5rem);
+  }
+
+  /* In the grid a row stops being a row: it is a cell, and it gives up the
+     width, the padding and the alternation it sets for itself. */
+  .svc-grid .svc-row,
+  .svc-grid .svc-row[data-side="right"] {
+    width: auto;
+    margin-inline: 0;
+    padding-block: 0;
+    /* The picture is a fixed plate that grows with the page rather than a
+       fraction of the cell, so the words keep a readable measure at every
+       width instead of being squeezed as the columns narrow. */
+    grid-template-columns: clamp(9.5rem, 13vw, 16.25rem) minmax(0, 1fr);
+    column-gap: clamp(1.25rem, 2.2vw, 2rem);
+    row-gap: 0;
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas:
+      "rule   rule"
+      "figure head"
+      "figure tail";
+  }
+  .svc-grid .svc-row::before { grid-area: rule; }
+  .svc-grid .svc-row__figure .plate { max-width: none; margin: 0; }
+  .svc-grid .svc-row__head p { max-width: none; }
+  .svc-grid .svc-row__tail { margin-top: 1.1rem; gap: 1.1rem; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1044,7 +1079,7 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 
 figure { margin: 0; }
 
-.portrait { max-width: min(100%, 22rem); }
+.portrait { max-width: min(100%, 22rem); margin-inline: auto; }
 .portrait__figure { position: relative; }
 
 /* The name signed across the corner of the plate and off the edge of it, so
