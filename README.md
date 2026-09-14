@@ -482,17 +482,30 @@ The case study plate is sized to stand beside its text rather than beside a
 single sentence: measured, it is 90–99% of the text height on three of the four,
 and 123% on Artist, whose copy is shortest.
 
-### Two photographs where there is one line of copy
+## The expanding index — Exhibition Services and Collection Management
 
-Exhibition Services and Collection Management carry a sentence per entry, so one
-plate could only fill the width the words leave by growing tall again — and tall
-was the whole problem. `.svc-row__figure--pair` puts two side by side instead.
-The pair takes the margin, so the plates inside give up their own cap and auto
-margins.
+These two pages carry a sentence per service, which is too little to hold an
+alternating row and far too little to hold a page of them. They no longer use
+`.svc-row` at all. The title sits on one side and the services on the other, and
+each opens to its copy and its photograph.
 
-Below 56rem the second is `display: none`, which is doing two jobs: the phone
-column has room for one, **and a lazy image that can never be shown is never
-fetched**. Measured — Exhibition Services pulls 4 images at 390px and 8 at 1440.
+Each entry is an ordinary `<details>`, so **with the script absent every one
+still opens and closes** — the browser does it, not us. The shared `name`
+attribute is what keeps only one standing open at a time; where that is not
+supported the entries simply toggle independently, which is a fair fallback.
+Verified: keyboard reaches each `summary` by Tab, Enter opens it, and opening
+one closes the last.
+
+The plus is two crossed rules, the upright one turning flat when the entry
+opens, so it becomes a minus without a second glyph or an icon font.
+
+This **replaces the jump filter on these two pages** — a list you can see all of
+at once does not need a contents bar above it. `[data-filter]` is guarded in the
+script, so removing the bar breaks nothing. Storage & Handling keeps its filter,
+because its entries are long and the page is still worth skipping through.
+
+It is the layout at every width, not just desktop. Exhibition Services is
+1,687px against 3,160px on a desktop, and 1,534px against 3,860px on a phone.
 
 The text measure is `36rem` on the paragraph **and** the points. Capping only
 the paragraph, as it was, left the block visibly ragged — a short paragraph

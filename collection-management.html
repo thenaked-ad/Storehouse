@@ -151,122 +151,101 @@
 </div>
 
 <main id="main">
-  <section class="shell page-head">
-    <span class="ledger">02</span>
-    <h1>Collection Management</h1>
-  </section>
-
-  <!-- ==================================================== the jump filter -->
-  <!-- One line, sticky under the masthead. It is a plain list of anchors, so
-       it works as a contents list with the script absent; the script only adds
-       the mark showing which entry you are currently in front of. -->
-  <nav class="filter" aria-label="Collection management on this page" data-filter>
-    <div class="shell filter__inner">
-      <span class="filter__label" aria-hidden="true">Jump to</span>
-      <div class="filter__links">
-      <a href="#cataloguing" data-filter-link>Cataloguing</a>
-      <a href="#inventory" data-filter-link>Inventory</a>
-      <a href="#research" data-filter-link>Research</a>
-      <a href="#logistics" data-filter-link>Logistics</a>
-      <a href="#rotations" data-filter-link>Rotations</a>
-      </div>
-    </div>
-  </nav>
-
-  <section class="svc-row svc-row--pair" id="cataloguing" data-side="left" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">02.1</span>
-      <h2>Cataloguing</h2>
-      <p>Cataloguing and archiving into Artlogic, ArtBinder or an equivalent database</p>
+  <!-- ================================================ the expanding index -->
+  <!-- The title on one side, the services on the other. Each is an ordinary
+       <details>, so with the script absent every one still opens and closes and
+       the page reads as a plain list of headings with their copy underneath.
+       The shared name attribute is what makes only one stand open at a time. -->
+  <section class="shell services-page">
+    <div class="services-page__head">
+      <span class="ledger">02</span>
+      <h1>Collection Management</h1>
     </div>
 
-    <figure class="svc-row__figure svc-row__figure--pair">
-      <div class="plate plate--r45">
-        <img src="assets/img/cm-cataloguing-1000.webp" width="1000" height="1250"
-             loading="lazy" decoding="async" alt="A framed work laid face-down on a padded table with its paperwork beside it.">
-      </div>
-      <div class="plate plate--r45 plate--second">
-        <img src="assets/img/cm-cataloguing-b-760.webp" width="760" height="950"
-             loading="lazy" decoding="async" alt="A wrapped and taped work seen from above on the bench.">
-      </div>
-    </figure>
-  </section>
-
-  <section class="svc-row svc-row--pair" id="inventory" data-side="right" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">02.2</span>
-      <h2>Inventory</h2>
-      <p>Inventory and location records maintained across the collection</p>
+    <div class="services">
+        <details class="service" name="collection" id="cataloguing">
+          <summary>
+            <span class="service__index">02.1</span>
+            <span class="service__title">Cataloguing</span>
+            <span class="service__sign" aria-hidden="true"></span>
+          </summary>
+          <div class="service__body">
+            <p>Cataloguing and archiving into Artlogic, ArtBinder or an equivalent database</p>
+            <figure>
+              <div class="plate plate--r45">
+                <img src="assets/img/cm-cataloguing-1000.webp" width="1000" height="1250"
+                     loading="lazy" decoding="async" alt="A framed work laid face-down on a padded table with its paperwork beside it.">
+              </div>
+            </figure>
+          </div>
+        </details>
+        <details class="service" name="collection" id="inventory">
+          <summary>
+            <span class="service__index">02.2</span>
+            <span class="service__title">Inventory</span>
+            <span class="service__sign" aria-hidden="true"></span>
+          </summary>
+          <div class="service__body">
+            <p>Inventory and location records maintained across the collection</p>
+            <figure>
+              <div class="plate plate--r45">
+                <img src="assets/img/cm-inventory-1000.webp" width="1000" height="1250"
+                     loading="lazy" decoding="async" alt="Crates and a fitted flight case held together in the facility.">
+              </div>
+            </figure>
+          </div>
+        </details>
+        <details class="service" name="collection" id="research">
+          <summary>
+            <span class="service__index">02.3</span>
+            <span class="service__title">Research &amp; reporting</span>
+            <span class="service__sign" aria-hidden="true"></span>
+          </summary>
+          <div class="service__body">
+            <p>Condition reporting, provenance and art historical research, market reporting</p>
+            <figure>
+              <div class="plate plate--r45">
+                <img src="assets/img/cm-research-1000.webp" width="1000" height="1250"
+                     loading="lazy" decoding="async" alt="A tape measure held against the edge of a stretcher.">
+              </div>
+            </figure>
+          </div>
+        </details>
+        <details class="service" name="collection" id="logistics">
+          <summary>
+            <span class="service__index">02.4</span>
+            <span class="service__title">Logistics</span>
+            <span class="service__sign" aria-hidden="true"></span>
+          </summary>
+          <div class="service__body">
+            <p>Storage, transport, photography, framing and conservation arranged as required</p>
+            <figure>
+              <div class="plate plate--r45">
+                <img src="assets/img/cm-logistics-1000.webp" width="1000" height="1250"
+                     loading="lazy" decoding="async" alt="A technician sliding a large boarded work into place.">
+              </div>
+            </figure>
+          </div>
+        </details>
+        <details class="service" name="collection" id="rotations">
+          <summary>
+            <span class="service__index">02.5</span>
+            <span class="service__title">Rotations</span>
+            <span class="service__sign" aria-hidden="true"></span>
+          </summary>
+          <div class="service__body">
+            <p>Collection rotations coordinated</p>
+            <figure>
+              <div class="plate plate--r45">
+                <img src="assets/img/cm-rotations-1000.webp" width="1000" height="1250"
+                     loading="lazy" decoding="async" alt="A work seated in its foam profiles, ready to be moved.">
+              </div>
+            </figure>
+          </div>
+        </details>
     </div>
-
-    <figure class="svc-row__figure svc-row__figure--pair">
-      <div class="plate plate--r45">
-        <img src="assets/img/cm-inventory-1000.webp" width="1000" height="1250"
-             loading="lazy" decoding="async" alt="Crates and a fitted flight case held together in the facility.">
-      </div>
-      <div class="plate plate--r45 plate--second">
-        <img src="assets/img/cm-inventory-b-760.webp" width="760" height="950"
-             loading="lazy" decoding="async" alt="Board and foam corners laid out ready for a work.">
-      </div>
-    </figure>
   </section>
 
-  <section class="svc-row svc-row--pair" id="research" data-side="left" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">02.3</span>
-      <h2>Research &amp; reporting</h2>
-      <p>Condition reporting, provenance and art historical research, market reporting</p>
-    </div>
-
-    <figure class="svc-row__figure svc-row__figure--pair">
-      <div class="plate plate--r45">
-        <img src="assets/img/cm-research-1000.webp" width="1000" height="1250"
-             loading="lazy" decoding="async" alt="A tape measure held against the edge of a stretcher.">
-      </div>
-      <div class="plate plate--r45 plate--second">
-        <img src="assets/img/cm-research-b-760.webp" width="760" height="950"
-             loading="lazy" decoding="async" alt="Kraft tape run along the edge of a wrapped work.">
-      </div>
-    </figure>
-  </section>
-
-  <section class="svc-row svc-row--pair" id="logistics" data-side="right" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">02.4</span>
-      <h2>Logistics</h2>
-      <p>Storage, transport, photography, framing and conservation arranged as required</p>
-    </div>
-
-    <figure class="svc-row__figure svc-row__figure--pair">
-      <div class="plate plate--r45">
-        <img src="assets/img/cm-logistics-1000.webp" width="1000" height="1250"
-             loading="lazy" decoding="async" alt="A technician sliding a large boarded work into place.">
-      </div>
-      <div class="plate plate--r45 plate--second">
-        <img src="assets/img/cm-logistics-b-760.webp" width="760" height="950"
-             loading="lazy" decoding="async" alt="A boarded work with its kraft edging, resting on the bench.">
-      </div>
-    </figure>
-  </section>
-
-  <section class="svc-row svc-row--pair" id="rotations" data-side="left" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">02.5</span>
-      <h2>Rotations</h2>
-      <p>Collection rotations coordinated</p>
-    </div>
-
-    <figure class="svc-row__figure svc-row__figure--pair">
-      <div class="plate plate--r45">
-        <img src="assets/img/cm-rotations-1000.webp" width="1000" height="1250"
-             loading="lazy" decoding="async" alt="A work seated in its foam profiles, ready to be moved.">
-      </div>
-      <div class="plate plate--r45 plate--second">
-        <img src="assets/img/cm-rotations-b-760.webp" width="760" height="950"
-             loading="lazy" decoding="async" alt="A wrapped work folded closed and taped along the seam.">
-      </div>
-    </figure>
-  </section>
   <section class="panel" data-paper>
     <div class="shell marginalia">
       <p class="aside ledger">Enquiries</p>

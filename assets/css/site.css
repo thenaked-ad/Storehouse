@@ -904,15 +904,6 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    them rather than to the service entries' single sentence. */
 .svc-row--case { --svc-plate: clamp(20rem, 34vw, 30rem); }
 
-/* A pair needs the room for two. */
-.svc-row--pair { --svc-plate: clamp(20rem, 46vw, 42rem); }
-
-/* On a phone the column has room for one, and display:none also means the
-   second is never fetched: a lazy image that can never be shown is not loaded. */
-@media (max-width: 55.999rem) {
-  .plate--second { display: none; }
-}
-
 .svc-row__figure { margin: 0; }
 .svc-row__figure .plate { width: 100%; }
 
@@ -927,19 +918,6 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   .svc-row[data-side="left"]  .svc-row__figure .plate { margin-left: auto; }
   .svc-row[data-side="right"] .svc-row__figure .plate { margin-right: auto; }
 
-  /* Two photographs where a service has one line of copy. The pair fills the
-     width the words leave, which one plate could only do by growing tall again
-     — and tall was the whole problem. The pair is what takes the margin now,
-     so the plates inside it give up their own cap and auto margins. */
-  .svc-row__figure--pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(0.5rem, 1vw, 0.9rem);
-    max-width: var(--svc-plate);
-  }
-  .svc-row__figure--pair .plate { max-width: none; margin: 0; }
-  .svc-row[data-side="left"]  .svc-row__figure--pair { margin-left: auto; }
-  .svc-row[data-side="right"] .svc-row__figure--pair { margin-right: auto; }
 }
 
 .svc-row__tail { display: grid; gap: 1.6rem; align-content: start; justify-items: start; }
@@ -993,6 +971,93 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    The pictures are deliberately modest on a desktop. At half the column width
    they stood 640px tall against two or three lines of text, which is what made
    the page feel mostly empty and take so long to scroll. */
+
+/* --------------------------------------------------------------------------
+   9c. The expanding index — Exhibition Services and Collection Management
+
+   These two pages carry a sentence per service, which is too little to hold an
+   alternating row and far too little to hold a page of them. The title sits on
+   one side and the services on the other, and each opens to its copy and its
+   photograph. It replaces the jump filter on these two pages: a list you can
+   see all of at once does not need a contents bar above it.
+   -------------------------------------------------------------------------- */
+
+.services-page {
+  padding-top: clamp(2.5rem, 6vw, 5.5rem);
+  padding-bottom: var(--band);
+}
+@media (min-width: 56rem) {
+  .services-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: var(--gutter);
+    align-items: start;
+  }
+}
+.services-page__head .ledger { display: block; margin-bottom: 1.4rem; }
+.services-page__head h1 { font-size: clamp(2.4rem, 1.1rem + 4.2vw, 4.6rem); }
+
+.services { border-top: 1px solid var(--rule); }
+@media (max-width: 55.999rem) { .services { margin-top: var(--band); } }
+
+.service { border-bottom: 1px solid var(--rule); }
+
+.service > summary {
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding-block: 0.95rem;
+  cursor: pointer;
+  list-style: none;                     /* the disclosure triangle, removed */
+  font-family: var(--sans);
+  font-size: var(--t-body);
+  letter-spacing: -0.016em;
+  color: var(--ink-strong-muted);
+  transition: color 0.25s ease;
+}
+.service > summary::-webkit-details-marker { display: none; }
+.service > summary:hover,
+.service[open] > summary { color: var(--accent); }
+
+.service__index {
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+
+/* Two rules crossed; the upright one turns flat when the entry opens, so the
+   plus becomes a minus without a second glyph or an icon font. */
+.service__sign {
+  position: relative;
+  width: 0.75rem; height: 0.75rem;
+  align-self: center;
+}
+.service__sign::before,
+.service__sign::after {
+  content: "";
+  position: absolute;
+  inset: 50% 0 auto 0;
+  height: 1px;
+  background: currentColor;
+}
+.service__sign::after {
+  transform: rotate(90deg);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.service[open] .service__sign::after { transform: rotate(0deg); }
+
+.service__body {
+  padding: 0.1rem 0 1.75rem;
+  display: grid;
+  gap: 1.15rem;
+}
+/* Set under the title rather than under the number, so the opened copy lines up
+   with the heading it belongs to. */
+@media (min-width: 40rem) { .service__body { padding-left: 3.9rem; } }
+.service__body p { max-width: 42ch; }
+.service__body .plate { max-width: 22rem; }
 
 /* --------------------------------------------------------------------------
    10. Ultramarine panel — one caesura per page
