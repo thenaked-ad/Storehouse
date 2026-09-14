@@ -125,33 +125,70 @@ six tokens as black on white, so the site prints as a document either way up.
 
 The brand faces, self-hosted as woff2 in `assets/fonts/`:
 
-| Role | Face | Files |
-|---|---|---|
-| Headings, navigation, labels | Beausite Classic | `beausite-classic-400/500.woff2` |
-| Body copy | Rhymes Text | `rhymes-text-400/500.woff2` |
-| Index numbers, captions | IBM Plex Mono | Google Fonts |
+| Role | Face | File | Licence |
+|---|---|---|---|
+| Headings, navigation, labels | Beausite Classic Clear | `BeausiteClassicWeb-Clear.woff2` | bought (Fatype) |
+| — available, nothing uses it yet | Beausite Classic Medium | `BeausiteClassicWeb-Medium.woff2` | bought (Fatype) |
+| Body copy | Rhymes Text | `rhymes-text-400.woff2` | **still the trial** |
+| Index numbers, captions | IBM Plex Mono | `ibm-plex-mono-400.woff2` | open (SIL OFL) |
 
 Arrows are drawn in CSS rather than typed — a shaft with a square turned about
-its own centre so the vertex lands exactly on the end of it. That is both
-because the Beausite trial has no arrow glyph and because it lets the line run
-on from the words, as on the About page's "Get in touch".
+its own centre so the vertex lands exactly on the end of it. The licensed face
+does have an arrow glyph, but the drawn one stays: it lets the line run on from
+the words, as on the About page's "Get in touch".
 
-> **These are trial files and are not licensed for use on a public site.**
-> One of them says so in its own filename
-> (`RhymesTextTrialUnlicensed`). Web licences must be bought and the licensed
-> woff2s dropped in over these before the site goes live. Nothing else has to
-> change: the `@font-face` blocks at the top of `site.css` point at those four
-> filenames and nowhere else names a typeface.
+### Beausite is licensed, with two conditions outstanding
+
+Fatype's own WOFF2 files, copied in **byte for byte** — verified by sha256
+against the delivered files. They are deliberately **not subset**: the licence
+says "modification … strictly forbidden", so Clear is 72KB rather than the 9KB
+the trial cut was. Total font weight on first load is 147KB.
+
+That size buys the full 1030-glyph set, and one thing in particular: the trial
+had 155 glyphs and **no ampersand**, so every `Storage & Handling`,
+`Budgets & timelines` and `Framing & conservation` on the site was quietly
+falling back to Helvetica for that one character. Measured: the `&` is 135.41px
+wide in Beausite against 133.41px in the fallback, so it is now coming from the
+real face.
+
+Medium is declared at weight 500 so the family is complete, but nothing on the
+site asks for it — there is no bold anywhere in the markup — so the browser
+never downloads it. If Dougal's system wants Medium somewhere, it is already
+wired up and costs one `font-weight`.
+
+> **Two licence conditions are not met yet, and neither is a code change.**
 >
-> The Beausite trial also carries a cut-down character set — 155 glyphs, where
-> the full face has far more. It has **no ampersand and no arrow**. Every
-> arrow on the site is drawn in CSS rather than typed, so those are fine, but
-> an `&` in a heading (`Storage & Handling`, `Budgets & timelines`,
-> `Framing & conservation`) falls back to Helvetica for that one character.
-> It is subtle but visible, and it will fix itself with the licensed files.
+> 1. **Registration.** Fatype require the site to be registered per domain at
+>    `fatype.com/user/licenses`, and additional domains bought separately.
+>    The live URL today is `thenaked-ad.github.io`, which is unlikely to be
+>    what was registered.
+>
+> 2. **The referrer guard.** Fatype ship an `htaccess` beside the fonts and
+>    state in their Web Fonts Policy that *"failing to do so will terminate the
+>    licensing agreement"*. **GitHub Pages cannot run htaccess at all** — it is
+>    static hosting with no rewrite layer — so this cannot be satisfied on the
+>    current host by any means. It needs either a host that supports it
+>    (Netlify, Cloudflare, anything Apache/nginx) or written confirmation from
+>    Fatype that they accept the site as hosted.
 
-Each token keeps a close open substitute behind the brand face, both for the
-moment before the font loads and for any character the trial is missing.
+### Rhymes Text is still the trial file
+
+The 2026 order contains **desktop OTF and TTF only — no webfont**. MaxiType's
+licence string excludes *"modifying, reassembling, renaming, storing on
+publicly available servers"*, which rules out both routes: the OTF cannot be
+converted to WOFF2 (modifying) and cannot be uploaded as-is (storing on a
+public server). Fatype's policy says the same of their own formats —
+*"Uploading OTF and TTF files is strictly forbidden"*.
+
+The weights do not line up either: the order has Light (300) and Medium (500),
+where the site uses 400.
+
+So `rhymes-text-400.woff2` is untouched and still the unlicensed trial. **A
+separate webfont licence is needed from MaxiType (maxitype.com)** before this
+site is public. When the WOFF2 arrives, drop it in and change one `src` line.
+
+Each token keeps a close open substitute behind the brand face, for the moment
+before the font loads.
 
 
 Note that the **STOREHOUSE wordmark is not type**. It is vector artwork

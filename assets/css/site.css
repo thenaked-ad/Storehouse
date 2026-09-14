@@ -5,16 +5,38 @@
 
    Beausite Classic and Rhymes Text, as specified in the brand document.
 
-   THESE ARE TRIAL FILES. "RhymesTextTrialUnlicensed" says so in its own name,
-   and the Beausite trial carries a cut-down character set — 155 glyphs, with
-   no ampersand and no arrow. Web licences must be bought before this site is
-   public, and the licensed files dropped in over these.
+   BEAUSITE IS LICENSED. These are Fatype's own WOFF2 files, copied in byte for
+   byte: the licence forbids modification, so they are NOT subset, which is why
+   Clear is 73KB rather than the 9KB the trial cut was. The full 1030-glyph set
+   is the point — the trial had 155 and no ampersand, so every "Storage &
+   Handling" on the site was quietly falling back to Helvetica for that one
+   character.
+
+   Two conditions come with it, and neither is satisfied yet:
+     - the site has to be registered at fatype.com/user/licenses, per domain;
+     - Fatype require their htaccess referrer-guard beside the font files, and
+       say in the policy that failing to install it terminates the agreement.
+       GitHub Pages cannot run htaccess at all. See README, "Fonts".
+
+   RHYMES TEXT IS STILL THE TRIAL. The 2026 order contains desktop OTF and TTF
+   only, no webfont, and MaxiType's licence excludes "modifying, reassembling,
+   renaming, storing on publicly available servers". So the OTF cannot be
+   converted and cannot be uploaded: a separate webfont licence is needed.
    ========================================================================== */
 
 @font-face {
   font-family: "Beausite Classic";
-  src: url("../fonts/beausite-classic-400.woff2") format("woff2");
+  src: url("../fonts/BeausiteClassicWeb-Clear.woff2") format("woff2");
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+/* Bought alongside Clear and declared so the family is complete. Nothing on the
+   site asks for it yet — there is no bold anywhere in the markup. */
+@font-face {
+  font-family: "Beausite Classic";
+  src: url("../fonts/BeausiteClassicWeb-Medium.woff2") format("woff2");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
