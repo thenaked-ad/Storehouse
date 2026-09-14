@@ -508,15 +508,21 @@ Services, five on Collection Management, six on Storage & Handling. Every frame
 is in the markup and **the first is the only one that starts opaque**, so with
 the script absent the panel is simply a photograph.
 
-A row of dots sits under it, built in script rather than written into the page,
-because without the script there is nothing for them to indicate. They are
-buttons, not marks: the frames can be looked through by hand as well as watched,
-and each carries an "Show photograph 3 of 6" label. They take their width from
-the same `--standing-w` as the plate, so the two line up exactly.
+A row of dots is laid on the foot of the photograph — white, with a little
+shadow, because what is behind them is a different picture every two seconds and
+cannot be relied on to be dark. They are built in script rather than written
+into the page, because without the script there is nothing for them to indicate.
 
-**Reduced motion keeps the dots and loses the turning.** The set is still there
-to look through, it just does not move on its own — a better answer than showing
-one frame and hiding the rest.
+**The dots are marks; the two halves of the photograph are the controls.** Left
+steps back, right steps on, both wrapping round. They are real buttons with real
+labels, so they answer to a keyboard as well as a pointer — and two tab stops
+that mean "back" and "forward" are worth more than six that each mean "jump to
+frame four". The dots themselves take `pointer-events: none` so the halves
+underneath get every click.
+
+**Reduced motion keeps the controls and loses the turning.** The set is still
+there to step through by hand, it just does not move on its own — a better
+answer than showing one frame and hiding the rest.
 
 It stops when it cannot be seen: an IntersectionObserver pauses it off screen
 and `visibilitychange` pauses it in a background tab. A timer nobody can watch
@@ -559,8 +565,9 @@ sitting above a bullet that ran almost to the picture.
 `pathLength="1"` normalises each path to a length of one, so a single dash
 covers it and `stroke-dashoffset` can run from 1 to 0 in CSS — no
 `getTotalLength`, no script, no measuring. The two paths are the two words, so
-Henderson starts once Fred has finished. Measured: Fred draws 0.75–2.25s,
-Henderson 2.05–4.15s.
+Henderson picks up as Fred finishes, and it starts the moment the page opens
+rather than after a pause. Measured: Fred is already drawing at 0.25s and done
+by 1.35s, Henderson done by 3.15s.
 
 Outside the reduced-motion guard there is no dash at all and the signature is
 simply there, drawn, which is the right resting state.

@@ -137,21 +137,36 @@
     var at = 0, timer = null;
     imgs[0].dataset.on = "true";
 
-    // The dots are built here rather than written into the page, because
-    // without this script there is nothing for them to indicate.
+    // Built here rather than written into the page, because without this
+    // script there is nothing for them to indicate and nothing to step through.
+    //
+    // The dots are marks, not controls — the two halves of the photograph are
+    // the controls. Two tab stops that mean "back" and "forward" are worth more
+    // to anyone on a keyboard than six that each mean "jump to frame four".
     var dots = document.createElement("div");
     dots.className = "slideshow__dots";
-    var marks = imgs.map(function (_, i) {
-      var d = document.createElement("button");
-      d.type = "button";
+    var marks = imgs.map(function () {
+      var d = document.createElement("span");
       d.className = "slideshow__dot";
-      d.setAttribute("aria-label", "Show photograph " + (i + 1) + " of " + imgs.length);
-      d.addEventListener("click", function () { go(i); restart(); });
       dots.appendChild(d);
       return d;
     });
     marks[0].dataset.on = "true";
-    box.parentNode.appendChild(dots);
+    box.appendChild(dots);
+
+    var zone = function (cls, label, delta) {
+      var z = document.createElement("button");
+      z.type = "button";
+      z.className = "slideshow__zone slideshow__zone--" + cls;
+      z.setAttribute("aria-label", label);
+      z.addEventListener("click", function () {
+        go((at + delta + imgs.length) % imgs.length);
+        restart();
+      });
+      box.appendChild(z);
+    };
+    zone("prev", "Previous photograph", -1);
+    zone("next", "Next photograph", 1);
 
     var go = function (i) {
       imgs[at].dataset.on = "false"; marks[at].dataset.on = "false";
