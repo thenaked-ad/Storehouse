@@ -123,6 +123,102 @@
     }, { passive: true });
   }
 
+  /* -------------------------------------------------------------- dropdowns */
+
+  /* The panels open on hover and focus in CSS. This adds the two things CSS
+     cannot do: Escape to shut one, and fetching its photograph only the first
+     time it opens, so nine pages do not each load three pictures nobody may
+     ever ask to see. */
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-drop]"), function (item) {
+    var img = item.querySelector("img[data-src]");
+    var load = function () {
+      if (!img || img.dataset.done) return;
+      img.dataset.done = "1";
+      img.addEventListener("load", function () { img.dataset.loaded = ""; }, { once: true });
+      img.src = img.dataset.src;
+    };
+    item.addEventListener("mouseenter", function () { item.removeAttribute("data-shut"); load(); });
+    item.addEventListener("focusin", load);
+    item.addEventListener("mouseleave", function () { item.removeAttribute("data-shut"); });
+    item.addEventListener("focusout", function (e) {
+      if (!item.contains(e.relatedTarget)) item.removeAttribute("data-shut");
+    });
+    item.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      item.setAttribute("data-shut", "");
+      var top = item.querySelector(".nav__link");
+      if (top) top.focus();
+    });
+  });
+
+  /* ---------------------------------------------------- opening an entry by link */
+
+  /* A link to storage.html#ambient should land with Ambient Storage open, not
+     closed under its heading. Browsers do not open a <details> that is itself
+     the target, so this does. */
+
+  var openFromHash = function () {
+    var id = window.location.hash.slice(1);
+    if (!id) return;
+    var d = document.getElementById(decodeURIComponent(id));
+    if (!d || d.tagName !== "DETAILS") return;
+    d.open = true;
+    window.requestAnimationFrame(function () {
+      d.scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" });
+    });
+  };
+  openFromHash();
+  window.addEventListener("hashchange", openFromHash);
+
+  /* ---------------------------------------------------------------- arrival */
+
+  /* On the home page a line types itself out in the middle of the screen, holds,
+     and gives way to the wordmark at the foot. The line is in the markup, so this
+     only types it. Once a session: coming back to the home page in the same visit
+     goes straight to the wordmark. Scrolling, clicking or pressing a key skips to
+     the end, because anyone who has done that has seen enough. */
+
+  var hero = document.querySelector(".hero[data-intro]");
+  var typed = hero && hero.querySelector("[data-type]");
+  var seen = false;
+  try { seen = window.sessionStorage.getItem("storehouse-arrival") === "1"; } catch (e) {}
+
+  // Its own function, because var is scoped to the whole file: the painting code
+  // further down declares an `at` of its own, and the two would overwrite each
+  // other mid-sentence.
+  if (hero && typed && !reduced && !seen) (function () {
+    var line = typed.textContent.trim();
+    var at = 0, timer = null, finished = false;
+    var skips = ["wheel", "touchstart", "keydown", "pointerdown"];
+
+    var finish = function () {
+      if (finished) return;
+      finished = true;
+      window.clearTimeout(timer);
+      typed.textContent = line;
+      typed.removeAttribute("data-typing");
+      hero.dataset.intro = "done";
+      skips.forEach(function (ev) { window.removeEventListener(ev, finish); });
+      try { window.sessionStorage.setItem("storehouse-arrival", "1"); } catch (e) {}
+    };
+
+    var tick = function () {
+      at += 1;
+      typed.textContent = line.slice(0, at);
+      if (at >= line.length) { timer = window.setTimeout(finish, 850); return; }
+      // Uneven, like a hand, with a breath at the comma.
+      var ch = line.charAt(at - 1);
+      timer = window.setTimeout(tick, 26 + Math.random() * 24 + (ch === "," ? 240 : 0));
+    };
+
+    typed.textContent = "";
+    typed.setAttribute("data-typing", "");
+    hero.dataset.intro = "running";
+    skips.forEach(function (ev) { window.addEventListener(ev, finish, { passive: true }); });
+    timer = window.setTimeout(tick, 450);
+  })();
+
   /* --------------------------------------------------------- the slideshow */
 
   /* The standing photograph on a service page cycles through that page's own
@@ -305,83 +401,6 @@
     window.addEventListener("pointercancel", stop);
   }
 
-  /* -------------------------------------------------------- the jump filter */
-
-  /* The bar is a plain list of anchors in the markup and works as a contents
-     list on its own. All this adds is the mark showing which entry you are in
-     front of, and the height it occupies, which the scroll padding needs so an
-     anchor does not land underneath it. */
-
-  var filter = document.querySelector("[data-filter]");
-  if (filter) {
-    var fLinks = Array.prototype.slice.call(filter.querySelectorAll("[data-filter-link]"));
-    var targets = fLinks.map(function (a) {
-      return document.getElementById(a.getAttribute("href").slice(1));
-    });
-
-    var setFilterHeight = function () {
-      document.documentElement.style.setProperty("--filter-h", filter.offsetHeight + "px");
-    };
-    setFilterHeight();
-    if ("ResizeObserver" in window) new ResizeObserver(setFilterHeight).observe(filter);
-
-    // Where the entry sits in the layout. Deliberately not a bounding rect:
-    // an entry that has not been revealed yet is still translated down by the
-    // reveal, and scrolling to a transformed position lands it short once the
-    // transform comes off.
-    var layoutTop = function (el) {
-      var y = 0;
-      for (var node = el; node; node = node.offsetParent) y += node.offsetTop;
-      return y;
-    };
-
-    // Chrome adds its own allowance for a sticky header on top of
-    // scroll-padding, which lands the entry a little under the bar. Taking the
-    // scroll ourselves puts it exactly where it belongs. Without the script the
-    // plain anchor and scroll-padding still get within a few pixels.
-    filter.addEventListener("click", function (e) {
-      var a = e.target.closest ? e.target.closest("[data-filter-link]") : null;
-      if (!a) return;
-      var el = document.getElementById(a.getAttribute("href").slice(1));
-      if (!el) return;
-      e.preventDefault();
-      // The height the bar occupies once it is stuck, which is not where it is
-      // sitting at the moment of a click from the top of the page.
-      // Enough clearance for the hairline and the number above the heading,
-      // which are the first things in an entry and the easiest to tuck under
-      // the bar by mistake.
-      var chrome = (masthead ? masthead.offsetHeight : 0) + filter.offsetHeight + 26;
-      window.scrollTo({
-        top: Math.max(0, layoutTop(el) - chrome),
-        behavior: reduced ? "auto" : "smooth"
-      });
-      if (window.history && window.history.replaceState) {
-        window.history.replaceState(null, "", a.getAttribute("href"));
-      }
-    });
-
-    var currentLink = null;
-    var markFilter = function () {
-      // The entry you are "in" is the last one whose top has passed under the
-      // chrome. Read off the elements rather than an observer, so the answer is
-      // the same whichever direction you arrived from.
-      // A shade below where a jump puts an entry, so arriving by the bar marks
-      // the entry you asked for rather than the one above it.
-      var line = filter.getBoundingClientRect().bottom + 34;
-      var found = null;
-      for (var i = 0; i < targets.length; i++) {
-        if (targets[i] && targets[i].getBoundingClientRect().top <= line) found = fLinks[i];
-      }
-      if (found === currentLink) return;
-      if (currentLink) currentLink.removeAttribute("data-current");
-      if (found) found.setAttribute("data-current", "true");
-      currentLink = found;
-    };
-    markFilter();
-    window.addEventListener("scroll", markFilter, { passive: true });
-    window.addEventListener("resize", markFilter, { passive: true });
-  }
-
   /* ------------------------------------------------------------ the journey */
 
   var strip = document.querySelector("[data-journey-strip] .journey__stages");
@@ -491,42 +510,6 @@
         driftIO.observe(strip.closest(".journey"));
       }
     }
-  }
-
-  /* ---------------------------------------------------------------- the map */
-
-  var mapDialog = document.querySelector("[data-map-dialog]");
-  var mapOpen = document.querySelector("[data-map-open]");
-  if (mapDialog && mapOpen && typeof mapDialog.showModal === "function") {
-    var mapFrame = mapDialog.querySelector("[data-map-frame]");
-    mapOpen.addEventListener("click", function () {
-      if (!mapFrame.firstChild) {
-        var f = document.createElement("iframe");
-        f.src = "https://www.google.com/maps?q=Acton,+London+NW10&z=13&output=embed";
-        f.loading = "lazy";
-        f.referrerPolicy = "no-referrer-when-downgrade";
-        f.title = "Map showing Acton, London NW10";
-        mapFrame.appendChild(f);
-      }
-      mapDialog.showModal();
-      document.documentElement.removeAttribute("data-cursor");
-    });
-    mapDialog.addEventListener("close", function () {
-      if (cursorRunning) document.documentElement.dataset.cursor = "on";
-    });
-    mapDialog.querySelector("[data-map-close]").addEventListener("click", function () {
-      mapDialog.close();
-    });
-    // Clicking the backdrop closes it.
-    mapDialog.addEventListener("click", function (e) {
-      if (e.target === mapDialog) mapDialog.close();
-    });
-  } else if (mapOpen) {
-    // No dialog support: fall back to opening the map in a new tab.
-    mapOpen.addEventListener("click", function () {
-      window.open("https://www.google.com/maps/search/?api=1&query=Acton+London+NW10",
-                  "_blank", "noopener");
-    });
   }
 
 })();

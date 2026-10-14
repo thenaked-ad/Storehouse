@@ -3,24 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-tHd4qJ0R/vQfI0CbRTiL3XGSi+Tun7VhOcDbx08aLKA='; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-tHd4qJ0R/vQfI0CbRTiL3XGSi+Tun7VhOcDbx08aLKA='; font-src 'self'; connect-src 'self'; frame-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>About — Storehouse Fine Arts</title>
-<meta name="description" content="An experienced team from the art world, working from a secure, climate-controlled facility in north-west London.">
+<meta name="description" content="Art people who do logistics, not logistics people who do art. Storehouse Fine Arts was founded by Fred Henderson, who trained at the Courtauld Institute.">
 <link rel="canonical" href="https://storehousefinearts.com/about.html">
 <meta name="theme-color" content="#0f1b70">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Storehouse Fine Arts">
 <meta property="og:title" content="About — Storehouse Fine Arts">
-<meta property="og:description" content="An experienced team from the art world, working from a secure, climate-controlled facility in north-west London.">
+<meta property="og:description" content="Art people who do logistics, not logistics people who do art. Storehouse Fine Arts was founded by Fred Henderson, who trained at the Courtauld Institute.">
 <meta property="og:url" content="https://storehousefinearts.com/about.html">
 <meta property="og:image" content="https://storehousefinearts.com/assets/img/og-1600.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="en_GB">
 <meta property="og:image:alt" content="A large framed painting hung on the wall of a private interior.">
 <meta name="twitter:title" content="About — Storehouse Fine Arts">
-<meta name="twitter:description" content="An experienced team from the art world, working from a secure, climate-controlled facility in north-west London.">
+<meta name="twitter:description" content="Art people who do logistics, not logistics people who do art. Storehouse Fine Arts was founded by Fred Henderson, who trained at the Courtauld Institute.">
 <meta name="twitter:image" content="https://storehousefinearts.com/assets/img/og-1600.webp">
 <meta name="twitter:image:alt" content="A large framed painting hung on the wall of a private interior.">
 
@@ -85,12 +85,55 @@
     <a class="wordmark-link" href="index.html" aria-label="Storehouse Fine Arts — home">
       <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
     </a>
+    <!-- Storage, Transport & Handling and Services each open a panel on hover or
+         focus. The panels are plain lists of links, so with the script absent
+         they still open on hover and on keyboard focus; the script adds Escape
+         and loads the photograph the first time a panel opens. -->
     <nav class="nav" aria-label="Primary">
-      <a href="exhibition-services.html"><span class="nav__n" aria-hidden="true">01</span><span class="nav__t">Exhibition Services</span></a>
-      <a href="collection-management.html"><span class="nav__n" aria-hidden="true">02</span><span class="nav__t">Collection Management</span></a>
-      <a href="storage-and-handling.html"><span class="nav__n" aria-hidden="true">03</span><span class="nav__t">Storage &amp; Handling</span></a>
-      <a href="about.html" aria-current="page"><span class="nav__n" aria-hidden="true">04</span><span class="nav__t">About</span></a>
-      <a href="contact.html"><span class="nav__n" aria-hidden="true">05</span><span class="nav__t">Contact</span></a>
+      <div class="nav__item nav__item--drop" data-drop>
+        <a class="nav__link" href="storage.html"><span class="nav__n" aria-hidden="true">01</span><span class="nav__t">Storage</span></a>
+        <div class="drop">
+          <div class="shell drop__inner">
+            <a class="drop__title" href="storage.html"><span class="drop__ledger" aria-hidden="true">01</span><span>Storage</span></a>
+            <ul class="drop__list">
+            <li><a href="storage.html#climate"><span class="drop__n" aria-hidden="true">01.1</span><span class="drop__t">Climate-Controlled Storage</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="storage.html#ambient"><span class="drop__n" aria-hidden="true">01.2</span><span class="drop__t">Ambient Storage</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="storage.html#viewing-room"><span class="drop__n" aria-hidden="true">01.3</span><span class="drop__t">Viewing Room</span><span class="arrow" aria-hidden="true"></span></a></li>
+            </ul>
+            <div class="drop__figure" aria-hidden="true"><div class="plate plate--r45"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/sh-storage-1000.webp" width="1000" height="1250" alt=""></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item nav__item--drop" data-drop>
+        <a class="nav__link" href="transport-and-handling.html"><span class="nav__n" aria-hidden="true">02</span><span class="nav__t">Transport &amp; Handling</span></a>
+        <div class="drop">
+          <div class="shell drop__inner">
+            <a class="drop__title" href="transport-and-handling.html"><span class="drop__ledger" aria-hidden="true">02</span><span>Transport &amp; Handling</span></a>
+            <ul class="drop__list">
+            <li><a href="transport-and-handling.html#transport"><span class="drop__n" aria-hidden="true">02.1</span><span class="drop__t">Transport</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="transport-and-handling.html#packing"><span class="drop__n" aria-hidden="true">02.2</span><span class="drop__t">Packing &amp; Crating</span><span class="arrow" aria-hidden="true"></span></a></li>
+            </ul>
+            <div class="drop__figure" aria-hidden="true"><div class="plate plate--r45"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/sh-packing-1000.webp" width="1000" height="1250" alt=""></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item nav__item--drop" data-drop>
+        <a class="nav__link" href="services.html"><span class="nav__n" aria-hidden="true">03</span><span class="nav__t">Services</span></a>
+        <div class="drop">
+          <div class="shell drop__inner">
+            <a class="drop__title" href="services.html"><span class="drop__ledger" aria-hidden="true">03</span><span>Services</span></a>
+            <ul class="drop__list">
+            <li><a href="services.html#photography"><span class="drop__n" aria-hidden="true">03.1</span><span class="drop__t">Photography</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="services.html#installation"><span class="drop__n" aria-hidden="true">03.2</span><span class="drop__t">Installation</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="services.html#project-management"><span class="drop__n" aria-hidden="true">03.3</span><span class="drop__t">Project Management</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="services.html#collection"><span class="drop__n" aria-hidden="true">03.4</span><span class="drop__t">Collection &amp; Estate Management</span><span class="arrow" aria-hidden="true"></span></a></li>
+            </ul>
+            <div class="drop__figure" aria-hidden="true"><div class="plate plate--r45"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/sh-photography-1000.webp" width="1000" height="1250" alt=""></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="about.html" aria-current="page"><span class="nav__n" aria-hidden="true">04</span><span class="nav__t">About</span></a></div>
+      <div class="nav__item"><a class="nav__link" href="contact.html"><span class="nav__n" aria-hidden="true">05</span><span class="nav__t">Contact</span></a></div>
     </nav>
     <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
@@ -104,9 +147,30 @@
   <div class="shell" style="display:contents">
     <nav class="shell menu__links" aria-label="Primary, mobile">
       <a href="index.html">Home</a>
-      <a href="exhibition-services.html">Exhibition Services</a>
-      <a href="collection-management.html">Collection Management</a>
-      <a href="storage-and-handling.html">Storage &amp; Handling</a>
+      <div class="menu__group">
+        <a href="storage.html">Storage</a>
+        <ul class="menu__sub">
+          <li><a href="storage.html#climate">Climate-Controlled Storage</a></li>
+          <li><a href="storage.html#ambient">Ambient Storage</a></li>
+          <li><a href="storage.html#viewing-room">Viewing Room</a></li>
+        </ul>
+      </div>
+      <div class="menu__group">
+        <a href="transport-and-handling.html">Transport &amp; Handling</a>
+        <ul class="menu__sub">
+          <li><a href="transport-and-handling.html#transport">Transport</a></li>
+          <li><a href="transport-and-handling.html#packing">Packing &amp; Crating</a></li>
+        </ul>
+      </div>
+      <div class="menu__group">
+        <a href="services.html">Services</a>
+        <ul class="menu__sub">
+          <li><a href="services.html#photography">Photography</a></li>
+          <li><a href="services.html#installation">Installation</a></li>
+          <li><a href="services.html#project-management">Project Management</a></li>
+          <li><a href="services.html#collection">Collection &amp; Estate Management</a></li>
+        </ul>
+      </div>
       <a href="about.html" aria-current="page">About</a>
       <a href="contact.html">Contact</a>
     </nav>
@@ -125,20 +189,11 @@
         <span class="ledger">04</span>
         <h1 class="single-title">About</h1>
         <p style="margin-top:1rem;max-width:30em">
-          Our experienced team comes from the art world, and we handle every work
-          the way a gallery would.
+          Storehouse Fine Arts was founded from a simple observation: collectors, artists and estates all need the same infrastructure &mdash; a safe place to keep work, reliable hands to move and install it, and clear records to make sense of it. We are art people who do logistics, not logistics people who do art. Every work we store, wrap, hang, or catalogue is handled by people who understand what it is and why it matters.
         </p>
         <p style="margin-top:1rem;max-width:30em">
-          Storehouse is a single, joined-up service. The same people who condition-check
-          a work pack it, move it, photograph it and hang it — which is why nothing
-          gets lost between one stage and the next. We work from a secure,
-          climate-controlled facility in Acton, north-west London.
+          Founder Fred Henderson trained at the Courtauld Institute and has worked across the commercial gallery world, before founding Storehouse. The business operates from a purpose-fitted facility in north-west London, with a longer-term ambition to build dedicated storage and exhibition space that lets private collections be shared with the public.
         </p>
-
-        <!-- ================================================================
-             FRED: your &ldquo;Why we set up&rdquo; copy goes here. Replace this
-             comment with one or two <p> paragraphs.
-             ================================================================ -->
 
         <p style="margin-top:1.5rem">
           <a class="link link--trail" href="contact.html">Get in touch <span class="arrow" aria-hidden="true"></span></a>
@@ -170,14 +225,13 @@
     <div class="footer__grid">
       <div>
         <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
-        <p class="label" style="max-width:22em">Consultancy and logistics for galleries, artists, collectors and estates</p>
       </div>
       <div>
-        <h3>Services</h3>
+        <h3>What we do</h3>
         <ul>
-          <li><a href="exhibition-services.html">Exhibition Services</a></li>
-          <li><a href="collection-management.html">Collection Management</a></li>
-          <li><a href="storage-and-handling.html">Storage &amp; Handling</a></li>
+          <li><a href="storage.html">Storage</a></li>
+          <li><a href="transport-and-handling.html">Transport &amp; Handling</a></li>
+          <li><a href="services.html">Services</a></li>
         </ul>
       </div>
       <div>
@@ -194,7 +248,7 @@
           <li><a href="mailto:info@storehousefinearts.com">info@storehousefinearts.com</a></li>
         </ul>
         <address class="label" style="margin-top:1rem;letter-spacing:.06em">
-          Acton, London NW10
+          North-west London
         </address>
       </div>
     </div>

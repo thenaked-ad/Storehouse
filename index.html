@@ -3,24 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-tHd4qJ0R/vQfI0CbRTiL3XGSi+Tun7VhOcDbx08aLKA='; font-src 'self'; connect-src 'self'; frame-src https://www.google.com; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-tHd4qJ0R/vQfI0CbRTiL3XGSi+Tun7VhOcDbx08aLKA='; font-src 'self'; connect-src 'self'; frame-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Storehouse Fine Arts — Exhibition consulting and collection management, London</title>
-<meta name="description" content="Exhibition consulting and collection management for galleries, artists, collectors and estates — with our own storage, transport, packing, installation and photography in Acton, north-west London.">
+<title>Storehouse Fine Arts — Fine art storage and services, north-west London</title>
+<meta name="description" content="Fine art storage, transport, installation, photography, collection management and project management in north-west London, delivered by people from the art world.">
 <link rel="canonical" href="https://storehousefinearts.com/">
 <meta name="theme-color" content="#0f1b70">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Storehouse Fine Arts">
 <meta property="og:title" content="Storehouse Fine Arts">
-<meta property="og:description" content="A consultancy for galleries, artists, collectors and estates, with its own logistics underneath. Exhibition consulting, collection management, storage and handling.">
+<meta property="og:description" content="Fine art storage, transport, installation, photography, collection management and project management in north-west London, delivered by people from the art world.">
 <meta property="og:url" content="https://storehousefinearts.com/">
 <meta property="og:image" content="https://storehousefinearts.com/assets/img/og-1600.webp">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="en_GB">
 <meta property="og:image:alt" content="A large framed painting hung on the wall of a private interior.">
 <meta name="twitter:title" content="Storehouse Fine Arts">
-<meta name="twitter:description" content="A consultancy for galleries, artists, collectors and estates, with its own logistics underneath. Exhibition consulting, collection management, storage and handling.">
+<meta name="twitter:description" content="Fine art storage, transport, installation, photography, collection management and project management in north-west London, delivered by people from the art world.">
 <meta name="twitter:image" content="https://storehousefinearts.com/assets/img/og-1600.webp">
 <meta name="twitter:image:alt" content="A large framed painting hung on the wall of a private interior.">
 
@@ -47,13 +47,12 @@
    "areaServed": "United Kingdom",
    "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Acton",
     "addressLocality": "London",
-    "postalCode": "NW10",
+    "addressRegion": "North-west London",
     "addressCountry": "GB"
    },
    "vatID": "499103269",
-   "description": "Exhibition consulting and collection management for galleries, artists, collectors and estates, with fine art storage, transport, packing, installation and photography from a secure climate-controlled facility in Acton, north-west London."
+   "description": "Fine art storage, transport, installation, photography, collection management and project management for collectors, artists and estates, from a secure facility in north-west London."
   },
   {
    "@type": "WebSite",
@@ -86,12 +85,55 @@
     <a class="wordmark-link" href="index.html" aria-label="Storehouse Fine Arts — home">
       <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
     </a>
+    <!-- Storage, Transport & Handling and Services each open a panel on hover or
+         focus. The panels are plain lists of links, so with the script absent
+         they still open on hover and on keyboard focus; the script adds Escape
+         and loads the photograph the first time a panel opens. -->
     <nav class="nav" aria-label="Primary">
-      <a href="exhibition-services.html"><span class="nav__n" aria-hidden="true">01</span><span class="nav__t">Exhibition Services</span></a>
-      <a href="collection-management.html"><span class="nav__n" aria-hidden="true">02</span><span class="nav__t">Collection Management</span></a>
-      <a href="storage-and-handling.html"><span class="nav__n" aria-hidden="true">03</span><span class="nav__t">Storage &amp; Handling</span></a>
-      <a href="about.html"><span class="nav__n" aria-hidden="true">04</span><span class="nav__t">About</span></a>
-      <a href="contact.html"><span class="nav__n" aria-hidden="true">05</span><span class="nav__t">Contact</span></a>
+      <div class="nav__item nav__item--drop" data-drop>
+        <a class="nav__link" href="storage.html"><span class="nav__n" aria-hidden="true">01</span><span class="nav__t">Storage</span></a>
+        <div class="drop">
+          <div class="shell drop__inner">
+            <a class="drop__title" href="storage.html"><span class="drop__ledger" aria-hidden="true">01</span><span>Storage</span></a>
+            <ul class="drop__list">
+            <li><a href="storage.html#climate"><span class="drop__n" aria-hidden="true">01.1</span><span class="drop__t">Climate-Controlled Storage</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="storage.html#ambient"><span class="drop__n" aria-hidden="true">01.2</span><span class="drop__t">Ambient Storage</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="storage.html#viewing-room"><span class="drop__n" aria-hidden="true">01.3</span><span class="drop__t">Viewing Room</span><span class="arrow" aria-hidden="true"></span></a></li>
+            </ul>
+            <div class="drop__figure" aria-hidden="true"><div class="plate plate--r45"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/sh-storage-1000.webp" width="1000" height="1250" alt=""></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item nav__item--drop" data-drop>
+        <a class="nav__link" href="transport-and-handling.html"><span class="nav__n" aria-hidden="true">02</span><span class="nav__t">Transport &amp; Handling</span></a>
+        <div class="drop">
+          <div class="shell drop__inner">
+            <a class="drop__title" href="transport-and-handling.html"><span class="drop__ledger" aria-hidden="true">02</span><span>Transport &amp; Handling</span></a>
+            <ul class="drop__list">
+            <li><a href="transport-and-handling.html#transport"><span class="drop__n" aria-hidden="true">02.1</span><span class="drop__t">Transport</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="transport-and-handling.html#packing"><span class="drop__n" aria-hidden="true">02.2</span><span class="drop__t">Packing &amp; Crating</span><span class="arrow" aria-hidden="true"></span></a></li>
+            </ul>
+            <div class="drop__figure" aria-hidden="true"><div class="plate plate--r45"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/sh-packing-1000.webp" width="1000" height="1250" alt=""></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item nav__item--drop" data-drop>
+        <a class="nav__link" href="services.html"><span class="nav__n" aria-hidden="true">03</span><span class="nav__t">Services</span></a>
+        <div class="drop">
+          <div class="shell drop__inner">
+            <a class="drop__title" href="services.html"><span class="drop__ledger" aria-hidden="true">03</span><span>Services</span></a>
+            <ul class="drop__list">
+            <li><a href="services.html#photography"><span class="drop__n" aria-hidden="true">03.1</span><span class="drop__t">Photography</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="services.html#installation"><span class="drop__n" aria-hidden="true">03.2</span><span class="drop__t">Installation</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="services.html#project-management"><span class="drop__n" aria-hidden="true">03.3</span><span class="drop__t">Project Management</span><span class="arrow" aria-hidden="true"></span></a></li>
+            <li><a href="services.html#collection"><span class="drop__n" aria-hidden="true">03.4</span><span class="drop__t">Collection &amp; Estate Management</span><span class="arrow" aria-hidden="true"></span></a></li>
+            </ul>
+            <div class="drop__figure" aria-hidden="true"><div class="plate plate--r45"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-src="assets/img/sh-photography-1000.webp" width="1000" height="1250" alt=""></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="about.html"><span class="nav__n" aria-hidden="true">04</span><span class="nav__t">About</span></a></div>
+      <div class="nav__item"><a class="nav__link" href="contact.html"><span class="nav__n" aria-hidden="true">05</span><span class="nav__t">Contact</span></a></div>
     </nav>
     <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
@@ -105,9 +147,30 @@
   <div class="shell" style="display:contents">
     <nav class="shell menu__links" aria-label="Primary, mobile">
       <a href="index.html" aria-current="page">Home</a>
-      <a href="exhibition-services.html">Exhibition Services</a>
-      <a href="collection-management.html">Collection Management</a>
-      <a href="storage-and-handling.html">Storage &amp; Handling</a>
+      <div class="menu__group">
+        <a href="storage.html">Storage</a>
+        <ul class="menu__sub">
+          <li><a href="storage.html#climate">Climate-Controlled Storage</a></li>
+          <li><a href="storage.html#ambient">Ambient Storage</a></li>
+          <li><a href="storage.html#viewing-room">Viewing Room</a></li>
+        </ul>
+      </div>
+      <div class="menu__group">
+        <a href="transport-and-handling.html">Transport &amp; Handling</a>
+        <ul class="menu__sub">
+          <li><a href="transport-and-handling.html#transport">Transport</a></li>
+          <li><a href="transport-and-handling.html#packing">Packing &amp; Crating</a></li>
+        </ul>
+      </div>
+      <div class="menu__group">
+        <a href="services.html">Services</a>
+        <ul class="menu__sub">
+          <li><a href="services.html#photography">Photography</a></li>
+          <li><a href="services.html#installation">Installation</a></li>
+          <li><a href="services.html#project-management">Project Management</a></li>
+          <li><a href="services.html#collection">Collection &amp; Estate Management</a></li>
+        </ul>
+      </div>
       <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
     </nav>
@@ -121,23 +184,18 @@
 
   <!-- ============================================================ hero -->
   <div class="hero-field" data-hero-field>
-  <section class="hero shell">
+  <section class="hero shell" data-intro>
+    <!-- Typed on arrival, then handed over to the wordmark below. The line is
+         the copy, so it lives in the markup; the script only types it. It is
+         hidden from assistive technology because the wordmark is the heading
+         and the same sentence is read in full on the About page. -->
+    <p class="hero__type" aria-hidden="true" data-type>We are art people who do logistics, not logistics people who do art.</p>
+
     <div class="hero__centre">
       <h1 class="hero__mark">
         <span class="visually-hidden">Storehouse</span>
         <svg viewBox="0 0 702 45.31" aria-hidden="true"><use href="#wordmark"/></svg>
       </h1>
-
-      <!-- The four come in one after another, wiped in from the left. It is a
-           CSS animation, so it needs no script; the whole thing is inside a
-           prefers-reduced-motion guard, which is why the resting state is the
-           visible one. -->
-      <ul class="hero__disciplines">
-        <li>Exhibition Consulting</li>
-        <li>Collection Management</li>
-        <li>Artist</li>
-        <li>Artist Estate</li>
-      </ul>
     </div>
 
     <button class="scroll-cue" type="button" data-scroll-cue="#overview" aria-label="Scroll to the overview">
@@ -153,116 +211,58 @@
     <div class="shell marginalia">
       <p class="aside label" id="overview-title">Overview</p>
       <div class="main overview">
-        <p>An exhibition or a collection has more moving parts than any one person can hold in their head. Storehouse is a consultancy for galleries, artists, collectors and estates: we run the parts of a project that sit outside your own expertise &mdash; the artwork lists, the agreements, the budgets, the cataloguing &mdash; without taking over the vision behind it.</p>
-        <p>Underneath the consultancy sits our own logistics operation: storage, transport, packing, installation and photography, from a secure, climate-controlled facility in Acton, north-west London. One team, one set of records, from the first condition report to the wall.</p>
+        <p>Storehouse provides fine art services for all types of projects, artworks and collections, no matter the shape or scale: storage, transport, installation, photography, collection management and project management, delivered by people from the art world.</p>
       </div>
     </div>
   </section>
 
 
-  <!-- ===================================================== case studies -->
-  <section class="shell band band--head" id="cases" aria-labelledby="cases-title">
+  <!-- ========================================================= instagram -->
+  <!-- Recent work, from Storehouse's Instagram. Everything between the two
+       markers below is replaced by the feed when it is connected, so nobody has
+       to touch the page to keep it current. Until then it holds placeholder
+       frames from the site's own photography. See README, "Instagram". -->
+  <section class="shell band" id="recent" aria-labelledby="recent-title">
     <div class="section-head">
-      <h2 id="cases-title">Case studies</h2>
+      <h2 id="recent-title">Recent work</h2>
     </div>
+    <!-- instagram:start -->
+    <ul class="gram" data-gram>
+        <li class="gram__tile"><img src="assets/img/journey/received.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+        <li class="gram__tile"><img src="assets/img/journey/wrapped.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+        <li class="gram__tile"><img src="assets/img/journey/boarded.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+        <li class="gram__tile"><img src="assets/img/journey/crated.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+        <li class="gram__tile"><img src="assets/img/journey/stored.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+        <li class="gram__tile"><img src="assets/img/journey/moved.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+        <li class="gram__tile"><img src="assets/img/journey/installed.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+        <li class="gram__tile"><img src="assets/img/journey/photographed.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></li>
+    </ul>
+    <!-- instagram:end -->
   </section>
 
-  <section class="svc-row svc-row--case" id="case-exhibition" data-side="left" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">01</span>
-      <h3>Exhibition Consulting</h3>
-      <p>We were brought in by the curator of a site-specific exhibition, staged inside a historic building with none of the usual infrastructure for showing art in place. The artwork list needed consolidating and confirming, several pieces required conservation or reframing before they could travel, and the loan and consignment agreements behind multiple lenders were still to be drafted and signed.</p>
-    </div>
-
-    <figure class="svc-row__figure">
-      <div class="plate plate--r45">
-        <img src="assets/img/case-exhibition-900.webp" width="900" height="1125"
-             loading="lazy" decoding="async" alt="A technician hanging a large painting on a gallery wall.">
-      </div>
-    </figure>
-
-    <div class="svc-row__tail">
-      <p>We consolidated the artwork list, arranged the necessary conservation and reframing, and managed the paperwork across the loans and consignments involved. A shipper was coordinated for packing and import and export documentation, and we oversaw the install and hang on site, alongside the practical detail specific to the venue &mdash; lighting, signage and visitor information &mdash; so that the building was respected while the exhibition still read as a coherent whole.</p>
-      <a class="link link--trail" data-reveal href="exhibition-services.html">Exhibition Services <span class="arrow" aria-hidden="true"></span></a>
-    </div>
-  </section>
-
-  <section class="svc-row svc-row--case" id="case-collection" data-side="right" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">02</span>
-      <h3>Collection Management</h3>
-      <p>A private collection of modern and contemporary art &mdash; several hundred paintings, sculptures, works on paper and books &mdash; existed across four locations, tracked unevenly across spreadsheets, drives and years of invoices and shipping paperwork. Nobody could say with certainty what was where or what condition it was in.</p>
-    </div>
-
-    <figure class="svc-row__figure">
-      <div class="plate plate--r45">
-        <img src="assets/img/case-collection-900.webp" width="900" height="1125"
-             loading="lazy" decoding="async" alt="Gloved hands taping a tissue-wrapped work on the padded bench.">
-      </div>
-    </figure>
-
-    <div class="svc-row__tail">
-      <p>We surveyed every location, catalogued every object, and tracked down the paperwork behind each one &mdash; invoices, shipping records, condition reports, provenance &mdash; building it all into a single database, while arranging storage for works not on display and running the logistics of a house move. The database is now the client&rsquo;s own, used for insurance, loan requests, and sharing provenance and shipping history with curators and dealers on request. Rotations, new acquisitions and storage are all logged in the same system and under the same roof.</p>
-      <a class="link link--trail" data-reveal href="collection-management.html">Collection Management <span class="arrow" aria-hidden="true"></span></a>
-    </div>
-  </section>
-
-  <section class="svc-row svc-row--case" id="case-artist" data-side="left" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">03</span>
-      <h3>Artist</h3>
-      <p>Before working with Storehouse, the studio had outgrown its space. Paintings, drawings and photographs were accumulating with no secure place to keep them, and no consistent record existed of what had sold or what was out on loan.</p>
-    </div>
-
-    <figure class="svc-row__figure">
-      <div class="plate plate--r45">
-        <img src="assets/img/case-artist-900.webp" width="900" height="1125"
-             loading="lazy" decoding="async" alt="A work seen from above, wrapped and seated in its foam profiles.">
-      </div>
-    </figure>
-
-    <div class="svc-row__tail">
-      <p>We took the overflow into storage, catalogued and photographed each work to gallery standard, and arranged the framing, conservation, packing and UK transport where required. We now work closely with the studio, providing storage and transport between studio and gallery as exhibitions arise.</p>
-      <a class="link link--trail" data-reveal href="storage-and-handling.html#storage">Storage &amp; Handling <span class="arrow" aria-hidden="true"></span></a>
-    </div>
-  </section>
-
-  <section class="svc-row svc-row--case" id="case-estate" data-side="right" data-reveal>
-    <div class="svc-row__head">
-      <span class="ledger">04</span>
-      <h3>Artist Estate</h3>
-      <p>On the artist&rsquo;s death, the studio held several hundred works &mdash; paintings, drawings, photographs and books &mdash; with no catalogue, no settled record of what had been completed, and no clear indication of value.</p>
-    </div>
-
-    <figure class="svc-row__figure">
-      <div class="plate plate--r45">
-        <img src="assets/img/case-estate-900.webp" width="900" height="1125"
-             loading="lazy" decoding="async" alt="A boarded work resting on its padded bench, edges protected.">
-      </div>
-    </figure>
-
-    <div class="svc-row__tail">
-      <p>We cleared the studio in full, photographing and cataloguing every work, and supported the valuation process required for probate. This called for judgement as much as handling: distinguishing finished works from studies and discards, and managing the removal of a lifetime&rsquo;s studio materials &mdash; paints, pigments, tools &mdash; from the space. The estate now holds a complete catalogue that can be presented to galleries and museums, providing the foundation for future exhibitions.</p>
-      <a class="link link--trail" data-reveal href="collection-management.html">Collection Management <span class="arrow" aria-hidden="true"></span></a>
-    </div>
-  </section>
 
   <!-- ========================================================= facility -->
   <section class="panel panel--charcoal" aria-labelledby="facility-title" data-paper data-ground="charcoal">
     <div class="shell marginalia">
       <p class="aside label">Location</p>
       <div class="main">
-        <h2 id="facility-title">Acton, north-west London.</h2>
+        <h2 id="facility-title">North-west London.</h2>
         <p style="margin-top:1.75rem;font-size:var(--t-lead);line-height:1.5;max-width:32em">
           One facility, close to the galleries and the fairs that need it. Racking sized
           for works large and small, a viewing room and a conservation studio under the
           same roof, and level access for anything that will not go up a stair.
         </p>
         <ul class="conditions">
-          <li>Acton, London NW10</li>
           <li>Climate &amp; humidity controlled</li>
           <li>24-hour monitored</li>
-          <li><button type="button" data-map-open>See on map</button></li>
         </ul>
       </div>
     </div>
@@ -272,7 +272,7 @@
     <div class="shell marginalia">
       <p class="aside ledger">Enquiries</p>
       <div class="main">
-        <h2 id="enquire-title">Get in touch, and request a rate card.</h2>
+        <h2 id="enquire-title">Begin with a collection audit or a visit to see the collection.</h2>
         <p style="margin-top:1.75rem;font-size:var(--t-lead);line-height:1.5;max-width:32em">
           Whatever you need moved, stored, photographed, catalogued or hung,
           we&rsquo;d be glad to hear about it.
@@ -288,31 +288,19 @@
 
 </main>
 
-<dialog class="map-dialog" data-map-dialog aria-label="Storehouse on the map">
-  <div class="map-dialog__bar">
-    <p class="label">Acton, London NW10 &mdash; approximate area</p>
-    <button class="link" type="button" data-map-close>Close</button>
-  </div>
-  <div class="map-dialog__frame" data-map-frame></div>
-  <p class="map-dialog__fallback label">
-    <a href="https://www.google.com/maps/search/?api=1&amp;query=Acton+London+NW10"
-       target="_blank" rel="noopener">Open in Google Maps</a>
-  </p>
-</dialog>
 
 <footer class="footer">
   <div class="shell">
     <div class="footer__grid">
       <div>
         <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
-        <p class="label" style="max-width:22em">Consultancy and logistics for galleries, artists, collectors and estates</p>
       </div>
       <div>
-        <h3>Services</h3>
+        <h3>What we do</h3>
         <ul>
-          <li><a href="exhibition-services.html">Exhibition Services</a></li>
-          <li><a href="collection-management.html">Collection Management</a></li>
-          <li><a href="storage-and-handling.html">Storage &amp; Handling</a></li>
+          <li><a href="storage.html">Storage</a></li>
+          <li><a href="transport-and-handling.html">Transport &amp; Handling</a></li>
+          <li><a href="services.html">Services</a></li>
         </ul>
       </div>
       <div>
@@ -329,7 +317,7 @@
           <li><a href="mailto:info@storehousefinearts.com">info@storehousefinearts.com</a></li>
         </ul>
         <address class="label" style="margin-top:1rem;letter-spacing:.06em">
-          Acton, London NW10
+          North-west London
         </address>
       </div>
     </div>

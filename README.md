@@ -10,32 +10,41 @@ Built from the *Storehouse Brand Identity* (2025) document and Fred's copy.
 
 ## Pages
 
-Storehouse is a consultancy with a logistics operation underneath it, and the
-site is ordered to say so: the two consultancy pages come first, and Storage &
-Handling third.
+**Storehouse is a storage business first.** Fred's October 2026 brief, written
+after two existing clients advised it, leads with storage — the simplest thing
+to say yes to, and the one that earns the trust for everything else — and moves
+the site away from the consultancy positioning it launched with. Collectors,
+artists and estates are the audience; galleries are welcome but not the focus.
+
+Fred's own way of putting the three headings: **Storage** is the building,
+**Transport & Handling** is getting a work from A to B, and **Services** are the
+optional extras.
 
 | File | Nav | Page |
 |---|---|---|
 | `index.html` | — | Home |
-| `exhibition-services.html` | 01 | Budgets, agreements, shipping, framing |
-| `collection-management.html` | 02 | Cataloguing, inventory, reporting |
-| `storage-and-handling.html` | 03 | The list of services, the card row, and the six entries in full |
+| `storage.html` | 01 | Overview, Climate-Controlled Storage, Ambient Storage, Viewing Room |
+| `transport-and-handling.html` | 02 | Transport, Packing & Crating — and the card row |
+| `services.html` | 03 | Photography, Installation, Project Management, Collection & Estate Management |
 | `about.html` | 04 | About |
 | `contact.html` | 05 | Contact |
 | `404.html` | — | Not found |
 
+The three old addresses still answer, as forwards — see *Old addresses* below.
+
 ## Where the copy comes from
 
-**Every descriptive line on the service pages is verbatim from Fred's copy
-document, and nothing has been added to it.** If a service has no points under
-it, that is because the document gives it none. Before writing anything new on
-those pages, check the document first and add it there.
+**Every descriptive line on the three service pages, the home page overview and
+About is verbatim from Fred's brief** — *Storehouse Website Rethink — Brief for
+Tom (Oct 2026)* — and nothing has been added to it. Before writing anything new
+on those pages, check the brief first and add it there.
 
-The four case studies come from the separate consulting document, also his.
+Three things are ours rather than his, and are the places to look if something
+reads oddly: the button labels on the service entries, the enquiry rows on
+Contact, and the line typed on arrival (which is lifted from his About copy).
 
-Three things on the site are ours rather than his, and are the places to look
-if something reads oddly: the home page overview, the button labels on the
-service entries, and the enquiry rows on Contact.
+Two pieces are still to come from Fred, agreed on the call of 14 October: the
+wording for the Recent work section and a short location blurb.
 
 ## Editing the copy
 
@@ -43,15 +52,16 @@ All text lives directly in the `.html` files. Find the sentence you want and
 change it — nothing is compiled or generated.
 
 The header and footer are repeated in each page. If you change a navigation
-link, change it in all seven files.
+link, change it in all seven pages (`index`, `storage`, `transport-and-handling`,
+`services`, `about`, `contact`, `404`) — the desktop dropdowns and the mobile
+menu both carry the sub-items, so there are two places per page.
 
 **Two places are waiting on content:**
 
-- `about.html` — `FRED: your "Why we set up" copy goes here`; replace the comment with `<p>` paragraphs.
-- `index.html` — the case studies placeholder, see below.
-
-The team portraits on `about.html` are currently captioned "Storehouse". Swap
-those `<figcaption>` lines for real names and roles when you have them.
+- `index.html` — the Recent work grid, between `<!-- instagram:start -->` and
+  `<!-- instagram:end -->`. See *Recent work* below.
+- `index.html` — the Location panel, which says only "North-west London." until
+  Fred's blurb arrives.
 
 ## Running it locally
 
@@ -236,8 +246,8 @@ One work travelling the whole service: received, wrapped, boarded, crated,
 stored, moved, installed, photographed. Eight real frames from the Storehouse
 shoot, in the order they happen.
 
-**It lives on `storage-and-handling.html`,** directly under the list of services
-— not on the home page, where the case studies now take that position.
+**It lives on `transport-and-handling.html`,** directly under the services —
+the page about a work's movement is the natural home for a work moving.
 
 One line of 3:4 cards, each with its number top-left and its label bottom-left
 against a gradient scrim. The row waits a second, then drifts along on its own
@@ -281,119 +291,6 @@ plain swipe. Without JavaScript it is eight cards you can scroll by hand.
 
 To change a stage, edit `index.html` and drop a replacement 3:4 image into
 `assets/img/journey/`.
-
-## The three service pages
-
-Storage & Handling, Exhibition Services and Collection Management all share one
-shape, built to Tom's reference:
-
-1. `.page-split` — the number, a large two-line title and the standfirst in a
-   narrow left column; a 4:3 picture beside them, running to the right edge.
-2. `.entry-grid` — every entry as a card, two to a row, ruled between and
-   divided by a vertical rule, each with heading, paragraph, any specification
-   list, then its own 3:2 picture beneath.
-
-Exhibition Services and Collection Management have four entries each, two to a
-row in even halves (`.entry-grid`).
-
-Storage & Handling has six and takes a row each (`.svc-row`), in a container
-capped at 1400px and centred. Two columns sitting close together — the words
-one side, the picture the other, turned round on each row — with a short rule
-at the head of every section aligned to the grid rather than ruled across the
-page.
-
-Each row has three parts, and the split matters: `__head` (number, heading,
-description), `__figure`, and `__tail` (service points and the call to action).
-On a wide screen `grid-template-areas` puts head and tail in one column with
-the picture beside them; on a phone the areas fall away and the DOM order gives
-number, heading, description, picture, points, call to action, which is the
-order the brief asked for.
-
-The picture column keeps the larger share whichever side it is on
-(`1fr 1.12fr`, reversed for `data-side="right"`), so every photograph on the
-page comes out the same size — verified identical from 768px to 2560px.
-
-There is an empty fourth row in the grid, `slack`, sized `1fr`. It exists to
-absorb however much taller the picture is than the words beside it. Without it
-that slack is shared between the head and tail rows, which pushes the service
-points away from the paragraph by a different amount on every section,
-depending on how long the paragraph happens to be.
-
-The call to action is `.btn`: an outlined button in the brand blue that fills
-on hover.
-
-Every entry picture is 3:2 at every width and on all three pages; only the lead
-is 4:3. There is no breakpoint where a ratio changes. No picture carries a caption on these pages.
-
-Cards are flex columns with the picture pushed to the foot (`margin-top: auto`).
-Grid items are the same height across a row, so this lines every picture up
-with the one beside it however much text sits above it.
-
-
-
-
-## The services list (removed)
-
-Gone. It was replaced by the jump filter below, which does the same job for a
-single line of height.
-
-Compact rows, one per service, opening as ordinary `<details>`. On a wide screen
-the image of whichever service you are pointing at appears in the column beside
-the list; on a phone that column is dropped and each service carries its own
-image inside the panel it opens. The pairing is set by `data-service` on each
-`<details>` matching `data-service` on an image in `.services__preview`.
-
-## The jump filter
-
-One sticky line under the masthead on **all three service pages**, in place of
-the title picture that used to be there. Each page is now the same shape: a
-title, the filter, then its entries alternating side down the page. In the markup it is a plain list of
-anchors and works as a contents list on its own; the script adds two things:
-
-- the mark showing which entry you are currently in front of, and
-- the jump itself. Chrome adds its own allowance for a sticky header on top of
-  `scroll-padding-top`, which lands the entry a little underneath the bar, so
-  the scroll is taken in JavaScript instead. That calculation reads the entry's
-  **layout** position rather than a bounding rect — an entry that has not been
-  revealed yet is still translated down by the reveal, and scrolling to a
-  transformed position lands it short once the transform comes off.
-
-The jump clears the bar by 26px rather than sitting flush against it, because
-the first things in an entry are its hairline and its number, and those are the
-easiest things to tuck underneath by mistake. The mark follows the same line.
-
-`--filter-h` is written from the real height so `scroll-padding-top` can allow
-for it. On a narrow screen the row scrolls sideways rather than wrapping, so the
-bar is one line high at every width.
-
-## The four disciplines arriving
-
-The only entrance animation on the site. Each of the four is wiped in from the
-left with a small lift under it, 130ms apart, on the slow ease used everywhere
-else.
-
-It is a plain CSS animation with `animation-delay` doing the stagger — no
-script, nothing to observe, nothing to fail. The whole block sits inside
-`@media (prefers-reduced-motion: no-preference)`, which is deliberate and the
-right way round: the resting state in the stylesheet is the **visible** one, so
-anyone who has asked for less movement simply gets four lines of type. Putting
-the hidden state outside the guard would leave them looking at nothing.
-
-The wipe is `clip-path: inset(0 100% -20% 0)` opening to `inset(0 0 -20% 0)`.
-The `-20%` at the bottom is what stops the clip cutting the descenders off.
-
-## The case-study arrows draw themselves
-
-As a case study is revealed, its arrow is drawn: the shaft runs out from the
-words on `scaleX` with a left origin, and the head catches up behind it on
-opacity and a small `translateX`. It hangs off the `data-shown` attribute the
-reveal observer already sets, so there is no second observer and no extra
-script.
-
-Scoped to `.js` and inside `prefers-reduced-motion: no-preference`, the same way
-the reveal itself is, and for the same reason: the state written in the
-stylesheet is the **finished** one. No script, or no motion, still leaves a
-drawn arrow rather than a blank space.
 
 ## The masthead arrives with the scroll
 
@@ -446,49 +343,58 @@ not start a native drag**, so the drag test passed for weeks while the bug was
 live. Verify it by dispatching a real `dragstart` and checking `defaultPrevented`,
 not by driving the mouse.
 
-## Service pages: the alternating row, with a smaller plate
+## The navigation
 
-Text on one margin, picture on the other, swapping down the page. The row spans
-the page (`--svc-shell: 87.5rem`) and each picture is pushed out to the margin
-on its own side with an auto margin, so the run of them reads as one clean edge.
-`data-side` names where the **text** sits, so the picture takes the other edge.
+Five items, in Fred's order: **Storage | Transport & Handling | Services |
+About | Contact**. The first three open a panel on hover, after the reference
+Fred sent, but drawn in the site's own language rather than a stock mega-menu:
+the ultramarine ground, the ledger number and title on the left, the sub-items
+as a ruled list with the same mono numbers the pages use (`01.1`, `01.2`…), and
+one photograph on the right.
 
-The layout was never the problem — the pictures were. At half the row they stood
-640px tall against two or three lines of copy, which is what made these pages
-feel mostly empty and take so long to scroll.
+- **It is CSS, not script.** `:hover` and `:focus-within` on `.nav__item--drop`
+  open it, so a keyboard user tabbing along the bar gets the same panel. The
+  script only adds Escape to shut it (`data-shut`) and loads the photograph the
+  first time a panel opens (`data-src`, with a blank GIF in `src` until then),
+  so nobody downloads three dropdown pictures they never asked for.
+- **Closing is delayed, opening is not.** `visibility` comes off after 0.22s, so
+  a pointer travelling diagonally from the link down to the last item does not
+  drop out of the panel on the way. An invisible bridge (`::after` on the link)
+  covers the gap between the bar and the panel.
+- **There is no `pointer-events` toggle**, and that is deliberate. It switched
+  instantly while the visibility waited, so the panel stopped receiving the
+  pointer the moment it left the link and shut under it. Hidden visibility
+  already refuses the pointer; nothing else is needed.
+- The sub-items are anchors (`storage.html#ambient`), and the page opens the
+  matching entry on arrival and on `hashchange`, so a sub-item works whether you
+  are already on that page or not. Without a hash, Storage opens its Overview.
 
-One number fixes that: `--svc-plate: clamp(17rem, 24vw, 21rem)`, so the plate is
-**336×420 at 1440 rather than 512×640**. Storage & Handling comes down from
-6,324px to about 5,000px.
+On a phone the menu lists the sub-items under each heading; there is no hover to
+hide them behind.
 
-Worth knowing if this is ever revisited: narrowing the row to close the gap
-between the prose and the picture is a dead end. It does close it — but it also
-pulls both columns into the middle of the screen and the alternation stops
-reading as alternation, because nothing is on a margin any more. The gap is the
-price of the edge-to-edge layout, and the layout is the point.
+## Old addresses
 
-### Three plate sizes, one variable
+`storage-and-handling.html`, `exhibition-services.html` and
+`collection-management.html` were the site's first three service pages and may
+be bookmarked or indexed. Each is now a one-line forward — a meta refresh,
+`noindex`, and a canonical pointing at the new home:
 
-`--svc-plate` is set once on `.svc-row` and overridden by two modifiers, because
-the same row markup carries three very different amounts of copy:
+| Old | New |
+|---|---|
+| `storage-and-handling.html` | `storage.html` |
+| `exhibition-services.html` | `services.html#project-management` |
+| `collection-management.html` | `services.html#collection` |
 
-| | `--svc-plate` | At 1440 |
-|---|---|---|
-| `.svc-row` — a service entry | `clamp(17rem, 24vw, 21rem)` | 336×420 |
-| `.svc-row--case` — a home page case study, two paragraphs | `clamp(20rem, 34vw, 30rem)` | 480×600 |
-| `.svc-row--pair` — a consultancy entry, two photographs | `clamp(20rem, 46vw, 42rem)` | two at 324×405 |
-
-The case study plate is sized to stand beside its text rather than beside a
-single sentence: measured, it is 90–99% of the text height on three of the four,
-and 123% on Artist, whose copy is shortest.
+GitHub Pages cannot send a 301, which is why they are pages at all. On a host
+that can, replace them with real redirects.
 
 ## The expanding index — all three service pages
 
-All three service pages use it now, Storage & Handling included; the card row
-follows underneath on that page. None of them uses `.svc-row` any more — that is
-the home page's case studies only. **Title and services run down one side, one standing
-photograph down the other**, and each service opens to its copy — the pictures
-are out of the entries entirely.
+All three service pages use it; the card row follows underneath on Transport &
+Handling. **Title and services run down one side, one standing photograph down
+the other**, and each service opens to its copy — the pictures are out of the
+entries entirely. The entries are numbered from the page's ledger number —
+`01.1`, `01.2` on Storage — and Storage's Overview is entry `01`, open by default.
 
 `.services-page` carries `min-height: calc(100svh - var(--masthead-h))`, so the
 blue holds the screen whatever the window. Without it the paper panel below
@@ -503,8 +409,8 @@ value on the site set to `eager`, because it is above the fold on both pages.
 
 ### The standing photograph is a slideshow
 
-It turns over every 2s through that page's own frames — four on Exhibition
-Services, five on Collection Management, six on Storage & Handling. Every frame
+It turns over every 2s through that page's own frames — four on Storage, five
+on Transport & Handling, five on Services. Every frame
 is in the markup and **the first is the only one that starts opaque**, so with
 the script absent the panel is simply a photograph.
 
@@ -548,13 +454,7 @@ one closes the last.
 The plus is two crossed rules, the upright one turning flat when the entry
 opens, so it becomes a minus without a second glyph or an icon font.
 
-This **replaces the jump filter on these two pages** — a list you can see all of
-at once does not need a contents bar above it. `[data-filter]` is guarded in the
-script, so removing the bar breaks nothing. Storage & Handling keeps its filter,
-because its entries are long and the page is still worth skipping through.
-
-It is the layout at every width, not just desktop. Exhibition Services is
-1,687px against 3,160px on a desktop, and 1,534px against 3,860px on a phone.
+It is the layout at every width, not just desktop.
 
 The text measure is `36rem` on the paragraph **and** the points. Capping only
 the paragraph, as it was, left the block visibly ragged — a short paragraph
@@ -642,13 +542,41 @@ masthead.
 
 Inside, `.hero__centre` takes a single auto margin **above** it, so the free
 space is all spent there and the wordmark sits low on the screen the way a title
-sits low on an exhibition poster, with the four disciplines under it and the cue
-beneath them. `.hero__mark` is `width: 100%`, so the wordmark runs out to the
+sits low on an exhibition poster, with the cue beneath it. The four disciplines
+that used to sit under it came off at Fred's request. `.hero__mark` is `width: 100%`, so the wordmark runs out to the
 page's right margin rather than stopping at a measure of its own.
 
 Two values decide how low the whole group sits, and nothing else needs to move:
-`.hero`'s `padding-bottom` and `.hero__centre`'s `margin-bottom`. At 1440 they
-put the cue 10px above the fold and the wordmark 135px above it.
+`.hero`'s `padding-bottom` and `.hero__centre`'s `margin-bottom`.
+
+### The arrival
+
+On the first visit of a session, a line types itself out in the middle of the
+screen — *We are art people who do logistics, not logistics people who do art.*
+— holds, then sinks and blurs away as the wordmark wipes in at the foot. Fred
+saw the idea on another site; the line is from his About copy, so it can be
+swapped for any sentence in `index.html` (`data-type`) without touching the
+script.
+
+The timing is in `site.js`: 26–50ms a character with a little randomness so it
+reads as typed rather than printed, a beat at the comma, an 850ms hold, about
+four seconds in all. It plays **once per session** (`sessionStorage`,
+`storehouse-arrival`), so the home link does not make anyone sit through it
+twice — open a new tab to see it again. Any key, click, touch or scroll skips
+straight to the end.
+
+Every way it can fail ends on the wordmark:
+
+- **No script, or reduced motion** — the resting state in the stylesheet is the
+  wordmark, visible, and the typed line is never shown.
+- **The script starts but stalls** — `data-intro="running"` carries a failsafe
+  animation that brings the wordmark in at 7s and the cue at 8s on their own.
+- The typed line is `aria-hidden`; the wordmark is the page's heading
+  throughout, so a screen reader hears the same page either way.
+
+The arrival runs in its own function inside `site.js`. It was briefly loose in
+the main block, where its `var at` was hoisted over the painting's `at()` and
+broke the canvas — keep it wrapped.
 
 ### The cue arrives late
 
@@ -663,6 +591,12 @@ fade the cue out once you started scrolling. `backwards` holds the opening frame
 through the delay and then stops contributing, which leaves the inline style
 free to work. Measured: opacity 0 at 0.4s, 1.2s and 2.1s; 0.92 at 2.8s; 1 at
 3.6s; 0 again after scrolling 400px; back to 1 at the top of the page.
+
+During the arrival the cue is held back entirely — arriving mid-sentence, it
+competed with the line being typed — and it follows the wordmark up 1.1s after
+the arrival ends. That is a different animation name (`cue-late`) while the
+arrival runs, so the switch to `done` restarts the fade rather than inheriting
+the time already elapsed. Return visits keep the original 2.2s.
 
 The block sits inside the reduced-motion guard, so anyone who has asked for less
 movement gets the cue immediately and without the fade. With JavaScript off the
@@ -729,15 +663,14 @@ reads — there is a small drop shadow behind it for exactly that case.
 
 ## The order of the home page
 
-The first screen is the wordmark and the four disciplines on the ultramarine,
-and nothing else — no prose, no picture. They sit on the centre line (the auto
-margins on `.hero__centre` take the space above and below), with the scroll cue
-at the foot.
+The first screen is the wordmark on the ultramarine (after the arrival, on a
+first visit), with the scroll cue at the foot.
 
-Then: the overview on the slate, the four case studies back on the blue,
-Location on the charcoal, and the closing enquiry block on the paper. Four
-grounds in order down one page, which is the whole reason the palette is written
-as tokens rather than as colours.
+Then: the overview on the slate, Recent work back on the blue, Location on the
+charcoal, and the closing enquiry block on the paper — *Begin with a collection
+audit or a visit to see the collection*, the call to action from Fred's brief.
+Four grounds in order down one page, which is the whole reason the palette is
+written as tokens rather than as colours.
 
 The masthead reads the ground beneath it as it goes and takes a matching
 backdrop: `data-over="blue"` by default, or the value of the section's own
@@ -772,27 +705,49 @@ Panels are deliberately **not** given `data-reveal`: the reveal fades a whole
 section, background included, so the page showed through for a moment as it
 scrolled into view.
 
-## Case studies
+## Recent work
 
-Four in full, directly under the first screen: Exhibition Consulting,
-Collection Management, Artist, Artist Estate. The copy is Fred's, from the
-consulting document.
+The four written case studies are gone; in their place is a grid from
+Storehouse's Instagram, so the home page keeps itself current without anyone
+editing the site. Eight square-ish tiles (4:5), four across on a desktop and two
+on a phone.
 
-They are built from the same `.svc-row` as the service entries, alternating side
-down the page: `.svc-row__head` takes the number, the title and the situation,
-and `.svc-row__tail` takes what Storehouse did about it and the link on to the
-relevant page.
+**It is a placeholder until the feed is connected.** The tiles are currently the
+card-row photographs. Everything the feed writes goes between two markers in
+`index.html`:
 
-## The map
+```html
+<!-- instagram:start -->
+<ul class="gram" data-gram> … </ul>
+<!-- instagram:end -->
+```
 
-"See on map" on the home page opens a `<dialog>` containing a Google Maps embed.
-The iframe is only created the first time it is opened, so no visitor loads
-Google unless they ask to see the map. Without `<dialog>` support the button
-opens Google Maps in a new tab instead.
+Each tile is `<li class="gram__tile"><a href="{post}"><img src="{image}" alt="{caption}"></a></li>`.
+Two ways to fill it, neither of which puts a third-party script on the page:
 
-A dialog renders in the browser's top layer, above everything else on the page,
-so the cursor dot cannot be drawn over it. The native cursor is handed back
-while the dialog is open and taken again when it closes.
+1. **A scheduled GitHub Action** that calls the Instagram API with a long-lived
+   token, downloads the latest eight images into `assets/img/gram/`, and
+   rewrites the block between the markers. Free, keeps the CSP as it is, and the
+   pictures are served from the site itself. Needs Storehouse's Instagram to be
+   a Business or Creator account linked to a Facebook page, and the token kept as
+   a repository secret.
+2. **A feed service** such as Behold, which exposes the posts as JSON. Simpler to
+   set up, but it is a monthly subscription and the images then come from their
+   CDN, which means adding it to `img-src` and `connect-src` in the CSP.
+
+The section heading and its line are waiting on Fred's wording.
+
+## Location, and the insurer
+
+At Fred's request — his insurer has grown wary of the site advertising where the
+works are kept — **the site no longer names Acton or gives a street address
+anywhere**: not in the footer, not on Contact, not in the JSON-LD. It says
+*North-west London* and nothing more precise. The footer's consultancy strapline
+came off at the same time, leaving the name and the location.
+
+The Google Maps dialog went with it, and with it the only third-party request
+the site made. If a map is ever wanted back, it should be at a regional zoom,
+not a pin.
 
 ## Imagery
 
@@ -824,7 +779,6 @@ everywhere except About, which is a portrait.
 | Service entries (`sh-*`, `ex-*`, `cm-*`) | 1000 × 1250 | 4:5 |
 | Page titles (`*-hero`) | 1000 × 1333 | 3:4 |
 | The list preview (`svc-0*`) | 700 × 933 | 3:4 |
-| Case studies (`case-*`) | 900 × 1125 | 4:5 |
 | Social card (`og-1600`) | 1600 × 900 | 16:9 |
 
 To add one, export a WebP at the size in that table, drop it in `assets/img/`,
@@ -841,13 +795,13 @@ Worth confirming before launch:
   document's business card shows `fred@storehouse.com` and `storehouse.com`,
   which conflicts. The copy document was treated as newer.
 - **Domain** — `storehousefinearts.com` assumed throughout.
-- **Instagram** — the brand document's website concept lists an Instagram link,
-  but no handle was supplied, so no Instagram link is on the site yet. Add it to
-  the footer and the mobile menu once you have the handle.
+- **Instagram** — still no handle. It is needed for the Recent work feed, and
+  for a link in the footer and the mobile menu.
+- **Photography** — the brief asks for an image-led Photography page, with large
+  reproductions of works Fred has photographed. It is an entry on Services for
+  now; it wants those photographs before it can be its own page.
 - **Telephone** — not published. The only number available was Fred's mobile,
   from the business card.
-- **Fonts** — Google Fonts is a third-party request. Self-hosting the `.woff2`
-  files removes it, which is worth doing for a UK business with EU clients.
 - **Contact** — the enquiry links are `mailto:` with the subject pre-filled.
   They need no server and cannot break. If a real form is wanted later,
   Formspree or Netlify Forms will drop in without changing the design.
@@ -858,8 +812,8 @@ Nothing is fetched from a third party. All three typefaces are self-hosted
 woff2 in `assets/fonts/` and the two used above the fold are preloaded; the
 mono is subsetted to the characters the site actually draws, which takes it
 from 10KB to 4KB. There is no Google Fonts request, no preconnect, no DNS
-lookup off-origin — the only external thing on the site is the Google Maps
-iframe, and that is only created when someone opens the map.
+lookup off-origin, and since the map came off there is no external request of
+any kind.
 
 Images are WebP, sized to about twice their largest rendered width, and every
 `<img>` carries explicit `width` and `height` so nothing shifts as the page
@@ -882,7 +836,7 @@ cannot send headers:
 ```
 default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline';
 script-src 'self' 'sha256-…'; font-src 'self'; connect-src 'self';
-frame-src https://www.google.com; form-action 'self'; base-uri 'self';
+frame-src 'none'; form-action 'self'; base-uri 'self';
 object-src 'none'; upgrade-insecure-requests
 ```
 
@@ -893,14 +847,15 @@ that line by even a character, the hash no longer matches and the script is
 blocked**, which would leave the reveal animations and the card row inert.
 Recompute it, or move the line into `site.js`.
 
-`frame-src` exists only for the map. If the map goes, that can go too.
+`frame-src` is `'none'`: the map was the only frame, and it has gone.
 
 ## Search
 
 Every page carries a title, a description, a canonical URL, Open Graph and
 Twitter card tags with image alt text, and JSON-LD:
 
-- Home — `ProfessionalService` and `WebSite`, with the address and VAT number.
+- Home — `ProfessionalService` and `WebSite`, with the VAT number and a locality
+  of north-west London (no street address — see *Location, and the insurer*).
 - The three service pages — `Service` with an `OfferCatalog` of what each
   covers, and a `BreadcrumbList`.
 - About and Contact — `AboutPage` / `ContactPage`, and a `BreadcrumbList`.
