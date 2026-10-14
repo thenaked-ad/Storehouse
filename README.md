@@ -394,8 +394,12 @@ Testing this with Playwright: use `mouse.move` to the link, not `hover()`.
 sticky bar and changes its ground — it looks as though the panel ignored the
 colour when it did not.
 
-On a phone the menu lists the sub-items under each heading; there is no hover to
-hide them behind.
+On a phone, Storage, Transport & Handling and Services are headings with a plus
+beside them; tapping one opens its parts underneath (the plus turns to a minus)
+and closes any other. They are `<details name="menu">`, so they work with no
+script, and the menu folds them all again each time it closes. The pages
+themselves are reached through their parts — there is no separate link to the
+top of each page in the phone menu.
 
 ## Old addresses
 

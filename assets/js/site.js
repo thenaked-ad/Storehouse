@@ -70,6 +70,9 @@
       if (open) {
         var first = menu.querySelector("a");
         if (first) first.focus({ preventScroll: true });
+      } else {
+        // Each time the menu opens it starts with its headings folded.
+        menu.querySelectorAll("details[open]").forEach(function (d) { d.open = false; });
       }
     };
     setMenu(false);
