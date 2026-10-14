@@ -143,23 +143,6 @@
     });
   });
 
-  /* ------------------------------------------- the entry you clicked stays put */
-
-  /* Only one entry stands open at a time, so opening one shuts another. When
-     the one shutting is above — the Storage overview, say, which is long — the
-     page collapses under the pointer and the heading just clicked jumps up out
-     of sight. This holds it where it was. */
-
-  Array.prototype.forEach.call(document.querySelectorAll("details.service > summary"), function (summary) {
-    summary.addEventListener("click", function () {
-      var before = summary.getBoundingClientRect().top;
-      window.requestAnimationFrame(function () {
-        var shift = summary.getBoundingClientRect().top - before;
-        if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: "instant" });
-      });
-    });
-  });
-
   /* ---------------------------------------------------- opening an entry by link */
 
   /* A link to storage.html#ambient should land with Ambient Storage open, not
@@ -188,8 +171,8 @@
      they go. The navigation waits until it has landed.
 
      Once a session: coming back to the home page in the same visit goes straight
-     to the wordmark. Scrolling, clicking or pressing a key skips to the end,
-     because anyone who has done that has seen enough.
+     to the wordmark. It always plays out in full: the page is held still until
+     the wordmark has landed, rather than letting a scroll cut it short.
 
      States on the hero, which the stylesheet reads:
        ""       not decided yet (the script has not run)
@@ -206,11 +189,24 @@
   // Its own function, because var is scoped to the whole file: the painting code
   // further down declares an `at` of its own, and the two would overwrite each
   // other mid-sentence.
-  if (hero && (!typed || reduced || seen)) hero.dataset.intro = "rest";
+  // Not played if the page has opened part-way down (a reload mid-page): the
+  // line would be typing off screen while the page refused to move.
+  if (hero && (!typed || reduced || seen || window.scrollY > 0)) hero.dataset.intro = "rest";
   else if (hero) (function () {
     var line = typed.textContent.trim();
     var chars = [], timer = null, finished = false, overlay = null, at = 0;
-    var skips = ["wheel", "touchstart", "keydown", "pointerdown"];
+
+    // Holding the page still. Scrolling input is refused rather than the page
+    // being set to overflow: hidden, which would take the scrollbar away and
+    // shift the whole layout sideways on any system that shows one.
+    var held = ["wheel", "touchmove"];
+    var scrollKeys = [" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "End", "Home"];
+    var hold = function (e) { e.preventDefault(); };
+    var holdKeys = function (e) { if (scrollKeys.indexOf(e.key) > -1) e.preventDefault(); };
+    var release = function () {
+      held.forEach(function (ev) { window.removeEventListener(ev, hold, { passive: false }); });
+      window.removeEventListener("keydown", holdKeys);
+    };
 
     // One span per character, laid out from the start and shown one at a time,
     // so the centred lines never shift as the sentence grows. Words are held
@@ -238,7 +234,8 @@
       if (finished) return;
       finished = true;
       window.clearTimeout(timer);
-      skips.forEach(function (ev) { window.removeEventListener(ev, skip); });
+      window.clearTimeout(safety);
+      release();
       if (overlay) overlay.remove();
       chars.forEach(function (ch) {
         if (ch.getAnimations) ch.getAnimations().forEach(function (a) { a.cancel(); });
@@ -249,7 +246,7 @@
       hero.dataset.intro = "done";
       remember();
     };
-    var skip = function () { finish(false); };
+    var safety = null;
 
     /* The wordmark is one path. Split it at each move-to and gather the pieces
        by where they sit, so the counters of the O and R stay with their letter:
@@ -406,26 +403,12 @@
 
     chars[0].dataset.caret = "before";
     hero.dataset.intro = "running";
-    skips.forEach(function (ev) { window.addEventListener(ev, skip, { passive: true }); });
+    held.forEach(function (ev) { window.addEventListener(ev, hold, { passive: false }); });
+    window.addEventListener("keydown", holdKeys);
+    // Whatever happens, the page is never held for longer than this.
+    safety = window.setTimeout(function () { finish(false); }, 9000);
     timer = window.setTimeout(tick, 600);
   })();
-
-  /* -------------------------------------------------- the overview arrives */
-
-  /* The slate panel under the first screen swipes across the first time it is
-     scrolled onto, and its words follow it in. The resting state in the
-     stylesheet is the panel in place, so without this it is simply there. */
-
-  var slate = document.querySelector(".panel--slate[data-swipe]");
-  if (slate && !reduced && "IntersectionObserver" in window) {
-    slate.dataset.swipe = "out";
-    var swipeIO = new IntersectionObserver(function (entries) {
-      if (!entries[0].isIntersecting) return;
-      slate.dataset.swipe = "in";
-      swipeIO.disconnect();
-    }, { threshold: 0.18 });
-    swipeIO.observe(slate);
-  }
 
   /* --------------------------------------------------------- the slideshow */
 

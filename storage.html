@@ -208,8 +208,9 @@
   <!-- ================================================ the expanding index -->
   <!-- Title and entries down one side, the page's photographs down the other.
        Each entry is an ordinary <details>, so with the script absent every one
-       still opens and closes. The shared name attribute keeps one open at a
-       time. A link to page.html#entry opens that entry on arrival. -->
+       still opens and closes. They open independently: closing one when
+       another opened would collapse the page above the reader and move the
+       photograph. A link to page.html#entry opens that entry on arrival. -->
   <section class="shell services-page">
     <div class="services-page__main">
       <div class="services-page__head">
@@ -218,7 +219,7 @@
       </div>
 
       <div class="services">
-        <details class="service" name="storage" id="overview">
+        <details class="service" id="overview">
           <summary>
             <span class="service__index">01</span>
             <span class="service__title">Overview</span>
@@ -234,7 +235,7 @@
             <a class="btn btn--self" href="contact.html#storage">Request a storage quote <span class="arrow" aria-hidden="true"></span></a>
           </div>
         </details>
-        <details class="service" name="storage" id="climate">
+        <details class="service" id="climate">
           <summary>
             <span class="service__index">01.1</span>
             <span class="service__title">Climate-Controlled Storage</span>
@@ -245,7 +246,7 @@
             <a class="btn btn--self" href="contact.html#storage">Request a storage quote <span class="arrow" aria-hidden="true"></span></a>
           </div>
         </details>
-        <details class="service" name="storage" id="ambient">
+        <details class="service" id="ambient">
           <summary>
             <span class="service__index">01.2</span>
             <span class="service__title">Ambient Storage</span>
@@ -256,7 +257,7 @@
             <a class="btn btn--self" href="contact.html#storage">Request a storage quote <span class="arrow" aria-hidden="true"></span></a>
           </div>
         </details>
-        <details class="service" name="storage" id="viewing-room">
+        <details class="service" id="viewing-room">
           <summary>
             <span class="service__index">01.3</span>
             <span class="service__title">Viewing Room</span>

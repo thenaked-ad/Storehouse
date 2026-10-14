@@ -348,8 +348,10 @@ not by driving the mouse.
 Five items, in Fred's order: **Storage | Transport & Handling | Services |
 About | Contact**. The first three open a panel on hover, after the reference
 Fred sent, but drawn in the site's own language rather than a stock mega-menu:
-the ledger number and title on the left and the sub-items as a ruled list with
-the same mono numbers the pages use (`01.1`, `01.2`…). No photographs — they
+the ledger number and title on the left and the sub-items as a list with the same
+mono numbers the pages use (`01.1`, `01.2`…), ruled only between items — the
+panel's own top and bottom edges are already rules, so a line above the first
+item or below the last doubled them up. No photographs — they
 came off at Tom's request.
 
 **The panel takes the ground the bar is on.** Its colours are custom properties
@@ -410,18 +412,21 @@ Each open entry leaves `clamp(2.5rem, 4vw, 3.25rem)` under its button before the
 next rule.
 
 **The Overview is laid out differently**, because it carries four paragraphs
-against a sentence or two everywhere else. The first is the lead, a size up; the
-other three are ruled rows with a mono label beside them — *Security*,
+against a sentence or two everywhere else. The first stands on its own, at the
+same size as every other entry; the other three are ruled rows with a mono label beside them — *Security*,
 *Handling*, *Insurance* — like a facility report. The labels are ours; the words
 are Fred's, unchanged.
 
-**The photograph is sticky** on a desktop, so it stays alongside a long entry as
-you read rather than being left behind at the top of the page.
+**The entries open independently** — opening one does not close another. They
+used to be exclusive (a shared `name` on the `<details>`), but closing an entry
+above the one clicked shortens the page under the reader: near the foot of the
+page the browser then has to shift the whole view, and the photograph beside the
+list visibly jumped. Measured after the change: 234 opens and closes across the
+three pages at three window sizes, the photograph moved on none.
 
-**The heading you click stays where it was.** Opening one entry shuts the
-other, and when the one shutting is above (the Overview, usually) the page used
-to collapse under the pointer and the heading would jump out of sight. A click
-handler measures the heading before and after and scrolls by the difference.
+**The photograph is not sticky.** It was for a round, to keep pace with the long
+Overview, but a sticky element resting against the foot of its section is moved
+by anything that changes the section's height, which was the same jump again.
 
 `.services-page` carries `min-height: calc(100svh - var(--masthead-h))`, so the
 blue holds the screen whatever the window. Without it the paper panel below
@@ -614,9 +619,14 @@ How it is built, in `site.js`:
 It is written to read with any sentence (`data-type` in `index.html`), as long
 as the sentence has most of the letters of STOREHOUSE.
 
-About six and a half seconds in all. It plays **once per session**
-(`sessionStorage`, `storehouse-arrival`) — open a new tab to see it again. Any
-key, click, touch or scroll skips to the end.
+About six and a half seconds in all, and **it always plays out in full**: the
+page is held still until the wordmark has landed. Scrolling input (wheel, touch,
+and the scrolling keys) is refused rather than the page being set to
+`overflow: hidden`, which would take the scrollbar away and shift the layout
+sideways on any system that shows one. A safety timer releases the page at 9s
+whatever happens, and the arrival is not played at all if the page opens
+part-way down. It plays **once per session** (`sessionStorage`,
+`storehouse-arrival`) — open a new tab to see it again.
 
 States on `.hero[data-intro]`, which the stylesheet reads: empty (script not run
 yet), `running`, `morph`, `done` (with `data-morphed` if it got there by the
@@ -721,9 +731,7 @@ reads — there is a small drop shadow behind it for exactly that case.
 The first screen is the wordmark on the ultramarine (after the arrival, on a
 first visit), with the scroll cue at the foot.
 
-Then: the overview on the slate, which swipes across the blue from the left the
-first time it is scrolled onto, with its words following it in; Recent work back
-on the blue, Location on the
+Then: the overview on the slate, Recent work back on the blue, Location on the
 charcoal, and the closing enquiry block on the paper — *Begin with a collection
 audit or a visit to see the collection*, the call to action from Fred's brief.
 Four grounds in order down one page, which is the whole reason the palette is
@@ -757,11 +765,6 @@ as a ground, set in white at the client's request. Location adds
 
 The masthead has a third state to match, `data-over="slate"`. A paper bar over
 the slate reads as a stray rectangle, which is what the state exists to avoid.
-
-**The slate swipe is a layer, not a clip.** The panel's own background goes
-transparent and a `::before` in the slate scales across from the left. Clipping
-the panel itself was tried first and never fired: a panel clipped to nothing has
-no area, so the observer waiting for it to scroll into view never saw it.
 
 Panels are deliberately **not** given `data-reveal`: the reveal fades a whole
 section, background included, so the page showed through for a moment as it

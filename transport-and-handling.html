@@ -201,8 +201,9 @@
   <!-- ================================================ the expanding index -->
   <!-- Title and entries down one side, the page's photographs down the other.
        Each entry is an ordinary <details>, so with the script absent every one
-       still opens and closes. The shared name attribute keeps one open at a
-       time. A link to page.html#entry opens that entry on arrival. -->
+       still opens and closes. They open independently: closing one when
+       another opened would collapse the page above the reader and move the
+       photograph. A link to page.html#entry opens that entry on arrival. -->
   <section class="shell services-page">
     <div class="services-page__main">
       <div class="services-page__head">
@@ -211,7 +212,7 @@
       </div>
 
       <div class="services">
-        <details class="service" name="handling" id="transport">
+        <details class="service" id="transport">
           <summary>
             <span class="service__index">02.1</span>
             <span class="service__title">Transport</span>
@@ -222,7 +223,7 @@
             <a class="btn btn--self" href="contact.html#transport">Arrange transport <span class="arrow" aria-hidden="true"></span></a>
           </div>
         </details>
-        <details class="service" name="handling" id="packing">
+        <details class="service" id="packing">
           <summary>
             <span class="service__index">02.2</span>
             <span class="service__title">Packing &amp; Crating</span>
