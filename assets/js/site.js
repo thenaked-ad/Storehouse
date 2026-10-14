@@ -125,30 +125,38 @@
 
   /* -------------------------------------------------------------- dropdowns */
 
-  /* The panels open on hover and focus in CSS. This adds the two things CSS
-     cannot do: Escape to shut one, and fetching its photograph only the first
-     time it opens, so nine pages do not each load three pictures nobody may
-     ever ask to see. */
+  /* The panels open on hover and focus in CSS. This adds the one thing CSS
+     cannot do: Escape to shut one while focus is still inside it. */
 
   Array.prototype.forEach.call(document.querySelectorAll("[data-drop]"), function (item) {
-    var img = item.querySelector("img[data-src]");
-    var load = function () {
-      if (!img || img.dataset.done) return;
-      img.dataset.done = "1";
-      img.addEventListener("load", function () { img.dataset.loaded = ""; }, { once: true });
-      img.src = img.dataset.src;
-    };
-    item.addEventListener("mouseenter", function () { item.removeAttribute("data-shut"); load(); });
-    item.addEventListener("focusin", load);
-    item.addEventListener("mouseleave", function () { item.removeAttribute("data-shut"); });
+    var reopen = function () { item.removeAttribute("data-shut"); };
+    item.addEventListener("mouseenter", reopen);
+    item.addEventListener("mouseleave", reopen);
     item.addEventListener("focusout", function (e) {
-      if (!item.contains(e.relatedTarget)) item.removeAttribute("data-shut");
+      if (!item.contains(e.relatedTarget)) reopen();
     });
     item.addEventListener("keydown", function (e) {
       if (e.key !== "Escape") return;
       item.setAttribute("data-shut", "");
       var top = item.querySelector(".nav__link");
       if (top) top.focus();
+    });
+  });
+
+  /* ------------------------------------------- the entry you clicked stays put */
+
+  /* Only one entry stands open at a time, so opening one shuts another. When
+     the one shutting is above — the Storage overview, say, which is long — the
+     page collapses under the pointer and the heading just clicked jumps up out
+     of sight. This holds it where it was. */
+
+  Array.prototype.forEach.call(document.querySelectorAll("details.service > summary"), function (summary) {
+    summary.addEventListener("click", function () {
+      var before = summary.getBoundingClientRect().top;
+      window.requestAnimationFrame(function () {
+        var shift = summary.getBoundingClientRect().top - before;
+        if (Math.abs(shift) > 1) window.scrollBy({ top: shift, behavior: "instant" });
+      });
     });
   });
 
@@ -174,10 +182,21 @@
   /* ---------------------------------------------------------------- arrival */
 
   /* On the home page a line types itself out in the middle of the screen, holds,
-     and gives way to the wordmark at the foot. The line is in the markup, so this
-     only types it. Once a session: coming back to the home page in the same visit
-     goes straight to the wordmark. Scrolling, clicking or pressing a key skips to
-     the end, because anyone who has done that has seen enough. */
+     and then becomes the wordmark: the rest of the sentence dissolves while ten
+     of its letters — s, t, o, r, e, h, o, u, s, e — travel down to the foot of
+     the screen, growing and turning into the letters of the wordmark itself as
+     they go. The navigation waits until it has landed.
+
+     Once a session: coming back to the home page in the same visit goes straight
+     to the wordmark. Scrolling, clicking or pressing a key skips to the end,
+     because anyone who has done that has seen enough.
+
+     States on the hero, which the stylesheet reads:
+       ""       not decided yet (the script has not run)
+       running  typing
+       morph    letters travelling
+       done     arrived (with data-morphed if it got there by the morph)
+       rest     never played: seen already, reduced motion, or nothing to type */
 
   var hero = document.querySelector(".hero[data-intro]");
   var typed = hero && hero.querySelector("[data-type]");
@@ -187,37 +206,226 @@
   // Its own function, because var is scoped to the whole file: the painting code
   // further down declares an `at` of its own, and the two would overwrite each
   // other mid-sentence.
-  if (hero && typed && !reduced && !seen) (function () {
+  if (hero && (!typed || reduced || seen)) hero.dataset.intro = "rest";
+  else if (hero) (function () {
     var line = typed.textContent.trim();
-    var at = 0, timer = null, finished = false;
+    var chars = [], timer = null, finished = false, overlay = null, at = 0;
     var skips = ["wheel", "touchstart", "keydown", "pointerdown"];
 
-    var finish = function () {
-      if (finished) return;
-      finished = true;
-      window.clearTimeout(timer);
-      typed.textContent = line;
-      typed.removeAttribute("data-typing");
-      hero.dataset.intro = "done";
-      skips.forEach(function (ev) { window.removeEventListener(ev, finish); });
+    // One span per character, laid out from the start and shown one at a time,
+    // so the centred lines never shift as the sentence grows. Words are held
+    // together, or the browser would break a line in the middle of one.
+    typed.textContent = "";
+    line.split(" ").forEach(function (word, w) {
+      if (w) typed.appendChild(document.createTextNode(" "));
+      var wrap = document.createElement("span");
+      wrap.className = "hero__word";
+      Array.prototype.forEach.call(word, function (c) {
+        var ch = document.createElement("span");
+        ch.className = "hero__ch";
+        ch.textContent = c;
+        wrap.appendChild(ch);
+        chars.push(ch);
+      });
+      typed.appendChild(wrap);
+    });
+
+    var remember = function () {
       try { window.sessionStorage.setItem("storehouse-arrival", "1"); } catch (e) {}
     };
 
-    var tick = function () {
-      at += 1;
-      typed.textContent = line.slice(0, at);
-      if (at >= line.length) { timer = window.setTimeout(finish, 850); return; }
-      // Uneven, like a hand, with a breath at the comma.
-      var ch = line.charAt(at - 1);
-      timer = window.setTimeout(tick, 26 + Math.random() * 24 + (ch === "," ? 240 : 0));
+    var finish = function (morphed) {
+      if (finished) return;
+      finished = true;
+      window.clearTimeout(timer);
+      skips.forEach(function (ev) { window.removeEventListener(ev, skip); });
+      if (overlay) overlay.remove();
+      chars.forEach(function (ch) {
+        if (ch.getAnimations) ch.getAnimations().forEach(function (a) { a.cancel(); });
+        ch.removeAttribute("data-caret");
+        ch.dataset.on = "";
+      });
+      if (morphed === true || hero.dataset.intro === "morph") hero.dataset.morphed = "";
+      hero.dataset.intro = "done";
+      remember();
+    };
+    var skip = function () { finish(false); };
+
+    /* The wordmark is one path. Split it at each move-to and gather the pieces
+       by where they sit, so the counters of the O and R stay with their letter:
+       ten letters, left to right. */
+    var letterforms = function (svg) {
+      var src = document.querySelector("#wordmark path");
+      if (!src) return null;
+      var parts = src.getAttribute("d").split(/(?=M)/).filter(Boolean);
+      var probe = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      svg.appendChild(probe);
+      var boxes = parts.map(function (d) {
+        probe.setAttribute("d", d);
+        var b = probe.getBBox();
+        return { d: d, x: b.x, y: b.y, r: b.x + b.width, b: b.y + b.height };
+      });
+      probe.remove();
+      boxes.sort(function (p, q) { return p.x - q.x; });
+      var groups = [];
+      boxes.forEach(function (p) {
+        var g = groups[groups.length - 1];
+        if (g && p.x < g.r - 0.5) {
+          g.d += p.d;
+          g.x = Math.min(g.x, p.x); g.y = Math.min(g.y, p.y);
+          g.r = Math.max(g.r, p.r); g.b = Math.max(g.b, p.b);
+        } else groups.push({ d: p.d, x: p.x, y: p.y, r: p.r, b: p.b });
+      });
+      return groups.length === 10 ? groups : null;
     };
 
-    typed.textContent = "";
-    typed.setAttribute("data-typing", "");
+    var morph = function () {
+      var markSvg = hero.querySelector(".hero__mark svg");
+      if (!markSvg || !Element.prototype.animate) return finish(true);
+      var groups = letterforms(markSvg);
+      if (!groups) return finish(true);
+
+      hero.dataset.intro = "morph";
+      chars.forEach(function (ch) { ch.removeAttribute("data-caret"); });
+
+      var heroBox = hero.getBoundingClientRect();
+      var markBox = markSvg.getBoundingClientRect();
+      var typeBox = typed.getBoundingClientRect();
+      var unit = markBox.width / 702;
+      var fontPx = parseFloat(window.getComputedStyle(typed).fontSize);
+
+      // For each letter of the wordmark, the same letter in the sentence whose
+      // place along its line is nearest to where it has to go — so the letters
+      // mostly travel down rather than across one another. There is no u in the
+      // sentence; the U is made from a spare o.
+      var used = [];
+      var picks = "storehouse".split("").map(function (want, i) {
+        var g = groups[i];
+        var goal = ((g.x + g.r) / 2) / 702;
+        var best = null, bestCost = Infinity;
+        [want, "o", "n", "a"].some(function (letter) {
+          chars.forEach(function (ch, n) {
+            if (used.indexOf(n) > -1 || ch.textContent.toLowerCase() !== letter) return;
+            var r = ch.getBoundingClientRect();
+            var cost = Math.abs((r.left + r.width / 2 - typeBox.left) / typeBox.width - goal);
+            if (cost < bestCost) { bestCost = cost; best = n; }
+          });
+          return best !== null;
+        });
+        used.push(best);
+        return best;
+      });
+
+      overlay = document.createElement("div");
+      overlay.className = "hero__morph";
+      overlay.setAttribute("aria-hidden", "true");
+      hero.appendChild(overlay);
+
+      var ease = "cubic-bezier(0.76, 0, 0.24, 1)";
+      var travel = 1450, lead = 280, step = 55;
+
+      // Everything that is not one of the ten lets go first.
+      chars.forEach(function (ch, n) {
+        if (used.indexOf(n) > -1) return;
+        ch.animate([
+          { opacity: 1, filter: "blur(0px)", transform: "none" },
+          { opacity: 0, filter: "blur(5px)", transform: "translateY(-0.35em)" }
+        ], { duration: 700, delay: Math.random() * 320, easing: "ease", fill: "forwards" });
+      });
+
+      picks.forEach(function (n, i) {
+        var ch = chars[n], g = groups[i];
+        var from = ch.getBoundingClientRect();
+        var w = (g.r - g.x) * unit, h = (g.b - g.y) * unit;
+        var left = markBox.left + g.x * unit, top = markBox.top + g.y * unit;
+
+        // Lower-case letters stand about half an em; t and h nearer three quarters.
+        var k = h / (fontPx * (/[th]/.test(ch.textContent) ? 0.72 : 0.48));
+        var dx = (left + w / 2) - (from.left + from.width / 2);
+        var dy = (top + h / 2) - (from.top + from.height / 2);
+        var delay = lead + i * step;
+
+        var piece = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        piece.setAttribute("class", "hero__piece");
+        piece.setAttribute("viewBox", [g.x, g.y, g.r - g.x, g.b - g.y].join(" "));
+        piece.style.left = (left - heroBox.left) + "px";
+        piece.style.top = (top - heroBox.top) + "px";
+        piece.style.width = w + "px";
+        piece.style.height = h + "px";
+        var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("d", g.d);
+        path.setAttribute("fill-rule", "evenodd");
+        piece.appendChild(path);
+        overlay.appendChild(piece);
+
+        var timing = { duration: travel, delay: delay, fill: "both" };
+
+        // The two travel together on the same curve: the sentence's letter
+        // growing out towards the wordmark's, the wordmark's shrunk back to the
+        // sentence's and growing in. Half way, one hands over to the other under
+        // a little blur, so what you see is one letter changing shape in flight.
+        ch.animate([
+          { transform: "none" },
+          { transform: "translate(" + dx + "px," + dy + "px) scale(" + k + ")" }
+        ], Object.assign({ easing: ease }, timing));
+        ch.animate([
+          { opacity: 1, filter: "blur(0px)" },
+          { opacity: 1, filter: "blur(0px)", offset: 0.3 },
+          { opacity: 0, filter: "blur(1.5px)", offset: 0.62 },
+          { opacity: 0, filter: "blur(1.5px)" }
+        ], timing);
+
+        piece.animate([
+          { transform: "translate(" + (-dx) + "px," + (-dy) + "px) scale(" + (1 / k) + ")" },
+          { transform: "none" }
+        ], Object.assign({ easing: ease }, timing));
+        piece.animate([
+          { opacity: 0, filter: "blur(10px)" },
+          { opacity: 0, filter: "blur(10px)", offset: 0.32 },
+          { opacity: 1, filter: "blur(0px)", offset: 0.7 },
+          { opacity: 1, filter: "blur(0px)" }
+        ], timing);
+      });
+
+      timer = window.setTimeout(function () { finish(true); }, lead + 9 * step + travel + 60);
+    };
+
+    var tick = function () {
+      var ch = chars[at];
+      ch.dataset.on = "";
+      if (at) chars[at - 1].removeAttribute("data-caret");
+      else ch.removeAttribute("data-caret");
+      ch.dataset.caret = "after";
+      at += 1;
+      if (at >= chars.length) { timer = window.setTimeout(morph, 900); return; }
+      // Uneven, like a hand, with a breath at the comma and a gap between words.
+      var c = ch.textContent;
+      var gap = ch === ch.parentNode.lastChild ? 30 : 0;
+      timer = window.setTimeout(tick, 26 + Math.random() * 24 + gap + (c === "," ? 240 : 0));
+    };
+
+    chars[0].dataset.caret = "before";
     hero.dataset.intro = "running";
-    skips.forEach(function (ev) { window.addEventListener(ev, finish, { passive: true }); });
-    timer = window.setTimeout(tick, 450);
+    skips.forEach(function (ev) { window.addEventListener(ev, skip, { passive: true }); });
+    timer = window.setTimeout(tick, 600);
   })();
+
+  /* -------------------------------------------------- the overview arrives */
+
+  /* The slate panel under the first screen swipes across the first time it is
+     scrolled onto, and its words follow it in. The resting state in the
+     stylesheet is the panel in place, so without this it is simply there. */
+
+  var slate = document.querySelector(".panel--slate[data-swipe]");
+  if (slate && !reduced && "IntersectionObserver" in window) {
+    slate.dataset.swipe = "out";
+    var swipeIO = new IntersectionObserver(function (entries) {
+      if (!entries[0].isIntersecting) return;
+      slate.dataset.swipe = "in";
+      swipeIO.disconnect();
+    }, { threshold: 0.18 });
+    swipeIO.observe(slate);
+  }
 
   /* --------------------------------------------------------- the slideshow */
 

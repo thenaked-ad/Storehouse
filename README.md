@@ -348,15 +348,19 @@ not by driving the mouse.
 Five items, in Fred's order: **Storage | Transport & Handling | Services |
 About | Contact**. The first three open a panel on hover, after the reference
 Fred sent, but drawn in the site's own language rather than a stock mega-menu:
-the ultramarine ground, the ledger number and title on the left, the sub-items
-as a ruled list with the same mono numbers the pages use (`01.1`, `01.2`…), and
-one photograph on the right.
+the ledger number and title on the left and the sub-items as a ruled list with
+the same mono numbers the pages use (`01.1`, `01.2`…). No photographs — they
+came off at Tom's request.
+
+**The panel takes the ground the bar is on.** Its colours are custom properties
+(`--drop-bg`, `--drop-ink`, `--drop-soft`, `--drop-faint`, `--drop-rule`) set
+under each `.masthead[data-over]` state, so as the bar turns slate, charcoal or
+paper going down the home page, the panel under it turns with it. A new ground
+needs a line here as well as its masthead rule.
 
 - **It is CSS, not script.** `:hover` and `:focus-within` on `.nav__item--drop`
   open it, so a keyboard user tabbing along the bar gets the same panel. The
-  script only adds Escape to shut it (`data-shut`) and loads the photograph the
-  first time a panel opens (`data-src`, with a blank GIF in `src` until then),
-  so nobody downloads three dropdown pictures they never asked for.
+  script only adds Escape to shut it (`data-shut`).
 - **Closing is delayed, opening is not.** `visibility` comes off after 0.22s, so
   a pointer travelling diagonally from the link down to the last item does not
   drop out of the panel on the way. An invisible bridge (`::after` on the link)
@@ -367,7 +371,12 @@ one photograph on the right.
   already refuses the pointer; nothing else is needed.
 - The sub-items are anchors (`storage.html#ambient`), and the page opens the
   matching entry on arrival and on `hashchange`, so a sub-item works whether you
-  are already on that page or not. Without a hash, Storage opens its Overview.
+  are already on that page or not. Without a hash every entry starts closed.
+
+Testing this with Playwright: use `mouse.move` to the link, not `hover()`.
+`hover()` scrolls the element into view first, which moves the page under the
+sticky bar and changes its ground — it looks as though the panel ignored the
+colour when it did not.
 
 On a phone the menu lists the sub-items under each heading; there is no hover to
 hide them behind.
@@ -394,7 +403,25 @@ All three service pages use it; the card row follows underneath on Transport &
 Handling. **Title and services run down one side, one standing photograph down
 the other**, and each service opens to its copy — the pictures are out of the
 entries entirely. The entries are numbered from the page's ledger number —
-`01.1`, `01.2` on Storage — and Storage's Overview is entry `01`, open by default.
+`01.1`, `01.2` on Storage — and Storage's Overview is entry `01`. Everything
+starts closed; an entry opens when it is clicked or linked to.
+
+Each open entry leaves `clamp(2.5rem, 4vw, 3.25rem)` under its button before the
+next rule.
+
+**The Overview is laid out differently**, because it carries four paragraphs
+against a sentence or two everywhere else. The first is the lead, a size up; the
+other three are ruled rows with a mono label beside them — *Security*,
+*Handling*, *Insurance* — like a facility report. The labels are ours; the words
+are Fred's, unchanged.
+
+**The photograph is sticky** on a desktop, so it stays alongside a long entry as
+you read rather than being left behind at the top of the page.
+
+**The heading you click stays where it was.** Opening one entry shuts the
+other, and when the one shutting is above (the Overview, usually) the page used
+to collapse under the pointer and the heading would jump out of sight. A click
+handler measures the heading before and after and scrolls by the difference.
 
 `.services-page` carries `min-height: calc(100svh - var(--masthead-h))`, so the
 blue holds the screen whatever the window. Without it the paper panel below
@@ -474,6 +501,10 @@ simply there, drawn, which is the right resting state.
 
 ## The Contact list keeps its own rhythm
 
+The order is Tom's: the rate card, then Storage, Transport & Handling,
+Photography, Installation, Viewing Room, Project Management and Collection &
+Estate Management. The labels are in Title Case to match the navigation.
+
 The eight enquiry rows used to carry `flex: 1` and share out the whole height of
 their column, which made each one about 90px tall with the words floating in the
 middle. That reads nothing like the ruled lists on the service pages, which are
@@ -551,33 +582,58 @@ Two values decide how low the whole group sits, and nothing else needs to move:
 
 ### The arrival
 
-On the first visit of a session, a line types itself out in the middle of the
-screen — *We are art people who do logistics, not logistics people who do art.*
-— holds, then sinks and blurs away as the wordmark wipes in at the foot. Fred
-saw the idea on another site; the line is from his About copy, so it can be
-swapped for any sentence in `index.html` (`data-type`) without touching the
-script.
+On the first visit of a session, the screen is a single line typing itself out
+in the middle — *We are art people who do logistics, not logistics people who do
+art.* — and nothing else: **the navigation and the cue wait** until it is over.
+Then the line becomes the wordmark. The rest of the sentence dissolves, and ten
+of its letters — s, t, o, r, e, h, o, u, s, e — travel down to the foot of the
+screen, growing and changing shape into the wordmark's own letters on the way,
+in a wave from left to right. When they land the real wordmark takes over from
+them, the navigation fades in, and the cue follows.
 
-The timing is in `site.js`: 26–50ms a character with a little randomness so it
-reads as typed rather than printed, a beat at the comma, an 850ms hold, about
-four seconds in all. It plays **once per session** (`sessionStorage`,
-`storehouse-arrival`), so the home link does not make anyone sit through it
-twice — open a new tab to see it again. Any key, click, touch or scroll skips
-straight to the end.
+How it is built, in `site.js`:
+
+- **The line is laid out whole from the start**, one span per character, and
+  each is made visible in turn. Typing by slicing the text re-centred the line
+  on every keystroke. Words are wrapped so the browser never breaks a line
+  inside one; the caret hangs off the last letter typed so it never pushes the
+  line along.
+- **The wordmark is one SVG path.** The script splits it at each move-to and
+  gathers the pieces by position, so the counters of the O and R stay with
+  their letters: ten letterforms, left to right. If that ever yields anything
+  other than ten, the morph is skipped and the wordmark simply wipes in.
+- **Each of the ten picks the matching letter in the sentence** that sits nearest
+  its destination along the line, so the letters mostly travel down rather than
+  across each other. The sentence has no u; the U is made from a spare o.
+- **The morph is two elements on one curve.** The sentence's letter grows
+  towards the wordmark's position and size while a copy of the wordmark's
+  letter, shrunk back to the sentence's, grows in along the same path; half way,
+  one hands over to the other under a little blur. They end exactly where the
+  real wordmark is, so the swap at the end is invisible.
+
+It is written to read with any sentence (`data-type` in `index.html`), as long
+as the sentence has most of the letters of STOREHOUSE.
+
+About six and a half seconds in all. It plays **once per session**
+(`sessionStorage`, `storehouse-arrival`) — open a new tab to see it again. Any
+key, click, touch or scroll skips to the end.
+
+States on `.hero[data-intro]`, which the stylesheet reads: empty (script not run
+yet), `running`, `morph`, `done` (with `data-morphed` if it got there by the
+morph) and `rest` (never played). The navigation is hidden with
+`body:has(.hero[data-intro=…])`.
 
 Every way it can fail ends on the wordmark:
 
 - **No script, or reduced motion** — the resting state in the stylesheet is the
-  wordmark, visible, and the typed line is never shown.
-- **The script starts but stalls** — `data-intro="running"` carries a failsafe
-  animation that brings the wordmark in at 7s and the cue at 8s on their own.
+  wordmark and the navigation, visible; the typed line is never shown.
+- **The script stalls** — failsafe animations bring the wordmark and the
+  navigation in at 9s and the cue at 9.5s on their own.
 - The typed line is `aria-hidden`; the wordmark is the page's heading
   throughout, so a screen reader hears the same page either way.
 
-The arrival runs in its own function inside `site.js`. It was briefly loose in
-the main block, where its `var at` was hoisted over the painting's `at()` and
-broke the canvas — keep it wrapped.
-
+The arrival runs in its own function inside `site.js`, because its variables
+would otherwise collide with the painting code's — keep it wrapped.
 ### The cue arrives late
 
 `.scroll-cue` carries `animation: cue-in 0.9s ease 2.2s backwards`, so the first
@@ -592,9 +648,8 @@ through the delay and then stops contributing, which leaves the inline style
 free to work. Measured: opacity 0 at 0.4s, 1.2s and 2.1s; 0.92 at 2.8s; 1 at
 3.6s; 0 again after scrolling 400px; back to 1 at the top of the page.
 
-During the arrival the cue is held back entirely — arriving mid-sentence, it
-competed with the line being typed — and it follows the wordmark up 1.1s after
-the arrival ends. That is a different animation name (`cue-late`) while the
+During the arrival the cue is held back entirely, and it follows the wordmark
+up 1.1s after the arrival ends. That is a different animation name (`cue-late`) while the
 arrival runs, so the switch to `done` restarts the fade rather than inheriting
 the time already elapsed. Return visits keep the original 2.2s.
 
@@ -666,7 +721,9 @@ reads — there is a small drop shadow behind it for exactly that case.
 The first screen is the wordmark on the ultramarine (after the arrival, on a
 first visit), with the scroll cue at the foot.
 
-Then: the overview on the slate, Recent work back on the blue, Location on the
+Then: the overview on the slate, which swipes across the blue from the left the
+first time it is scrolled onto, with its words following it in; Recent work back
+on the blue, Location on the
 charcoal, and the closing enquiry block on the paper — *Begin with a collection
 audit or a visit to see the collection*, the call to action from Fred's brief.
 Four grounds in order down one page, which is the whole reason the palette is
@@ -700,6 +757,11 @@ as a ground, set in white at the client's request. Location adds
 
 The masthead has a third state to match, `data-over="slate"`. A paper bar over
 the slate reads as a stray rectangle, which is what the state exists to avoid.
+
+**The slate swipe is a layer, not a clip.** The panel's own background goes
+transparent and a `::before` in the slate scales across from the left. Clipping
+the panel itself was tried first and never fired: a panel clipped to nothing has
+no area, so the observer waiting for it to scroll into view never saw it.
 
 Panels are deliberately **not** given `data-reveal`: the reveal fades a whole
 section, background included, so the page showed through for a moment as it
@@ -735,7 +797,8 @@ Two ways to fill it, neither of which puts a third-party script on the page:
    set up, but it is a monthly subscription and the images then come from their
    CDN, which means adding it to `img-src` and `connect-src` in the CSP.
 
-The section heading and its line are waiting on Fred's wording.
+The heading reads *Follow us on Instagram for all our recent work.* — Tom's line,
+lightly edited. Once there is a handle, make "Instagram" a link.
 
 ## Location, and the insurer
 
