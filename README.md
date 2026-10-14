@@ -397,7 +397,19 @@ colour when it did not.
 On a phone, Storage, Transport & Handling and Services are headings with a plus
 beside them; tapping one opens its parts underneath (the plus turns to a minus)
 and closes any other. They are `<details name="menu">`, so they work with no
-script, and the menu folds them all again each time it closes. The pages
+script, and the menu folds them all again each time it closes.
+
+**A heading opens from where it is.** The links sit low on the screen on an auto
+margin, so originally opening one pushed everything above it upwards and the
+heading you tapped jumped. Now, on the first tap, the script fixes that margin
+at its folded value, so each heading has a home position and always opens
+downwards from it; switching sections brings the headings back to their homes
+rather than letting them creep down the screen. The closed menu sits 10.5rem
+higher than the very bottom (padding on `.menu`) so that the lowest section,
+Services with four parts, has room to open without anything having to move.
+Checked at five phone sizes from 360×640 to 430×932: every tap opened at the
+heading's home and nothing ran off the screen. On a screen shorter than those,
+the menu glides up just far enough to show the last part. The pages
 themselves are reached through their parts — there is no separate link to the
 top of each page in the phone menu.
 

@@ -618,6 +618,11 @@ a.wordmark-link { text-decoration: none; }
   overflow-y: auto;
 }
 .menu[data-open="true"] { transform: translateY(0); }
+/* Room at the foot for a section's parts to open into. The links sit low on the
+   screen, and the lowest heading with parts (Services, four of them) has to be
+   able to open downwards without anything moving — so the closed menu sits
+   this much higher than the very bottom. */
+.menu { padding-bottom: calc(var(--band) + 10.5rem); }
 .menu__top { display: flex; justify-content: space-between; align-items: center; }
 .menu__top .menu-toggle { display: block; }
 .menu__links { margin-top: auto; padding-top: var(--band); display: grid; gap: 0.35rem; }

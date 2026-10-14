@@ -59,6 +59,7 @@
   /* ------------------------------------------------------------- mobile menu */
 
   var menu = document.getElementById("menu");
+  var links = menu && menu.querySelector(".menu__links");
   if (menu) {
     var setMenu = function (open) {
       menu.dataset.open = open ? "true" : "false";
@@ -73,6 +74,7 @@
       } else {
         // Each time the menu opens it starts with its headings folded.
         menu.querySelectorAll("details[open]").forEach(function (d) { d.open = false; });
+        if (links) links.style.marginTop = "";
       }
     };
     setMenu(false);
@@ -83,6 +85,33 @@
     });
     menu.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () { setMenu(false); });
+    });
+
+    // The links sit at the foot of the screen on an auto margin, so a heading
+    // opening would push everything above it upwards and the heading just
+    // tapped would jump. On the first tap the margin is fixed at what it is with
+    // everything folded, so each heading keeps that position as its home: it
+    // opens downwards from there, and switching to another section brings the
+    // headings back to their homes rather than letting them creep down the
+    // screen. Measured from a margin of nothing, because an auto margin reads
+    // back as 0.
+    menu.querySelectorAll(".menu__group > summary").forEach(function (summary) {
+      summary.addEventListener("click", function () {
+        if (!links.style.marginTop) {
+          var home = summary.getBoundingClientRect().top;
+          links.style.marginTop = "0px";
+          links.style.marginTop = Math.max(0, home - summary.getBoundingClientRect().top) + "px";
+        }
+        // On a very short screen the parts might still run off the foot; only
+        // then does the menu move, gently and only as far as it needs to.
+        window.requestAnimationFrame(function () {
+          var group = summary.parentNode;
+          var last = group.open && group.querySelector(".menu__sub li:last-child");
+          if (!last) return;
+          var over = last.getBoundingClientRect().bottom - (window.innerHeight - 20);
+          if (over > 0) menu.scrollBy({ top: over, behavior: reduced ? "auto" : "smooth" });
+        });
+      });
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && menu.dataset.open === "true") {
