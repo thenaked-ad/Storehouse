@@ -350,7 +350,7 @@ About | Contact**. The first three open a panel on hover, after the reference
 Fred sent, but drawn in the site's own language rather than a stock mega-menu:
 **a compact panel hung under its own link**, not the width of the page. It is
 the sub-items alone, with the same mono numbers the pages use (`01.1`, `01.2`…),
-ruled only between items — the panel's own edges are already rules. No title
+ruled only between items, with no outline round the panel. No title
 (it would repeat the link it hangs from) and no photographs, both at Tom's
 request.
 

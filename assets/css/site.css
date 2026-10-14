@@ -483,7 +483,6 @@ a.wordmark-link { text-decoration: none; }
   min-width: 17rem;
   background: var(--drop-bg);
   color: var(--drop-ink);
-  border: 1px solid var(--drop-rule);
   visibility: hidden;
   opacity: 0;
   transform: translateY(-0.35rem);
