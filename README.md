@@ -348,11 +348,11 @@ not by driving the mouse.
 Five items, in Fred's order: **Storage | Transport & Handling | Services |
 About | Contact**. The first three open a panel on hover, after the reference
 Fred sent, but drawn in the site's own language rather than a stock mega-menu:
-the ledger number and title on the left and the sub-items as a list with the same
-mono numbers the pages use (`01.1`, `01.2`…), ruled only between items — the
-panel's own top and bottom edges are already rules, so a line above the first
-item or below the last doubled them up. No photographs — they
-came off at Tom's request.
+**a compact panel hung under its own link**, not the width of the page. It is
+the sub-items alone, with the same mono numbers the pages use (`01.1`, `01.2`…),
+ruled only between items — the panel's own edges are already rules. No title
+(it would repeat the link it hangs from) and no photographs, both at Tom's
+request.
 
 **The panel takes the ground the bar is on.** Its colours are custom properties
 (`--drop-bg`, `--drop-ink`, `--drop-soft`, `--drop-faint`, `--drop-rule`) set
@@ -360,13 +360,27 @@ under each `.masthead[data-over]` state, so as the bar turns slate, charcoal or
 paper going down the home page, the panel under it turns with it. A new ground
 needs a line here as well as its masthead rule.
 
-- **It is CSS, not script.** `:hover` and `:focus-within` on `.nav__item--drop`
-  open it, so a keyboard user tabbing along the bar gets the same panel. The
-  script only adds Escape to shut it (`data-shut`).
-- **Closing is delayed, opening is not.** `visibility` comes off after 0.22s, so
-  a pointer travelling diagonally from the link down to the last item does not
-  drop out of the panel on the way. An invisible bridge (`::after` on the link)
-  covers the gap between the bar and the panel.
+- **Placing it.** The panel is positioned against its own nav item, so it
+  follows the link. The script measures the gap from the foot of the link to the
+  foot of the masthead (`--drop-gap`) so the panel starts exactly under the bar,
+  and turns a panel to hang from the right of its link (`data-align="end"`)
+  where it would otherwise run past the page margin — Services, at every width.
+  Without the script the gap falls back to a close guess and every panel hangs
+  left.
+- **It is CSS first.** `:hover` and `:focus-within` on `.nav__item--drop` open
+  it, so a keyboard user tabbing along the bar gets the same panel, at once. The
+  script adds Escape to shut it (`data-shut`).
+- **Closing is delayed by 0.22s, opening on hover by 0.12s.** The close delay
+  and an invisible bridge (`::after` on the link) carry the pointer from the
+  link into its panel. The open delay stops a quick pass under a neighbouring
+  link from opening that one.
+- **Passing under a neighbour.** The panels sit side by side, so the way down
+  from one link to the far end of its panel runs under the next link for longer
+  than any sensible delay. The script handles that one case: entering a
+  neighbour from *below* the line of the links while another panel is open
+  holds the open one (`data-keep`) and keeps the neighbour shut (`data-wait`),
+  and the neighbour only takes over if the pointer stays on it for 320ms.
+  Moving along the bar itself switches panels normally.
 - **There is no `pointer-events` toggle**, and that is deliberate. It switched
   instantly while the visibility waited, so the panel stopped receiving the
   pointer the moment it left the link and shut under it. Hidden visibility

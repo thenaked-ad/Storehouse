@@ -445,12 +445,15 @@ a.wordmark-link { text-decoration: none; }
 /* --------------------------------------------------------------------------
    5b. The dropdowns — Storage, Transport & Handling, Services
 
-   A panel the width of the page drops from under the masthead: the section on
-   the left, its parts as a ruled, numbered list in the middle (the same list
-   the page itself uses), and a photograph on the right. It opens on hover and
-   on keyboard focus, both in CSS, so it works with the script absent; the
-   script adds Escape and fetches the photograph the first time it opens.
+   A compact panel hung under its own link: the parts of the section as a
+   numbered list, ruled between items (the same numbers the page itself uses).
+   It opens on hover and on keyboard focus, both in CSS, so it works with the
+   script absent. The script adds Escape, drops each panel to the exact foot of
+   the masthead, and hangs it from the right of its link where it would
+   otherwise run off the page.
    -------------------------------------------------------------------------- */
+
+.nav__item--drop { position: relative; }
 
 /* A strip under each link that carries the pointer across the gap between the
    link and the top of the panel, so moving down to the panel never closes it. */
@@ -459,11 +462,9 @@ a.wordmark-link { text-decoration: none; }
   position: absolute;
   left: -0.75rem; right: -0.75rem;
   top: 100%;
-  height: 2.2rem;
+  height: calc(var(--drop-gap, 1.45rem) + 0.5rem);
 }
 
-/* Positioned against the masthead (it is sticky, so it is the containing block),
-   not against the link: the panel runs the full width of the page. */
 .drop {
   /* The panel takes the ground the bar is sitting on, so as the masthead turns
      over to the slate, charcoal or paper further down the home page, the panel
@@ -474,12 +475,15 @@ a.wordmark-link { text-decoration: none; }
   --drop-faint: rgba(253, 253, 253, 0.6);
   --drop-rule: rgba(253, 253, 253, 0.2);
   position: absolute;
-  left: 0; right: 0;
-  top: 100%;
+  /* From the foot of the link down to the foot of the masthead: measured by the
+     script, with a close guess for when it has not run. */
+  top: calc(100% + var(--drop-gap, 1.45rem));
+  left: -1.25rem;
+  width: max-content;
+  min-width: 17rem;
   background: var(--drop-bg);
   color: var(--drop-ink);
-  border-top: 1px solid var(--drop-rule);
-  border-bottom: 1px solid var(--drop-rule);
+  border: 1px solid var(--drop-rule);
   visibility: hidden;
   opacity: 0;
   transform: translateY(-0.35rem);
@@ -491,6 +495,9 @@ a.wordmark-link { text-decoration: none; }
   transition: opacity 0.22s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
               visibility 0s linear 0.22s, background-color 0.4s ease, color 0.4s ease;
 }
+/* Where it would run past the edge of the page, it hangs from the right of its
+   link instead. */
+.nav__item--drop[data-align="end"] > .drop { left: auto; right: -1.25rem; }
 .masthead[data-over="slate"] .drop {
   --drop-bg: var(--slate);
   --drop-faint: rgba(253, 253, 253, 0.8);
@@ -504,52 +511,44 @@ a.wordmark-link { text-decoration: none; }
   --drop-faint: #6b6b6b;
   --drop-rule: rgba(31, 31, 31, 0.16);
 }
+/* Opening on hover waits a moment. The panels are narrow and sit side by side,
+   so the pointer travelling from one link down into its own panel can pass
+   under the next link along; without the pause that panel would open over the
+   one being reached for. Keyboard focus opens at once. */
 .nav__item--drop:hover > .drop,
 .nav__item--drop:focus-within > .drop {
   visibility: visible;
   opacity: 1;
   transform: none;
-  transition-delay: 0s;
 }
+.nav__item--drop:hover > .drop { transition-delay: 0.12s, 0.12s, 0.12s, 0s, 0s; }
+.nav__item--drop:focus-within > .drop { transition-delay: 0s; }
+/* The panel in use sits over its neighbours while one is still fading out. */
+.nav__item--drop:hover,
+.nav__item--drop:focus-within { z-index: 2; }
+
+/* Crossing under a neighbouring link on the way down to an open panel: the
+   script holds the panel being reached for open (data-keep) and keeps the
+   neighbour shut (data-wait) unless the pointer actually stays on it. */
+.nav__item--drop[data-wait] > .drop { visibility: hidden; opacity: 0; transform: translateY(-0.35rem); }
+.nav__item--drop[data-keep] > .drop { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+.nav__item--drop[data-keep] { z-index: 3; }
 /* Escape shuts a panel even while focus is still inside it. */
 .nav__item--drop[data-shut] > .drop { visibility: hidden; opacity: 0; }
 
-.drop__inner {
-  display: grid;
-  grid-template-columns: minmax(9rem, 1fr) minmax(0, 2fr);
-  column-gap: var(--gutter);
-  align-items: start;
-  padding-block: clamp(1.75rem, 3vw, 2.75rem);
-}
-
-.drop__title {
-  display: block;
-  font-family: var(--sans);
-  font-size: var(--t-title);
-  letter-spacing: -0.021em;
-  line-height: 1.05;
-  text-decoration: none;
-  color: var(--drop-ink);
-}
-.drop__ledger {
-  display: block;
-  margin-bottom: 0.7rem;
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.13em;
-  color: var(--drop-faint);
-}
+.drop__inner { padding: 0.25rem 1.25rem; }
 
 .drop__list li:last-child a { border-bottom: 0; }
 .drop__list a {
   display: grid;
-  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
   align-items: baseline;
   gap: 0.9rem;
-  padding-block: 0.95rem;
+  padding-block: 0.85rem;
   border-bottom: 1px solid var(--drop-rule);
   font-family: var(--sans);
-  font-size: var(--t-body);
+  font-size: 1rem;
+  white-space: nowrap;
   letter-spacing: -0.016em;
   text-decoration: none;
   color: var(--drop-soft);

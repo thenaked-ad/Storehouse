@@ -128,7 +128,68 @@
   /* The panels open on hover and focus in CSS. This adds the one thing CSS
      cannot do: Escape to shut one while focus is still inside it. */
 
-  Array.prototype.forEach.call(document.querySelectorAll("[data-drop]"), function (item) {
+  var drops = document.querySelectorAll("[data-drop]");
+
+  // Each panel hangs from its own link but should start exactly at the foot of
+  // the masthead, and should not run past the page's right margin.
+  var placeDrops = function () {
+    if (!masthead) return;
+    var bar = masthead.getBoundingClientRect();
+    var inner = masthead.querySelector(".masthead__inner");
+    var edge = inner ? inner.getBoundingClientRect().right : window.innerWidth;
+    var rem = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+    Array.prototype.forEach.call(drops, function (item) {
+      var panel = item.querySelector(".drop");
+      var box = item.getBoundingClientRect();
+      if (!panel || !box.width) return;
+      item.style.setProperty("--drop-gap", (bar.bottom - box.bottom) + "px");
+      if (box.left - rem * 1.25 + panel.offsetWidth > edge) item.dataset.align = "end";
+      else item.removeAttribute("data-align");
+    });
+  };
+  placeDrops();
+  window.addEventListener("resize", placeDrops, { passive: true });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeDrops);
+
+  // Reaching for an open panel. The panels are narrow and sit side by side, so
+  // the way down from one link into the far side of its panel passes under the
+  // next link along. Entering a neighbour from below the line of the links,
+  // while another panel is open, is taken as passing through: the open panel
+  // is held and the neighbour waits, and only takes over if the pointer stays.
+  var current = null, waitTimer = null;
+  var settle = function () {
+    window.clearTimeout(waitTimer);
+    Array.prototype.forEach.call(drops, function (d) {
+      d.removeAttribute("data-wait");
+      d.removeAttribute("data-keep");
+    });
+  };
+  Array.prototype.forEach.call(drops, function (item) {
+    var link = item.querySelector(".nav__link");
+    item.addEventListener("mouseenter", function (e) {
+      var held = current;
+      if (held && held !== item && link && e.clientY > link.getBoundingClientRect().bottom - 4) {
+        settle();
+        held.dataset.keep = "";
+        item.dataset.wait = "";
+        waitTimer = window.setTimeout(function () {
+          settle();
+          if (item.matches(":hover")) current = item;
+        }, 320);
+        return;
+      }
+      settle();
+      current = item;
+    });
+    item.addEventListener("mouseleave", function () {
+      if (item.hasAttribute("data-wait")) settle();
+      else if (current === item) window.setTimeout(function () {
+        if (!item.matches(":hover") && current === item) current = null;
+      }, 250);
+    });
+  });
+
+  Array.prototype.forEach.call(drops, function (item) {
     var reopen = function () { item.removeAttribute("data-shut"); };
     item.addEventListener("mouseenter", reopen);
     item.addEventListener("mouseleave", reopen);
