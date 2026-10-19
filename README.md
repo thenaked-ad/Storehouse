@@ -12,20 +12,20 @@ Built from the *Storehouse Brand Identity* (2025) document and Fred's copy.
 
 **Storehouse is a storage business first.** Fred's October 2026 brief, written
 after two existing clients advised it, leads with storage — the simplest thing
-to say yes to, and the one that earns the trust for everything else — and moves
-the site away from the consultancy positioning it launched with. Collectors,
+to say yes to, and the one that earns the trust for everything else. Collectors,
 artists and estates are the audience; galleries are welcome but not the focus.
 
 Fred's own way of putting the three headings: **Storage** is the building,
-**Transport & Handling** is getting a work from A to B, and **Services** are the
-optional extras.
+**Transport & Handling** is getting a work from A to B, and **Additional
+Services** are the optional extras. (That page was "Services" until his final
+round of feedback; the file is still `services.html`, so no link breaks.)
 
 | File | Nav | Page |
 |---|---|---|
 | `index.html` | — | Home |
-| `storage.html` | 01 | Overview, Climate-Controlled Storage, Ambient Storage, Viewing Room |
-| `transport-and-handling.html` | 02 | Transport, Packing & Crating — and the card row |
-| `services.html` | 03 | Photography, Installation, Project Management, Collection & Estate Management |
+| `storage.html` | 01 | Overview, Security, Handling, Insurance, Climate-Controlled Storage, Ambient Storage, Viewing Room |
+| `transport-and-handling.html` | 02 | Transport, Packing & Crating |
+| `services.html` | 03 | Additional Services: Photography, Installation, Project Management, Collection & Estate Management |
 | `about.html` | 04 | About |
 | `contact.html` | 05 | Contact |
 | `404.html` | — | Not found |
@@ -39,12 +39,15 @@ About is verbatim from Fred's brief** — *Storehouse Website Rethink — Brief 
 Tom (Oct 2026)* — and nothing has been added to it. Before writing anything new
 on those pages, check the brief first and add it there.
 
-Three things are ours rather than his, and are the places to look if something
-reads oddly: the button labels on the service entries, the enquiry rows on
-Contact, and the line typed on arrival (which is lifted from his About copy).
+Things that are ours rather than his, and the places to look if something reads
+oddly: the button labels on Additional Services, the enquiry rows on Contact,
+the subject lines the buttons put on an email, and the alt text on the
+photographs.
 
-Two pieces are still to come from Fred, agreed on the call of 14 October: the
-wording for the Recent work section and a short location blurb.
+The site was then trimmed back in Fred's final design round (19 October 2026,
+after he had shown it to people whose judgement he trusts): no typed line on
+arrival, no dropdowns, no case-study or Location sections, no signature over
+the About portrait, and a simpler footer.
 
 ## Editing the copy
 
@@ -53,15 +56,18 @@ change it — nothing is compiled or generated.
 
 The header and footer are repeated in each page. If you change a navigation
 link, change it in all seven pages (`index`, `storage`, `transport-and-handling`,
-`services`, `about`, `contact`, `404`) — the desktop dropdowns and the mobile
-menu both carry the sub-items, so there are two places per page.
+`services`, `about`, `contact`, `404`) — once in the desktop bar and once in the
+phone menu on each.
 
-**Two places are waiting on content:**
+**A photograph in a carousel** is one `<img>` inside its `.carousel__plate`.
+To add one, copy a line, point `src` at the new file and give it `alt` text;
+its count ("1 / 4") updates itself. **A caption** is the image's
+`data-caption="…"`: leave it empty and the line under the photograph is blank
+for that frame.
 
-- `index.html` — the Recent work grid, between `<!-- instagram:start -->` and
-  `<!-- instagram:end -->`. See *Recent work* below.
-- `index.html` — the Location panel, which says only "North-west London." until
-  Fred's blurb arrives.
+**One place is waiting on content:** the Recent work grid in `index.html`,
+between `<!-- instagram:start -->` and `<!-- instagram:end -->`. See *Recent
+work* below.
 
 ## Running it locally
 
@@ -240,58 +246,6 @@ on each link and drawn by CSS.
 
 ---
 
-## The Journey
-
-One work travelling the whole service: received, wrapped, boarded, crated,
-stored, moved, installed, photographed. Eight real frames from the Storehouse
-shoot, in the order they happen.
-
-**It lives on `transport-and-handling.html`,** directly under the services —
-the page about a work's movement is the natural home for a work moving.
-
-One line of 3:4 cards, each with its number top-left and its label bottom-left
-against a gradient scrim. The row waits a second, then drifts along on its own
-at 18px a second, and can be dragged; a drag carries momentum when
-you let go, and a click nudges it. A "Drag" mark sits at the right-hand edge to
-say so.
-
-The loop is seamless because the eight cards are cloned once at runtime and the
-scroll position wraps at half the width. The clones are `aria-hidden`.
-
-Two things worth knowing if you touch this:
-
-- The drift keeps its own `pos` variable rather than adding to `scrollLeft`
-  directly. The browser rounds `scrollLeft` to whole pixels, so a sub-pixel
-  step added to it each frame is rounded away and nothing moves at all.
-- Both the drift and its momentum are timed off the clock rather than counted
-  in frames. A 120Hz display — which most recent Macs are — would otherwise run
-  the whole thing at twice the intended speed.
-- The gap between cards and the short line drawn across it both come from
-  `--jgap` on the strip. They were separate values, and a mobile override moved
-  one without the other, so the line stopped 8px short of the next card.
-- There is no scroll-snap and no `-webkit-overflow-scrolling`. Both fight a
-  flick, and with `scroll-padding` set the last card could never reach a valid
-  snap position, so the strip kept dragging itself back.
-  `overscroll-behavior-x: contain` stops a swipe past either end chaining out
-  to the browser's own back gesture.
-- Drag is bound wherever there is a mouse — `(hover: hover) and (pointer:
-  fine)` — including a desktop window narrowed to a phone's width, because a
-  mouse cannot swipe a scroller. The drift on top of it needs `min-width:
-  56rem`. On a real touch device **nothing at all is bound**: a non-passive
-  pointer listener on a scroller makes the browser run it before it can decide
-  whether to scroll, and that is what makes a swipe feel like it is fighting
-  back. The pointermove listener is passive and nothing calls preventDefault.
-- The strip runs the full width of the window and insets its own content with
-  padding. It used to pull itself out with negative margins, which escaped the
-  page and scrolled the whole site sideways below 1024px.
-
-Drift and cloning are desktop-only and are skipped for reduced motion: on a
-phone a strip that moves while you are reading it is a nuisance, so it stays a
-plain swipe. Without JavaScript it is eight cards you can scroll by hand.
-
-To change a stage, edit `index.html` and drop a replacement 3:4 image into
-`assets/img/journey/`.
-
 ## The masthead arrives with the scroll
 
 At the top of a page the masthead is **transparent, with no backdrop at all** —
@@ -326,7 +280,7 @@ rule rather than added later, so it is always in the box and the masthead never
 changes height, which matters because `--masthead-h` is measured from it.
 
 The `[data-over]` rules come after `[data-scrolled]` in the stylesheet and carry
-the same specificity, so a paper, slate or charcoal section still overrides the
+the same specificity, so a paper section still overrides the
 blue backdrop when the masthead is sitting on one.
 
 ### The browser's own image drag
@@ -345,73 +299,16 @@ not by driving the mouse.
 
 ## The navigation
 
-Five items, in Fred's order: **Storage | Transport & Handling | Services |
-About | Contact**. The first three open a panel on hover, after the reference
-Fred sent, but drawn in the site's own language rather than a stock mega-menu:
-**a compact panel hung under its own link**, not the width of the page. It is
-the sub-items alone, with the same mono numbers the pages use (`01.1`, `01.2`…),
-ruled only between items, with no outline round the panel. No title
-(it would repeat the link it hangs from) and no photographs, both at Tom's
-request.
+Five items, in Fred's order: **Storage | Transport & Handling | Additional
+Services | About | Contact**. Plain links — the hover dropdowns that were there
+for a few rounds came off at Fred's request, because each page lists its own
+segments neatly once you are on it. The phone menu is the same six links
+(Home first), with nothing folded away.
 
-**The panel takes the ground the bar is on.** Its colours are custom properties
-(`--drop-bg`, `--drop-ink`, `--drop-soft`, `--drop-faint`, `--drop-rule`) set
-under each `.masthead[data-over]` state, so as the bar turns slate, charcoal or
-paper going down the home page, the panel under it turns with it. A new ground
-needs a line here as well as its masthead rule.
-
-- **Placing it.** The panel is positioned against its own nav item, so it
-  follows the link. The script measures the gap from the foot of the link to the
-  foot of the masthead (`--drop-gap`) so the panel starts exactly under the bar,
-  and turns a panel to hang from the right of its link (`data-align="end"`)
-  where it would otherwise run past the page margin — Services, at every width.
-  Without the script the gap falls back to a close guess and every panel hangs
-  left.
-- **It is CSS first.** `:hover` and `:focus-within` on `.nav__item--drop` open
-  it, so a keyboard user tabbing along the bar gets the same panel, at once. The
-  script adds Escape to shut it (`data-shut`).
-- **Closing is delayed by 0.22s, opening on hover by 0.12s.** The close delay
-  and an invisible bridge (`::after` on the link) carry the pointer from the
-  link into its panel. The open delay stops a quick pass under a neighbouring
-  link from opening that one.
-- **Passing under a neighbour.** The panels sit side by side, so the way down
-  from one link to the far end of its panel runs under the next link for longer
-  than any sensible delay. The script handles that one case: entering a
-  neighbour from *below* the line of the links while another panel is open
-  holds the open one (`data-keep`) and keeps the neighbour shut (`data-wait`),
-  and the neighbour only takes over if the pointer stays on it for 320ms.
-  Moving along the bar itself switches panels normally.
-- **There is no `pointer-events` toggle**, and that is deliberate. It switched
-  instantly while the visibility waited, so the panel stopped receiving the
-  pointer the moment it left the link and shut under it. Hidden visibility
-  already refuses the pointer; nothing else is needed.
-- The sub-items are anchors (`storage.html#ambient`), and the page opens the
-  matching entry on arrival and on `hashchange`, so a sub-item works whether you
-  are already on that page or not. Without a hash every entry starts closed.
-
-Testing this with Playwright: use `mouse.move` to the link, not `hover()`.
-`hover()` scrolls the element into view first, which moves the page under the
-sticky bar and changes its ground — it looks as though the panel ignored the
-colour when it did not.
-
-On a phone, Storage, Transport & Handling and Services are headings with a plus
-beside them; tapping one opens its parts underneath (the plus turns to a minus)
-and closes any other. They are `<details name="menu">`, so they work with no
-script, and the menu folds them all again each time it closes.
-
-**A heading opens from where it is.** The links sit low on the screen on an auto
-margin, so originally opening one pushed everything above it upwards and the
-heading you tapped jumped. Now, on the first tap, the script fixes that margin
-at its folded value, so each heading has a home position and always opens
-downwards from it; switching sections brings the headings back to their homes
-rather than letting them creep down the screen. The closed menu sits 10.5rem
-higher than the very bottom (padding on `.menu`) so that the lowest section,
-Services with four parts, has room to open without anything having to move.
-Checked at five phone sizes from 360×640 to 430×932: every tap opened at the
-heading's home and nothing ran off the screen. On a screen shorter than those,
-the menu glides up just far enough to show the last part. The pages
-themselves are reached through their parts — there is no separate link to the
-top of each page in the phone menu.
+On the home page the small wordmark is out of the bar until the large one has
+scrolled away under it (`data-hero` on the masthead, set from the hero's
+position on scroll), so the first screen carries the name once. With no
+script it is simply there.
 
 ## Old addresses
 
@@ -429,110 +326,82 @@ be bookmarked or indexed. Each is now a one-line forward — a meta refresh,
 GitHub Pages cannot send a 301, which is why they are pages at all. On a host
 that can, replace them with real redirects.
 
-## The expanding index — all three service pages
+## The segments — all three service pages
 
-All three service pages use it; the card row follows underneath on Transport &
-Handling. **Title and services run down one side, one standing photograph down
-the other**, and each service opens to its copy — the pictures are out of the
-entries entirely. The entries are numbered from the page's ledger number —
-`01.1`, `01.2` on Storage — and Storage's Overview is entry `01`. Everything
-starts closed; an entry opens when it is clicked or linked to.
+Each page opens on its list of segments, every one closed, numbered from the
+page's ledger number (`01.1` … `01.7` on Storage). **Only one stands open at a
+time**: each is an ordinary `<details>`, and the shared `name` on them is what
+closes one as another opens — the browser does it, so with no script the
+segments still open and close. A link to `page.html#segment` opens that segment
+on arrival.
 
-Each open entry leaves `clamp(2.5rem, 4vw, 3.25rem)` under its button before the
-next rule.
+- **Storage** keeps one standing set of photographs beside its list, cut to 4:5
+  so the set and its arrows sit inside the first screen. Its segments are text
+  only, with no buttons.
+- **Transport & Handling** and **Additional Services** run their list the full
+  width. An open segment has its copy on the left and its own carousel on the
+  right, sized from the height of the window so a whole photograph is in view
+  under the open heading. Transport & Handling has no buttons; Additional
+  Services keeps one per segment.
 
-**The Overview is laid out differently**, because it carries four paragraphs
-against a sentence or two everywhere else. The first stands on its own, at the
-same size as every other entry; the other three are ruled rows with a mono label beside them — *Security*,
-*Handling*, *Insurance* — like a facility report. The labels are ours; the words
-are Fred's, unchanged.
-
-**The entries open independently** — opening one does not close another. They
-used to be exclusive (a shared `name` on the `<details>`), but closing an entry
-above the one clicked shortens the page under the reader: near the foot of the
-page the browser then has to shift the whole view, and the photograph beside the
-list visibly jumped. Measured after the change: 234 opens and closes across the
-three pages at three window sizes, the photograph moved on none.
-
-**The photograph is not sticky.** It was for a round, to keep pace with the long
-Overview, but a sticky element resting against the foot of its section is moved
-by anything that changes the section's height, which was the same jump again.
+The carousels inside segments show every photograph **whole** (`object-fit:
+contain`), because Fred will be adding his photographs of artworks and an
+artwork must never be cropped. The shoot's own frames are 3:4, the same as the
+plate, so they fill it exactly.
 
 `.services-page` carries `min-height: calc(100svh - var(--masthead-h))`, so the
-blue holds the screen whatever the window. Without it the paper panel below
-climbs into the first screen on a tall display and the page reads as a short
-blue band with a white page underneath. Checked at five sizes from 1280×800 to
-1920×1200: the white never starts above the fold.
+blue holds the screen whatever the window, and the paper panel below never
+climbs into the first screen.
 
-The standing photograph takes its width from the **height** of the window —
-`clamp(18rem, 58vh, 38rem)` — so it fills the screen it is on rather than the
-column it sits in. Same trick as the About portrait. It is the one `loading`
-value on the site set to `eager`, because it is above the fold on both pages.
+### Keeping the page steady
 
-### The standing photograph is a slideshow
+Opening a segment shuts the open one, and when that one is above, the page gets
+shorter under the reader. Left alone, two things go wrong: near the foot of the
+page the browser has to pull the whole view down, and the heading just clicked
+can be carried off the top of the screen. The script handles both:
 
-It turns over every 2s through that page's own frames — four on Storage, five
-on Transport & Handling, five on Services. Every frame
-is in the markup and **the first is the only one that starts opaque**, so with
-the script absent the panel is simply a photograph.
+- **The section keeps its height for a moment.** It is held at its old height
+  before the browser opens and shuts anything, the spare room sits at its foot,
+  and it is given up as the reader scrolls back up, only ever below the bottom
+  of the screen. So the page never shortens under anyone.
+- **What stays still depends on the page.** On Storage the standing photograph
+  stays still, and the page only moves if the heading just clicked would
+  otherwise vanish under the bar. On the other two pages there is no standing
+  photograph, so the heading just clicked stays exactly where it was and its
+  segment opens underneath it.
+- **The browser's own scroll anchoring is off** on these three pages
+  (`:root:has(.services-page)`). It made a second, different decision about what
+  to hold still; switched off on the section alone, it anchored to the panel
+  below and pulled the page down as a segment opened.
 
-A row of dots is laid on the foot of the photograph — white, with a little
-shadow, because what is behind them is a different picture every two seconds and
-cannot be relied on to be dark. They are built in script rather than written
-into the page, because without the script there is nothing for them to indicate.
+Measured across 634 clicks — every segment opened from every state, from the
+top, the middle and the foot of each page, at three desktop sizes and on a
+phone: Storage's photograph moved only where a heading would otherwise have
+gone out of sight, and no heading ever did. The one exception on the other two
+pages is near the very top, where the segment shutting is taller than the
+distance scrolled; a page cannot scroll above its own top, so the heading rises
+a little (80–120px) but stays in view.
 
-**The dots are marks; the two halves of the photograph are the controls.** Left
-steps back, right steps on, both wrapping round. They are real buttons with real
-labels, so they answer to a keyboard as well as a pointer — and two tab stops
-that mean "back" and "forward" are worth more than six that each mean "jump to
-frame four". The dots themselves take `pointer-events: none` so the halves
-underneath get every click.
+## The carousels
 
-**Reduced motion keeps the controls and loses the turning.** The set is still
-there to step through by hand, it just does not move on its own — a better
-answer than showing one frame and hiding the rest.
+One component everywhere (`.carousel`, `data-carousel`): every frame stacked in
+one plate, and a line under it with the frame's caption on the left and a count
+and two arrows on the right.
 
-It stops when it cannot be seen: an IntersectionObserver pauses it off screen
-and `visibilitychange` pauses it in a background tab. A timer nobody can watch
-is only work and battery.
+- **It turns over on its own, slowly** — every 5 seconds, while it is on
+  screen — and **stops for good the first time someone uses the arrows** (or
+  swipes, on a phone), so it never moves on from a picture they chose. Fred
+  found the old 2-second slideshow too fast.
+- **Captions** are each image's `data-caption`. Blank by default; the line
+  stays the same height either way, so the arrows never jump.
+- Nothing turns while it is off screen, shut inside a closed segment, or in a
+  background tab. Reduced motion keeps the arrows and loses the turning.
+- With no script it is simply its first photograph; the arrows and count are
+  hidden, because they would do nothing.
 
-> **`.slideshow` must stay `position: relative`.** The frames are absolutely
-> positioned, and without a positioned plate they take their inset from the page
-> itself — they stretch across the whole document, sit on top of the services and
-> swallow every click on them. Found by a Playwright click timing out, not by
-> looking: the page still rendered correctly.
-
-Only the first frame carries alt text. The rest are `alt=""`, because a rotation
-of six descriptions read aloud is noise, and the page's own copy carries the
-meaning.
-
-Each entry is an ordinary `<details>`, so **with the script absent every one
-still opens and closes** — the browser does it, not us. The shared `name`
-attribute is what keeps only one standing open at a time; where that is not
-supported the entries simply toggle independently, which is a fair fallback.
-Verified: keyboard reaches each `summary` by Tab, Enter opens it, and opening
-one closes the last.
-
-The plus is two crossed rules, the upright one turning flat when the entry
-opens, so it becomes a minus without a second glyph or an icon font.
-
-It is the layout at every width, not just desktop.
-
-The text measure is `36rem` on the paragraph **and** the points. Capping only
-the paragraph, as it was, left the block visibly ragged — a short paragraph
-sitting above a bullet that ran almost to the picture.
-
-## The signature writes itself
-
-`pathLength="1"` normalises each path to a length of one, so a single dash
-covers it and `stroke-dashoffset` can run from 1 to 0 in CSS — no
-`getTotalLength`, no script, no measuring. The two paths are the two words, so
-Henderson picks up as Fred finishes, and it starts the moment the page opens
-rather than after a pause. Measured: Fred is already drawing at 0.25s and done
-by 1.35s, Henderson done by 3.15s.
-
-Outside the reduced-motion guard there is no dash at all and the signature is
-simply there, drawn, which is the right resting state.
+> **`.carousel__plate` must stay `position: relative`.** The frames are
+> absolutely positioned, and without a positioned plate they take their inset
+> from the page itself, cover the segments and swallow every click on them.
 
 ## The Contact list keeps its own rhythm
 
@@ -566,10 +435,8 @@ The list reading as a list was judged worth it.
 61vh tall and sits on the centre line of the screen with room above and below.
 It is 414×552 at 1440×900, against 352×469 before.
 
-`min(100% - 6rem, …)` holds 6rem back from the column, because the signature
-hangs 17% of the plate past its right edge. Without that, the bigger plate
-pushed the flourish off the side of the page and the whole document scrolled
-sideways — 37px over at 480px wide. Checked at thirteen widths from 360 to 1920.
+It used to hold 6rem back from its column for the signature that hung off its
+corner; with the signature gone it takes the full column.
 
 ## Two closing tags the browsers had been repairing
 
@@ -609,71 +476,13 @@ masthead.
 Inside, `.hero__centre` takes a single auto margin **above** it, so the free
 space is all spent there and the wordmark sits low on the screen the way a title
 sits low on an exhibition poster, with the cue beneath it. The four disciplines
-that used to sit under it came off at Fred's request. `.hero__mark` is `width: 100%`, so the wordmark runs out to the
+that used to sit under it, and the typed line that used to arrive before it,
+came off at Fred's request. `.hero__mark` is `width: 100%`, so the wordmark runs out to the
 page's right margin rather than stopping at a measure of its own.
 
 Two values decide how low the whole group sits, and nothing else needs to move:
 `.hero`'s `padding-bottom` and `.hero__centre`'s `margin-bottom`.
 
-### The arrival
-
-On the first visit of a session, the screen is a single line typing itself out
-in the middle — *We are art people who do logistics, not logistics people who do
-art.* — and nothing else: **the navigation and the cue wait** until it is over.
-Then the line becomes the wordmark. The rest of the sentence dissolves, and ten
-of its letters — s, t, o, r, e, h, o, u, s, e — travel down to the foot of the
-screen, growing and changing shape into the wordmark's own letters on the way,
-in a wave from left to right. When they land the real wordmark takes over from
-them, the navigation fades in, and the cue follows.
-
-How it is built, in `site.js`:
-
-- **The line is laid out whole from the start**, one span per character, and
-  each is made visible in turn. Typing by slicing the text re-centred the line
-  on every keystroke. Words are wrapped so the browser never breaks a line
-  inside one; the caret hangs off the last letter typed so it never pushes the
-  line along.
-- **The wordmark is one SVG path.** The script splits it at each move-to and
-  gathers the pieces by position, so the counters of the O and R stay with
-  their letters: ten letterforms, left to right. If that ever yields anything
-  other than ten, the morph is skipped and the wordmark simply wipes in.
-- **Each of the ten picks the matching letter in the sentence** that sits nearest
-  its destination along the line, so the letters mostly travel down rather than
-  across each other. The sentence has no u; the U is made from a spare o.
-- **The morph is two elements on one curve.** The sentence's letter grows
-  towards the wordmark's position and size while a copy of the wordmark's
-  letter, shrunk back to the sentence's, grows in along the same path; half way,
-  one hands over to the other under a little blur. They end exactly where the
-  real wordmark is, so the swap at the end is invisible.
-
-It is written to read with any sentence (`data-type` in `index.html`), as long
-as the sentence has most of the letters of STOREHOUSE.
-
-About six and a half seconds in all, and **it always plays out in full**: the
-page is held still until the wordmark has landed. Scrolling input (wheel, touch,
-and the scrolling keys) is refused rather than the page being set to
-`overflow: hidden`, which would take the scrollbar away and shift the layout
-sideways on any system that shows one. A safety timer releases the page at 9s
-whatever happens, and the arrival is not played at all if the page opens
-part-way down. It plays **once per session** (`sessionStorage`,
-`storehouse-arrival`) — open a new tab to see it again.
-
-States on `.hero[data-intro]`, which the stylesheet reads: empty (script not run
-yet), `running`, `morph`, `done` (with `data-morphed` if it got there by the
-morph) and `rest` (never played). The navigation is hidden with
-`body:has(.hero[data-intro=…])`.
-
-Every way it can fail ends on the wordmark:
-
-- **No script, or reduced motion** — the resting state in the stylesheet is the
-  wordmark and the navigation, visible; the typed line is never shown.
-- **The script stalls** — failsafe animations bring the wordmark and the
-  navigation in at 9s and the cue at 9.5s on their own.
-- The typed line is `aria-hidden`; the wordmark is the page's heading
-  throughout, so a screen reader hears the same page either way.
-
-The arrival runs in its own function inside `site.js`, because its variables
-would otherwise collide with the painting code's — keep it wrapped.
 ### The cue arrives late
 
 `.scroll-cue` carries `animation: cue-in 0.9s ease 2.2s backwards`, so the first
@@ -687,11 +496,6 @@ fade the cue out once you started scrolling. `backwards` holds the opening frame
 through the delay and then stops contributing, which leaves the inline style
 free to work. Measured: opacity 0 at 0.4s, 1.2s and 2.1s; 0.92 at 2.8s; 1 at
 3.6s; 0 again after scrolling 400px; back to 1 at the top of the page.
-
-During the arrival the cue is held back entirely, and it follows the wordmark
-up 1.1s after the arrival ends. That is a different animation name (`cue-late`) while the
-arrival runs, so the switch to `done` restarts the fade rather than inheriting
-the time already elapsed. Return visits keep the original 2.2s.
 
 The block sits inside the reduced-motion guard, so anyone who has asked for less
 movement gets the cue immediately and without the fade. With JavaScript off the
@@ -727,78 +531,71 @@ ratio; below 62rem the enquiry list runs as two columns of four instead of one
 of eight; and below 30rem the photograph is dropped, as the one thing on the
 page carrying no information. On a very short phone it still scrolls a little.
 
-About carries a single portrait, captioned Director as the business card in the
-brand document has it. The second portrait came off at the client's request.
+About carries a single portrait and lets it stand on its own — the drawn
+signature that used to cross its corner came off in Fred's final round.
 
-His name is signed across the bottom-right corner of the plate and off the edge
-of it, so the photograph is not a sealed rectangle. It is **drawn**, not set, by
-`tools/signature.py`.
-
-That script defines each letter as a list of **waypoints the pen passes
-through**, in handwriting coordinates (y up, baseline 0, x-height 20, ascenders
-42), and fits a Catmull-Rom spline through them. Waypoints are far easier to
-reason about than bezier control points, which is the whole reason for the
-approach: to change a letter, move a point. Two things are worth knowing — every
-lower-case letter begins and ends on the join line (y = 6) so letters chain
-without the pen lifting, and two waypoints placed close together give the spline
-a corner to turn on, which is what makes an s an s rather than a loop. The
-capitals are printed rather than looped, which is what keeps it legible.
-
-The `viewBox` is cropped to the ink. If you change the letters or the tilt,
-re-measure it — render the SVG and call `getBBox()` on a wrapper group — or the
-signature will sit off-centre in its box.
-
-There is no script typeface to license and nothing extra to load. The corner of
-this photograph is almost black and the page behind it is the ultramarine, so a
-single white ink reads on both; the name is in the photograph's alt text for
-anything that is reading rather than looking.
-
-If the portrait is ever swapped for a lighter one, check the signature still
-reads — there is a small drop shadow behind it for exactly that case.
+Contact: the email address sits in the left-hand column under the
+introduction; the enquiry list is the middle column; the right-hand column is
+the photograph with the company's registration details under it (Storehouse
+Fine Arts Ltd, registered in England & Wales, company 16631030, VAT 499103269).
+No street address — see *Location, and the insurer*.
 
 ## The order of the home page
 
-The first screen is the wordmark on the ultramarine (after the arrival, on a
-first visit), with the scroll cue at the foot.
-
-Then: the overview on the slate, Recent work back on the blue, Location on the
-charcoal, and the closing enquiry block on the paper — *Begin with a collection
-audit or a visit to see the collection*, the call to action from Fred's brief.
-Four grounds in order down one page, which is the whole reason the palette is
-written as tokens rather than as colours.
+The first screen is the wordmark on the ultramarine, alone, with the scroll cue
+at the foot. Then: the overview on the paper, Recent work back on the blue, and
+the closing enquiry panel on the paper.
 
 The masthead reads the ground beneath it as it goes and takes a matching
 backdrop: `data-over="blue"` by default, or the value of the section's own
-`data-ground` (`paper`, `slate`, `charcoal`). `assets/js/site.js` looks for
-`[data-paper]` and `.footer`, so **a new ground needs two things and no
-JavaScript**: `data-paper data-ground="x"` on the section, and a
-`.masthead[data-over="x"]` rule beside the others.
+`data-ground` (`paper`). `assets/js/site.js` looks for `[data-paper]` and
+`.footer`, so **a new ground needs two things and no JavaScript**:
+`data-paper data-ground="x"` on the section, and a `.masthead[data-over="x"]`
+rule beside the others.
 
-## The paper, slate and charcoal panels
+## The paper panels, and the enquiry panel on each page
 
-The enquiry block that closes each page is a `.panel` — paper, the inverse
-ground, and the one moment of rest in a blue page. The overview on the home page adds `.panel--slate`, the third brand value used
-as a ground, set in white at the client's request. Location adds
-`.panel--charcoal`, which carries white at 12:1 and up.
+The home page overview and the enquiry panel that closes each page are paper
+`.panel`s — the inverse ground, and the moment of rest in a blue page. (The
+overview was on the slate until Fred's final round; the slate and charcoal
+grounds have gone from the site with it and with the Location section.)
 
-> **Contrast note — the slate section.** Slate is mid-toned, so white sits at
-> about **2.6:1** against it: under the 4.5:1 every other surface on this site
-> holds to, and under the 3:1 that even large text is meant to clear. This
-> matters more than it used to, because the slate now carries the home page's
-> main paragraph rather than a four-line address block.
->
-> It is a deliberate client decision, recorded in the stylesheet next to the
-> rule. Two ways out if it is ever wanted: bring the ground down to about
-> `#767676`, which still reads as slate and puts white at 4.5:1, or put the
-> charcoal ink back on the slate, which measures 5.9:1. The white ink itself
-> has nowhere left to go.
+Every enquiry panel is the same three things: the *Enquiries* label in the
+margin, one serif line, and one button —
 
-The masthead has a third state to match, `data-over="slate"`. A paper bar over
-the slate reads as a stray rectangle, which is what the state exists to avoid.
+| Page | Button | Email subject |
+|---|---|---|
+| Home | Get in touch | Enquiry |
+| Storage | Request a rate card | Rate card request |
+| Transport & Handling | Get in touch | Transport & Handling enquiry |
+| Additional Services | Get in touch | Additional Services enquiry |
 
 Panels are deliberately **not** given `data-reveal`: the reveal fades a whole
 section, background included, so the page showed through for a moment as it
 scrolled into view.
+
+## Buttons open an email
+
+Every button on the site is a `mailto:` link with a subject line already filled
+in from where it was clicked, so it opens an email draft straight away rather
+than sending people to the Contact page first. The buttons on Additional
+Services: *Book photography* (Photography enquiry), *Plan an installation*
+(Installation enquiry), *Discuss a project* (Project management enquiry), *Book
+a collection audit* (Collection audit request). About's *Get in touch* is
+*Enquiry*. Contact's own list did this already.
+
+All buttons are set in the serif, the same face as the copy around them.
+
+## Labels and the footer
+
+Words in the margin — *Overview*, *Enquiries*, the section line above the
+Instagram grid, the footer's headings — are the navigation's sans in capitals,
+a size up from the numbers (`.label`, 0.8125rem, 0.08em tracking). The mono is
+kept for numbering only (`.ledger`, the `01.1` indexes, the carousel count).
+
+The footer is three columns — *What we do*, *Company*, *Contact* — under a
+single rule at its top, inside the page margins. The wordmark, the colophon line
+and the rate-card link that used to be in it came off in Fred's final round.
 
 ## Recent work
 
@@ -831,19 +628,17 @@ Two ways to fill it, neither of which puts a third-party script on the page:
    CDN, which means adding it to `img-src` and `connect-src` in the CSP.
 
 The heading reads *Follow us on Instagram for all our recent work.* — Tom's line,
-lightly edited. Once there is a handle, make "Instagram" a link.
+lightly edited. Once there is a handle, make "Instagram" a link. Fred is happy
+with the grid as it is.
 
 ## Location, and the insurer
 
 At Fred's request — his insurer has grown wary of the site advertising where the
-works are kept — **the site no longer names Acton or gives a street address
-anywhere**: not in the footer, not on Contact, not in the JSON-LD. It says
-*North-west London* and nothing more precise. The footer's consultancy strapline
-came off at the same time, leaving the name and the location.
-
-The Google Maps dialog went with it, and with it the only third-party request
-the site made. If a map is ever wanted back, it should be at a regional zoom,
-not a pin.
+works are kept — **the site does not name Acton or give a street address
+anywhere**: not in the footer, not on Contact, not in the JSON-LD. Where it
+says where Storehouse is at all, it says *north-west London* and nothing more
+precise. The home page's Location section and the Google Maps dialog have both
+gone.
 
 ## Imagery
 
@@ -871,11 +666,21 @@ everywhere except About, which is a portrait.
 
 | Set | Size | Ratio |
 |---|---|---|
-| Card row (`assets/img/journey/`) | 690 × 920 | 3:4 |
-| Service entries (`sh-*`, `ex-*`, `cm-*`) | 1000 × 1250 | 4:5 |
-| Page titles (`*-hero`) | 1000 × 1333 | 3:4 |
-| The list preview (`svc-0*`) | 700 × 933 | 3:4 |
+| Carousels (`assets/img/shoot/240726_NN.webp`, named after the original frame) | 1200 × 1600 | 3:4 |
+| Instagram placeholders (`assets/img/journey/`) | 690 × 920 | 3:4 |
+| Contact (`contact-900`) | 900 × 1125 | 4:5 |
+| About portrait (`portrait-fred-900`) | 640 × 853 | 3:4 |
 | Social card (`og-1600`) | 1600 × 900 | 16:9 |
+
+| Carousel | Frames from the shoot (`240726_NN`) |
+|---|---|
+| Storage (standing) | 49, 52, 54, 09 |
+| Transport | 89, 47, 43, 36 |
+| Packing & Crating | 14, 17, 19, 32, 35, 45 |
+| Photography | 71, 72, 54 — Fred's own photographs of artworks to come |
+| Installation | 111, 62, 95 |
+| Project Management | 88, 97, 98 |
+| Collection & Estate Management | 08, 44, 33 |
 
 To add one, export a WebP at the size in that table, drop it in `assets/img/`,
 and reference it with explicit `width` and `height` attributes so the page does
@@ -893,9 +698,9 @@ Worth confirming before launch:
 - **Domain** — `storehousefinearts.com` assumed throughout.
 - **Instagram** — still no handle. It is needed for the Recent work feed, and
   for a link in the footer and the mobile menu.
-- **Photography** — the brief asks for an image-led Photography page, with large
-  reproductions of works Fred has photographed. It is an entry on Services for
-  now; it wants those photographs before it can be its own page.
+- **Photography** — the Photography segment on Additional Services has its own
+  large carousel, which shows each photograph whole. It is waiting on Fred's
+  photographs of artworks; until then it carries three frames from the shoot.
 - **Telephone** — not published. The only number available was Fred's mobile,
   from the business card.
 - **Contact** — the enquiry links are `mailto:` with the subject pre-filled.

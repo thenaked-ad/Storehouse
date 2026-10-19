@@ -1,7 +1,7 @@
 /* Storehouse Fine Arts — progressive enhancement only.
-   Every page works with this file absent: the journey reads as a plain row of
-   captioned images, the jump filter is an ordinary contents list, the menu is
-   a link list, and the pointer stays the one the operating system provides. */
+   Every page works with this file absent: each carousel is simply its first
+   photograph, the segments open and close as ordinary <details>, the menu is a
+   link list, and the pointer stays the one the operating system provides. */
 
 (function () {
   "use strict";
@@ -27,6 +27,7 @@
     }
     window.addEventListener("resize", setChromeHeights, { passive: true });
 
+    var hero = document.querySelector(".hero");
     var mark = function () {
       // Queried each time, so a section added to the page is picked up without
       // the list having to be rebuilt.
@@ -50,6 +51,10 @@
         }
       }
       masthead.dataset.over = ground;
+
+      // On the home page the small wordmark stays out of the bar until the large
+      // one has scrolled away under it.
+      if (hero) masthead.dataset.hero = hero.getBoundingClientRect().bottom > masthead.offsetHeight ? "on" : "off";
     };
     mark();
     window.addEventListener("scroll", mark, { passive: true });
@@ -59,7 +64,6 @@
   /* ------------------------------------------------------------- mobile menu */
 
   var menu = document.getElementById("menu");
-  var links = menu && menu.querySelector(".menu__links");
   if (menu) {
     var setMenu = function (open) {
       menu.dataset.open = open ? "true" : "false";
@@ -71,10 +75,6 @@
       if (open) {
         var first = menu.querySelector("a");
         if (first) first.focus({ preventScroll: true });
-      } else {
-        // Each time the menu opens it starts with its headings folded.
-        menu.querySelectorAll("details[open]").forEach(function (d) { d.open = false; });
-        if (links) links.style.marginTop = "";
       }
     };
     setMenu(false);
@@ -85,33 +85,6 @@
     });
     menu.querySelectorAll("a").forEach(function (a) {
       a.addEventListener("click", function () { setMenu(false); });
-    });
-
-    // The links sit at the foot of the screen on an auto margin, so a heading
-    // opening would push everything above it upwards and the heading just
-    // tapped would jump. On the first tap the margin is fixed at what it is with
-    // everything folded, so each heading keeps that position as its home: it
-    // opens downwards from there, and switching to another section brings the
-    // headings back to their homes rather than letting them creep down the
-    // screen. Measured from a margin of nothing, because an auto margin reads
-    // back as 0.
-    menu.querySelectorAll(".menu__group > summary").forEach(function (summary) {
-      summary.addEventListener("click", function () {
-        if (!links.style.marginTop) {
-          var home = summary.getBoundingClientRect().top;
-          links.style.marginTop = "0px";
-          links.style.marginTop = Math.max(0, home - summary.getBoundingClientRect().top) + "px";
-        }
-        // On a very short screen the parts might still run off the foot; only
-        // then does the menu move, gently and only as far as it needs to.
-        window.requestAnimationFrame(function () {
-          var group = summary.parentNode;
-          var last = group.open && group.querySelector(".menu__sub li:last-child");
-          if (!last) return;
-          var over = last.getBoundingClientRect().bottom - (window.innerHeight - 20);
-          if (over > 0) menu.scrollBy({ top: over, behavior: reduced ? "auto" : "smooth" });
-        });
-      });
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && menu.dataset.open === "true") {
@@ -155,87 +128,6 @@
     }, { passive: true });
   }
 
-  /* -------------------------------------------------------------- dropdowns */
-
-  /* The panels open on hover and focus in CSS. This adds the one thing CSS
-     cannot do: Escape to shut one while focus is still inside it. */
-
-  var drops = document.querySelectorAll("[data-drop]");
-
-  // Each panel hangs from its own link but should start exactly at the foot of
-  // the masthead, and should not run past the page's right margin.
-  var placeDrops = function () {
-    if (!masthead) return;
-    var bar = masthead.getBoundingClientRect();
-    var inner = masthead.querySelector(".masthead__inner");
-    var edge = inner ? inner.getBoundingClientRect().right : window.innerWidth;
-    var rem = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
-    Array.prototype.forEach.call(drops, function (item) {
-      var panel = item.querySelector(".drop");
-      var box = item.getBoundingClientRect();
-      if (!panel || !box.width) return;
-      item.style.setProperty("--drop-gap", (bar.bottom - box.bottom) + "px");
-      if (box.left - rem * 1.25 + panel.offsetWidth > edge) item.dataset.align = "end";
-      else item.removeAttribute("data-align");
-    });
-  };
-  placeDrops();
-  window.addEventListener("resize", placeDrops, { passive: true });
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(placeDrops);
-
-  // Reaching for an open panel. The panels are narrow and sit side by side, so
-  // the way down from one link into the far side of its panel passes under the
-  // next link along. Entering a neighbour from below the line of the links,
-  // while another panel is open, is taken as passing through: the open panel
-  // is held and the neighbour waits, and only takes over if the pointer stays.
-  var current = null, waitTimer = null;
-  var settle = function () {
-    window.clearTimeout(waitTimer);
-    Array.prototype.forEach.call(drops, function (d) {
-      d.removeAttribute("data-wait");
-      d.removeAttribute("data-keep");
-    });
-  };
-  Array.prototype.forEach.call(drops, function (item) {
-    var link = item.querySelector(".nav__link");
-    item.addEventListener("mouseenter", function (e) {
-      var held = current;
-      if (held && held !== item && link && e.clientY > link.getBoundingClientRect().bottom - 4) {
-        settle();
-        held.dataset.keep = "";
-        item.dataset.wait = "";
-        waitTimer = window.setTimeout(function () {
-          settle();
-          if (item.matches(":hover")) current = item;
-        }, 320);
-        return;
-      }
-      settle();
-      current = item;
-    });
-    item.addEventListener("mouseleave", function () {
-      if (item.hasAttribute("data-wait")) settle();
-      else if (current === item) window.setTimeout(function () {
-        if (!item.matches(":hover") && current === item) current = null;
-      }, 250);
-    });
-  });
-
-  Array.prototype.forEach.call(drops, function (item) {
-    var reopen = function () { item.removeAttribute("data-shut"); };
-    item.addEventListener("mouseenter", reopen);
-    item.addEventListener("mouseleave", reopen);
-    item.addEventListener("focusout", function (e) {
-      if (!item.contains(e.relatedTarget)) reopen();
-    });
-    item.addEventListener("keydown", function (e) {
-      if (e.key !== "Escape") return;
-      item.setAttribute("data-shut", "");
-      var top = item.querySelector(".nav__link");
-      if (top) top.focus();
-    });
-  });
-
   /* ---------------------------------------------------- opening an entry by link */
 
   /* A link to storage.html#ambient should land with Ambient Storage open, not
@@ -255,325 +147,145 @@
   openFromHash();
   window.addEventListener("hashchange", openFromHash);
 
-  /* ---------------------------------------------------------------- arrival */
+  /* ---------------------------------------- one segment open, and steadily */
 
-  /* On the home page a line types itself out in the middle of the screen, holds,
-     and then becomes the wordmark: the rest of the sentence dissolves while ten
-     of its letters — s, t, o, r, e, h, o, u, s, e — travel down to the foot of
-     the screen, growing and turning into the letters of the wordmark itself as
-     they go. The navigation waits until it has landed.
+  /* Only one segment stands open at a time (the shared name on each <details>
+     does that, in the browser). Opening one therefore shuts another, and when
+     the one shutting is above, the page gets shorter under the reader. Near the
+     foot of the page the browser then has to pull the whole view down, and
+     everything on screen jumps. So for a moment the section keeps the height it
+     had: the spare room sits at its foot, and it is given up as the reader
+     scrolls back up, only ever below the bottom of the screen where nobody can
+     see it go. */
 
-     Once a session: coming back to the home page in the same visit goes straight
-     to the wordmark. It always plays out in full: the page is held still until
-     the wordmark has landed, rather than letting a scroll cut it short.
+  Array.prototype.forEach.call(document.querySelectorAll(".services-page"), function (section) {
+    var held = 0, natural = 0;
+    var inline = section.classList.contains("services-page--inline");
 
-     States on the hero, which the stylesheet reads:
-       ""       not decided yet (the script has not run)
-       running  typing
-       morph    letters travelling
-       done     arrived (with data-morphed if it got there by the morph)
-       rest     never played: seen already, reduced motion, or nothing to type */
-
-  var hero = document.querySelector(".hero[data-intro]");
-  var typed = hero && hero.querySelector("[data-type]");
-  var seen = false;
-  try { seen = window.sessionStorage.getItem("storehouse-arrival") === "1"; } catch (e) {}
-
-  // Its own function, because var is scoped to the whole file: the painting code
-  // further down declares an `at` of its own, and the two would overwrite each
-  // other mid-sentence.
-  // Not played if the page has opened part-way down (a reload mid-page): the
-  // line would be typing off screen while the page refused to move.
-  if (hero && (!typed || reduced || seen || window.scrollY > 0)) hero.dataset.intro = "rest";
-  else if (hero) (function () {
-    var line = typed.textContent.trim();
-    var chars = [], timer = null, finished = false, overlay = null, at = 0;
-
-    // Holding the page still. Scrolling input is refused rather than the page
-    // being set to overflow: hidden, which would take the scrollbar away and
-    // shift the whole layout sideways on any system that shows one.
-    var held = ["wheel", "touchmove"];
-    var scrollKeys = [" ", "PageDown", "PageUp", "ArrowDown", "ArrowUp", "End", "Home"];
-    var hold = function (e) { e.preventDefault(); };
-    var holdKeys = function (e) { if (scrollKeys.indexOf(e.key) > -1) e.preventDefault(); };
+    // The height the section would have on its own, measured without letting
+    // it shrink: the foot of its lowest child, or a screen, whichever is more.
+    var measure = function () {
+      var top = section.getBoundingClientRect().top;
+      var foot = 0;
+      Array.prototype.forEach.call(section.children, function (child) {
+        foot = Math.max(foot, child.getBoundingClientRect().bottom);
+      });
+      var pad = parseFloat(window.getComputedStyle(section).paddingBottom) || 0;
+      var screen = window.innerHeight - (masthead ? masthead.offsetHeight : 0);
+      return Math.max(foot - top + pad, screen);
+    };
     var release = function () {
-      held.forEach(function (ev) { window.removeEventListener(ev, hold, { passive: false }); });
-      window.removeEventListener("keydown", holdKeys);
+      held = 0;
+      section.style.minHeight = "";
+      window.removeEventListener("scroll", follow);
+    };
+    var follow = function () {
+      var need = Math.min(held, window.innerHeight - section.getBoundingClientRect().top);
+      if (need <= natural) release();
+      else section.style.minHeight = need + "px";
     };
 
-    // One span per character, laid out from the start and shown one at a time,
-    // so the centred lines never shift as the sentence grows. Words are held
-    // together, or the browser would break a line in the middle of one.
-    typed.textContent = "";
-    line.split(" ").forEach(function (word, w) {
-      if (w) typed.appendChild(document.createTextNode(" "));
-      var wrap = document.createElement("span");
-      wrap.className = "hero__word";
-      Array.prototype.forEach.call(word, function (c) {
-        var ch = document.createElement("span");
-        ch.className = "hero__ch";
-        ch.textContent = c;
-        wrap.appendChild(ch);
-        chars.push(ch);
+    section.addEventListener("click", function (e) {
+      var summary = e.target.closest("details.service > summary");
+      if (!summary) return;
+      // Held before the browser opens and shuts anything, so the page never
+      // gets the chance to be shorter for even a frame.
+      var before = section.offsetHeight;
+      var from = summary.getBoundingClientRect().top;
+      section.style.minHeight = before + "px";
+      window.requestAnimationFrame(function () {
+        natural = measure();
+        if (natural >= before) release();
+        else {
+          held = before;
+          window.removeEventListener("scroll", follow);
+          window.addEventListener("scroll", follow, { passive: true });
+        }
+        var bar = masthead ? masthead.offsetHeight : 0;
+        var top = summary.getBoundingClientRect().top;
+        if (inline) {
+          // No standing photograph here to keep still, so the heading just
+          // clicked is what stays put: its segment opens underneath it, and
+          // the one above shutting moves nothing on screen.
+          if (Math.abs(top - from) > 1) window.scrollBy({ top: top - from, behavior: "instant" });
+        } else if (top < bar) {
+          // Storage keeps its photograph still, and only steps in if the
+          // heading just clicked was carried up out of sight under the bar.
+          window.scrollBy({ top: top - bar - 16, behavior: "instant" });
+        }
       });
-      typed.appendChild(wrap);
     });
+    window.addEventListener("resize", function () { if (held) release(); }, { passive: true });
+  });
 
-    var remember = function () {
-      try { window.sessionStorage.setItem("storehouse-arrival", "1"); } catch (e) {}
+  /* ---------------------------------------------------------- the carousels */
+
+  /* A set of photographs in one plate, stepped through with the arrows under
+     it (or a swipe). Every frame is already in the markup and the first one
+     shows on its own, so with this absent the set is simply a photograph. It
+     turns over by itself, slowly, while it is on screen — and stops for good
+     the first time someone takes it in hand, so it never moves on from a
+     picture they chose. Each frame's caption is its data-caption; a frame
+     without one leaves the line under it blank. */
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-carousel]"), function (box) {
+    var plate = box.querySelector(".carousel__plate");
+    var imgs = Array.prototype.slice.call(plate.querySelectorAll("img"));
+    var caption = box.querySelector(".carousel__caption");
+    var count = box.querySelector(".carousel__count");
+    var controls = box.querySelector(".carousel__controls");
+    var at = 0, timer = null, handled = false;
+
+    var show = function (i) {
+      imgs[at].dataset.on = "false";
+      at = (i + imgs.length) % imgs.length;
+      imgs[at].dataset.on = "true";
+      if (caption) caption.textContent = imgs[at].dataset.caption || "";
+      if (count) count.textContent = (at + 1) + " / " + imgs.length;
     };
-
-    var finish = function (morphed) {
-      if (finished) return;
-      finished = true;
-      window.clearTimeout(timer);
-      window.clearTimeout(safety);
-      release();
-      if (overlay) overlay.remove();
-      chars.forEach(function (ch) {
-        if (ch.getAnimations) ch.getAnimations().forEach(function (a) { a.cancel(); });
-        ch.removeAttribute("data-caret");
-        ch.dataset.on = "";
-      });
-      if (morphed === true || hero.dataset.intro === "morph") hero.dataset.morphed = "";
-      hero.dataset.intro = "done";
-      remember();
-    };
-    var safety = null;
-
-    /* The wordmark is one path. Split it at each move-to and gather the pieces
-       by where they sit, so the counters of the O and R stay with their letter:
-       ten letters, left to right. */
-    var letterforms = function (svg) {
-      var src = document.querySelector("#wordmark path");
-      if (!src) return null;
-      var parts = src.getAttribute("d").split(/(?=M)/).filter(Boolean);
-      var probe = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      svg.appendChild(probe);
-      var boxes = parts.map(function (d) {
-        probe.setAttribute("d", d);
-        var b = probe.getBBox();
-        return { d: d, x: b.x, y: b.y, r: b.x + b.width, b: b.y + b.height };
-      });
-      probe.remove();
-      boxes.sort(function (p, q) { return p.x - q.x; });
-      var groups = [];
-      boxes.forEach(function (p) {
-        var g = groups[groups.length - 1];
-        if (g && p.x < g.r - 0.5) {
-          g.d += p.d;
-          g.x = Math.min(g.x, p.x); g.y = Math.min(g.y, p.y);
-          g.r = Math.max(g.r, p.r); g.b = Math.max(g.b, p.b);
-        } else groups.push({ d: p.d, x: p.x, y: p.y, r: p.r, b: p.b });
-      });
-      return groups.length === 10 ? groups : null;
-    };
-
-    var morph = function () {
-      var markSvg = hero.querySelector(".hero__mark svg");
-      if (!markSvg || !Element.prototype.animate) return finish(true);
-      var groups = letterforms(markSvg);
-      if (!groups) return finish(true);
-
-      hero.dataset.intro = "morph";
-      chars.forEach(function (ch) { ch.removeAttribute("data-caret"); });
-
-      var heroBox = hero.getBoundingClientRect();
-      var markBox = markSvg.getBoundingClientRect();
-      var typeBox = typed.getBoundingClientRect();
-      var unit = markBox.width / 702;
-      var fontPx = parseFloat(window.getComputedStyle(typed).fontSize);
-
-      // For each letter of the wordmark, the same letter in the sentence whose
-      // place along its line is nearest to where it has to go — so the letters
-      // mostly travel down rather than across one another. There is no u in the
-      // sentence; the U is made from a spare o.
-      var used = [];
-      var picks = "storehouse".split("").map(function (want, i) {
-        var g = groups[i];
-        var goal = ((g.x + g.r) / 2) / 702;
-        var best = null, bestCost = Infinity;
-        [want, "o", "n", "a"].some(function (letter) {
-          chars.forEach(function (ch, n) {
-            if (used.indexOf(n) > -1 || ch.textContent.toLowerCase() !== letter) return;
-            var r = ch.getBoundingClientRect();
-            var cost = Math.abs((r.left + r.width / 2 - typeBox.left) / typeBox.width - goal);
-            if (cost < bestCost) { bestCost = cost; best = n; }
-          });
-          return best !== null;
-        });
-        used.push(best);
-        return best;
-      });
-
-      overlay = document.createElement("div");
-      overlay.className = "hero__morph";
-      overlay.setAttribute("aria-hidden", "true");
-      hero.appendChild(overlay);
-
-      var ease = "cubic-bezier(0.76, 0, 0.24, 1)";
-      var travel = 1450, lead = 280, step = 55;
-
-      // Everything that is not one of the ten lets go first.
-      chars.forEach(function (ch, n) {
-        if (used.indexOf(n) > -1) return;
-        ch.animate([
-          { opacity: 1, filter: "blur(0px)", transform: "none" },
-          { opacity: 0, filter: "blur(5px)", transform: "translateY(-0.35em)" }
-        ], { duration: 700, delay: Math.random() * 320, easing: "ease", fill: "forwards" });
-      });
-
-      picks.forEach(function (n, i) {
-        var ch = chars[n], g = groups[i];
-        var from = ch.getBoundingClientRect();
-        var w = (g.r - g.x) * unit, h = (g.b - g.y) * unit;
-        var left = markBox.left + g.x * unit, top = markBox.top + g.y * unit;
-
-        // Lower-case letters stand about half an em; t and h nearer three quarters.
-        var k = h / (fontPx * (/[th]/.test(ch.textContent) ? 0.72 : 0.48));
-        var dx = (left + w / 2) - (from.left + from.width / 2);
-        var dy = (top + h / 2) - (from.top + from.height / 2);
-        var delay = lead + i * step;
-
-        var piece = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        piece.setAttribute("class", "hero__piece");
-        piece.setAttribute("viewBox", [g.x, g.y, g.r - g.x, g.b - g.y].join(" "));
-        piece.style.left = (left - heroBox.left) + "px";
-        piece.style.top = (top - heroBox.top) + "px";
-        piece.style.width = w + "px";
-        piece.style.height = h + "px";
-        var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        path.setAttribute("d", g.d);
-        path.setAttribute("fill-rule", "evenodd");
-        piece.appendChild(path);
-        overlay.appendChild(piece);
-
-        var timing = { duration: travel, delay: delay, fill: "both" };
-
-        // The two travel together on the same curve: the sentence's letter
-        // growing out towards the wordmark's, the wordmark's shrunk back to the
-        // sentence's and growing in. Half way, one hands over to the other under
-        // a little blur, so what you see is one letter changing shape in flight.
-        ch.animate([
-          { transform: "none" },
-          { transform: "translate(" + dx + "px," + dy + "px) scale(" + k + ")" }
-        ], Object.assign({ easing: ease }, timing));
-        ch.animate([
-          { opacity: 1, filter: "blur(0px)" },
-          { opacity: 1, filter: "blur(0px)", offset: 0.3 },
-          { opacity: 0, filter: "blur(1.5px)", offset: 0.62 },
-          { opacity: 0, filter: "blur(1.5px)" }
-        ], timing);
-
-        piece.animate([
-          { transform: "translate(" + (-dx) + "px," + (-dy) + "px) scale(" + (1 / k) + ")" },
-          { transform: "none" }
-        ], Object.assign({ easing: ease }, timing));
-        piece.animate([
-          { opacity: 0, filter: "blur(10px)" },
-          { opacity: 0, filter: "blur(10px)", offset: 0.32 },
-          { opacity: 1, filter: "blur(0px)", offset: 0.7 },
-          { opacity: 1, filter: "blur(0px)" }
-        ], timing);
-      });
-
-      timer = window.setTimeout(function () { finish(true); }, lead + 9 * step + travel + 60);
-    };
-
-    var tick = function () {
-      var ch = chars[at];
-      ch.dataset.on = "";
-      if (at) chars[at - 1].removeAttribute("data-caret");
-      else ch.removeAttribute("data-caret");
-      ch.dataset.caret = "after";
-      at += 1;
-      if (at >= chars.length) { timer = window.setTimeout(morph, 900); return; }
-      // Uneven, like a hand, with a breath at the comma and a gap between words.
-      var c = ch.textContent;
-      var gap = ch === ch.parentNode.lastChild ? 30 : 0;
-      timer = window.setTimeout(tick, 26 + Math.random() * 24 + gap + (c === "," ? 240 : 0));
-    };
-
-    chars[0].dataset.caret = "before";
-    hero.dataset.intro = "running";
-    held.forEach(function (ev) { window.addEventListener(ev, hold, { passive: false }); });
-    window.addEventListener("keydown", holdKeys);
-    // Whatever happens, the page is never held for longer than this.
-    safety = window.setTimeout(function () { finish(false); }, 9000);
-    timer = window.setTimeout(tick, 600);
-  })();
-
-  /* --------------------------------------------------------- the slideshow */
-
-  /* The standing photograph on a service page cycles through that page's own
-     frames. Every frame is already in the markup and the first one shows on its
-     own, so with this absent the panel is simply a photograph. */
-
-  var shows = document.querySelectorAll("[data-slideshow]");
-  Array.prototype.forEach.call(shows, function (box) {
-    var imgs = Array.prototype.slice.call(box.querySelectorAll("img"));
-    if (imgs.length < 2) return;
-
-    var at = 0, timer = null;
     imgs[0].dataset.on = "true";
+    if (caption) caption.textContent = imgs[0].dataset.caption || "";
+    if (imgs.length < 2) { if (controls) controls.hidden = true; return; }
 
-    // Built here rather than written into the page, because without this
-    // script there is nothing for them to indicate and nothing to step through.
-    //
-    // The dots are marks, not controls — the two halves of the photograph are
-    // the controls. Two tab stops that mean "back" and "forward" are worth more
-    // to anyone on a keyboard than six that each mean "jump to frame four".
-    var dots = document.createElement("div");
-    dots.className = "slideshow__dots";
-    var marks = imgs.map(function () {
-      var d = document.createElement("span");
-      d.className = "slideshow__dot";
-      dots.appendChild(d);
-      return d;
-    });
-    marks[0].dataset.on = "true";
-    box.appendChild(dots);
-
-    var zone = function (cls, label, delta) {
-      var z = document.createElement("button");
-      z.type = "button";
-      z.className = "slideshow__zone slideshow__zone--" + cls;
-      z.setAttribute("aria-label", label);
-      z.addEventListener("click", function () {
-        go((at + delta + imgs.length) % imgs.length);
-        restart();
-      });
-      box.appendChild(z);
-    };
-    zone("prev", "Previous photograph", -1);
-    zone("next", "Next photograph", 1);
-
-    var go = function (i) {
-      imgs[at].dataset.on = "false"; marks[at].dataset.on = "false";
-      at = i;
-      imgs[at].dataset.on = "true";  marks[at].dataset.on = "true";
-    };
-    var step  = function () { go((at + 1) % imgs.length); };
-    var start = function () { if (!timer && !reduced) timer = window.setInterval(step, 2000); };
     var stop  = function () { if (timer) { window.clearInterval(timer); timer = null; } };
-    var restart = function () { stop(); start(); };
+    var start = function () {
+      if (!timer && !reduced && !handled) timer = window.setInterval(function () { show(at + 1); }, 5000);
+    };
+    var byHand = function (step) { handled = true; stop(); show(at + step); };
 
-    // Anyone who has asked for less movement gets the dots and no turning: the
-    // set is still theirs to look through, it just does not move on its own.
+    box.querySelector(".carousel__step--prev").addEventListener("click", function () { byHand(-1); });
+    box.querySelector(".carousel__step--next").addEventListener("click", function () { byHand(1); });
+
+    // A sideways swipe on a touch screen. The plate leaves vertical movement to
+    // the page (touch-action: pan-y), so scrolling past it still works.
+    var x0 = null, y0 = 0;
+    plate.addEventListener("pointerdown", function (e) {
+      if (e.pointerType === "mouse") return;
+      x0 = e.clientX; y0 = e.clientY;
+    });
+    plate.addEventListener("pointerup", function (e) {
+      if (x0 === null) return;
+      var dx = e.clientX - x0, dy = e.clientY - y0;
+      x0 = null;
+      if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) byHand(dx < 0 ? 1 : -1);
+    });
+    plate.addEventListener("pointercancel", function () { x0 = null; });
+
+    // Anyone who has asked for less movement gets the arrows and no turning.
     if (reduced) return;
 
-    // Nothing turns over while it is off screen or the tab is in the
-    // background: a timer nobody can see is only work and battery.
+    // Nothing turns over while it is off screen, shut inside a closed segment,
+    // or in a background tab: a timer nobody can see is only work and battery.
     if ("IntersectionObserver" in window) {
       new IntersectionObserver(function (entries) {
         entries[0].isIntersecting ? start() : stop();
-      }, { threshold: 0.15 }).observe(box);
+      }, { threshold: 0.35 }).observe(plate);
     } else {
       start();
     }
     document.addEventListener("visibilitychange", function () {
       if (document.hidden) stop();
-      else if (box.getBoundingClientRect().top < window.innerHeight) start();
+      else if (plate.getBoundingClientRect().top < window.innerHeight) start();
     });
   });
 
@@ -683,117 +395,6 @@
     var stop = function () { down = false; };
     window.addEventListener("pointerup", stop);
     window.addEventListener("pointercancel", stop);
-  }
-
-  /* ------------------------------------------------------------ the journey */
-
-  var strip = document.querySelector("[data-journey-strip] .journey__stages");
-  if (strip) {
-    // Two separate questions. A mouse can't swipe a scroller, so wherever there
-    // is one — including a desktop window narrowed to a phone's width — the row
-    // is made draggable. The slow drift is a wide-screen thing on top of that.
-    // On a real touch device neither applies and nothing at all is bound: a
-    // non-passive pointer listener on a scroller makes the browser run it
-    // before it can decide whether to scroll, which is what made a swipe feel
-    // like it was fighting back.
-    var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-    var wide = window.matchMedia("(min-width: 56rem)");
-
-    if (finePointer.matches && !reduced) {
-      var dragging = false, lastX = 0, velocity = 0, moved = 0, drifting = false;
-
-      strip.addEventListener("pointerdown", function (e) {
-        if (e.pointerType && e.pointerType !== "mouse") return;
-        // Press on one of the photographs and the browser would rather start
-        // its own drag of the image than let us have the pointer: you get a
-        // ghost of the picture stuck to the cursor and the row never moves.
-        // Preventing the default here is what stops that happening, and it is
-        // safe to do because nothing above has run for anything but a mouse.
-        e.preventDefault();
-        dragging = true; moved = 0; lastX = e.clientX; velocity = 0;
-        strip.dataset.dragging = "true";
-        strip.setPointerCapture(e.pointerId);
-      });
-
-      // Belt and braces: if a native drag begins by some other route, refuse it.
-      strip.addEventListener("dragstart", function (e) { e.preventDefault(); });
-
-      strip.addEventListener("pointermove", function (e) {
-        if (!dragging) return;
-        var dx = e.clientX - lastX;
-        lastX = e.clientX;
-        moved += Math.abs(dx);
-        strip.scrollLeft -= dx;
-        velocity = -dx;
-      }, { passive: true });
-
-      var release = function () {
-        if (!dragging) return;
-        dragging = false;
-        strip.dataset.dragging = "false";
-      };
-      strip.addEventListener("pointerup", release);
-      strip.addEventListener("pointercancel", release);
-      strip.addEventListener("click", function () { if (moved < 5) velocity += 26; });
-
-      document.documentElement.dataset.journey = "draggable";
-
-      // The position is kept here rather than read back from scrollLeft: the
-      // browser rounds that to whole pixels, so a sub-pixel drift added to it
-      // each frame would be rounded away and never move at all.
-      var pos = strip.scrollLeft;
-      var last = 0;
-      var SPEED = 18;                     // pixels per second
-
-      // Timed off the clock rather than counted in frames: a 120Hz display
-      // would otherwise run this at twice the speed of a 60Hz one.
-      var step = function (now) {
-        var dt = last ? Math.min((now - last) / 1000, 0.05) : 0;
-        last = now;
-        if (dragging) {
-          pos = strip.scrollLeft;         // the hand is in charge
-        } else if (drifting || velocity) {
-          pos += (drifting ? SPEED * dt : 0) + velocity;
-          velocity *= Math.pow(0.02, dt); // momentum, also time-based
-          if (Math.abs(velocity) < 0.01) velocity = 0;
-          if (drifting) {
-            var half = strip.scrollWidth / 2;
-            if (half > 0) {
-              if (pos >= half) pos -= half;
-              else if (pos < 0) pos += half;
-            }
-          } else {
-            pos = Math.max(0, Math.min(pos, strip.scrollWidth - strip.clientWidth));
-          }
-          strip.scrollLeft = pos;
-        } else {
-          pos = strip.scrollLeft;         // wheel or trackpad moved it
-        }
-        window.requestAnimationFrame(step);
-      };
-      window.requestAnimationFrame(step);
-
-      // The endless drift, and the second set of cards it needs, are for wide
-      // screens only.
-      if (wide.matches && "IntersectionObserver" in window) {
-        var driftIO = new IntersectionObserver(function (entries) {
-          if (!entries[0].isIntersecting) return;
-          driftIO.disconnect();
-          window.setTimeout(function () {
-            Array.prototype.slice.call(strip.children).forEach(function (node) {
-              var copy = node.cloneNode(true);
-              copy.setAttribute("aria-hidden", "true");
-              copy.querySelectorAll("img").forEach(function (i) { i.loading = "lazy"; });
-              strip.appendChild(copy);
-            });
-            pos = strip.scrollLeft;
-            drifting = true;
-            document.documentElement.dataset.journey = "drift";
-          }, 1100);
-        }, { threshold: 0.2 });
-        driftIO.observe(strip.closest(".journey"));
-      }
-    }
   }
 
 })();

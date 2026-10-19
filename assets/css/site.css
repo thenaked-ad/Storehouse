@@ -273,7 +273,6 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
    4. The ledger — index numbers, labels and captions
    -------------------------------------------------------------------------- */
 
-.label,
 .ledger {
   font-family: var(--mono);
   font-size: var(--t-label);
@@ -282,9 +281,23 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   text-transform: uppercase;
   color: var(--ink-muted);
   line-height: 1.5;
+  font-variant-numeric: tabular-nums;
 }
 
-.ledger { color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+/* Words in the margin — Overview, Enquiries, the footer's headings — are set in
+   the navigation's sans, in capitals, a size up from the numbers. The mono is
+   kept for numbering only. */
+.label,
+.section-head h2,
+.footer h3 {
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  line-height: 1.5;
+}
 
 
 /* The title in the margin — the brand document's own page structure. */
@@ -306,16 +319,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   border-top: 1px solid var(--rule);
   margin-bottom: var(--stack);
 }
-.section-head h2 {
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  /* Room between the lines when a long heading wraps on a phone. */
-  line-height: 1.75;
-  font-weight: 400;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--ink-muted);
-}
+/* Room between the lines when a long heading wraps on a phone. */
+.section-head h2 { line-height: 1.7; }
 
 figcaption {
   margin-top: 0.85rem;
@@ -388,32 +393,14 @@ figcaption {
 .masthead[data-over="paper"] .nav__link[aria-current="page"] .nav__t { border-bottom-color: var(--ultramarine); }
 .masthead[data-over="paper"] .nav__link:hover .nav__t { border-bottom-color: rgba(31, 31, 31, 0.4); }
 
-/* The same again over the slate, with the backdrop taken from that ground. */
-.masthead[data-over="charcoal"] {
-  background: color-mix(in srgb, var(--charcoal) 92%, transparent);
-  color: var(--canvas);
+/* On the home page the small wordmark waits until the large one has scrolled
+   away, so the first screen carries the name once. */
+.wordmark-link { transition: opacity 0.45s ease, visibility 0s linear 0s; }
+.js .masthead[data-hero="on"] .wordmark-link {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
-.masthead[data-over="charcoal"] .wordmark,
-.masthead[data-over="charcoal"] .nav__link,
-.masthead[data-over="charcoal"] .menu-toggle { color: var(--canvas); }
-.masthead[data-over="charcoal"] .nav__n { color: rgba(253, 253, 253, 0.6); }
-.masthead[data-over="charcoal"] .nav__link[aria-current="page"],
-.masthead[data-over="charcoal"] .nav__link[aria-current="page"] .nav__n { color: var(--canvas); }
-.masthead[data-over="charcoal"] .nav__link[aria-current="page"] .nav__t { border-bottom-color: var(--canvas); }
-.masthead[data-over="charcoal"] .nav__link:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.5); }
-
-.masthead[data-over="slate"] {
-  background: color-mix(in srgb, var(--slate) 92%, transparent);
-  color: var(--canvas);
-}
-.masthead[data-over="slate"] .wordmark,
-.masthead[data-over="slate"] .nav__link,
-.masthead[data-over="slate"] .menu-toggle { color: var(--canvas); }
-.masthead[data-over="slate"] .nav__n { color: rgba(253, 253, 253, 0.8); }
-.masthead[data-over="slate"] .nav__link[aria-current="page"],
-.masthead[data-over="slate"] .nav__link[aria-current="page"] .nav__n { color: var(--canvas); }
-.masthead[data-over="slate"] .nav__link[aria-current="page"] .nav__t { border-bottom-color: var(--canvas); }
-.masthead[data-over="slate"] .nav__link:hover .nav__t { border-bottom-color: rgba(253, 253, 253, 0.6); }
 
 .masthead__inner {
   display: flex;
@@ -443,135 +430,6 @@ a.wordmark-link { text-decoration: none; }
 }
 
 .nav__link { display: inline-flex; align-items: flex-start; gap: 0.4rem; position: relative; }
-
-/* --------------------------------------------------------------------------
-   5b. The dropdowns — Storage, Transport & Handling, Services
-
-   A compact panel hung under its own link: the parts of the section as a
-   numbered list, ruled between items (the same numbers the page itself uses).
-   It opens on hover and on keyboard focus, both in CSS, so it works with the
-   script absent. The script adds Escape, drops each panel to the exact foot of
-   the masthead, and hangs it from the right of its link where it would
-   otherwise run off the page.
-   -------------------------------------------------------------------------- */
-
-.nav__item--drop { position: relative; }
-
-/* A strip under each link that carries the pointer across the gap between the
-   link and the top of the panel, so moving down to the panel never closes it. */
-.nav__item--drop > .nav__link::after {
-  content: "";
-  position: absolute;
-  left: -0.75rem; right: -0.75rem;
-  top: 100%;
-  height: calc(var(--drop-gap, 1.45rem) + 0.5rem);
-}
-
-.drop {
-  /* The panel takes the ground the bar is sitting on, so as the masthead turns
-     over to the slate, charcoal or paper further down the home page, the panel
-     under it turns over with it. */
-  --drop-bg: var(--ultramarine);
-  --drop-ink: var(--canvas);
-  --drop-soft: rgba(253, 253, 253, 0.84);
-  --drop-faint: rgba(253, 253, 253, 0.6);
-  --drop-rule: rgba(253, 253, 253, 0.2);
-  position: absolute;
-  /* From the foot of the link down to the foot of the masthead: measured by the
-     script, with a close guess for when it has not run. */
-  top: calc(100% + var(--drop-gap, 1.45rem));
-  left: -1.25rem;
-  width: max-content;
-  min-width: 17rem;
-  background: var(--drop-bg);
-  color: var(--drop-ink);
-  visibility: hidden;
-  opacity: 0;
-  transform: translateY(-0.35rem);
-  /* The closing delay is what lets the pointer travel from the link to the
-     panel without it shutting on the way. There is deliberately no
-     pointer-events toggle: it would switch off at once while visibility waits,
-     so a panel the pointer had just reached could never take the hover back.
-     A hidden element takes no pointer events anyway. */
-  transition: opacity 0.22s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
-              visibility 0s linear 0.22s, background-color 0.4s ease, color 0.4s ease;
-}
-/* Where it would run past the edge of the page, it hangs from the right of its
-   link instead. */
-.nav__item--drop[data-align="end"] > .drop { left: auto; right: -1.25rem; }
-.masthead[data-over="slate"] .drop {
-  --drop-bg: var(--slate);
-  --drop-faint: rgba(253, 253, 253, 0.8);
-  --drop-rule: rgba(253, 253, 253, 0.35);
-}
-.masthead[data-over="charcoal"] .drop { --drop-bg: var(--charcoal); }
-.masthead[data-over="paper"] .drop {
-  --drop-bg: var(--canvas);
-  --drop-ink: var(--charcoal);
-  --drop-soft: rgba(31, 31, 31, 0.84);
-  --drop-faint: #6b6b6b;
-  --drop-rule: rgba(31, 31, 31, 0.16);
-}
-/* Opening on hover waits a moment. The panels are narrow and sit side by side,
-   so the pointer travelling from one link down into its own panel can pass
-   under the next link along; without the pause that panel would open over the
-   one being reached for. Keyboard focus opens at once. */
-.nav__item--drop:hover > .drop,
-.nav__item--drop:focus-within > .drop {
-  visibility: visible;
-  opacity: 1;
-  transform: none;
-}
-.nav__item--drop:hover > .drop { transition-delay: 0.12s, 0.12s, 0.12s, 0s, 0s; }
-.nav__item--drop:focus-within > .drop { transition-delay: 0s; }
-/* The panel in use sits over its neighbours while one is still fading out. */
-.nav__item--drop:hover,
-.nav__item--drop:focus-within { z-index: 2; }
-
-/* Crossing under a neighbouring link on the way down to an open panel: the
-   script holds the panel being reached for open (data-keep) and keeps the
-   neighbour shut (data-wait) unless the pointer actually stays on it. */
-.nav__item--drop[data-wait] > .drop { visibility: hidden; opacity: 0; transform: translateY(-0.35rem); }
-.nav__item--drop[data-keep] > .drop { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
-.nav__item--drop[data-keep] { z-index: 3; }
-/* Escape shuts a panel even while focus is still inside it. */
-.nav__item--drop[data-shut] > .drop { visibility: hidden; opacity: 0; }
-
-.drop__inner { padding: 0.25rem 1.25rem; }
-
-.drop__list li:last-child a { border-bottom: 0; }
-.drop__list a {
-  display: grid;
-  grid-template-columns: 2.6rem minmax(0, 1fr) auto;
-  align-items: baseline;
-  gap: 0.9rem;
-  padding-block: 0.85rem;
-  border-bottom: 1px solid var(--drop-rule);
-  font-family: var(--sans);
-  font-size: 1rem;
-  white-space: nowrap;
-  letter-spacing: -0.016em;
-  text-decoration: none;
-  color: var(--drop-soft);
-  transition: color 0.25s ease;
-}
-.drop__list a:hover,
-.drop__list a:focus-visible { color: var(--drop-ink); }
-.drop__n {
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.1em;
-  color: var(--drop-faint);
-}
-.drop__list .arrow {
-  --arrow-w: 1.6em;
-  align-self: center;
-  opacity: 0;
-  transform: translateX(-0.4rem);
-  transition: opacity 0.25s ease, transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.drop__list a:hover .arrow,
-.drop__list a:focus-visible .arrow { opacity: 1; transform: none; }
 
 .nav__n {
   font-family: var(--mono);
@@ -618,16 +476,10 @@ a.wordmark-link { text-decoration: none; }
   overflow-y: auto;
 }
 .menu[data-open="true"] { transform: translateY(0); }
-/* Room at the foot for a section's parts to open into. The links sit low on the
-   screen, and the lowest heading with parts (Services, four of them) has to be
-   able to open downwards without anything moving — so the closed menu sits
-   this much higher than the very bottom. */
-.menu { padding-bottom: calc(var(--band) + 10.5rem); }
 .menu__top { display: flex; justify-content: space-between; align-items: center; }
 .menu__top .menu-toggle { display: block; }
 .menu__links { margin-top: auto; padding-top: var(--band); display: grid; gap: 0.35rem; }
-.menu__links > a,
-.menu__group > summary {
+.menu__links > a {
   display: block;
   font-family: var(--sans);
   font-size: clamp(2rem, 9vw, 3.25rem);
@@ -635,47 +487,6 @@ a.wordmark-link { text-decoration: none; }
   line-height: 1.06;
   text-decoration: none;
   padding-block: 0.18em;
-}
-/* Storage, Transport & Handling and Services are headings with a plus: tapping
-   one opens its parts underneath, and only one stands open at a time. They are
-   <details>, so this works with no script at all. */
-.menu__group > summary {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  list-style: none;
-  cursor: pointer;
-}
-.menu__group > summary::-webkit-details-marker { display: none; }
-.menu__sign {
-  position: relative;
-  flex: none;
-  width: 1.1rem; height: 1.1rem;
-  margin-right: 0.2rem;
-}
-.menu__sign::before,
-.menu__sign::after {
-  content: "";
-  position: absolute;
-  inset: 50% 0 auto 0;
-  height: 1.5px;
-  margin-top: -0.75px;
-  background: currentColor;
-}
-.menu__sign::after {
-  transform: rotate(90deg);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-}
-.menu__group[open] .menu__sign::after { transform: rotate(0deg); }
-
-.menu__sub { display: grid; gap: 0.5rem; padding: 0.35rem 0 1rem 0.15rem; }
-.menu__sub a {
-  font-family: var(--sans);
-  font-size: var(--t-body);
-  letter-spacing: -0.012em;
-  text-decoration: none;
-  color: var(--ink-strong-muted);
 }
 .menu__meta { margin-top: var(--stack); color: var(--ink-muted); }
 .menu__meta a { color: inherit; }
@@ -724,115 +535,6 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 /* Out to the right margin of the page, not to a measure of its own. */
 .hero__mark { width: 100%; color: var(--ink); }
-
-/* --------------------------------------------------------------------------
-   The arrival. A line types itself out in the middle of the screen, holds, and
-   then becomes the wordmark: the rest of the sentence dissolves while ten of
-   its letters travel to the foot of the screen and turn into the wordmark's own
-   letters on the way (site.js builds those from the wordmark path). Until it
-   has landed, the screen is the sentence and nothing else — the navigation and
-   the cue wait.
-
-   The resting state in the stylesheet is the finished one — wordmark showing,
-   line hidden, navigation in place — so with no script, or with less motion
-   asked for, the page is simply the wordmark. Failsafes bring everything in on
-   their own after nine seconds, so a stalled script can never leave it blank.
-   -------------------------------------------------------------------------- */
-.hero { position: relative; }
-.hero__type {
-  position: absolute;
-  left: 50%; top: 46%;
-  transform: translate(-50%, -50%);
-  width: min(100%, 30em);
-  margin: 0;
-  max-width: none;
-  text-align: center;
-  font-family: var(--serif);
-  font-size: var(--t-lead);
-  line-height: 1.45;
-  color: var(--ink);
-  opacity: 0;
-  pointer-events: none;
-}
-/* Every character is laid out from the start and shown in turn, so the centred
-   lines never shift as the sentence grows. Words hold together. */
-.hero__word { white-space: nowrap; }
-.hero__ch { display: inline-block; position: relative; visibility: hidden; will-change: transform; }
-.hero__ch[data-on] { visibility: visible; }
-/* A thin upright caret, the width of the rules, hung off the last letter typed
-   so it never pushes the line along. */
-.hero__ch[data-caret]::after {
-  content: "";
-  position: absolute;
-  left: 100%; top: 50%;
-  width: 1px; height: 1.05em;
-  margin: -0.55em 0 0 0.1em;
-  background: currentColor;
-  visibility: visible;
-  animation: caret 1s steps(1) infinite;
-}
-.hero__ch[data-caret="before"]::after { left: auto; right: 100%; margin: -0.55em 0.1em 0 0; }
-@keyframes caret { 50% { opacity: 0; } }
-
-/* The letters in flight. Laid over the hero, exactly where the wordmark's own
-   letters are, and handed back to the real wordmark when they land. */
-.hero__morph { position: absolute; inset: 0; z-index: 4; pointer-events: none; }
-.hero__piece { position: absolute; overflow: visible; fill: var(--ink); will-change: transform, opacity; }
-
-@media (prefers-reduced-motion: no-preference) {
-  .js .hero:is([data-intro=""], [data-intro="running"], [data-intro="morph"]) .hero__mark {
-    opacity: 0;
-    clip-path: inset(0 100% 0 0);
-    animation: mark-in 1s ease 9s forwards;
-  }
-  .js .hero:is([data-intro="running"], [data-intro="morph"]) .hero__type { opacity: 1; }
-
-  /* Ended without the morph (it could not build the letters, or the safety
-     timer ran out): the sentence sinks away and the wordmark is wiped in. */
-  .js .hero[data-intro="done"] .hero__type {
-    opacity: 0;
-    transform: translate(-50%, calc(-50% + 2.25rem));
-    filter: blur(3px);
-    transition: opacity 0.75s ease, transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
-                filter 0.75s ease;
-  }
-  .js .hero[data-intro="done"] .hero__mark {
-    animation: mark-in 1.15s cubic-bezier(0.22, 1, 0.36, 1) 0.25s both;
-  }
-  /* Arrived by the morph: the travelling letters are already standing where
-     the wordmark is, so it simply takes over from them. */
-  .js .hero[data-intro="done"][data-morphed] .hero__type { transition: none; }
-  .js .hero[data-intro="done"][data-morphed] .hero__mark { animation: none; opacity: 1; clip-path: none; }
-  @keyframes mark-in {
-    from { opacity: 0; clip-path: inset(0 100% 0 0); }
-    to   { opacity: 1; clip-path: inset(0 -1% 0 0); }
-  }
-
-  /* The cue waits for the wordmark, and follows it up once the arrival ends. A
-     separately named animation while it waits, so the switch to "done"
-     restarts the fade rather than inheriting the time already elapsed. */
-  .js .hero:is([data-intro=""], [data-intro="running"], [data-intro="morph"]) .scroll-cue {
-    animation: cue-late 0.9s ease 9.5s both;
-  }
-  .js .hero[data-intro="done"] .scroll-cue { animation-delay: 1.1s; }
-  @keyframes cue-late { from { opacity: 0; } to { opacity: 1; } }
-
-  /* The navigation waits too, and comes in once the wordmark has landed. */
-  .js body:has(.hero:is([data-intro=""], [data-intro="running"], [data-intro="morph"])) .masthead {
-    opacity: 0;
-    visibility: hidden;
-    animation: masthead-late 0.8s ease 9s both;
-  }
-  .js body:has(.hero[data-intro="done"]) .masthead {
-    transition: opacity 0.9s ease 0.2s, visibility 0s linear 0.2s,
-                background-color 0.4s ease, border-color 0.4s ease,
-                backdrop-filter 0.4s ease, -webkit-backdrop-filter 0.4s ease;
-  }
-  @keyframes masthead-late {
-    from { opacity: 0; visibility: hidden; }
-    to   { opacity: 1; visibility: visible; }
-  }
-}
 
 /* A quiet indication that the page continues. */
 .scroll-cue {
@@ -884,127 +586,6 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 }
 
 /* --------------------------------------------------------------------------
-   8. The Journey — one work, end to end, on a single line
-   -------------------------------------------------------------------------- */
-
-.journey {
-  padding-block: clamp(2rem, 3.5vw, 3.25rem);
-}
-
-/* The row runs the full width of the window, not the text measure. */
-/* The strip runs the full width of the window and insets its own content, so
-   there are no negative margins to escape the page. */
-/* The row sits inside the page rhythm, not as a full-bleed band of its own. */
-/* The captions used to sit hard against the section below, so the colour
-   changed a line under the last word. */
-.journey { padding-block: var(--band); }
-.journey .section-head { margin-bottom: 1.25rem; }
-.journey__track { width: 100%; margin-top: var(--stack); }
-
-/* One card: the photograph, its number, and what is happening in it. */
-.journey__plate { position: relative; }
-.journey__plate img {
-  width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  background: var(--plate-bg);
-}
-.journey__n {
-  display: block;
-  margin-top: 0.7rem;
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.13em;
-  color: var(--ink-muted);
-}
-.journey__stage figcaption {
-  margin-top: 0.15rem;
-  font-family: var(--sans);
-  font-size: var(--t-small);
-  letter-spacing: -0.01em;
-}
-
-/* One line of cards that drifts along on its own, and can be dragged. */
-.journey__grid { position: relative; }
-
-.journey__stages {
-  --jgap: clamp(0.75rem, 1.3vw, 1.4rem);
-  display: flex;
-  gap: var(--jgap);
-  overflow-x: auto;
-  scrollbar-width: none;
-  /* No scroll-snap and no -webkit-overflow-scrolling. Both fight a flick on
-     iOS, and with scroll-padding set the last card can never reach a valid
-     snap position, so the strip kept dragging itself back. A plain free scroll
-     is what a strip of cards wants. */
-  padding-inline: var(--gutter);
-  /* Stops a swipe past either end from chaining out to the browser's own
-     back-and-forward gesture. */
-  overscroll-behavior-x: contain;
-}
-.journey__stages::-webkit-scrollbar { display: none; }
-
-/* Draggable wherever there is a mouse, including a narrowed window. */
-html[data-journey] .journey__stages { cursor: grab; user-select: none; }
-/* The photographs are part of the row, not things to be dragged out of it. */
-html[data-journey] .journey__stages img { -webkit-user-drag: none; user-select: none; }
-html[data-journey] .journey__stages[data-dragging="true"] { cursor: grabbing; }
-html[data-cursor="on"] .journey__stages,
-html[data-cursor="on"] .journey__stages * { cursor: none; }
-.journey__stage { position: relative; flex: 0 0 52vw; }
-
-/* The line every card hangs from, drawn across each gap. */
-.journey__stage + .journey__stage::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: calc(var(--jgap) * -1);
-  width: var(--jgap);
-  height: 1px;
-  background: color-mix(in srgb, var(--canvas) 72%, transparent);
-}
-
-@media (min-width: 56rem) {
-  .journey__stage { flex: 0 0 clamp(15rem, 21vw, 23rem); }
-
-  /* Once it is moving of its own accord, snapping would fight the drift. */
-
-  html[data-cursor="on"] .journey__stages,
-  html[data-cursor="on"] .journey__stages * { cursor: none; }
-
-  /* A mark at the right-hand edge, to say that this moves. */
-  .journey__hint {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.9rem 0 0.9rem 5rem;
-    font-family: var(--mono);
-    font-size: var(--t-label);
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    color: color-mix(in srgb, var(--canvas) 60%, transparent);
-    pointer-events: none;
-    background: linear-gradient(to right, transparent, var(--ground) 62%);
-  }
-  .journey__hint .arrow { --arrow-w: 2.2em; }
-}
-@media (max-width: 56rem) { .journey__hint { display: none; } }
-
-/* ---- Phones: one swipeable row, the line running through it ------------ */
-
-@media (max-width: 56rem) {
-  .journey__track { padding-inline: 0; }
-  .journey__grid { display: block; }
-  /* Only the gap changes; the connector drawn across it follows from it. */
-  .journey__stages { --jgap: 1.25rem; }
-  .journey__stage { flex: 0 0 52vw; }
-}
-
-/* --------------------------------------------------------------------------
    9. Specification lists
    -------------------------------------------------------------------------- */
 
@@ -1029,11 +610,11 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 /* --------------------------------------------------------------------------
    9c. The expanding index — Storage, Transport & Handling, Services
 
-   These two pages carry a sentence per service, which is too little to hold an
-   alternating row and far too little to hold a page of them. Title and services
-   run down one side, one standing photograph down the other, and each service
-   opens to its copy. It replaced the jump filter: a list you
-   can see all of at once does not need a contents bar above it.
+   Every segment starts closed, so the page opens on its list of headings, and
+   only one stands open at a time. Storage keeps one standing set of
+   photographs beside its list. Transport & Handling and Additional Services
+   run their list the full width instead, and each segment opens to its copy on
+   the left with its own set of photographs on the right.
    -------------------------------------------------------------------------- */
 
 .services-page {
@@ -1047,6 +628,12 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
   min-height: calc(100vh - var(--masthead-h));
   min-height: calc(100svh - var(--masthead-h));
 }
+/* The script decides what stays still when a segment opens; the browser's own
+   scroll anchoring would otherwise make a second, different decision. It has
+   to be off for the whole page: switched off on the section alone, the browser
+   anchors to the panel below instead and pulls the page down as a segment
+   opens. */
+:root:has(.services-page) { overflow-anchor: none; }
 @media (min-width: 56rem) {
   .services-page {
     display: grid;
@@ -1058,80 +645,25 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 .services-page__head .ledger { display: block; margin-bottom: 1.4rem; }
 .services-page__head h1 { font-size: clamp(2.4rem, 1.1rem + 4.2vw, 4.6rem); }
 
-/* The page's own photographs, one at a time. Every frame is stacked in the same
-   plate; the first is the one that shows with the script absent, which is why
-   it is the only one that starts opaque. */
-/* The plate has to be the containing block. Without this the frames take their
-   inset from the page itself, stretch across the whole document and sit on top
-   of the services, which swallows every click on them. */
-.slideshow { position: relative; }
-.slideshow img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-}
-.slideshow img:first-child { opacity: 1; }
-.slideshow img[data-on="true"]  { opacity: 1; }
-.slideshow img[data-on="false"] { opacity: 0; }
-@media (prefers-reduced-motion: no-preference) {
-  .slideshow img { transition: opacity 0.55s ease; }
-}
-
-/* The standing photograph. Its width comes from the height of the window, so it
-   fills the screen it is on rather than the column it is in — the same trick as
-   the About portrait. */
-.services-page__figure { margin: 0; }
+/* Storage's standing photographs. Their width comes from the height of the
+   window, so they fill the screen they are on rather than the column they are
+   in — the same trick as the About portrait. */
 @media (min-width: 56rem) {
-  .services-page__figure .plate {
+  .services-page__figure .carousel {
     width: var(--standing-w);
     margin-left: auto;
   }
 }
-
-/* Laid on the foot of the photograph rather than under it. White with a little
-   shadow, because what is behind them is a different picture every few seconds
-   and cannot be relied on to be dark. They take no clicks: the halves of the
-   photograph underneath them do. */
-.slideshow__dots {
-  position: absolute;
-  left: 50%;
-  bottom: 0.95rem;
-  transform: translateX(-50%);
-  z-index: 4;
-  display: flex;
-  gap: 0.5rem;
-  pointer-events: none;
-}
-.slideshow__dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--canvas);
-  opacity: 0.45;
-  filter: drop-shadow(0 1px 2px rgba(15, 27, 112, 0.55));
-  transition: opacity 0.35s ease;
-}
-.slideshow__dot[data-on="true"] { opacity: 1; }
-
-/* The left half steps back, the right half steps on. They carry no mark of
-   their own — the dots say there is a set, and the pointer says it can be
-   acted on. */
-.slideshow__zone {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 50%;
-  z-index: 3;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
-}
-.slideshow__zone--prev { left: 0; }
-.slideshow__zone--next { right: 0; }
+/* Cut to 4:5 rather than the shoot's 3:4, so the set and the arrows under it
+   sit inside the first screen beside the list. */
+.services-page__figure .carousel__plate { aspect-ratio: 4 / 5; }
 @media (max-width: 55.999rem) { .services-page__figure { margin-top: var(--band); } }
+
+/* Transport & Handling and Additional Services: no standing photograph, the
+   list runs the full width. */
+@media (min-width: 56rem) {
+  .services-page--inline { display: block; }
+}
 
 .services { margin-top: clamp(2rem, 4vw, 3.25rem); border-top: 1px solid var(--rule); }
 
@@ -1193,24 +725,110 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
 @media (min-width: 40rem) { .service__body { padding-left: 3.9rem; } }
 .service__body p { max-width: 42ch; }
 
-/* The Storage overview carries four paragraphs against a sentence or two
-   everywhere else. The first stands as the lead; the other three become ruled
-   rows with a label beside them, the way a facility report is laid out, so the
-   entry reads as a set of answers rather than a column of prose. */
-.facts { margin: 0.4rem 0 0.35rem; border-top: 1px solid var(--rule); }
-.fact {
-  display: grid;
-  gap: 0.45rem 1.5rem;
-  padding-block: 1.05rem 1.15rem;
-  border-bottom: 1px solid var(--rule);
+/* A segment with its own photographs: the copy on the left, the set on the
+   right. The set is sized from the height of the window, so a whole photograph
+   is in view under the open heading — as large as the screen allows, which is
+   the point on Additional Services. */
+.service__body--media { padding-top: 0.6rem; }
+.service__text { display: grid; gap: 1.15rem; align-content: start; }
+@media (min-width: 56rem) {
+  .service__body--media {
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: var(--gutter);
+    align-items: start;
+  }
+  .service__body--media .carousel {
+    width: min(58vw, calc((100svh - var(--masthead-h) - 7rem) * 0.75));
+  }
 }
-@media (min-width: 40rem) { .fact { grid-template-columns: 7.5rem minmax(0, 1fr); } }
-.fact dt { padding-top: 0.38rem; color: var(--ink-muted); }
-.fact dd {
-  margin: 0;
-  max-width: 44ch;
-  font-size: var(--t-body);
-  line-height: 1.55;
+/* These sets will carry photographs of artworks, which must never be cropped:
+   each frame is shown whole inside the 3:4 plate, on the page's own ground, so
+   a landscape painting sits letterboxed rather than losing its edges. The
+   shoot's own frames are 3:4 already and fill it exactly. */
+.service__body--media .carousel__plate { background: none; }
+.service__body--media .carousel__plate img { object-fit: contain; }
+@media (max-width: 55.999rem) {
+  .service__body--media .carousel { margin-top: 0.75rem; }
+}
+
+/* --------------------------------------------------------------------------
+   9c-ii. The carousel — a set of photographs, stepped through by hand
+
+   Every frame is stacked in one 3:4 plate and the first is the only one that
+   starts showing, so with no script it is simply a photograph. The bar under
+   it carries the caption of the frame showing (blank where there is none), a
+   count, and two arrows. It turns over on its own, slowly, while it is on
+   screen, and stops for good once someone has used the arrows.
+   -------------------------------------------------------------------------- */
+.carousel { margin: 0; }
+.carousel__plate {
+  position: relative;                   /* the frames take their inset from here */
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--plate-bg);
+  touch-action: pan-y;                  /* a sideways swipe is ours, scrolling is the page's */
+}
+.carousel__plate img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.carousel__plate img:first-child { opacity: 1; }
+.carousel__plate img[data-on="true"]  { opacity: 1; }
+.carousel__plate img[data-on="false"] { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .carousel__plate img { transition: opacity 0.6s ease; }
+}
+
+.carousel__bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.7rem;
+  max-width: none;
+}
+.carousel__caption {
+  font-family: var(--serif);
+  font-size: var(--t-small);
+  letter-spacing: 0;
+  line-height: 1.5;
+  color: var(--ink-strong-muted);
+  min-height: 1.5em;
+}
+.carousel__controls { display: none; align-items: center; gap: 0.25rem; flex: none; }
+.js .carousel__controls { display: inline-flex; }
+.carousel__count {
+  margin-right: 0.6rem;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+.carousel__step {
+  --arrow-w: 1.5em;
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem; height: 2rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--ink-strong-muted);
+  cursor: pointer;
+  transition: color 0.25s ease;
+}
+.carousel__step:hover { color: var(--accent); }
+.carousel__step--prev .arrow { transform: scaleX(-1); }
+@media (prefers-reduced-motion: no-preference) {
+  .carousel__step .arrow { transition: translate 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+  .carousel__step--next:hover .arrow { translate: 0.2rem 0; }
+  .carousel__step--prev:hover .arrow { translate: -0.2rem 0; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1240,60 +858,23 @@ html[data-cursor="on"] .journey__stages * { cursor: none; }
    -------------------------------------------------------------------------- */
 
 .panel { padding-block: var(--band); }
+
+/* The enquiry panel that closes a page: one serif line and one way in. */
+.panel__lead {
+  font-size: var(--t-lead);
+  line-height: 1.5;
+  max-width: 32em;
+}
+.panel__action { margin-top: var(--stack); }
 .overview p { font-size: var(--t-lead); line-height: 1.5; max-width: 38em; }
 .overview p + p { margin-top: 1.3em; }
 
-/* Location takes the charcoal, which carries white at 15:1 and gives the page
-   a third value between the slate above it and the paper below. */
-.panel--charcoal {
-  --ground: var(--charcoal);
-  --ink: var(--canvas);
-  --ink-muted:        color-mix(in srgb, var(--canvas) 66%, var(--charcoal));
-  --ink-strong-muted: color-mix(in srgb, var(--canvas) 86%, var(--charcoal));
-  --accent: var(--canvas);
-  --rule:        rgba(253, 253, 253, 0.22);
-  --rule-strong: rgba(253, 253, 253, 0.5);
-  --plate-bg: color-mix(in srgb, var(--canvas) 12%, var(--charcoal));
-}
-
-/* The overview takes the third brand value as its ground, set in white.
-   NOTE: slate is mid-toned, so white sits at about 2.8:1 against it — under
-   the 4.5:1 every other surface on this site holds to. It is the client's
-   call. If it ever needs to pass, the ground has to come down to about
-   #767676; the ink does not have anywhere left to go. */
-.panel--slate {
-  --ground: var(--slate);
-  --ink: var(--canvas);
-  --ink-muted:        color-mix(in srgb, var(--canvas) 82%, var(--slate));
-  --ink-strong-muted: color-mix(in srgb, var(--canvas) 92%, var(--slate));
-  --accent: var(--canvas);
-  --rule:        rgba(253, 253, 253, 0.4);
-  --rule-strong: rgba(253, 253, 253, 0.7);
-  --plate-bg: color-mix(in srgb, var(--canvas) 14%, var(--slate));
-}
 /* Where two paper sections run on into each other, and into the footer below
    them, a hairline keeps them from reading as one undivided block. */
-.panel + .panel, .panel + .footer { border-top: 1px solid var(--rule); }
+.panel + .panel { border-top: 1px solid var(--rule); }
 .panel a { color: inherit; }
 .panel h2 { font-size: var(--t-title); }
 .panel p { color: var(--ink-strong-muted); }
-
-/* The facility line — stated conditions, set as a specification. */
-.conditions li { display: inline-flex; }
-
-.conditions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 2.5rem;
-  margin-top: var(--stack);
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--rule);
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--ink-strong-muted);
-}
 
 /* --------------------------------------------------------------------------
    11. Figures and image sets
@@ -1305,56 +886,11 @@ figure { margin: 0; }
    it fills the screen it is on: the plate is 3:4, so a width of 46vh stands
    about 61vh tall and sits on the centre line with room above and below. */
 .portrait {
-  /* 6rem is held back from the column for the signature, which hangs 17% of the
-     plate past its right edge. Without it a bigger plate pushed the flourish
-     off the side of the page and the whole document scrolled sideways —
-     measured at 37px over at 480px wide. */
-  max-width: min(100% - 6rem, clamp(20rem, 46vh, 30rem));
+  max-width: min(100%, clamp(20rem, 46vh, 30rem));
   margin-inline: auto;
 }
 .portrait__figure { position: relative; }
 
-/* The name signed across the corner of the plate and off the edge of it, so
-   the photograph is not a sealed rectangle. The corner of this portrait is
-   almost black and the page behind it is the ultramarine, so one white ink
-   reads on both. It is decoration — the name is in the caption for anything
-   that is reading rather than looking. */
-.signature {
-  position: absolute;
-  right: -17%;
-  bottom: -3%;
-  width: 95%;
-  color: var(--canvas);
-  pointer-events: none;
-  /* Just enough shadow to hold the stroke together if the photograph is ever
-     swapped for a lighter one. */
-  filter: drop-shadow(0 1px 2px rgba(15, 27, 112, 0.45));
-}
-.signature__ink { width: 100%; height: auto; display: block; overflow: visible; }
-
-/* Written rather than revealed. pathLength="1" normalises each path to a length
-   of one, so a single dash covers it and the offset can run from 1 to 0 — no
-   getTotalLength, no script. The two paths are the two words, so Henderson
-   starts after Fred has finished. Outside the guard the signature is simply
-   there, drawn, which is the right resting state. */
-@media (prefers-reduced-motion: no-preference) {
-  .signature__ink path {
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    animation: sign-on 1.5s cubic-bezier(0.4, 0.1, 0.4, 1) both;
-  }
-  /* Straight away, not after a pause: the page opens and the name is being
-     written. Henderson picks up as Fred finishes. */
-  .signature__ink .sig-a { animation-delay: 0s;    animation-duration: 1.35s; }
-  .signature__ink .sig-b { animation-delay: 1.2s;  animation-duration: 1.95s; }
-  @keyframes sign-on { to { stroke-dashoffset: 0; } }
-}
-
-/* On a phone the plate fills its column, so the overhang has to stay inside
-   the gutter or it drags the whole page sideways. */
-@media (max-width: 27rem) {
-  .signature { right: -4%; bottom: 0; width: 86%; }
-}
 .plate { background: var(--plate-bg); overflow: hidden; }
 .plate img { width: 100%; }
 .plate--tall { aspect-ratio: 3 / 4; }
@@ -1405,9 +941,10 @@ figure { margin: 0; }
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--ground);
-  font-family: var(--sans);
-  font-size: var(--t-small);
-  letter-spacing: -0.01em;
+  /* Every button is in the serif, the same face as the copy around it. */
+  font-family: var(--serif);
+  font-size: var(--t-body);
+  letter-spacing: 0;
   line-height: 1.2;
   text-decoration: none;
   cursor: pointer;
@@ -1422,9 +959,9 @@ figure { margin: 0; }
   display: inline-flex;
   align-items: baseline;
   gap: 0.9rem;
-  font-family: var(--sans);
-  font-size: clamp(1.1rem, 0.95rem + 0.8vw, 1.6rem);
-  letter-spacing: -0.021em;
+  font-family: var(--serif);
+  font-size: clamp(1.15rem, 1rem + 0.7vw, 1.55rem);
+  letter-spacing: 0;
   text-decoration: none;
   color: var(--ink);
   border-bottom: 1px solid currentColor;
@@ -1556,13 +1093,17 @@ button.link { font-family: var(--sans); font-size: var(--t-small); }
 .single-grid--contact figure { margin: 0 0 clamp(0.75rem, 1.6vh, 1.25rem) !important; }
 .single-grid--contact address { margin-bottom: clamp(0.75rem, 1.6vh, 1.25rem) !important; }
 
-.contact-details { display: grid; gap: 0 var(--gutter); }
+.contact-email { margin-top: 1.25rem; font-size: var(--t-small); }
+.contact-company {
+  font-size: var(--t-small);
+  line-height: 1.7;
+  color: var(--ink-muted);
+}
 
 @media (max-width: 62rem) {
   /* One column of eight, the same as everywhere else. It was two of four, which
      halved the height but read as a grid of tiles rather than a list. */
   .single-grid--contact .enquiries a { padding-block: clamp(0.5rem, 1.1vh, 0.9rem); }
-  .contact-details { grid-template-columns: 1fr 1fr; }
   .page--single > .band { padding-block: clamp(1.25rem, 2.8vh, 2.25rem); }
 }
 
@@ -1625,40 +1166,24 @@ address {
    -------------------------------------------------------------------------- */
 
 .footer {
-  padding-block: clamp(1.25rem, 2.6vh, 2.5rem) clamp(0.75rem, 1.4vh, 1.25rem);
+  padding-block: clamp(1.75rem, 3.4vh, 3rem) clamp(1.5rem, 3vh, 2.5rem);
+}
+/* The rule sits at the top of the footer, inside the page margins. */
+.footer__inner {
+  border-top: 1px solid var(--rule);
+  padding-top: clamp(1.25rem, 2.6vh, 2rem);
 }
 .footer__grid {
   display: grid;
   gap: clamp(1rem, 2vh, 1.5rem) var(--gutter);
   grid-template-columns: 1fr;
 }
-@media (min-width: 46rem) { .footer__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 68rem) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1.2fr; } }
+@media (min-width: 46rem) { .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
-.footer h3 {
-  font-size: var(--t-label); font-family: var(--mono); letter-spacing: 0.13em;
-  text-transform: uppercase; font-weight: 400; margin-bottom: 0.75rem;
-  color: var(--ink-muted);
-}
+.footer h3 { margin-bottom: 0.75rem; }
 .footer ul { display: grid; gap: 0.3rem; }
 .footer a { font-family: var(--sans); font-size: var(--t-small); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.25s ease; }
 .footer a:hover { border-bottom-color: var(--rule-strong); }
-.footer .wordmark { width: 10rem; margin-bottom: 0.9rem; }
-.footer .label, .footer address { color: var(--ink-muted); }
-
-.colophon {
-  margin-top: clamp(0.9rem, 2vh, 1.75rem);
-  padding-top: clamp(0.7rem, 1.4vh, 1.1rem);
-  border-top: 1px solid var(--rule);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 2rem;
-  font-family: var(--mono);
-  font-size: var(--t-label);
-  letter-spacing: 0.07em;
-  color: var(--ink-muted);
-}
-.colophon p { margin: 0; max-width: none; }
 
 /* --------------------------------------------------------------------------
    14b. The pointer — the dot from Dougal's holding page, turned over with
@@ -1753,7 +1278,7 @@ address {
   .masthead, .panel, .footer, .menu { background: #fff !important; color: #000 !important; }
   .panel { border-block: 1px solid #000; }
   .btn { background: #fff !important; color: #000 !important; border-color: #000 !important; }
-  .drop, .hero__type, .scroll-cue, .slideshow__dots, .slideshow__zone { display: none; }
+  .scroll-cue, .carousel__controls { display: none !important; }
   figure, .plate { break-inside: avoid; }
   img { max-height: 8cm; object-fit: contain; }
   a { text-decoration: none; }
