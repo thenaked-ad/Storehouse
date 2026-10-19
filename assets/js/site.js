@@ -209,6 +209,45 @@
     window.addEventListener("resize", function () { if (held) release(); }, { passive: true });
   });
 
+  /* ------------------------------------------------- photographs ready early */
+
+  /* The carousels' photographs are lazy, and a closed segment is not on screen,
+     so left alone nothing is fetched until the segment opens — and the picture
+     arrives a second after the words. Instead: once the page has finished
+     loading, each segment's first photograph is fetched quietly in the
+     background; pointing at (or touching) a heading fetches the rest of that
+     segment's set; and opening it does the same, so the arrows are instant too.
+     Switching an image's loading to eager is what starts the fetch, and the
+     element itself keeps the result, so nothing is fetched twice. Not done at
+     all when someone has asked their browser to save data. */
+
+  var segments = document.querySelectorAll("details.service");
+  var saveData = navigator.connection && navigator.connection.saveData;
+  if (segments.length && !saveData) {
+    var warm = function (imgs) {
+      Array.prototype.forEach.call(imgs, function (img) {
+        if (img.loading === "lazy") img.loading = "eager";
+      });
+    };
+    var firsts = function () {
+      Array.prototype.forEach.call(segments, function (d) {
+        warm(d.querySelectorAll(".carousel__plate img:first-child"));
+      });
+    };
+    var later = window.requestIdleCallback || function (fn) { window.setTimeout(fn, 300); };
+    if (document.readyState === "complete") later(firsts);
+    else window.addEventListener("load", function () { later(firsts); });
+
+    Array.prototype.forEach.call(segments, function (d) {
+      var all = function () { warm(d.querySelectorAll(".carousel__plate img")); };
+      var summary = d.querySelector("summary");
+      summary.addEventListener("pointerenter", all);
+      summary.addEventListener("touchstart", all, { passive: true });
+      summary.addEventListener("focus", all);
+      d.addEventListener("toggle", function () { if (d.open) all(); });
+    });
+  }
+
   /* ---------------------------------------------------------- the carousels */
 
   /* A set of photographs in one plate, stepped through with the arrows under
