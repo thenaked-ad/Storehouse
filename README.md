@@ -335,14 +335,13 @@ closes one as another opens — the browser does it, so with no script the
 segments still open and close. A link to `page.html#segment` opens that segment
 on arrival.
 
-- **Storage** keeps one standing set of photographs beside its list, cut to 4:5
-  so the set and its arrows sit inside the first screen. Its segments are text
-  only, with no buttons.
-- **Transport & Handling** and **Additional Services** run their list the full
-  width. An open segment has its copy on the left and its own carousel on the
-  right, sized from the height of the window so a whole photograph is in view
-  under the open heading. Transport & Handling has no buttons; Additional
-  Services keeps one per segment.
+All three pages are laid out the same way: the list runs the full width, and
+an open segment has its copy on the left and its own carousel on the right,
+sized from the height of the window so a whole photograph is in view under the
+open heading. (Storage had a single standing set of photographs beside its list
+for a round; Tom asked for it to match the other two.) Storage and Transport &
+Handling have no buttons in their segments; Additional Services keeps one per
+segment.
 
 The carousels inside segments show every photograph **whole** (`object-fit:
 contain`), because Fred will be adding his photographs of artworks and an
@@ -364,23 +363,19 @@ can be carried off the top of the screen. The script handles both:
   before the browser opens and shuts anything, the spare room sits at its foot,
   and it is given up as the reader scrolls back up, only ever below the bottom
   of the screen. So the page never shortens under anyone.
-- **What stays still depends on the page.** On Storage the standing photograph
-  stays still, and the page only moves if the heading just clicked would
-  otherwise vanish under the bar. On the other two pages there is no standing
-  photograph, so the heading just clicked stays exactly where it was and its
-  segment opens underneath it.
+- **The heading just clicked stays exactly where it was**, and its segment
+  opens underneath it.
 - **The browser's own scroll anchoring is off** on these three pages
   (`:root:has(.services-page)`). It made a second, different decision about what
   to hold still; switched off on the section alone, it anchored to the panel
   below and pulled the page down as a segment opened.
 
-Measured across 634 clicks — every segment opened from every state, from the
+Measured across 556 clicks — every segment opened from every state, from the
 top, the middle and the foot of each page, at three desktop sizes and on a
-phone: Storage's photograph moved only where a heading would otherwise have
-gone out of sight, and no heading ever did. The one exception on the other two
-pages is near the very top, where the segment shutting is taller than the
-distance scrolled; a page cannot scroll above its own top, so the heading rises
-a little (80–120px) but stays in view.
+phone: the heading clicked never moved and never went out of sight, except
+when the page was already scrolled right to the top, where the segment
+shutting above can be taller than there is room to scroll back; there it rises
+a little but stays in view.
 
 ## The carousels
 
@@ -674,7 +669,13 @@ everywhere except About, which is a portrait.
 
 | Carousel | Frames from the shoot (`240726_NN`) |
 |---|---|
-| Storage (standing) | 49, 52, 54, 09 |
+| Storage — Overview | 49, 52, 54 |
+| Security | 43, 46 |
+| Handling | 09, 89, 16 |
+| Insurance | 08, 34 |
+| Climate-Controlled Storage | 36, 44 |
+| Ambient Storage | 47, 49 |
+| Viewing Room | 54, 71 |
 | Transport | 89, 47, 43, 36 |
 | Packing & Crating | 14, 17, 19, 32, 35, 45 |
 | Photography | 71, 72, 54 — Fred's own photographs of artworks to come |

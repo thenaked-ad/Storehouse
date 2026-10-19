@@ -145,10 +145,11 @@
 
 <main id="main">
   <!-- ================================================ the expanding index -->
-  <!-- The segments down one side, the page's photographs down the other.
-       Each segment is an ordinary <details>, so with the script absent every
-       one still opens and closes; the shared name keeps one open at a time.
-       A link to page.html#segment opens that segment on arrival. -->
+  <!-- The segments run the full width. Each is an ordinary <details>, so with
+       the script absent every one still opens and closes; the shared name
+       keeps one open at a time. An open segment has its copy on the left and
+       its own photographs on the right. A link to page.html#segment opens that
+       segment on arrival. -->
   <section class="shell services-page">
     <div class="services-page__main">
       <div class="services-page__head">
@@ -163,8 +164,28 @@
             <span class="service__title">Overview</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
-          <div class="service__body">
-            <p>Discreet and secure storage in north-west London. Our facility supports efficient intake, storage and release for crated works moving between destinations. Competitive, simplified storage costs, without compromising on the care of the work. Whether you need space for a rolled or framed canvas, a single print, a sculpture or an entire collection, we offer flexible storage for any length of time.</p>
+          <div class="service__body service__body--media">
+            <div class="service__text">
+              <p>Discreet and secure storage in north-west London. Our facility supports efficient intake, storage and release for crated works moving between destinations. Competitive, simplified storage costs, without compromising on the care of the work. Whether you need space for a rolled or framed canvas, a single print, a sculpture or an entire collection, we offer flexible storage for any length of time.</p>
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+                <img src="assets/img/shoot/240726_49.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="Two marked Storehouse crates standing on their bearers inside the facility." data-caption="">
+                <img src="assets/img/shoot/240726_52.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A crate and a fitted travel case standing together in the store." data-caption="">
+                <img src="assets/img/shoot/240726_54.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A framed work lit between two lamps in the viewing room." data-caption="">
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / 3</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </details>
         <details class="service" name="storage" id="security">
@@ -173,8 +194,26 @@
             <span class="service__title">Security</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
-          <div class="service__body">
-            <p>Private and confidential. Part of a secured 48,000 sq ft site with reception manned seven days a week. Intruder alarm linked to the police, with independent dual-path monitoring. CCTV covers all access points, and fire detection is monitored and linked to the fire service. Access is restricted to qualified fine art technicians and senior staff.</p>
+          <div class="service__body service__body--media">
+            <div class="service__text">
+              <p>Private and confidential. Part of a secured 48,000 sq ft site with reception manned seven days a week. Intruder alarm linked to the police, with independent dual-path monitoring. CCTV covers all access points, and fire detection is monitored and linked to the fire service. Access is restricted to qualified fine art technicians and senior staff.</p>
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+                <img src="assets/img/shoot/240726_43.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A lid being lowered onto a foam-lined case." data-caption="">
+                <img src="assets/img/shoot/240726_46.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="The corner of a boarded work held in foam." data-caption="">
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / 2</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </details>
         <details class="service" name="storage" id="handling">
@@ -183,8 +222,28 @@
             <span class="service__title">Handling</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
-          <div class="service__body">
-            <p>Racking takes everything from works on paper to large-scale sculpture, and every work is handled by our own art handlers. On arrival, each work is checked into our inventory system and can be photographed, condition reported and packed to the client&rsquo;s specification before being placed in storage.</p>
+          <div class="service__body service__body--media">
+            <div class="service__text">
+              <p>Racking takes everything from works on paper to large-scale sculpture, and every work is handled by our own art handlers. On arrival, each work is checked into our inventory system and can be photographed, condition reported and packed to the client&rsquo;s specification before being placed in storage.</p>
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+                <img src="assets/img/shoot/240726_09.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A framed work laid face down on a padded table, its paperwork beside it." data-caption="">
+                <img src="assets/img/shoot/240726_89.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A technician sliding a large boarded work into place." data-caption="">
+                <img src="assets/img/shoot/240726_16.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="Gloved hands smoothing tape along a wrapped work." data-caption="">
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / 3</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </details>
         <details class="service" name="storage" id="insurance">
@@ -193,8 +252,26 @@
             <span class="service__title">Insurance</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
-          <div class="service__body">
-            <p>Works in our care must be insured under your own fine art policy, with Storehouse noted as co-assured. Your insurer is welcome to survey the facility, and we can provide our facility report to support your cover.</p>
+          <div class="service__body service__body--media">
+            <div class="service__text">
+              <p>Works in our care must be insured under your own fine art policy, with Storehouse noted as co-assured. Your insurer is welcome to survey the facility, and we can provide our facility report to support your cover.</p>
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+                <img src="assets/img/shoot/240726_08.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A framed work on a padded table with its condition paperwork." data-caption="">
+                <img src="assets/img/shoot/240726_34.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A boarded work resting in its foam corners." data-caption="">
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / 2</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </details>
         <details class="service" name="storage" id="climate">
@@ -203,8 +280,26 @@
             <span class="service__title">Climate-Controlled Storage</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
-          <div class="service__body">
-            <p>Our climate-controlled rooms hold temperature and relative humidity stable, with conditions monitored continuously. This facility holds paintings, works on paper and photographs in a stable environment, racked to our storage specification. Vertical storage racks and flat file storage available.</p>
+          <div class="service__body service__body--media">
+            <div class="service__text">
+              <p>Our climate-controlled rooms hold temperature and relative humidity stable, with conditions monitored continuously. This facility holds paintings, works on paper and photographs in a stable environment, racked to our storage specification. Vertical storage racks and flat file storage available.</p>
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+                <img src="assets/img/shoot/240726_36.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A wrapped work set into a foam-cornered travel frame." data-caption="">
+                <img src="assets/img/shoot/240726_44.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A boarded work set into its foam-cornered case." data-caption="">
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / 2</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </details>
         <details class="service" name="storage" id="ambient">
@@ -213,8 +308,26 @@
             <span class="service__title">Ambient Storage</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
-          <div class="service__body">
-            <p>Ambient storage in the fine art warehouse accommodates sculpture, crated works and furniture. Every work is packed to the client&rsquo;s specification, fully recorded, and held under the same security as the rest of the site.</p>
+          <div class="service__body service__body--media">
+            <div class="service__text">
+              <p>Ambient storage in the fine art warehouse accommodates sculpture, crated works and furniture. Every work is packed to the client&rsquo;s specification, fully recorded, and held under the same security as the rest of the site.</p>
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+                <img src="assets/img/shoot/240726_47.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A finished timber crate, marked and labelled." data-caption="">
+                <img src="assets/img/shoot/240726_49.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="Two marked Storehouse crates standing on their bearers inside the facility." data-caption="">
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / 2</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </details>
         <details class="service" name="storage" id="viewing-room">
@@ -223,34 +336,29 @@
             <span class="service__title">Viewing Room</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
-          <div class="service__body">
-            <p>A private room in which works can be viewed, studied and photographed under controlled conditions. By appointment, our staff can install works for clients, curators and conservators.</p>
+          <div class="service__body service__body--media">
+            <div class="service__text">
+              <p>A private room in which works can be viewed, studied and photographed under controlled conditions. By appointment, our staff can install works for clients, curators and conservators.</p>
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+                <img src="assets/img/shoot/240726_54.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A framed work lit between two lamps in the viewing room." data-caption="">
+                <img src="assets/img/shoot/240726_71.webp" width="1200" height="1600"
+                     loading="lazy" decoding="async" alt="A framed work photographed on a tripod between two studio lights." data-caption="">
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / 2</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
           </div>
         </details>
       </div>
-    </div>
-
-    <div class="services-page__figure">
-      <figure class="carousel" data-carousel>
-        <div class="carousel__plate">
-          <img src="assets/img/shoot/240726_49.webp" width="1200" height="1600"
-               loading="eager" decoding="async" alt="Two marked Storehouse crates standing on their bearers inside the facility." data-caption="">
-          <img src="assets/img/shoot/240726_52.webp" width="1200" height="1600"
-               loading="lazy" decoding="async" alt="A crate and a fitted travel case standing together in the store." data-caption="">
-          <img src="assets/img/shoot/240726_54.webp" width="1200" height="1600"
-               loading="lazy" decoding="async" alt="A framed work lit between two lamps in the viewing room." data-caption="">
-          <img src="assets/img/shoot/240726_09.webp" width="1200" height="1600"
-               loading="lazy" decoding="async" alt="A framed work laid face down on a padded table, its paperwork beside it." data-caption="">
-        </div>
-        <figcaption class="carousel__bar">
-          <span class="carousel__caption"></span>
-          <span class="carousel__controls">
-            <span class="carousel__count" aria-hidden="true">1 / 4</span>
-            <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
-            <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
-          </span>
-        </figcaption>
-      </figure>
     </div>
   </section>
 

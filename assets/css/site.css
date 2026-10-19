@@ -611,15 +611,12 @@ html[data-cursor="on"] .hero-field { cursor: none; }
    9c. The expanding index — Storage, Transport & Handling, Services
 
    Every segment starts closed, so the page opens on its list of headings, and
-   only one stands open at a time. Storage keeps one standing set of
-   photographs beside its list. Transport & Handling and Additional Services
-   run their list the full width instead, and each segment opens to its copy on
-   the left with its own set of photographs on the right.
+   only one stands open at a time. The list runs the full width, and each
+   segment opens to its copy on the left with its own set of photographs on
+   the right — the same on all three pages.
    -------------------------------------------------------------------------- */
 
 .services-page {
-  /* One width for the standing photograph and for the dots under it. */
-  --standing-w: min(100%, clamp(18rem, 58vh, 38rem));
   padding-top: clamp(2.5rem, 6vw, 5.5rem);
   padding-bottom: var(--band);
   /* The blue holds the screen whatever the window. Without this the paper panel
@@ -634,36 +631,8 @@ html[data-cursor="on"] .hero-field { cursor: none; }
    anchors to the panel below instead and pulls the page down as a segment
    opens. */
 :root:has(.services-page) { overflow-anchor: none; }
-@media (min-width: 56rem) {
-  .services-page {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: var(--gutter);
-    align-items: start;
-  }
-}
 .services-page__head .ledger { display: block; margin-bottom: 1.4rem; }
 .services-page__head h1 { font-size: clamp(2.4rem, 1.1rem + 4.2vw, 4.6rem); }
-
-/* Storage's standing photographs. Their width comes from the height of the
-   window, so they fill the screen they are on rather than the column they are
-   in — the same trick as the About portrait. */
-@media (min-width: 56rem) {
-  .services-page__figure .carousel {
-    width: var(--standing-w);
-    margin-left: auto;
-  }
-}
-/* Cut to 4:5 rather than the shoot's 3:4, so the set and the arrows under it
-   sit inside the first screen beside the list. */
-.services-page__figure .carousel__plate { aspect-ratio: 4 / 5; }
-@media (max-width: 55.999rem) { .services-page__figure { margin-top: var(--band); } }
-
-/* Transport & Handling and Additional Services: no standing photograph, the
-   list runs the full width. */
-@media (min-width: 56rem) {
-  .services-page--inline { display: block; }
-}
 
 .services { margin-top: clamp(2rem, 4vw, 3.25rem); border-top: 1px solid var(--rule); }
 

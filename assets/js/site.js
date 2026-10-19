@@ -160,7 +160,6 @@
 
   Array.prototype.forEach.call(document.querySelectorAll(".services-page"), function (section) {
     var held = 0, natural = 0;
-    var inline = section.classList.contains("services-page--inline");
 
     // The height the section would have on its own, measured without letting
     // it shrink: the foot of its lowest child, or a screen, whichever is more.
@@ -201,18 +200,10 @@
           window.removeEventListener("scroll", follow);
           window.addEventListener("scroll", follow, { passive: true });
         }
-        var bar = masthead ? masthead.offsetHeight : 0;
+        // The heading just clicked stays put: its segment opens underneath
+        // it, and the one above shutting moves nothing on screen.
         var top = summary.getBoundingClientRect().top;
-        if (inline) {
-          // No standing photograph here to keep still, so the heading just
-          // clicked is what stays put: its segment opens underneath it, and
-          // the one above shutting moves nothing on screen.
-          if (Math.abs(top - from) > 1) window.scrollBy({ top: top - from, behavior: "instant" });
-        } else if (top < bar) {
-          // Storage keeps its photograph still, and only steps in if the
-          // heading just clicked was carried up out of sight under the bar.
-          window.scrollBy({ top: top - bar - 16, behavior: "instant" });
-        }
+        if (Math.abs(top - from) > 1) window.scrollBy({ top: top - from, behavior: "instant" });
       });
     });
     window.addEventListener("resize", function () { if (held) release(); }, { passive: true });
