@@ -91,15 +91,37 @@ The first deploy takes a couple of minutes; after that it is about thirty second
 
 ### Custom domain
 
-1. Create a file called `CNAME` at the root containing one line: `storehousefinearts.com`
-2. At the domain registrar, point the DNS at GitHub Pages:
-   - Four `A` records for the apex — `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - One `CNAME` for `www` → `<github-username>.github.io`
-3. In **Settings → Pages**, enter the domain and tick **Enforce HTTPS** once the certificate is issued.
+The domain is `storehousefinearts.com`, registered with **Squarespace**
+(it came over from Google Domains). Email for the domain runs through
+**Google Workspace** — the `MX` record (`smtp.google.com`), the SPF `TXT`
+record and the `google._domainkey` DKIM record. **Never touch those.**
 
-The site currently assumes `https://storehousefinearts.com` in its canonical
-tags, `sitemap.xml`, `robots.txt` and social preview URLs. If the domain
-changes, search for `storehousefinearts.com` and replace it throughout.
+Pointing the domain at this site, in Squarespace → Domains →
+storehousefinearts.com → DNS:
+
+1. Remove the **Squarespace Defaults** records (four `A` records on `@` to
+   `198.185.159.x` / `198.49.23.x`, and `www` as a `CNAME` to
+   `ext-sq.squarespace.com`). They point at the old Squarespace "Coming Soon"
+   page.
+2. Add, on `@`, four `A` records — `185.199.108.153`, `185.199.109.153`,
+   `185.199.110.153`, `185.199.111.153` — and, optionally, four `AAAA` records —
+   `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`,
+   `2606:50c0:8003::153`.
+3. Add `www` as a `CNAME` to `thenaked-ad.github.io`.
+4. Once those resolve (`dig +short storehousefinearts.com` returns the
+   `185.199.x.153` addresses), set the domain on the GitHub side:
+   **Settings → Pages → Custom domain** → `storehousefinearts.com`, then tick
+   **Enforce HTTPS** once the certificate has been issued. The deploy is by
+   GitHub Actions, so the domain lives in that setting rather than in a `CNAME`
+   file. **Do this after the DNS, not before** — as soon as it is set, the
+   `github.io` address starts redirecting to the domain.
+5. Worth doing too: verify the domain for the `thenaked-ad` account
+   (github.com → Settings → Pages → Add a domain), which gives a `TXT` record to
+   add in Squarespace. It stops anyone else's GitHub Pages site claiming the
+   domain.
+
+The site already assumes `https://storehousefinearts.com` in its canonical
+tags, `sitemap.xml`, `robots.txt` and social preview URLs.
 
 ---
 
@@ -609,9 +631,15 @@ Storehouse's Instagram, so the home page keeps itself current without anyone
 editing the site. Eight square-ish tiles (4:5), four across on a desktop and two
 on a phone.
 
-**It is a placeholder until the feed is connected.** The tiles are currently the
-card-row photographs. Everything the feed writes goes between two markers in
-`index.html`:
+The account is **@hendfw** (`https://www.instagram.com/hendfw/`). The word
+*Instagram* in the heading links to it, as do the footer and the business's
+structured data (`sameAs`).
+
+**How the grid fills itself.** Every deploy — on every push, and on a schedule
+every six hours — runs `tools/instagram.py` before the site is published. It
+reads a [Behold](https://behold.so) JSON feed, downloads the latest posts'
+pictures into `assets/img/gram/` as 800×1000 WebP, and rewrites everything
+between the two markers in `index.html`:
 
 ```html
 <!-- instagram:start -->
@@ -619,22 +647,36 @@ card-row photographs. Everything the feed writes goes between two markers in
 <!-- instagram:end -->
 ```
 
-Each tile is `<li class="gram__tile"><a href="{post}"><img src="{image}" alt="{caption}"></a></li>`.
-Two ways to fill it, neither of which puts a third-party script on the page:
+Each tile links to its post, with the post's alt text or caption as the
+picture's description. Nothing from Instagram is loaded by visitors' browsers —
+the pictures are served from the site itself — so the Content Security Policy
+does not change. Behold's free plan returns six posts, so with six the grid sets
+itself three across in two rows; with eight it is four across.
 
-1. **A scheduled GitHub Action** that calls the Instagram API with a long-lived
-   token, downloads the latest eight images into `assets/img/gram/`, and
-   rewrites the block between the markers. Free, keeps the CSP as it is, and the
-   pictures are served from the site itself. Needs Storehouse's Instagram to be
-   a Business or Creator account linked to a Facebook page, and the token kept as
-   a repository secret.
-2. **A feed service** such as Behold, which exposes the posts as JSON. Simpler to
-   set up, but it is a monthly subscription and the images then come from their
-   CDN, which means adding it to `img-src` and `connect-src` in the CSP.
+**It never fails a deploy.** With no feed address set, or if the feed cannot be
+reached, the step leaves the page exactly as it is in the repository (the
+placeholder tiles, which link to the profile) and says why in the deploy log.
 
-The heading reads *Follow us on Instagram for all our recent work.* — Tom's line,
-lightly edited. Once there is a handle, make "Instagram" a link. Fred is happy
-with the grid as it is.
+**To connect it** (one-off):
+
+1. In the Instagram app, switch @hendfw to a **Creator** or **Business**
+   account (Settings → Account type and tools). Free, and reversible. Behold —
+   like every Instagram feed since Meta closed its API to personal accounts in
+   December 2024 — cannot read a personal account.
+2. Sign up at behold.so, connect the Instagram account, create a feed, choose
+   **JSON**, and copy the feed URL.
+3. In this repository: **Settings → Secrets and variables → Actions → New
+   repository secret**, named `INSTAGRAM_FEED_URL`, with the feed URL as its
+   value. Then run the deploy once by hand (Actions → Deploy to GitHub Pages →
+   Run workflow) to fill the grid straight away.
+
+> GitHub switches off scheduled workflows in a public repository after 60 days
+> with no commits. Any push turns the schedule back on, so this only matters if
+> the site goes untouched for two months — the grid would then update on the
+> next push rather than every six hours.
+
+Fred is happy with the grid as it is. The heading reads *Follow us on Instagram
+for all our recent work.*
 
 ## Location, and the insurer
 
@@ -707,8 +749,8 @@ Worth confirming before launch:
   document's business card shows `fred@storehouse.com` and `storehouse.com`,
   which conflicts. The copy document was treated as newer.
 - **Domain** — `storehousefinearts.com` assumed throughout.
-- **Instagram** — still no handle. It is needed for the Recent work feed, and
-  for a link in the footer and the mobile menu.
+- **Instagram** — @hendfw, linked from the home page and the footer. The grid
+  fills itself once a Behold feed is connected; see *Recent work*.
 - **Photography** — the Photography segment on Additional Services has its own
   large carousel, which shows each photograph whole. It is waiting on Fred's
   photographs of artworks; until then it carries three frames from the shoot.
