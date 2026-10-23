@@ -17,11 +17,11 @@ const PHOTO_WIDTH = 1200; // the widest any photograph is ever shown, at 2x
 // The site's own five pages, in Fred's order. Structure, not content: changing
 // these means changing the design, so they are not in the editor.
 const NAV = [
-  { href: "storage.html", n: "01", label: "Storage" },
-  { href: "transport-and-handling.html", n: "02", label: "Transport &amp; Handling" },
-  { href: "services.html", n: "03", label: "Additional Services" },
-  { href: "about.html", n: "04", label: "About" },
-  { href: "contact.html", n: "05", label: "Contact" },
+  { href: "/storage", n: "01", label: "Storage" },
+  { href: "/transport-and-handling", n: "02", label: "Transport &amp; Handling" },
+  { href: "/services", n: "03", label: "Additional Services" },
+  { href: "/about", n: "04", label: "About" },
+  { href: "/contact", n: "05", label: "Contact" },
 ];
 
 /* --------------------------------------------------------------- text */
@@ -85,7 +85,7 @@ async function processPhotos() {
         widths: [PHOTO_WIDTH],
         formats: ["webp"],
         outputDir: "_site/assets/img/photos/",
-        urlPath: "assets/img/photos/",
+        urlPath: "/assets/img/photos/",
         sharpWebpOptions: { quality: 80 },
         // The original name, so the files stay recognisable, plus Eleventy's
         // hash of the source, so photo.jpg and photo.png never collide.

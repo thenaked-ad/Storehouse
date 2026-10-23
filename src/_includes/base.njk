@@ -16,12 +16,12 @@
 
 <header class="masthead"{% if hero %} data-hero="on"{% endif %}>
   <div class="shell masthead__inner">
-    <a class="wordmark-link" href="index.html" aria-label="Storehouse Fine Arts — home">
+    <a class="wordmark-link" href="/" aria-label="Storehouse Fine Arts — home">
       <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
     </a>
     <nav class="nav" aria-label="Primary">
 {%- for item in nav %}
-      <div class="nav__item"><a class="nav__link" href="{{ item.href }}"{% if item.href == page.url | replace("/", "") %} aria-current="page"{% endif %}><span class="nav__n" aria-hidden="true">{{ item.n }}</span><span class="nav__t">{{ item.label | safe }}</span></a></div>
+      <div class="nav__item"><a class="nav__link" href="{{ item.href }}"{% if item.href == page.url | replace(".html", "") %} aria-current="page"{% endif %}><span class="nav__n" aria-hidden="true">{{ item.n }}</span><span class="nav__t">{{ item.label | safe }}</span></a></div>
 {%- endfor %}
     </nav>
     <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">Menu</button>
@@ -35,9 +35,9 @@
   </div>
   <div class="shell" style="display:contents">
     <nav class="shell menu__links" aria-label="Primary, mobile">
-      <a href="index.html"{% if page.url == "/" or page.url == "/index.html" %} aria-current="page"{% endif %}>Home</a>
+      <a href="/"{% if page.url == "/" or page.url == "/index.html" %} aria-current="page"{% endif %}>Home</a>
 {%- for item in nav %}
-      <a href="{{ item.href }}"{% if item.href == page.url | replace("/", "") %} aria-current="page"{% endif %}>{{ item.label | safe }}</a>
+      <a href="{{ item.href }}"{% if item.href == page.url | replace(".html", "") %} aria-current="page"{% endif %}>{{ item.label | safe }}</a>
 {%- endfor %}
     </nav>
     <div class="shell menu__meta label">
@@ -65,8 +65,8 @@
       <div>
         <h3>Company</h3>
         <ul>
-          <li><a href="about.html">About</a></li>
-          <li><a href="contact.html">Contact</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/contact">Contact</a></li>
         </ul>
       </div>
       <div>
@@ -80,6 +80,6 @@
   </div>
 </footer>
 
-<script src="assets/js/site.js" defer></script>
+<script src="/assets/js/site.js" defer></script>
 </body>
 </html>

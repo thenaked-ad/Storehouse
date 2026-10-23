@@ -77,6 +77,10 @@ def main():
     try:
         feed = fetch(url)
         posts = [p for p in feed.get("posts", []) if p.get("permalink")][:MAX_POSTS]
+        # Whole rows of four only: Behold's free plan gives six posts, which
+        # would leave a half-empty second row, so six shows as one row of four.
+        if len(posts) >= 4:
+            posts = posts[:len(posts) - len(posts) % 4]
     except Exception as e:  # never fail the deploy over the feed
         log("could not read the feed (%s) — keeping the grid as it is" % e)
         return
@@ -96,7 +100,7 @@ def main():
             im = ImageOps.fit(im, TILE, Image.LANCZOS)          # centre-cropped to 4:5
             name = "%s/%s.webp" % (OUT, re.sub(r"[^0-9A-Za-z_-]", "", str(post.get("id", len(tiles)))))
             im.save(os.path.join(SITE, name), "WEBP", quality=78, method=6)
-            tiles.append(tile(post, name))
+            tiles.append(tile(post, "/" + name))
         except Exception as e:
             log("skipped a post (%s)" % e)
     if not tiles:

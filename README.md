@@ -76,7 +76,7 @@ the About portrait, and a simpler footer.
   that could be read as markup is escaped. Fred cannot break a page by typing.
 - **Sections are numbered and named from their order and title**: the third
   section on Additional Services is `03.3`, and its link is
-  `services.html#project-management`, made from the title. Add, remove or
+  `/services#project-management`, made from the title. Add, remove or
   reorder sections and the numbers and links follow.
 - **Buttons** become `mailto:` links to the address in `site.yml`, with the
   subject typed in the editor.
@@ -86,6 +86,21 @@ normalising whitespace and entity spellings they are identical, bar the section
 link names, which now come from the titles (`#climate` became
 `#climate-controlled-storage`, and so on; the old Collection Management forward
 was updated to match).
+
+## Addresses
+
+Pages are linked without `.html` — `storehousefinearts.com/storage`, not
+`/storage.html`. The files are still `storage.html` and so on; GitHub Pages
+serves a file at its address without the ending. The `.html` addresses keep
+working, and every page's canonical tag, the sitemap and the structured data
+give the clean one, so search engines index one address per page.
+
+Everything the site loads — styles, script, fonts, photographs — is addressed
+from the root (`/assets/…`). That matters for the Not Found page, which can be
+shown at any depth (`/some/old/link`): with folder-relative paths it lost its
+styling there.
+
+The `npm start` preview serves the clean addresses too.
 
 ## Editing the site
 
@@ -698,8 +713,9 @@ between the two markers in `index.html`:
 Each tile links to its post, with the post's alt text or caption as the
 picture's description. Nothing from Instagram is loaded by visitors' browsers —
 the pictures are served from the site itself — so the Content Security Policy
-does not change. Behold's free plan returns six posts, so with six the grid sets
-itself three across in two rows; with eight it is four across.
+does not change. The grid is four across on a desktop (two on a phone) and only
+ever shows whole rows: Behold's free plan returns six posts, which shows as one
+row of the four latest; a paid plan's eight would make two rows.
 
 **It never fails a deploy.** With no feed address set, or if the feed cannot be
 reached, the step leaves the page exactly as it is in the repository (the

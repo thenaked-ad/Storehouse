@@ -130,7 +130,7 @@
 
   /* ---------------------------------------------------- opening an entry by link */
 
-  /* A link to storage.html#ambient should land with Ambient Storage open, not
+  /* A link to /storage#ambient-storage should land with that section open, not
      closed under its heading. Browsers do not open a <details> that is itself
      the target, so this does. */
 
