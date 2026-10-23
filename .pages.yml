@@ -1,0 +1,229 @@
+# Pages CMS — the editor Fred uses to change the site's words and photographs.
+# https://app.pagescms.org, signed in with GitHub. Every save is a commit to
+# this repository, which rebuilds and publishes the site in about a minute.
+#
+# Only content/*.yml and the photographs folder are editable here. The design,
+# the templates (src/) and the styles are not, so nothing in the editor can
+# break the layout. See README, "Editing the site".
+
+media:
+  input: assets/img/photos
+  output: /assets/img/photos
+  rename: safe
+  # JPEG, PNG and WebP. (iPhone HEIC photos need saving as JPEG first.)
+  extensions: [jpg, jpeg, png, webp]
+
+settings:
+  # Fred sees the pages, not this file.
+  hide: true
+  content:
+    # Keep anything in a content file that this editor does not show.
+    merge: true
+
+components:
+  photo:
+    type: object
+    label: Photograph
+    fields:
+      - name: image
+        label: Photograph
+        type: image
+        required: true
+        description: Any size is fine — it is resized for the website automatically.
+      - name: alt
+        label: Description
+        type: string
+        description: A short description of what the photograph shows. Read aloud to people who cannot see it, and used by search engines.
+      - name: caption
+        label: Caption (optional)
+        type: string
+        description: Shown in small type under the photograph. Leave empty for none.
+
+  panel:
+    type: object
+    label: Enquiries, at the foot of the page
+    fields:
+      - name: text
+        label: Line
+        type: text
+      - name: button
+        label: Button
+        type: string
+      - name: email_subject
+        label: Email subject
+        type: string
+        description: The subject already filled in on the email that opens when someone clicks the button.
+
+  segment:
+    type: object
+    label: Section
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: text
+        label: Text
+        type: text
+        description: Leave a blank line between paragraphs.
+      - name: button
+        label: Button (optional)
+        type: string
+        description: Leave empty for no button.
+      - name: email_subject
+        label: Button's email subject
+        type: string
+        description: The subject already filled in on the email that opens when someone clicks the button.
+      - name: photos
+        label: Photographs
+        component: photo
+        description: Shown as a set beside the text, in this order. Drag to reorder.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{alt}"
+
+content:
+  - name: home
+    label: Home
+    type: file
+    path: content/home.yml
+    format: yaml
+    fields:
+      - name: overview
+        label: Overview
+        type: text
+        description: The paragraph beside "Overview". Leave a blank line between paragraphs.
+      - name: instagram_heading
+        label: Instagram line
+        type: string
+        description: The line above the Instagram photographs. The word "Instagram" becomes the link to the account. The photographs themselves update on their own.
+      - name: panel
+        component: panel
+
+  - name: storage
+    label: Storage
+    type: file
+    path: content/storage.yml
+    format: yaml
+    fields:
+      - name: segments
+        label: Sections
+        component: segment
+        description: The sections listed on the page, in this order. Drag to reorder.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+      - name: panel
+        component: panel
+
+  - name: transport
+    label: Transport & Handling
+    type: file
+    path: content/transport.yml
+    format: yaml
+    fields:
+      - name: segments
+        label: Sections
+        component: segment
+        description: The sections listed on the page, in this order. Drag to reorder.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+      - name: panel
+        component: panel
+
+  - name: services
+    label: Additional Services
+    type: file
+    path: content/services.yml
+    format: yaml
+    fields:
+      - name: segments
+        label: Sections
+        component: segment
+        description: The sections listed on the page, in this order. Drag to reorder.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+      - name: panel
+        component: panel
+
+  - name: about
+    label: About
+    type: file
+    path: content/about.yml
+    format: yaml
+    fields:
+      - name: text
+        label: Text
+        type: text
+        description: Leave a blank line between paragraphs.
+      - name: button
+        label: Button
+        type: string
+      - name: email_subject
+        label: Button's email subject
+        type: string
+      - name: photo
+        label: Portrait
+        type: image
+      - name: photo_alt
+        label: Portrait description
+        type: string
+        description: Read aloud to people who cannot see the photograph.
+
+  - name: contact
+    label: Contact
+    type: file
+    path: content/contact.yml
+    format: yaml
+    fields:
+      - name: intro
+        label: Introduction
+        type: text
+      - name: enquiries
+        label: Enquiries list
+        type: object
+        description: Each line opens an email with its own subject. Drag to reorder.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        fields:
+          - name: label
+            label: Label
+            type: string
+            required: true
+          - name: email_subject
+            label: Email subject
+            type: string
+      - name: photo
+        label: Photograph
+        type: image
+      - name: photo_alt
+        label: Photograph description
+        type: string
+      - name: company
+        label: Company details
+        type: text
+        description: One item per line.
+
+  - name: site
+    label: Email & Instagram
+    type: file
+    path: content/site.yml
+    format: yaml
+    fields:
+      - name: email
+        label: Email address
+        type: string
+        required: true
+        description: Every button and email link on the site writes to this address.
+      - name: instagram
+        label: Instagram address
+        type: string
+        description: The full link to the Instagram account, e.g. https://www.instagram.com/storehousefinearts/

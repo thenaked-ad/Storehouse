@@ -1,0 +1,44 @@
+---
+layout: base.njk
+permalink: contact.html
+key: contact
+---
+  <div class="page--single">
+  <section class="shell band">
+    <div class="single-grid single-grid--contact">
+
+      <div>
+        <span class="ledger">05</span>
+        <h1 class="single-title">Contact</h1>
+        <p style="margin-top:1rem;max-width:24em">{{ contact.intro | typeset | safe }}</p>
+        <p class="contact-email"><a class="link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
+      </div>
+
+      <div>
+        <p class="label" style="margin-bottom:0.75rem">Enquiries</p>
+        <div class="enquiries">
+{%- for e in contact.enquiries %}
+        <a id="{{ e.label | slugify }}" href="{{ e.email_subject | mailto(site.email) | safe }}"><span>{{ e.label | typeset | safe }}</span><span class="arrow" aria-hidden="true"></span></a>
+{%- endfor %}
+        </div>
+      </div>
+
+      <div>
+        <figure style="margin:0 0 1.25rem">
+          <div class="plate plate--r45">
+            {%- set ph = photos[contact.photo] %}{% if ph %}
+            <img src="{{ ph.url }}" width="{{ ph.width }}" height="{{ ph.height }}" loading="lazy" decoding="async"
+                 alt="{{ contact.photo_alt | attr | safe }}">
+{%- endif %}
+          </div>
+        </figure>
+
+        <address class="contact-company">
+          {{ contact.company | lines | safe }}
+        </address>
+      </div>
+
+    </div>
+  </section>
+  </div>
+

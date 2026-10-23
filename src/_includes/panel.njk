@@ -1,0 +1,12 @@
+  <!-- ==================================================== get in touch -->
+  <section class="panel" data-paper data-ground="paper" aria-label="Enquiries">
+    <div class="shell marginalia">
+      <p class="aside label">Enquiries</p>
+      <div class="main">
+        <p class="panel__lead">{{ panel.text | typeset | safe }}</p>
+        <p class="panel__action">
+          <a class="action" href="{{ panel.email_subject | mailto(site.email) | safe }}">{{ panel.button | typeset | safe }} <span class="arrow" aria-hidden="true"></span></a>
+        </p>
+      </div>
+    </div>
+  </section>

@@ -1,22 +1,7 @@
 <!doctype html>
 <html lang="en-GB">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'sha256-tHd4qJ0R/vQfI0CbRTiL3XGSi+Tun7VhOcDbx08aLKA='; font-src 'self'; connect-src 'self'; frame-src 'none'; form-action 'self'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<title>Not found &mdash; Storehouse Fine Arts</title>
-<meta name="robots" content="noindex">
-<meta name="theme-color" content="#0f1b70">
-<link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="assets/brand/favicon-32.png" sizes="32x32">
-<link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png">
-<link rel="preload" href="assets/fonts/BeausiteClassicWeb-Clear.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/RhymesText-Light.woff" as="font" type="font/woff" crossorigin>
-<link rel="preload" href="assets/fonts/ibm-plex-mono-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/site.css">
-<script>document.documentElement.className+=" js";</script>
-</head>
+{% include "heads/" + key + ".html" %}</head>
 
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
@@ -29,17 +14,15 @@
   </symbol>
 </svg>
 
-<header class="masthead">
+<header class="masthead"{% if hero %} data-hero="on"{% endif %}>
   <div class="shell masthead__inner">
     <a class="wordmark-link" href="index.html" aria-label="Storehouse Fine Arts — home">
       <span class="wordmark"><svg viewBox="0 0 702 45.31" role="img" aria-label="Storehouse"><use href="#wordmark"/></svg></span>
     </a>
     <nav class="nav" aria-label="Primary">
-      <div class="nav__item"><a class="nav__link" href="storage.html"><span class="nav__n" aria-hidden="true">01</span><span class="nav__t">Storage</span></a></div>
-      <div class="nav__item"><a class="nav__link" href="transport-and-handling.html"><span class="nav__n" aria-hidden="true">02</span><span class="nav__t">Transport &amp; Handling</span></a></div>
-      <div class="nav__item"><a class="nav__link" href="services.html"><span class="nav__n" aria-hidden="true">03</span><span class="nav__t">Additional Services</span></a></div>
-      <div class="nav__item"><a class="nav__link" href="about.html"><span class="nav__n" aria-hidden="true">04</span><span class="nav__t">About</span></a></div>
-      <div class="nav__item"><a class="nav__link" href="contact.html"><span class="nav__n" aria-hidden="true">05</span><span class="nav__t">Contact</span></a></div>
+{%- for item in nav %}
+      <div class="nav__item"><a class="nav__link" href="{{ item.href }}"{% if item.href == page.url | replace("/", "") %} aria-current="page"{% endif %}><span class="nav__n" aria-hidden="true">{{ item.n }}</span><span class="nav__t">{{ item.label | safe }}</span></a></div>
+{%- endfor %}
     </nav>
     <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="menu">Menu</button>
   </div>
@@ -52,39 +35,21 @@
   </div>
   <div class="shell" style="display:contents">
     <nav class="shell menu__links" aria-label="Primary, mobile">
-      <a href="index.html">Home</a>
-      <a href="storage.html">Storage</a>
-      <a href="transport-and-handling.html">Transport &amp; Handling</a>
-      <a href="services.html">Additional Services</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="index.html"{% if page.url == "/" or page.url == "/index.html" %} aria-current="page"{% endif %}>Home</a>
+{%- for item in nav %}
+      <a href="{{ item.href }}"{% if item.href == page.url | replace("/", "") %} aria-current="page"{% endif %}>{{ item.label | safe }}</a>
+{%- endfor %}
     </nav>
     <div class="shell menu__meta label">
-      <a href="mailto:info@storehousefinearts.com">info@storehousefinearts.com</a>
+      <a href="mailto:{{ site.email }}">{{ site.email }}</a>
     </div>
   </div>
 </div>
 
 <main id="main">
-  <section class="page-head shell">
-    <span class="ledger">404</span>
-    <h1>Not in the record.</h1>
-    <p class="lead">That page is not here. It may have been moved, or the link may be old.</p>
-    <p style="margin-top:var(--stack)">
-      <a class="action" href="index.html">Back to the index <span class="arrow" aria-hidden="true"></span></a>
-    </p>
-  </section>
-
-  <section class="shell band" style="padding-top:0">
-    <nav class="directory" aria-label="Site">
-      <a href="storage.html"><span class="service__index">01</span><span>Storage</span><span class="arrow" aria-hidden="true"></span></a>
-      <a href="transport-and-handling.html"><span class="service__index">02</span><span>Transport &amp; Handling</span><span class="arrow" aria-hidden="true"></span></a>
-      <a href="services.html"><span class="service__index">03</span><span>Additional Services</span><span class="arrow" aria-hidden="true"></span></a>
-      <a href="contact.html"><span class="service__index">04</span><span>Contact</span><span class="arrow" aria-hidden="true"></span></a>
-    </nav>
-  </section>
-
+{{ content | safe }}
 </main>
+
 
 <footer class="footer">
   <div class="shell footer__inner">
@@ -92,9 +57,9 @@
       <div>
         <h3>What we do</h3>
         <ul>
-          <li><a href="storage.html">Storage</a></li>
-          <li><a href="transport-and-handling.html">Transport &amp; Handling</a></li>
-          <li><a href="services.html">Additional Services</a></li>
+{%- for item in nav.slice(0, 3) %}
+          <li><a href="{{ item.href }}">{{ item.label | safe }}</a></li>
+{%- endfor %}
         </ul>
       </div>
       <div>
@@ -107,8 +72,8 @@
       <div>
         <h3>Contact</h3>
         <ul>
-          <li><a href="mailto:info@storehousefinearts.com">info@storehousefinearts.com</a></li>
-          <li><a href="https://www.instagram.com/storehousefinearts/" rel="noopener">Instagram</a></li>
+          <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
+          <li><a href="{{ site.instagram }}" rel="noopener">Instagram</a></li>
         </ul>
       </div>
     </div>

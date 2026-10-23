@@ -1,10 +1,11 @@
 """Fill the home page's Recent work grid from Storehouse's Instagram.
 
-Run by the deploy workflow before the site is published. It reads a Behold JSON
-feed (https://behold.so) from the INSTAGRAM_FEED_URL environment variable,
-downloads the latest posts' pictures into assets/img/gram/ as WebP, and
-rewrites everything between <!-- instagram:start --> and <!-- instagram:end -->
-in index.html. Nothing from Instagram is loaded by visitors' browsers: the
+Run by the deploy workflow after the site is built and before it is published.
+It reads a Behold JSON feed (https://behold.so) from the INSTAGRAM_FEED_URL
+environment variable, downloads the latest posts' pictures into the built site's
+assets/img/gram/ as WebP, and rewrites everything between
+<!-- instagram:start --> and <!-- instagram:end --> in the built index.html.
+SITE_DIR names the built site (the workflow passes _site). Nothing from Instagram is loaded by visitors' browsers: the
 pictures are served from the site itself, so the Content Security Policy does
 not change.
 
@@ -22,7 +23,8 @@ import urllib.request
 PROFILE = "https://www.instagram.com/storehousefinearts/"
 MAX_POSTS = 8
 TILE = (800, 1000)  # 4:5, the grid's own shape
-PAGE = "index.html"
+SITE = os.environ.get("SITE_DIR", ".")
+PAGE = os.path.join(SITE, "index.html")
 OUT = "assets/img/gram"
 
 
@@ -82,7 +84,7 @@ def main():
         log("the feed has no posts — keeping the grid as it is")
         return
 
-    os.makedirs(OUT, exist_ok=True)
+    os.makedirs(os.path.join(SITE, OUT), exist_ok=True)
     tiles = []
     for post in posts:
         src_url = picture_url(post)
@@ -93,7 +95,7 @@ def main():
             im = ImageOps.exif_transpose(im).convert("RGB")
             im = ImageOps.fit(im, TILE, Image.LANCZOS)          # centre-cropped to 4:5
             name = "%s/%s.webp" % (OUT, re.sub(r"[^0-9A-Za-z_-]", "", str(post.get("id", len(tiles)))))
-            im.save(name, "WEBP", quality=78, method=6)
+            im.save(os.path.join(SITE, name), "WEBP", quality=78, method=6)
             tiles.append(tile(post, name))
         except Exception as e:
             log("skipped a post (%s)" % e)

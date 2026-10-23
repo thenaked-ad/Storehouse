@@ -1,8 +1,10 @@
 # Storehouse Fine Arts — website
 
-A static site for Storehouse Fine Arts. Plain HTML, CSS and a small amount of
-vanilla JavaScript — no build step, no framework, no dependencies. Open any
-`.html` file in a browser and it works.
+A static site for Storehouse Fine Arts: plain HTML, CSS and a small amount of
+vanilla JavaScript, with no framework. The words and photographs live in
+simple content files that Fred edits himself through **Pages CMS**; a short
+build step (Eleventy) turns them and the page templates into the finished
+pages each time the site publishes.
 
 Built from the *Storehouse Brand Identity* (2025) document and Fred's copy.
 
@@ -49,41 +51,80 @@ after he had shown it to people whose judgement he trusts): no typed line on
 arrival, no dropdowns, no case-study or Location sections, no signature over
 the About portrait, and a simpler footer.
 
-## Editing the copy
+## How the site is put together
 
-All text lives directly in the `.html` files. Find the sentence you want and
-change it — nothing is compiled or generated.
+| Where | What | Who edits it |
+|---|---|---|
+| `content/*.yml` | Every word and photograph Fred might change: one file per page, plus `site.yml` (the email address and Instagram link) | Fred, through Pages CMS — or anyone, by hand |
+| `assets/img/photos/` | The photographs those files name. Uploads through the editor land here | Fred, through Pages CMS |
+| `src/` | The page templates (Nunjucks). `_includes/base.njk` is the frame every page shares — head, bar, phone menu, footer; `_includes/segments.njk` is a page of sections; `_includes/panel.njk` the enquiry panel; `_includes/heads/` each page's `<head>`, verbatim | Tom / Claude |
+| `assets/css`, `assets/js`, `assets/fonts` | The design and behaviour, copied into the site untouched | Tom / Claude |
+| `eleventy.config.js` | The build: reads the content, resizes the photographs, typesets the copy | Tom / Claude |
+| `.pages.yml` | What the editor shows Fred, field by field, in plain English | Tom / Claude |
+| `tools/instagram.py` | Fills the Instagram grid at publish time | — |
+| `_site/` | The finished site. Built, never committed, never edited | — |
 
-The header and footer are repeated in each page. If you change a navigation
-link, change it in all seven pages (`index`, `storage`, `transport-and-handling`,
-`services`, `about`, `contact`, `404`) — once in the desktop bar and once in the
-phone menu on each.
+**The build** (`eleventy.config.js`) does four things worth knowing:
 
-**A photograph in a carousel** is one `<img>` inside its `.carousel__plate`.
-To add one, copy a line, point `src` at the new file and give it `alt` text;
-its count ("1 / 4") updates itself. **A caption** is the image's
-`data-caption="…"`: leave it empty and the line under the photograph is blank
-for that frame.
+- **Photographs** named in the content are resized to a WebP at most 1200px wide
+  (`assets/img/photos/<name>-<hash>-1200.webp`), so a full-size camera file
+  uploaded through the editor is served at a sensible size — measured, a 774KB
+  JPEG became a 149KB WebP. A photograph that is missing or unreadable is left
+  out with a warning; it never stops the site publishing.
+- **Copy is typeset**: paragraphs are split on a blank line, straight quotes
+  become typographic ones (*it's* → *it’s*, *"new"* → *“new”*), and anything
+  that could be read as markup is escaped. Fred cannot break a page by typing.
+- **Sections are numbered and named from their order and title**: the third
+  section on Additional Services is `03.3`, and its link is
+  `services.html#project-management`, made from the title. Add, remove or
+  reorder sections and the numbers and links follow.
+- **Buttons** become `mailto:` links to the address in `site.yml`, with the
+  subject typed in the editor.
 
-**One place is waiting on content:** the Recent work grid in `index.html`,
-between `<!-- instagram:start -->` and `<!-- instagram:end -->`. See *Recent
-work* below.
+The built pages were checked against the hand-written ones they replaced: after
+normalising whitespace and entity spellings they are identical, bar the section
+link names, which now come from the titles (`#climate` became
+`#climate-controlled-storage`, and so on; the old Collection Management forward
+was updated to match).
 
-## Running it locally
+## Editing the site
+
+**Fred** uses Pages CMS at app.pagescms.org, signed in with GitHub
+(`storehousefinearts`). The sidebar lists Home, Storage, Transport & Handling,
+Additional Services, About, Contact, and Email & Instagram; each is a plain form
+laid out like the page. Saving commits to `main`, which rebuilds and publishes
+the site in about a minute. There is no draft step: every save is in the git
+history and can be reverted. A guide for him is in `EDITING.md`.
+
+**Tom / Claude** can edit anything — content, templates, styles — on GitHub or
+locally. Pull first: Fred's saves are commits too. To work locally:
 
 ```bash
-python3 -m http.server 4321
+npm install
 ```
 
-Then open <http://localhost:4321>. (Opening the files directly with `file://`
-also works, but a server is closer to the real thing.)
+```bash
+npm start
+```
+
+That builds the site and serves it at <http://localhost:8777>, rebuilding as
+files change. `npm run build` builds it once into `_site/`. The Instagram grid
+shows its placeholders locally; it is filled at publish time.
+
+**Setting up the editor** (once): sign in at app.pagescms.org with the
+`thenaked-ad` GitHub account, install the Pages CMS GitHub app on the
+`thenaked-ad/Storehouse` repository, and add Fred as a collaborator on the
+repository (Settings → Collaborators → `storehousefinearts`, write access).
 
 ---
 
 ## Deployment
 
-Pushing to `main` publishes the site via the workflow in
-`.github/workflows/pages.yml`. Enable it once, in the repository:
+Pushing to `main` — including every save in Pages CMS — publishes the site via
+the workflow in `.github/workflows/pages.yml`: it installs the build
+(`npm ci`), builds the site into `_site/` with Eleventy, fills the Instagram
+grid, and publishes `_site/`. It also runs every six hours for Instagram. Enable
+it once, in the repository:
 
 **Settings → Pages → Build and deployment → Source → GitHub Actions**
 

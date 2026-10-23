@@ -1,0 +1,71 @@
+---
+layout: base.njk
+permalink: index.html
+key: index
+hero: true
+---
+
+  <!-- ============================================================ hero -->
+  <div class="hero-field" data-hero-field>
+  <section class="hero shell">
+
+    <div class="hero__centre">
+      <h1 class="hero__mark">
+        <span class="visually-hidden">Storehouse</span>
+        <svg viewBox="0 0 702 45.31" aria-hidden="true"><use href="#wordmark"/></svg>
+      </h1>
+    </div>
+
+    <button class="scroll-cue" type="button" data-scroll-cue="#overview" aria-label="Scroll to the overview">
+      <span class="chev" aria-hidden="true"></span>
+    </button>
+  </section>
+  </div>
+
+
+  <!-- ========================================================= overview -->
+  <section class="panel" id="overview" data-paper data-ground="paper" aria-labelledby="overview-title">
+    <div class="shell marginalia">
+      <p class="aside label" id="overview-title">Overview</p>
+      <div class="main overview">
+{%- for para in home.overview | paragraphs %}
+        <p>{{ para | typeset | safe }}</p>
+{%- endfor %}
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ========================================================= instagram -->
+  <!-- Recent work, from Storehouse's Instagram. Everything between the two
+       markers below is replaced by the feed when it is connected, so nobody has
+       to touch the page to keep it current. Until then it holds placeholder
+       frames from the site's own photography. See README, "Instagram". -->
+  <section class="shell band" id="recent" aria-labelledby="recent-title">
+    <div class="section-head">
+      <h2 id="recent-title">{{ home.instagram_heading | instagramLink(site.instagram) | safe }}</h2>
+    </div>
+    <!-- instagram:start -->
+    <ul class="gram" data-gram>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/received.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/wrapped.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/boarded.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/crated.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/stored.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/moved.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/installed.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+        <li class="gram__tile"><a href="{{ site.instagram }}" rel="noopener" tabindex="-1" aria-hidden="true"><img src="assets/img/journey/photographed.webp" width="690" height="920"
+             loading="lazy" decoding="async" alt=""></a></li>
+    </ul>
+    <!-- instagram:end -->
+  </section>
+{% set panel = home.panel %}{% include "panel.njk" %}
+
+

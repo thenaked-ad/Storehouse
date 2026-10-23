@@ -1,9 +1,10 @@
 name: Deploy to GitHub Pages
 
-# Publishes the site on every push to main, and every six hours so the
-# Instagram grid on the home page keeps up with new posts. The site is plain
-# static files; the only build step fills that grid (tools/instagram.py), and
-# it never fails a deploy — with no feed connected it leaves the page as it is.
+# Publishes the site on every push to main — including every save Fred makes
+# in Pages CMS — and every six hours so the Instagram grid on the home page
+# keeps up with new posts. Eleventy builds the pages from content/*.yml and
+# src/ into _site/; tools/instagram.py then fills the Instagram grid in the
+# built home page (it never fails a deploy); _site/ is what is published.
 
 on:
   push:
@@ -33,18 +34,29 @@ jobs:
 
       - uses: actions/configure-pages@v5
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Build the site
+        run: |
+          npm ci
+          npx @11ty/eleventy
+
       # The feed address is a repository secret (Settings → Secrets and
       # variables → Actions → INSTAGRAM_FEED_URL), from a Behold JSON feed.
       - name: Fill the Instagram grid
         env:
           INSTAGRAM_FEED_URL: ${{ secrets.INSTAGRAM_FEED_URL }}
+          SITE_DIR: _site
         run: |
           python3 -m pip install --quiet pillow || true
           python3 tools/instagram.py
 
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - id: deployment
         uses: actions/deploy-pages@v4

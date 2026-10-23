@@ -1,0 +1,18 @@
+{
+  "name": "storehouse-site",
+  "private": true,
+  "type": "module",
+  "description": "Storehouse Fine Arts website. The copy and photographs live in content/*.yml (edited through Pages CMS); src/ holds the page templates; Eleventy builds the site into _site/.",
+  "scripts": {
+    "build": "eleventy",
+    "start": "eleventy --serve --port 8777"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.7",
+    "@11ty/eleventy-img": "^6.0.4",
+    "js-yaml": "^4.3.2"
+  }
+}

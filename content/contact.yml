@@ -1,0 +1,28 @@
+# The Contact page.
+# Edited through Pages CMS (app.pagescms.org), or by hand. Paragraphs are
+# separated by a blank line. See README, "Editing the site".
+intro: Whatever you need moved, stored, photographed, catalogued or hung, we would be glad to hear about it.
+enquiries:
+  - label: Request a Rate Card
+    email_subject: Rate card request
+  - label: Storage
+    email_subject: Storage enquiry
+  - label: Transport & Handling
+    email_subject: Transport and handling enquiry
+  - label: Photography
+    email_subject: Photography enquiry
+  - label: Installation
+    email_subject: Installation enquiry
+  - label: Viewing Room
+    email_subject: Viewing room enquiry
+  - label: Project Management
+    email_subject: Project management enquiry
+  - label: Collection & Estate Management
+    email_subject: Collection and estate management enquiry
+photo: /assets/img/photos/contact.webp
+photo_alt: A framed work laid face-down on a padded table with its paperwork beside it.
+company: |-
+  Storehouse Fine Arts Ltd
+  Registered in England & Wales
+  Company 16631030
+  VAT 499103269

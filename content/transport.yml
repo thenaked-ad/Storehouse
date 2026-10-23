@@ -1,0 +1,44 @@
+# The Transport & Handling page.
+# Edited through Pages CMS (app.pagescms.org), or by hand. Paragraphs are
+# separated by a blank line. See README, "Editing the site".
+segments:
+  - title: Transport
+    text: "From a single painting across town to the relocation of an entire collection, we move works between studios, storage, galleries and homes. Moves are carried out by dedicated art handlers and vehicles, with trusted partners when scale requires it. Every move is planned around the work: its route, its packing and the crew it needs."
+    photos:
+      - image: /assets/img/photos/240726_89.webp
+        alt: A technician sliding a large boarded work into place.
+        caption: ""
+      - image: /assets/img/photos/240726_47.webp
+        alt: A finished timber crate, marked and labelled.
+        caption: ""
+      - image: /assets/img/photos/240726_43.webp
+        alt: A lid being lowered onto a foam-lined case.
+        caption: ""
+      - image: /assets/img/photos/240726_36.webp
+        alt: A wrapped work set into a foam-cornered travel frame.
+        caption: ""
+  - title: Packing & Crating
+    text: "Bespoke packing, with crating arranged for international shipment for storage and transit, built to the requirements of the work. For works leaving storage, packing is matched to the journey: soft-wrapping for local moves, travel frames and cases for transit within the UK, and crating for international shipment."
+    photos:
+      - image: /assets/img/photos/240726_14.webp
+        alt: Gloved hands taping a wrapped work closed.
+        caption: ""
+      - image: /assets/img/photos/240726_17.webp
+        alt: Tape run along the edge of a wrapped work.
+        caption: ""
+      - image: /assets/img/photos/240726_19.webp
+        alt: A made-to-measure box being closed over a wrapped work.
+        caption: ""
+      - image: /assets/img/photos/240726_32.webp
+        alt: Tape drawn across the corner of a wrapped work.
+        caption: ""
+      - image: /assets/img/photos/240726_35.webp
+        alt: A boarded work held in foam corners.
+        caption: ""
+      - image: /assets/img/photos/240726_45.webp
+        alt: A foam corner fitted to a boarded work.
+        caption: ""
+panel:
+  text: Tell us what is moving, from where and to where, and we will come back with a plan and a price.
+  button: Get in touch
+  email_subject: Transport & Handling enquiry

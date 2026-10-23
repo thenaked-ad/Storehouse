@@ -1,0 +1,76 @@
+# The Additional Services page.
+# Edited through Pages CMS (app.pagescms.org), or by hand. Paragraphs are
+# separated by a blank line. See README, "Editing the site".
+segments:
+  - title: Photography
+    text: Photography of artworks to reproduction standard, for catalogues, websites, insurance, loans and archives. Works are photographed on a Fujifilm GFX medium-format system in the controlled conditions of our viewing room, and processed in Capture One and Photoshop for accurate colour and detail. Our photography has been used across gallery and artist websites. Works already in our care can be photographed without leaving the building.
+    button: Book photography
+    email_subject: Photography enquiry
+    photos:
+      - image: /assets/img/photos/240726_71.webp
+        alt: A framed work photographed on a tripod between two studio lights.
+        caption: ""
+      - image: /assets/img/photos/240726_72.webp
+        alt: A camera on its tripod facing a framed work under lights.
+        caption: ""
+      - image: /assets/img/photos/240726_54.webp
+        alt: A framed work lit between two lamps in the viewing room.
+        caption: ""
+  - title: Installation
+    text: Our technicians install and deinstall works in private homes, galleries and art fairs, from a single hang to the rehang of an entire collection. Each installation is planned in advance, and works are condition checked before and after.
+    button: Plan an installation
+    email_subject: Installation enquiry
+    photos:
+      - image: /assets/img/photos/240726_111.webp
+        alt: A large painting being hung on the wall of an interior.
+        caption: ""
+      - image: /assets/img/photos/240726_62.webp
+        alt: A framed work being lifted into place on a wall.
+        caption: ""
+      - image: /assets/img/photos/240726_95.webp
+        alt: A tape measure run across the face of a board.
+        caption: ""
+  - title: Project Management
+    text: |-
+      We manage projects from start to finish, to deadline. That might be an exhibition in a gallery, at an art fair or pop-up venue, or a collection moving from one home to another.
+
+      For exhibitions, we handle everything from planning and exhibition design to wall builds, display furniture, installation and deinstallation. For collection moves, we take care of the whole process: packing and moving the works, storing them in between if needed, and installing them in their new home. We can also design and fit out storerooms and storage at the new location.
+
+      Years of putting on shows have given us a trusted network of shippers, conservators, framers, fabricators and technicians. We bring in the right people for each project and coordinate them, so you deal with one point of contact throughout.
+    button: Discuss a project
+    email_subject: Project management enquiry
+    photos:
+      - image: /assets/img/photos/240726_88.webp
+        alt: A hand checking the edge of a wall build.
+        caption: ""
+      - image: /assets/img/photos/240726_97.webp
+        alt: A tape measure held level against a wall.
+        caption: ""
+      - image: /assets/img/photos/240726_98.webp
+        alt: A tape measure laid across a timber stretcher.
+        caption: ""
+  - title: Collection & Estate Management
+    text: |-
+      Whether an artist’s estate or a growing private collection, the documentation rarely keeps pace with the works. Records end up spread across spreadsheets, correspondence and invoices. We bring them together into one accurate, complete record, owned and controlled by you.
+
+      Each work is catalogued in a dedicated database, in Artlogic or ArtBinder, with images, provenance, condition, location, and exhibition and shipping history held in one place. We keep the record current through acquisitions, loans, rotations and rehangs.
+
+      The result supports insurance, valuation, loans and sales, and lets a work’s history be shared with curators and dealers on request.
+
+      We begin with a collection audit or a visit to see the works in situ. Where needed, we introduce trusted valuers, estate and tax advisers, conservators and framers.
+    button: Book a collection audit
+    email_subject: Collection audit request
+    photos:
+      - image: /assets/img/photos/240726_08.webp
+        alt: A framed work on a padded table with its condition paperwork.
+        caption: ""
+      - image: /assets/img/photos/240726_44.webp
+        alt: A boarded work set into its foam-cornered case.
+        caption: ""
+      - image: /assets/img/photos/240726_33.webp
+        alt: Tape drawn round the corner of a wrapped work.
+        caption: ""
+panel:
+  text: Whatever you need moved, stored, photographed, catalogued or hung, we’d be glad to hear about it.
+  button: Get in touch
+  email_subject: Additional Services enquiry

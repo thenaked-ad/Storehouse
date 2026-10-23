@@ -1,0 +1,67 @@
+  <!-- ================================================ the expanding index -->
+  <!-- The sections run the full width. Each is an ordinary <details>, so with
+       the script absent every one still opens and closes; the shared name
+       keeps one open at a time. An open section has its copy on the left and
+       its own photographs on the right. A link to page.html#section opens that
+       section on arrival. The copy and photographs come from content/{{ key }}.yml. -->
+  <section class="shell services-page">
+    <div class="services-page__main">
+      <div class="services-page__head">
+        <span class="ledger">{{ ledger }}</span>
+        <h1>{{ heading | safe }}</h1>
+      </div>
+
+      <div class="services">
+{%- for s in data.segments %}
+{%- set shots = [] %}
+{%- for p in s.photos or [] %}{% if photos[p.image] %}{% set shots = (shots.push({ img: photos[p.image], alt: p.alt, caption: p.caption }), shots) %}{% endif %}{% endfor %}
+        <details class="service" name="{{ group }}" id="{{ s.title | slugify }}">
+          <summary>
+            <span class="service__index">{{ ledger }}.{{ loop.index }}</span>
+            <span class="service__title">{{ s.title | typeset | safe }}</span>
+            <span class="service__sign" aria-hidden="true"></span>
+          </summary>
+{%- if shots.length %}
+          <div class="service__body service__body--media">
+            <div class="service__text">
+{%- for para in s.text | paragraphs %}
+              <p>{{ para | typeset | safe }}</p>
+{%- endfor %}
+{%- if s.button %}
+              <a class="btn btn--self" href="{{ s.email_subject | mailto(site.email) | safe }}">{{ s.button | typeset | safe }} <span class="arrow" aria-hidden="true"></span></a>
+{%- endif %}
+            </div>
+            <figure class="carousel" data-carousel>
+              <div class="carousel__plate">
+{%- for shot in shots %}
+                <img src="{{ shot.img.url }}" width="{{ shot.img.width }}" height="{{ shot.img.height }}"
+                     loading="lazy" decoding="async" alt="{{ shot.alt | attr | safe }}" data-caption="{{ shot.caption | attr | safe }}">
+{%- endfor %}
+              </div>
+              <figcaption class="carousel__bar">
+                <span class="carousel__caption"></span>
+                <span class="carousel__controls">
+                  <span class="carousel__count" aria-hidden="true">1 / {{ shots.length }}</span>
+                  <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
+                  <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+                </span>
+              </figcaption>
+            </figure>
+          </div>
+{%- else %}
+          <div class="service__body">
+{%- for para in s.text | paragraphs %}
+            <p>{{ para | typeset | safe }}</p>
+{%- endfor %}
+{%- if s.button %}
+            <a class="btn btn--self" href="{{ s.email_subject | mailto(site.email) | safe }}">{{ s.button | typeset | safe }} <span class="arrow" aria-hidden="true"></span></a>
+{%- endif %}
+          </div>
+{%- endif %}
+        </details>
+{%- endfor %}
+      </div>
+    </div>
+  </section>
+
+{% set panel = data.panel %}{% include "panel.njk" %}

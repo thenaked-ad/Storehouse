@@ -1,0 +1,77 @@
+# The Storage page.
+# Edited through Pages CMS (app.pagescms.org), or by hand. Paragraphs are
+# separated by a blank line. See README, "Editing the site".
+segments:
+  - title: Overview
+    text: Discreet and secure storage in north-west London. Our facility supports efficient intake, storage and release for crated works moving between destinations. Competitive, simplified storage costs, without compromising on the care of the work. Whether you need space for a rolled or framed canvas, a single print, a sculpture or an entire collection, we offer flexible storage for any length of time.
+    photos:
+      - image: /assets/img/photos/240726_49.webp
+        alt: Two marked Storehouse crates standing on their bearers inside the facility.
+        caption: ""
+      - image: /assets/img/photos/240726_52.webp
+        alt: A crate and a fitted travel case standing together in the store.
+        caption: ""
+      - image: /assets/img/photos/240726_54.webp
+        alt: A framed work lit between two lamps in the viewing room.
+        caption: ""
+  - title: Security
+    text: Private and confidential. Part of a secured 48,000 sq ft site with reception manned seven days a week. Intruder alarm linked to the police, with independent dual-path monitoring. CCTV covers all access points, and fire detection is monitored and linked to the fire service. Access is restricted to qualified fine art technicians and senior staff.
+    photos:
+      - image: /assets/img/photos/240726_43.webp
+        alt: A lid being lowered onto a foam-lined case.
+        caption: ""
+      - image: /assets/img/photos/240726_46.webp
+        alt: The corner of a boarded work held in foam.
+        caption: ""
+  - title: Handling
+    text: Racking takes everything from works on paper to large-scale sculpture, and every work is handled by our own art handlers. On arrival, each work is checked into our inventory system and can be photographed, condition reported and packed to the client’s specification before being placed in storage.
+    photos:
+      - image: /assets/img/photos/240726_09.webp
+        alt: A framed work laid face down on a padded table, its paperwork beside it.
+        caption: ""
+      - image: /assets/img/photos/240726_89.webp
+        alt: A technician sliding a large boarded work into place.
+        caption: ""
+      - image: /assets/img/photos/240726_16.webp
+        alt: Gloved hands smoothing tape along a wrapped work.
+        caption: ""
+  - title: Insurance
+    text: Works in our care must be insured under your own fine art policy, with Storehouse noted as co-assured. Your insurer is welcome to survey the facility, and we can provide our facility report to support your cover.
+    photos:
+      - image: /assets/img/photos/240726_08.webp
+        alt: A framed work on a padded table with its condition paperwork.
+        caption: ""
+      - image: /assets/img/photos/240726_34.webp
+        alt: A boarded work resting in its foam corners.
+        caption: ""
+  - title: Climate-Controlled Storage
+    text: Our climate-controlled rooms hold temperature and relative humidity stable, with conditions monitored continuously. This facility holds paintings, works on paper and photographs in a stable environment, racked to our storage specification. Vertical storage racks and flat file storage available.
+    photos:
+      - image: /assets/img/photos/240726_36.webp
+        alt: A wrapped work set into a foam-cornered travel frame.
+        caption: ""
+      - image: /assets/img/photos/240726_44.webp
+        alt: A boarded work set into its foam-cornered case.
+        caption: ""
+  - title: Ambient Storage
+    text: Ambient storage in the fine art warehouse accommodates sculpture, crated works and furniture. Every work is packed to the client’s specification, fully recorded, and held under the same security as the rest of the site.
+    photos:
+      - image: /assets/img/photos/240726_47.webp
+        alt: A finished timber crate, marked and labelled.
+        caption: ""
+      - image: /assets/img/photos/240726_49.webp
+        alt: Two marked Storehouse crates standing on their bearers inside the facility.
+        caption: ""
+  - title: Viewing Room
+    text: A private room in which works can be viewed, studied and photographed under controlled conditions. By appointment, our staff can install works for clients, curators and conservators.
+    photos:
+      - image: /assets/img/photos/240726_54.webp
+        alt: A framed work lit between two lamps in the viewing room.
+        caption: ""
+      - image: /assets/img/photos/240726_71.webp
+        alt: A framed work photographed on a tripod between two studio lights.
+        caption: ""
+panel:
+  text: Storage is priced by the space a work actually takes. Tell us roughly what you have and we will send rates back.
+  button: Request a rate card
+  email_subject: Rate card request
