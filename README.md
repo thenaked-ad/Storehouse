@@ -132,6 +132,13 @@ The first deploy takes a couple of minutes; after that it is about thirty second
 
 ### Custom domain
 
+**Live on `https://storehousefinearts.com` since 23 October 2026.** The
+`www` address and plain `http` both redirect there, and so does the old
+`thenaked-ad.github.io/Storehouse/` address. GitHub issues and renews the HTTPS
+certificate (covering the domain and `www`) on its own. One thing learned on the
+switch: with the deploy done by Actions, *Enforce HTTPS* only took effect after
+one fresh publish (Actions → Deploy to GitHub Pages → Run workflow).
+
 The domain is `storehousefinearts.com`, registered with **Squarespace**
 (it came over from Google Domains). Email for the domain runs through
 **Google Workspace** — the `MX` record (`smtp.google.com`), the SPF `TXT`
