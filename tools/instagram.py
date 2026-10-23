@@ -19,7 +19,7 @@ import re
 import sys
 import urllib.request
 
-PROFILE = "https://www.instagram.com/hendfw/"
+PROFILE = "https://www.instagram.com/storehousefinearts/"
 MAX_POSTS = 8
 TILE = (800, 1000)  # 4:5, the grid's own shape
 PAGE = "index.html"

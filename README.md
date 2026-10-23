@@ -631,7 +631,7 @@ Storehouse's Instagram, so the home page keeps itself current without anyone
 editing the site. Eight square-ish tiles (4:5), four across on a desktop and two
 on a phone.
 
-The account is **@hendfw** (`https://www.instagram.com/hendfw/`). The word
+The account is **@storehousefinearts** (`https://www.instagram.com/storehousefinearts/`). The word
 *Instagram* in the heading links to it, as do the footer and the business's
 structured data (`sameAs`).
 
@@ -659,7 +659,7 @@ placeholder tiles, which link to the profile) and says why in the deploy log.
 
 **To connect it** (one-off):
 
-1. In the Instagram app, switch @hendfw to a **Creator** or **Business**
+1. In the Instagram app, switch @storehousefinearts to a **Creator** or **Business**
    account (Settings → Account type and tools). Free, and reversible. Behold —
    like every Instagram feed since Meta closed its API to personal accounts in
    December 2024 — cannot read a personal account.
@@ -749,7 +749,7 @@ Worth confirming before launch:
   document's business card shows `fred@storehouse.com` and `storehouse.com`,
   which conflicts. The copy document was treated as newer.
 - **Domain** — `storehousefinearts.com` assumed throughout.
-- **Instagram** — @hendfw, linked from the home page and the footer. The grid
+- **Instagram** — @storehousefinearts, linked from the home page and the footer. The grid
   fills itself once a Behold feed is connected; see *Recent work*.
 - **Photography** — the Photography segment on Additional Services has its own
   large carousel, which shows each photograph whole. It is waiting on Fred's
