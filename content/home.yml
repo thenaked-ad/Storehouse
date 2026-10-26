@@ -1,9 +1,10 @@
-# The home page.
-# Edited through Pages CMS (app.pagescms.org), or by hand. Paragraphs are
-# separated by a blank line. See README, "Editing the site".
-overview: "Storehouse provides fine art services for all types of projects, artworks and collections, no matter the shape or scale: storage, transport, installation, photography, collection management and project management, delivered by people from the art world."
-instagram_heading: Follow us on Instagram for all our recent work.
+overview: "Storehouse provides fine art services for all types of projects,
+  artworks and collections, no matter the shape or scale: storage, transport,
+  installation, photography, collection management and project management,
+  delivered by people from the art world."
+instagram_heading: Follow us on Instagram for some of our recent work.
 panel:
-  text: Whatever you need moved, stored, photographed, catalogued or hung, we’d be glad to hear about it.
+  text: Whatever you need moved, stored, photographed, catalogued or hung, we’d be
+    glad to hear about it.
   button: Get in touch
   email_subject: Enquiry
