@@ -68,21 +68,6 @@ segments:
       Works are packed and secured for the journey, and every move is planned in
       advance: access, parking, lifts, stairs and timings are checked before we
       arrive, so the day runs to plan.
-  - title: Transport
-    text: "From a single painting across town to the relocation of an entire
-      collection, we move works between studios, storage, galleries and homes.
-      Moves are carried out by dedicated art handlers and vehicles, with trusted
-      partners when scale requires it. Every move is planned around the work:
-      its route, its packing and the crew it needs."
-    photos:
-      - image: /assets/img/photos/240726_89.webp
-        alt: A technician sliding a large boarded work into place.
-      - image: /assets/img/photos/240726_47.webp
-        alt: A finished timber crate, marked and labelled.
-      - image: /assets/img/photos/240726_43.webp
-        alt: A lid being lowered onto a foam-lined case.
-      - image: /assets/img/photos/240726_36.webp
-        alt: A wrapped work set into a foam-cornered travel frame.
   - title: Packing & Crating
     text: >-
       How a work is packed depends on what it is, how far it’s travelling and
@@ -119,6 +104,21 @@ segments:
         alt: A boarded work held in foam corners.
       - image: /assets/img/photos/240726_45.webp
         alt: A foam corner fitted to a boarded work.
+  - title: Transport
+    text: "From a single painting across town to the relocation of an entire
+      collection, we move works between studios, storage, galleries and homes.
+      Moves are carried out by dedicated art handlers and vehicles, with trusted
+      partners when scale requires it. Every move is planned around the work:
+      its route, its packing and the crew it needs."
+    photos:
+      - image: /assets/img/photos/240726_89.webp
+        alt: A technician sliding a large boarded work into place.
+      - image: /assets/img/photos/240726_47.webp
+        alt: A finished timber crate, marked and labelled.
+      - image: /assets/img/photos/240726_43.webp
+        alt: A lid being lowered onto a foam-lined case.
+      - image: /assets/img/photos/240726_36.webp
+        alt: A wrapped work set into a foam-cornered travel frame.
   - title: Handling
     text: >-
       Our art handlers have decades of experience with paintings, works on
