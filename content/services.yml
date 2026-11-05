@@ -68,13 +68,6 @@ segments:
       Every report is held against the work’s record, so its condition history
       builds over time. This gives you a reliable reference for insurers,
       borrowers, buyers and conservators.
-    photos:
-      - image: /assets/img/photos/240726_111.webp
-        alt: A large painting being hung on the wall of an interior.
-      - image: /assets/img/photos/240726_62.webp
-        alt: A framed work being lifted into place on a wall.
-      - image: /assets/img/photos/240726_95.webp
-        alt: A tape measure run across the face of a board.
   - title: Collection Management
     text: >-
       For private collections and artist inventories, we build and maintain a
