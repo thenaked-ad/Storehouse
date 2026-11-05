@@ -13,9 +13,7 @@ enquiries:
     email_subject: Photography enquiry
   - label: Viewing Room
     email_subject: Viewing room enquiry
-  - label: Project Management
-    email_subject: Project management enquiry
-  - label: Collection & Estate Management
+  - label: Collection Management
     email_subject: Collection and estate management enquiry
 photo: /assets/img/photos/contact.webp
 photo_alt: A framed work laid face-down on a padded table with its paperwork beside it.
