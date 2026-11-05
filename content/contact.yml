@@ -1,14 +1,12 @@
-# The Contact page.
-# Edited through Pages CMS (app.pagescms.org), or by hand. Paragraphs are
-# separated by a blank line. See README, "Editing the site".
-intro: Whatever you need moved, stored, photographed, catalogued or hung, we would be glad to hear about it.
+intro: Whatever you need moved, stored, photographed, catalogued or hung, we
+  would be glad to hear about it.
 enquiries:
   - label: Request a Rate Card
     email_subject: Rate card request
   - label: Storage
     email_subject: Storage enquiry
-  - label: Transport & Handling
-    email_subject: Transport and handling enquiry
+  - label: Transport
+    email_subject: Transport enquiry
   - label: Photography
     email_subject: Photography enquiry
   - label: Installation
