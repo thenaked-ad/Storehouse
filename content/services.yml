@@ -50,6 +50,28 @@ segments:
         alt: A framed work being lifted into place on a wall.
       - image: /assets/img/photos/240726_95.webp
         alt: A tape measure run across the face of a board.
+  - title: Collection Management
+    text: >-
+      For private collections and artist inventories, we build and maintain a
+      single, complete record of every work.
+
+
+      Cataloguing. Artist, title, date, medium, dimensions, edition, provenance,
+      exhibition history, literature, insurance values and location, together
+      with images and documents.
+
+
+      One database, wherever the works are. In store, at home, on loan or in
+      transit, every work is tracked in one place.
+
+
+      Ongoing management. We handle insurance schedules, loan requests,
+      rotations and rehangs, new acquisitions, and shipping and provenance
+      history to share with curators, dealers and advisers.
+
+
+      The database belongs to you. Most clients begin with a collection audit:
+      we visit, review what exists and set out how we would bring it together.
   - title: Project Management
     text: >-
       We manage projects from start to finish, to deadline. That might be an
@@ -78,36 +100,6 @@ segments:
         alt: A tape measure held level against a wall.
       - image: /assets/img/photos/240726_98.webp
         alt: A tape measure laid across a timber stretcher.
-  - title: Collection & Estate Management
-    text: >-
-      Whether an artist’s estate or a growing private collection, the
-      documentation rarely keeps pace with the works. Records end up spread
-      across spreadsheets, correspondence and invoices. We bring them together
-      into one accurate, complete record, owned and controlled by you.
-
-
-      Each work is catalogued in a dedicated database, in Artlogic or ArtBinder,
-      with images, provenance, condition, location, and exhibition and shipping
-      history held in one place. We keep the record current through
-      acquisitions, loans, rotations and rehangs.
-
-
-      The result supports insurance, valuation, loans and sales, and lets a
-      work’s history be shared with curators and dealers on request.
-
-
-      We begin with a collection audit or a visit to see the works in situ.
-      Where needed, we introduce trusted valuers, estate and tax advisers,
-      conservators and framers.
-    button: Book a collection audit
-    email_subject: Collection audit request
-    photos:
-      - image: /assets/img/photos/240726_08.webp
-        alt: A framed work on a padded table with its condition paperwork.
-      - image: /assets/img/photos/240726_44.webp
-        alt: A boarded work set into its foam-cornered case.
-      - image: /assets/img/photos/240726_33.webp
-        alt: Tape drawn round the corner of a wrapped work.
   - title: Viewing Room
     text: >-
       Our Viewing Room is a private space where works can be viewed, studied and
