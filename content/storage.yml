@@ -32,6 +32,9 @@ segments:
       Your inventory. We send you a full inventory showing every work, its
       volume and its monthly storage cost. It is updated whenever something
       comes in or goes out.
+
+
+      Works in store can be viewed by appointment in our private Viewing Room.
   - title: Billing
     text: >-
       Storage is charged by volume, per cubic metre per week, and invoiced
