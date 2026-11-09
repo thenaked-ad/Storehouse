@@ -181,7 +181,8 @@ segments:
       policy to cover works in store. We ask every client to make sure they are
       comfortable with their own cover while their works are with us.
 panel:
-  text: Storage is priced by the space a work actually takes. Tell us roughly what
-    you have and we will send rates back.
+  text: Storage is priced by the space a work actually takes. There are no intake
+    or release fees on top. Tell us roughly what you have and we will send rates
+    back.
   button: Request a rate card
   email_subject: Rate card request
