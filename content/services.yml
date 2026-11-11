@@ -1,110 +1,74 @@
 segments:
   - title: Overview
-    text: >-
-      We work closely with a number of collectors, artists, estates and
-      galleries over the long term. For them, we run the back end of a
-      collection or gallery inventory: storage, records, images, condition,
-      movement and projects, all held in one place and handled by one team.
+    text: |-
+      We work closely with a number of collectors, artists, estates and galleries over the long term. For them, we run the back end of a collection or gallery inventory: storage, records, images, condition, movement and projects, all held in one place and handled by one team.
 
-
-      Because we store, handle, photograph and catalogue the works ourselves,
-      nothing is passed between suppliers and nothing falls between the gaps.
-      You have one point of contact, a complete record of everything you own,
-      and every service quoted in advance.
+      Because we store, handle, photograph and catalogue the works ourselves, nothing is passed between suppliers and nothing falls between the gaps. You have one point of contact, a complete record of everything you own, and every service quoted in advance.
   - title: Photography
-    text: >-
-      We specialise in photography of artworks to gallery standard, carried out
-      entirely in-house. Our images have been used on gallery and artist
-      websites, in catalogues and sales materials, and in collection archives.
+    text: |-
+      We specialise in photography of artworks to gallery standard, carried out entirely in-house. Our images have been used on gallery and artist websites, in catalogues and sales materials, and in collection archives.
 
+      - In store. Most works in our care can be photographed on site in our Viewing Room, under controlled conditions and with no transport required. We’re happy to shoot a single work or an entire collection, and our rates are especially competitive for larger volumes.
 
-      In store. Most works in our care can be photographed on site in our
-      Viewing Room, under controlled conditions and with no transport required.
-      We’re happy to shoot a single work or an entire collection, and our rates
-      are especially competitive for larger volumes.
+      - On location. We also travel to studios, galleries and private collections to shoot inventory on site.
 
-
-      On location. We also travel to studios, galleries and private collections
-      to shoot inventory on site.
-
-
-      What we shoot. High-resolution, colour-accurate reproduction images for
-      catalogues, sales, insurance and archive, plus detail, signature, label
-      and verso images for documentation and condition records. Everything is
-      shot on 100-megapixel medium-format equipment and images are delivered as
-      high-resolution files, ready for print, online and archive use.
+      - What we shoot. High-resolution, colour-accurate reproduction images for catalogues, sales, insurance and archive, plus detail, signature, label and verso images for documentation and condition records. Everything is shot on 100-megapixel medium-format equipment and images are delivered as high-resolution files, ready for print, online and archive use.
   - title: Viewing Room
-    text: >-
-      Our Viewing Room is a private space where works can be viewed, studied and
-      photographed under controlled conditions. It is used by collectors,
-      curators, conservators and buyers. By appointment, our staff install the
-      works for you, so the room is ready when you arrive.
+    text: |-
+      Our Viewing Room is a private space where works can be viewed, studied and photographed under controlled conditions. It is used by collectors, curators, conservators and buyers. By appointment, our staff install the works for you, so the room is ready when you arrive.
 
+      - A large hanging wall, approximately 6 × 4 m, built to take anything from small, light works to heavy pieces
 
-      A large hanging wall, approximately 6 × 4 m, built to take anything from
-      small, light works to heavy pieces
+      - Gallery lighting by TM Lighting
 
+      - Concrete floor, suited to sculpture and heavy objects
 
-      Gallery lighting by TM Lighting
+      - Holding storage on site for works waiting to be installed
 
+      - Kitchen and bathroom
 
-      Concrete floor, suited to sculpture and heavy objects
-
-
-      Holding storage on site for works waiting to be installed
-
-
-      Kitchen and bathroom
-
-
-      Tools and art technicians available for hire
+      - Tools and art technicians available for hire
   - title: Condition Reporting
-    text: >-
-      Clear, consistent written reports with annotated images, prepared by
-      experienced art handlers. Reports are produced on arrival, before and
-      after loans, ahead of sale or shipping, and as part of periodic collection
-      reviews.
+    text: |-
+      Clear, consistent written reports with annotated images, prepared by experienced art handlers. Reports are produced on arrival, before and after loans, ahead of sale or shipping, and as part of periodic collection reviews.
 
-
-      Every report is held against the work’s record, so its condition history
-      builds over time. This gives you a reliable reference for insurers,
-      borrowers, buyers and conservators.
+      Every report is held against the work’s record, so its condition history builds over time. This gives you a reliable reference for insurers, borrowers, buyers and conservators.
   - title: Collection Management
-    text: >-
-      For private collections and artist inventories, we build and maintain a
-      single, complete record of every work.
+    text: |-
+      For private collections and artist inventories, we build and maintain a single, complete record of every work.
 
+      - Cataloguing. Artist, title, date, medium, dimensions, edition, provenance, exhibition history, literature, insurance values and location, together with images and documents.
 
-      Cataloguing. Artist, title, date, medium, dimensions, edition, provenance,
-      exhibition history, literature, insurance values and location, together
-      with images and documents.
+      - One database, wherever the works are. In store, at home, on loan or in transit, every work is tracked in one place.
 
+      - Ongoing management. We handle insurance schedules, loan requests, rotations and rehangs, new acquisitions, and shipping and provenance history to share with curators, dealers and advisers.
 
-      One database, wherever the works are. In store, at home, on loan or in
-      transit, every work is tracked in one place.
-
-
-      Ongoing management. We handle insurance schedules, loan requests,
-      rotations and rehangs, new acquisitions, and shipping and provenance
-      history to share with curators, dealers and advisers.
-
-
-      The database belongs to you. Most clients begin with a collection audit:
-      we visit, review what exists and set out how we would bring it together.
+      - The database belongs to you. Most clients begin with a collection audit: we visit, review what exists and set out how we would bring it together.
   - title: Artist Estates
-    text: >-
-      We work with artists’ families and executors to bring artwork inventories
-      under control. This covers cataloging the studio and archive,
-      photographing the work, storage, and helping coordinate loans and
-      exhibitions.
+    text: |-
+      We work with artists’ families and executors to bring artwork inventories under control. This covers cataloging the studio and archive, photographing the work, storage, and helping coordinate loans and exhibitions.
 
-
-      Where specialist advice is needed, we introduce trusted advisers in
-      valuation, estate tax and conservation. Throughout, the estate’s record
-      stays complete and in one place.
+      Where specialist advice is needed, we introduce trusted advisers in valuation, estate tax and conservation. Throughout, the estate’s record stays complete and in one place.
+slideshow:
+  - image: /assets/img/photos/services-pastel.jpg
+    alt: A pastel drawing photographed square-on against a white wall.
+    caption: ''
+  - image: /assets/img/photos/services-pastel-detail.jpg
+    alt: A close detail of the pastel drawing's surface.
+    caption: ''
+  - image: /assets/img/photos/services-works-in-store.jpg
+    alt: Two paintings on blocks against the wall beside racking.
+    caption: ''
+  - image: /assets/img/photos/services-work-on-blocks.jpg
+    alt: A painting standing on foam blocks beside racking.
+    caption: ''
+  - image: /assets/img/photos/services-photography.jpg
+    alt: A framed work photographed on a tripod between two studio lights.
+    caption: ''
+  - image: /assets/img/photos/services-installing.jpg
+    alt: A framed work being lifted into place on a wall.
+    caption: ''
 panel:
-  text: Whatever you need stored, photographed, catalogued or managed, most
-    clients begin with a site visit or collection audit. Get in touch to arrange
-    one.
+  text: Whatever you need stored, photographed, catalogued or managed, most clients begin with a site visit or collection audit. Get in touch to arrange one.
   button: Get in touch
   email_subject: Additional Services enquiry

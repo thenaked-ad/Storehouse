@@ -65,7 +65,12 @@ components:
       - name: text
         label: Text
         type: text
-        description: Leave a blank line between paragraphs.
+        description: >-
+          Leave a blank line between paragraphs. Start a line with "- " for a
+          bullet, or "1. " for a numbered step. A short line on its own, directly
+          above its paragraph, becomes a subheading. In a bullet that opens with
+          a few words and a full stop ("Arrival. Works are…"), those words are
+          picked out.
       - name: button
         label: Button (optional)
         type: string
@@ -74,14 +79,6 @@ components:
         label: Button's email subject
         type: string
         description: The subject already filled in on the email that opens when someone clicks the button.
-      - name: photos
-        label: Photographs
-        component: photo
-        description: Shown as a set beside the text, in this order. Drag to reorder.
-        list:
-          collapsible:
-            collapsed: true
-            summary: "{alt}"
 
 content:
   - name: home
@@ -115,6 +112,14 @@ content:
           collapsible:
             collapsed: true
             summary: "{title}"
+      - name: slideshow
+        label: Slideshow
+        component: photo
+        description: The photographs shown in the slideshow below the sections, in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{alt}"
       - name: panel
         component: panel
 
@@ -132,6 +137,14 @@ content:
           collapsible:
             collapsed: true
             summary: "{title}"
+      - name: slideshow
+        label: Slideshow
+        component: photo
+        description: The photographs shown in the slideshow below the sections, in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{alt}"
       - name: panel
         component: panel
 
@@ -149,6 +162,14 @@ content:
           collapsible:
             collapsed: true
             summary: "{title}"
+      - name: slideshow
+        label: Slideshow
+        component: photo
+        description: The photographs shown in the slideshow below the sections, in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{alt}"
       - name: panel
         component: panel
 
@@ -175,6 +196,10 @@ content:
         label: Portrait description
         type: string
         description: Read aloud to people who cannot see the photograph.
+      - name: photo_caption
+        label: Portrait caption (optional)
+        type: string
+        description: Shown in small type under the portrait. Leave empty for none.
 
   - name: contact
     label: Contact
@@ -207,6 +232,10 @@ content:
       - name: photo_alt
         label: Photograph description
         type: string
+      - name: photo_caption
+        label: Photograph caption (optional)
+        type: string
+        description: Shown in small type under the photograph. Leave empty for none.
       - name: company
         label: Company details
         type: text

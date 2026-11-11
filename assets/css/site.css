@@ -692,36 +692,108 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 /* Set under the title rather than under the number, so the opened copy lines up
    with the heading it belongs to. */
 @media (min-width: 40rem) { .service__body { padding-left: 3.9rem; } }
-.service__body p { max-width: 42ch; }
-
-/* A segment with its own photographs: the copy on the left, the set on the
-   right. The set is sized from the height of the window, so a whole photograph
-   is in view under the open heading — as large as the screen allows, which is
-   the point on Additional Services. */
-.service__body--media { padding-top: 0.6rem; }
-.service__text { display: grid; gap: 1.15rem; align-content: start; }
-@media (min-width: 56rem) {
-  .service__body--media {
-    grid-template-columns: minmax(0, 1fr) auto;
-    column-gap: var(--gutter);
-    align-items: start;
-  }
-  /* The same size as the About portrait — the same rule, and the same 3:4 —
-     so the site's photographs sit at one size throughout. (No min(100%, …)
-     here, unlike the portrait: this column takes its width from the photo,
-     so a percentage of it collapses. At this width there is always room.) */
-  .service__body--media .carousel {
-    width: clamp(20rem, 46vh, 30rem);
-  }
+/* The text of a section. Text only since Fred's November round, so it can take
+   a wider measure than when it shared the row with a photograph: about 640px,
+   a size down from the body copy and with more leading, which is the breathing
+   room he asked for. */
+.prose {
+  display: grid;
+  gap: 1.05em;
+  max-width: 40rem;
+  font-size: clamp(0.97rem, 0.93rem + 0.15vw, 1.0625rem);
+  line-height: 1.72;
 }
-/* These sets will carry photographs of artworks, which must never be cropped:
-   each frame is shown whole inside the 3:4 plate, on the page's own ground, so
-   a landscape painting sits letterboxed rather than losing its edges. The
-   shoot's own frames are 3:4 already and fill it exactly. */
-.service__body--media .carousel__plate { background: none; }
-.service__body--media .carousel__plate img { object-fit: contain; }
-@media (max-width: 55.999rem) {
-  .service__body--media .carousel { margin-top: 0.75rem; }
+/* The site's paragraphs carry a bottom margin; here the grid's gap spaces them. */
+.prose p { max-width: none; margin: 0; }
+
+/* A short line on its own above its paragraph — "Perimeter and reception." —
+   set in the sans and pulled close to the paragraph it heads. */
+.prose .subhead {
+  margin: 0.55em 0 -0.75em;
+  font-family: var(--sans);
+  font-size: 0.94em;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  line-height: 1.4;
+  color: var(--ink);
+}
+.prose .subhead:first-child { margin-top: 0; }
+
+/* Bullets and numbered steps. A bullet is a short rule, the site's own mark;
+   a step is numbered in the mono, like everything else that is numbered. */
+.prose ul,
+.prose ol {
+  display: grid;
+  gap: 0.6em;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.prose li { position: relative; }
+.prose ul > li { padding-left: 1.65em; }
+.prose ul > li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.86em;
+  width: 0.75em;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.75;
+}
+.prose ol { counter-reset: step; }
+.prose ol > li { padding-left: 2.6em; counter-increment: step; }
+.prose ol > li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  font-family: var(--mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  line-height: 1;
+  color: var(--ink-muted);
+}
+/* "Arrival." at the start of a bullet: picked out in the sans so a list reads
+   as a set of answers. */
+.prose .lead-in {
+  font-family: var(--sans);
+  font-size: 0.94em;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+}
+
+/* The page's slideshow, in the blue below the sections. Its height comes from
+   the window, so a photograph is seen whole; every frame is shown whole
+   whatever its shape (contain, not cover) and aligned with the text above it,
+   on the left. The count and arrows sit first in the line beneath, under the
+   photograph, then the caption. */
+/* Specific enough to win over the reset on figure further down the sheet. */
+.services-page .carousel--page { margin-top: clamp(3rem, 7vw, 5.5rem); }
+@media (min-width: 40rem) { .carousel--page { padding-left: 3.9rem; } }
+.carousel--page .carousel__plate {
+  aspect-ratio: auto;
+  height: clamp(20rem, 66vh, 44rem);
+  background: none;
+}
+.carousel--page .carousel__plate img { object-fit: contain; object-position: left center; }
+.carousel--page .carousel__bar { justify-content: flex-start; gap: 1.5rem; }
+.carousel--page .carousel__controls { order: -1; }
+@media (max-width: 39.999rem) {
+  .carousel--page .carousel__plate { height: auto; aspect-ratio: 4 / 5; }
+  .carousel--page .carousel__plate img { object-position: center; }
+}
+
+/* A caption under a single photograph — the About portrait, the Contact
+   photograph — set like the slideshow captions. */
+.photo-caption {
+  margin-top: 0.7rem;
+  max-width: none;
+  font-family: var(--serif);
+  font-size: var(--t-small);
+  letter-spacing: 0;
+  line-height: 1.5;
+  color: var(--ink-strong-muted);
 }
 
 /* --------------------------------------------------------------------------

@@ -25,10 +25,14 @@ key: about
         <figure class="portrait__figure">
           <div class="plate plate--tall">
             {%- set ph = photos[about.photo] %}{% if ph %}
-            <img src="{{ ph.url }}" width="{{ ph.width }}" height="{{ ph.height }}" loading="lazy" decoding="async"
+            <img src="{{ ph.url }}" srcset="{{ ph.srcset }}" sizes="(min-width: 62rem) 30rem, 100vw"
+                 width="{{ ph.width }}" height="{{ ph.height }}" loading="lazy" decoding="async"
                  alt="{{ about.photo_alt | attr | safe }}">
 {%- endif %}
           </div>
+{%- if about.photo_caption %}
+          <figcaption class="photo-caption">{{ about.photo_caption | typeset | safe }}</figcaption>
+{%- endif %}
         </figure>
       </div>
 

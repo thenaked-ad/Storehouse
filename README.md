@@ -417,21 +417,30 @@ Each page opens on its list of segments, every one closed, numbered from the
 page's ledger number (`01.1` … `01.7` on Storage). **Only one stands open at a
 time**: each is an ordinary `<details>`, and the shared `name` on them is what
 closes one as another opens — the browser does it, so with no script the
-segments still open and close. A link to `page.html#segment` opens that segment
-on arrival.
+segments still open and close. A link to `/page#segment` opens that segment on
+arrival.
 
-All three pages are laid out the same way: the list runs the full width, and
-an open segment has its copy on the left and its own carousel on the right,
-sized from the height of the window so a whole photograph is in view under the
-open heading. (Storage had a single standing set of photographs beside its list
-for a round; Tom asked for it to match the other two.) Storage and Transport &
-Handling have no buttons in their segments; Additional Services keeps one per
-segment.
+**Since Fred's November round the segments are text only**, and each page has
+one slideshow in the blue below them, above the enquiry panel (`slideshow` in
+the page's content file). The segment text is set a size down from the body
+copy with more leading (17px / 1.72 at 1440) across a 40rem measure — Fred
+asked for more breathing room and a wider column once the photographs had
+gone from beside it.
 
-The carousels inside segments show every photograph **whole** (`object-fit:
-contain`), because Fred will be adding his photographs of artworks and an
-artwork must never be cropped. The shoot's own frames are 3:4, the same as the
-plate, so they fill it exactly.
+**Formatting in the editor** (`blocks` in `eleventy.config.js`): a line
+starting `- ` is a bullet, `1. ` a numbered step (consecutive items make one
+list, blank lines between them allowed); a short line (six words or fewer)
+directly above its paragraph is a subheading; in a list item that opens with a
+few words and a full stop or colon — *Arrival.* — those words are set in the
+sans as a lead-in. Bullets are a short rule, steps are numbered in the mono.
+Fred's existing list-like paragraphs were marked as bullets when this went in;
+his wording was checked unchanged.
+
+The slideshow shows every photograph whole (`object-fit: contain`), left-aligned
+with the text, at a height taken from the window; on a phone it is a 4:5 frame.
+Each photograph is published at 800, 1600 and 2400px wide (never wider than the
+original) with a `srcset`, so a landscape photograph across most of a large
+screen is still sharp.
 
 `.services-page` carries `min-height: calc(100svh - var(--masthead-h))`, so the
 blue holds the screen whatever the window, and the paper panel below never
@@ -473,7 +482,9 @@ and two arrows on the right.
   swipes, on a phone), so it never moves on from a picture they chose. Fred
   found the old 2-second slideshow too fast.
 - **Captions** are each image's `data-caption`. Blank by default; the line
-  stays the same height either way, so the arrows never jump.
+  stays the same height either way, so the arrows never jump. The About
+  portrait and the Contact photograph take an optional caption too
+  (`photo_caption`), set the same way under the photograph.
 - Nothing turns while it is off screen, shut inside a closed segment, or in a
   background tab. Reduced motion keeps the arrows and loses the turning.
 - With no script it is simply its first photograph; the arrows and count are

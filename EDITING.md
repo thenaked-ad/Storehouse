@@ -12,25 +12,44 @@ Down the left you'll see the pages: Home, Storage, Transport & Handling, Additio
 
 ## Changing words
 
-Click into any box and type. A few things happen on their own:
+Click into any box and type. Quotes and apostrophes are turned into proper typographic ones when the site is published, so just type normally.
 
-- **Paragraphs** — leave a blank line between them.
-- **Quotes and apostrophes** are turned into proper typographic ones when the site is published, so just type normally.
-- **Formatting** — there isn't any to worry about. The site's own type and spacing are applied automatically, so everything matches.
+In a section's **Text**, a few simple markers lay the text out for you:
+
+| Type this | And you get |
+|---|---|
+| A blank line between paragraphs | Separate paragraphs |
+| `- ` at the start of a line | A bullet point. Lines next to each other become one list. |
+| `1. ` (any number) at the start of a line | A numbered step |
+| A short line on its own, directly above its paragraph (no blank line between) | A small subheading |
+
+In a bullet or step that opens with a few words and a full stop — *Arrival. Works are checked in…* — those opening words are picked out, so a list reads clearly at a glance.
+
+For example:
+
+```
+Charged separately, only when needed and agreed in advance:
+
+- Condition reports
+- Photography
+
+Perimeter and reception.
+The site is enclosed by palisade fencing…
+```
+
+Everything else — fonts, sizes, spacing — is applied automatically, so it always matches the rest of the site.
 
 ## Photographs
 
-Each section on Storage, Transport & Handling and Additional Services has its own set of **Photographs**, shown beside the text in the order listed.
+Storage, Transport & Handling and Additional Services each have a **Slideshow**: the photographs shown below the sections, in the order listed. The About portrait and the Contact photograph are set on those pages.
 
-- **Add one:** click **Add** under Photographs, then **Upload** (or pick one you've uploaded before).
+- **Add one:** click **Add** under Slideshow, then **Upload** (or pick one you've uploaded before).
 - **Reorder:** drag a photograph up or down the list.
 - **Remove:** use the bin icon on that photograph.
 - **Description:** a short line saying what the photograph shows. It's read aloud to people who can't see it, and search engines use it.
-- **Caption (optional):** shown in small type under the photograph. Leave it empty for none.
+- **Caption (optional):** shown in small type under the photograph — in the slideshows, and under the About portrait and the Contact photograph. Leave it empty for none.
 
-Any size of photograph is fine — the website makes a properly sized copy automatically. Use **JPEG**, **PNG** or **WebP**. iPhone photos sometimes save as HEIC: export those as JPEG first (in Photos, File → Export).
-
-Photographs of artworks are always shown whole — never cropped.
+Any size and shape of photograph is fine — the website makes properly sized copies automatically, and every photograph is shown whole, never cropped. Use **JPEG**, **PNG** or **WebP**. iPhone photos sometimes save as HEIC: export those as JPEG first (in Photos, File → Export). Larger originals look sharper: aim for at least 1600 pixels on the long side.
 
 ## Sections
 

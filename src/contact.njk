@@ -27,10 +27,14 @@ key: contact
         <figure style="margin:0 0 1.25rem">
           <div class="plate plate--r45">
             {%- set ph = photos[contact.photo] %}{% if ph %}
-            <img src="{{ ph.url }}" width="{{ ph.width }}" height="{{ ph.height }}" loading="lazy" decoding="async"
+            <img src="{{ ph.url }}" srcset="{{ ph.srcset }}" sizes="(min-width: 62rem) 30vw, 100vw"
+                 width="{{ ph.width }}" height="{{ ph.height }}" loading="lazy" decoding="async"
                  alt="{{ contact.photo_alt | attr | safe }}">
 {%- endif %}
           </div>
+{%- if contact.photo_caption %}
+          <figcaption class="photo-caption">{{ contact.photo_caption | typeset | safe }}</figcaption>
+{%- endif %}
         </figure>
 
         <address class="contact-company">
