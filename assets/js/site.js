@@ -284,8 +284,8 @@
 
   /* The page's photographs in a sideways strip. The browser scrolls it by
      itself (trackpad, touch, keyboard); this adds a drag with the mouse and
-     the two arrows, which move on by about a screen's width and rest on a
-     photograph's left edge. The arrows dim at either end and go altogether
+     the two arrows, which move on by about a screen's width and rest a
+     photograph against the left of the window. The arrows dim at either end and go altogether
      when everything already fits. */
 
   Array.prototype.forEach.call(document.querySelectorAll("[data-strip]"), function (strip) {
@@ -296,16 +296,9 @@
     var items = Array.prototype.slice.call(track.querySelectorAll(".strip__item"));
     var behaviour = reduced ? "auto" : "smooth";
 
-    var bar = strip.querySelector(".strip__bar");
-    // The strip's insets, measured rather than read from the style (they are
-    // calc()s of the page width): on the left, the text line; on the right,
-    // the page's right margin.
-    var pad = function (side) {
-      var box = track.getBoundingClientRect();
-      return side === "Left"
-        ? items[0].getBoundingClientRect().left - box.left + track.scrollLeft
-        : Math.max(0, box.right - bar.getBoundingClientRect().right);
-    };
+    // The strip runs edge to edge, so a photograph comes to rest against the
+    // left of the window. (Kept as a function in case the strip is inset.)
+    var pad = function () { return 0; };
     var update = function () {
       var max = track.scrollWidth - track.clientWidth;
       controls.hidden = max <= 2;
@@ -313,8 +306,8 @@
       next.disabled = track.scrollLeft >= max - 2;
     };
 
-    // A page at a time, resting a photograph on the text line. Forward: the
-    // first photograph not wholly in view comes to the line. Back: as far as a
+    // A page at a time, resting a photograph on the left edge. Forward: the
+    // first photograph not wholly in view comes to the edge. Back: as far as a
     // screen's width allows, again resting on a photograph.
     var go = function (dir) {
       var at = track.scrollLeft, left = pad("Left"), view = track.clientWidth - left - pad("Right");

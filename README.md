@@ -439,10 +439,10 @@ his wording was checked unchanged.
 **The strip** (`.strip`, `data-strip`, 11 Nov — replacing a single-frame
 slideshow that sat on the left and looked lost): every photograph whole at one
 height (56vh, 18–34rem; on a phone each also fits the screen width, using the
-`--ar` ratio set on the img), starting on the text line and running off the
-right-hand edge of the window. It is a native horizontal scroller, so trackpad,
+`--ar` ratio set on the img), running edge to edge across the window (Tom,
+11 Nov: no inset on the left). It is a native horizontal scroller, so trackpad,
 touch and keyboard work with no script; `site.js` adds a mouse drag, the two
-arrows under it (a page at a time, resting a photograph on the text line;
+arrows under it (a page at a time, resting a photograph on the left edge;
 dimmed at either end, hidden when everything fits), and the custom cursor
 becomes a "Drag" disc over it. Touch screens snap to each photograph. Captions
 sit under each photograph at its width. Each photograph is published at 800,

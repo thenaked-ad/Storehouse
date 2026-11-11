@@ -766,14 +766,12 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 }
 
 /* The page's photographs, in the blue below the sections: a strip that runs
-   the full width of the window. It starts on the line of the text above and
-   runs off the right-hand edge, every photograph whole at one height, so a
+   the full width of the window, edge to edge, every photograph whole at one
+   height, so a
    portrait and a landscape sit side by side as they are. It scrolls sideways
    by trackpad, touch, a drag with the mouse or the arrows under it. */
 .strip {
-  /* Where the text column starts: the shell's margin, plus the indent that
-     sets the copy under the section titles. */
-  --strip-in: calc((100% - min(100% - var(--gutter) * 2, var(--shell))) / 2);
+  /* The indent that sets the arrows under the section titles' text line. */
   --strip-indent: 0rem;
   --strip-h: clamp(15rem, 62vw, 24rem);
   margin-top: clamp(3rem, 7vw, 5.5rem);
@@ -787,8 +785,6 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   gap: clamp(0.75rem, 1.4vw, 1.5rem);
   overflow-x: auto;
   overscroll-behavior-x: contain;
-  padding-inline: calc(var(--strip-in) + var(--strip-indent)) var(--strip-in);
-  scroll-padding-inline: calc(var(--strip-in) + var(--strip-indent)) var(--strip-in);
   scrollbar-width: none;
   cursor: grab;
   outline-offset: -2px;
