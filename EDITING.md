@@ -41,13 +41,13 @@ Everything else — fonts, sizes, spacing — is applied automatically, so it al
 
 ## Photographs
 
-Storage, Transport & Handling and Additional Services each have a **Slideshow**: the photographs shown below the sections, in the order listed. The About portrait and the Contact photograph are set on those pages.
+Storage, Transport & Handling and Additional Services each have **Photographs**: the strip of photographs below the sections, which visitors drag (or swipe) sideways. They run left to right in the order listed. The About portrait and the Contact photograph are set on those pages.
 
-- **Add one:** click **Add** under Slideshow, then **Upload** (or pick one you've uploaded before).
+- **Add one:** click **Add** under Photographs, then **Upload** (or pick one you've uploaded before).
 - **Reorder:** drag a photograph up or down the list.
 - **Remove:** use the bin icon on that photograph.
 - **Description:** a short line saying what the photograph shows. It's read aloud to people who can't see it, and search engines use it.
-- **Caption (optional):** shown in small type under the photograph — in the slideshows, and under the About portrait and the Contact photograph. Leave it empty for none.
+- **Caption (optional):** shown in small type under the photograph — in the strips, and under the About portrait and the Contact photograph. Leave it empty for none.
 
 Any size and shape of photograph is fine — the website makes properly sized copies automatically, and every photograph is shown whole, never cropped. Use **JPEG**, **PNG** or **WebP**. iPhone photos sometimes save as HEIC: export those as JPEG first (in Photos, File → Export). Larger originals look sharper: aim for at least 1600 pixels on the long side.
 

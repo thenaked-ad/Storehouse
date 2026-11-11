@@ -611,9 +611,8 @@ html[data-cursor="on"] .hero-field { cursor: none; }
    9c. The expanding index — Storage, Transport & Handling, Services
 
    Every segment starts closed, so the page opens on its list of headings, and
-   only one stands open at a time. The list runs the full width, and each
-   segment opens to its copy on the left with its own set of photographs on
-   the right — the same on all three pages.
+   only one stands open at a time. The list runs the full width and each
+   segment opens to its copy; the page's photographs run in a strip below.
    -------------------------------------------------------------------------- */
 
 .services-page {
@@ -693,16 +692,19 @@ html[data-cursor="on"] .hero-field { cursor: none; }
    with the heading it belongs to. */
 @media (min-width: 40rem) { .service__body { padding-left: 3.9rem; } }
 /* The text of a section. Text only since Fred's November round, so it can take
-   a wider measure than when it shared the row with a photograph: about 640px,
-   a size down from the body copy and with more leading, which is the breathing
-   room he asked for. */
+   a wide measure: on a wide screen it runs to two-thirds of the way across
+   the page, a size down from the body copy and with more leading, which is
+   the breathing room he asked for. */
 .prose {
   display: grid;
   gap: 1.05em;
-  max-width: 40rem;
+  max-width: none;
   font-size: clamp(0.97rem, 0.93rem + 0.15vw, 1.0625rem);
   line-height: 1.72;
 }
+/* Two-thirds of the page, measured from its left edge (the copy itself starts
+   3.9rem in, under the section titles). */
+@media (min-width: 56rem) { .prose { max-width: calc((100% + 3.9rem) * 2 / 3 - 3.9rem); } }
 /* The site's paragraphs carry a bottom margin; here the grid's gap spaces them. */
 .prose p { max-width: none; margin: 0; }
 
@@ -763,26 +765,72 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   color: var(--ink);
 }
 
-/* The page's slideshow, in the blue below the sections. Its height comes from
-   the window, so a photograph is seen whole; every frame is shown whole
-   whatever its shape (contain, not cover) and aligned with the text above it,
-   on the left. The count and arrows sit first in the line beneath, under the
-   photograph, then the caption. */
-/* Specific enough to win over the reset on figure further down the sheet. */
-.services-page .carousel--page { margin-top: clamp(3rem, 7vw, 5.5rem); }
-@media (min-width: 40rem) { .carousel--page { padding-left: 3.9rem; } }
-.carousel--page .carousel__plate {
-  aspect-ratio: auto;
-  height: clamp(20rem, 66vh, 44rem);
-  background: none;
+/* The page's photographs, in the blue below the sections: a strip that runs
+   the full width of the window. It starts on the line of the text above and
+   runs off the right-hand edge, every photograph whole at one height, so a
+   portrait and a landscape sit side by side as they are. It scrolls sideways
+   by trackpad, touch, a drag with the mouse or the arrows under it. */
+.strip {
+  /* Where the text column starts: the shell's margin, plus the indent that
+     sets the copy under the section titles. */
+  --strip-in: calc((100% - min(100% - var(--gutter) * 2, var(--shell))) / 2);
+  --strip-indent: 0rem;
+  --strip-h: clamp(15rem, 62vw, 24rem);
+  margin-top: clamp(3rem, 7vw, 5.5rem);
 }
-.carousel--page .carousel__plate img { object-fit: contain; object-position: left center; }
-.carousel--page .carousel__bar { justify-content: flex-start; gap: 1.5rem; }
-.carousel--page .carousel__controls { order: -1; }
+@media (min-width: 40rem) {
+  .strip { --strip-indent: 3.9rem; --strip-h: clamp(18rem, 56vh, 34rem); }
+}
+.strip__track {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.4vw, 1.5rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  padding-inline: calc(var(--strip-in) + var(--strip-indent)) var(--strip-in);
+  scroll-padding-inline: calc(var(--strip-in) + var(--strip-indent)) var(--strip-in);
+  scrollbar-width: none;
+  cursor: grab;
+  outline-offset: -2px;
+}
+.strip__track::-webkit-scrollbar { display: none; }
+.strip__track.is-dragging { cursor: grabbing; }
+.strip__track.is-dragging img { pointer-events: none; }
+/* On a touch screen each swipe settles on a photograph; with a mouse or a
+   trackpad it moves freely, which is what a drag wants. */
+@media (pointer: coarse) {
+  .strip__track { scroll-snap-type: x mandatory; cursor: auto; }
+  .strip__item { scroll-snap-align: start; }
+}
+.strip__item { flex: none; margin: 0; }
+.strip__item img {
+  display: block;
+  height: var(--strip-h);
+  width: auto;
+  max-width: none;
+  -webkit-user-drag: none;
+  user-select: none;
+}
+/* On a phone a landscape photograph at that height would be wider than the
+   screen; there each one fits within the width as well, still whole. */
 @media (max-width: 39.999rem) {
-  .carousel--page .carousel__plate { height: auto; aspect-ratio: 4 / 5; }
-  .carousel--page .carousel__plate img { object-position: center; }
+  .strip__item img { height: min(var(--strip-h), (100vw - var(--gutter) * 3) / var(--ar, 1)); }
 }
+/* The caption takes the photograph's width and never widens it. */
+.strip__item figcaption {
+  width: 0; min-width: 100%;
+  margin-top: 0.7rem;
+  font-family: var(--serif);
+  font-size: var(--t-small);
+  letter-spacing: 0;
+  line-height: 1.5;
+  color: var(--ink-strong-muted);
+}
+.strip__bar { margin-top: 1rem; padding-left: var(--strip-indent); }
+.strip__controls { display: none; gap: 0.25rem; margin-left: -0.5rem; }
+.js .strip__controls { display: inline-flex; }
+.strip__controls[hidden] { display: none; }
+.strip__controls .carousel__step:disabled { opacity: 0.3; cursor: default; color: var(--ink-strong-muted); }
 
 /* A caption under a single photograph — the About portrait, the Contact
    photograph — set like the slideshow captions. */
@@ -1246,7 +1294,8 @@ address {
   html[data-cursor="on"] a,
   html[data-cursor="on"] button,
   html[data-cursor="on"] summary,
-  html[data-cursor="on"] [role="button"] { cursor: none; }
+  html[data-cursor="on"] [role="button"],
+  html[data-cursor="on"] .strip__track { cursor: none; }
 
   .cursor-dot {
     position: fixed;
@@ -1275,6 +1324,25 @@ address {
     margin: -11px 0 0 -11px;
     background: color-mix(in srgb, var(--canvas) 28%, transparent);
   }
+  /* Over a strip of photographs it becomes a disc that says what to do. */
+  .cursor-dot::after {
+    content: "Drag";
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ultramarine);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .cursor-dot[data-over="drag"] {
+    width: 68px; height: 68px;
+    margin: -34px 0 0 -34px;
+  }
+  .cursor-dot[data-over="drag"]::after { opacity: 1; transition-delay: 0.1s; }
+
   /* Over the paper sections it inverts, so it stays visible either way. */
   .cursor-dot[data-ground="paper"] { background: var(--ultramarine); }
   .cursor-dot[data-ground="paper"][data-over="link"] {
@@ -1326,7 +1394,7 @@ address {
   .masthead, .panel, .footer, .menu { background: #fff !important; color: #000 !important; }
   .panel { border-block: 1px solid #000; }
   .btn { background: #fff !important; color: #000 !important; border-color: #000 !important; }
-  .scroll-cue, .carousel__controls { display: none !important; }
+  .scroll-cue, .carousel__controls, .strip__controls { display: none !important; }
   figure, .plate { break-inside: avoid; }
   img { max-height: 8cm; object-fit: contain; }
   a { text-decoration: none; }

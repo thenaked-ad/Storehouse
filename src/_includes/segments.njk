@@ -2,10 +2,11 @@
   <!-- The sections run the full width, text only. Each is an ordinary
        <details>, so with the script absent every one still opens and closes;
        the shared name keeps one open at a time. A link to /page#section opens
-       that section on arrival. Below them, in the blue, the page's slideshow.
-       The copy and photographs come from content/{{ key }}.yml. -->
-  <section class="shell services-page">
-    <div class="services-page__main">
+       that section on arrival. Below them, in the blue, the page's photographs
+       as a strip across the full width. The copy and photographs come from
+       content/{{ key }}.yml. -->
+  <section class="services-page">
+    <div class="shell services-page__main">
       <div class="services-page__head">
         <span class="ledger">{{ ledger }}</span>
         <h1>{{ heading | safe }}</h1>
@@ -37,25 +38,31 @@
 {%- for p in data.slideshow or [] %}{% if photos[p.image] %}{% set shots = (shots.push({ img: photos[p.image], alt: p.alt, caption: p.caption }), shots) %}{% endif %}{% endfor %}
 {%- if shots.length %}
 
-    <!-- The page's slideshow. Every photograph is shown whole, whatever its
-         shape, and left-aligned with the text above. -->
-    <figure class="carousel carousel--page" data-carousel>
-      <div class="carousel__plate">
+    <!-- The page's photographs: a strip running the full width of the window,
+         from the line of the text above off the right-hand edge. Each is shown
+         whole at one height, with its caption under it. It scrolls sideways on
+         its own (trackpad, touch, a drag with the mouse, or the arrows), so
+         with no script it is still a working strip. -->
+    <div class="strip" data-strip>
+      <div class="strip__track" tabindex="0" role="region" aria-label="Photographs">
 {%- for shot in shots %}
-        <img src="{{ shot.img.url }}" srcset="{{ shot.img.srcset }}" sizes="(min-width: 56rem) 80vw, 100vw"
-             width="{{ shot.img.width }}" height="{{ shot.img.height }}"
-             loading="lazy" decoding="async" alt="{{ shot.alt | attr | safe }}" data-caption="{{ shot.caption | attr | safe }}">
+        <figure class="strip__item">
+          <img src="{{ shot.img.url }}" srcset="{{ shot.img.srcset }}" sizes="(min-width: 40rem) 60vw, 90vw"
+               width="{{ shot.img.width }}" height="{{ shot.img.height }}" style="--ar: {{ shot.img.width / shot.img.height }}"
+               loading="{{ 'eager' if loop.index <= 2 else 'lazy' }}" decoding="async" alt="{{ shot.alt | attr | safe }}" draggable="false">
+{%- if shot.caption %}
+          <figcaption>{{ shot.caption | typeset | safe }}</figcaption>
+{%- endif %}
+        </figure>
 {%- endfor %}
       </div>
-      <figcaption class="carousel__bar">
-        <span class="carousel__caption"></span>
-        <span class="carousel__controls">
-          <span class="carousel__count" aria-hidden="true">1 / {{ shots.length }}</span>
-          <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photograph"><span class="arrow" aria-hidden="true"></span></button>
-          <button class="carousel__step carousel__step--next" type="button" aria-label="Next photograph"><span class="arrow" aria-hidden="true"></span></button>
+      <div class="shell strip__bar">
+        <span class="strip__controls">
+          <button class="carousel__step carousel__step--prev" type="button" aria-label="Previous photographs"><span class="arrow" aria-hidden="true"></span></button>
+          <button class="carousel__step carousel__step--next" type="button" aria-label="Next photographs"><span class="arrow" aria-hidden="true"></span></button>
         </span>
-      </figcaption>
-    </figure>
+      </div>
+    </div>
 {%- endif %}
   </section>
 

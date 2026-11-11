@@ -421,11 +421,11 @@ segments still open and close. A link to `/page#segment` opens that segment on
 arrival.
 
 **Since Fred's November round the segments are text only**, and each page has
-one slideshow in the blue below them, above the enquiry panel (`slideshow` in
-the page's content file). The segment text is set a size down from the body
-copy with more leading (17px / 1.72 at 1440) across a 40rem measure — Fred
-asked for more breathing room and a wider column once the photographs had
-gone from beside it.
+one strip of photographs in the blue below them, above the enquiry panel
+(`slideshow` in the page's content file; "Photographs" in the editor). The
+segment text is set a size down from the body copy with more leading (17px /
+1.72 at 1440) and, on a wide screen, runs to two-thirds of the way across the
+page (Tom, 11 Nov; it was 40rem first).
 
 **Formatting in the editor** (`blocks` in `eleventy.config.js`): a line
 starting `- ` is a bullet, `1. ` a numbered step (consecutive items make one
@@ -436,11 +436,17 @@ sans as a lead-in. Bullets are a short rule, steps are numbered in the mono.
 Fred's existing list-like paragraphs were marked as bullets when this went in;
 his wording was checked unchanged.
 
-The slideshow shows every photograph whole (`object-fit: contain`), left-aligned
-with the text, at a height taken from the window; on a phone it is a 4:5 frame.
-Each photograph is published at 800, 1600 and 2400px wide (never wider than the
-original) with a `srcset`, so a landscape photograph across most of a large
-screen is still sharp.
+**The strip** (`.strip`, `data-strip`, 11 Nov — replacing a single-frame
+slideshow that sat on the left and looked lost): every photograph whole at one
+height (56vh, 18–34rem; on a phone each also fits the screen width, using the
+`--ar` ratio set on the img), starting on the text line and running off the
+right-hand edge of the window. It is a native horizontal scroller, so trackpad,
+touch and keyboard work with no script; `site.js` adds a mouse drag, the two
+arrows under it (a page at a time, resting a photograph on the text line;
+dimmed at either end, hidden when everything fits), and the custom cursor
+becomes a "Drag" disc over it. Touch screens snap to each photograph. Captions
+sit under each photograph at its width. Each photograph is published at 800,
+1600 and 2400px wide (never wider than the original) with a `srcset`.
 
 `.services-page` carries `min-height: calc(100svh - var(--masthead-h))`, so the
 blue holds the screen whatever the window, and the paper panel below never
@@ -473,7 +479,8 @@ a little but stays in view.
 
 ## The carousels
 
-One component everywhere (`.carousel`, `data-carousel`): every frame stacked in
+(No longer used on the section pages — see the strip above. The component is
+kept in the CSS and script.) One component (`.carousel`, `data-carousel`): every frame stacked in
 one plate, and a line under it with the frame's caption on the left and a count
 and two arrows on the right.
 

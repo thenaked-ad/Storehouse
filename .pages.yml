@@ -113,9 +113,9 @@ content:
             collapsed: true
             summary: "{title}"
       - name: slideshow
-        label: Slideshow
+        label: Photographs
         component: photo
-        description: The photographs shown in the slideshow below the sections, in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        description: The strip of photographs below the sections, left to right in this order. Drag to reorder. Any shape is fine — each is shown whole.
         list:
           collapsible:
             collapsed: true
@@ -138,9 +138,9 @@ content:
             collapsed: true
             summary: "{title}"
       - name: slideshow
-        label: Slideshow
+        label: Photographs
         component: photo
-        description: The photographs shown in the slideshow below the sections, in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        description: The strip of photographs below the sections, left to right in this order. Drag to reorder. Any shape is fine — each is shown whole.
         list:
           collapsible:
             collapsed: true
@@ -163,9 +163,9 @@ content:
             collapsed: true
             summary: "{title}"
       - name: slideshow
-        label: Slideshow
+        label: Photographs
         component: photo
-        description: The photographs shown in the slideshow below the sections, in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        description: The strip of photographs below the sections, left to right in this order. Drag to reorder. Any shape is fine — each is shown whole.
         list:
           collapsible:
             collapsed: true

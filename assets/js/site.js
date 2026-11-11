@@ -280,6 +280,97 @@
     });
   });
 
+  /* ------------------------------------------------------------ the strips */
+
+  /* The page's photographs in a sideways strip. The browser scrolls it by
+     itself (trackpad, touch, keyboard); this adds a drag with the mouse and
+     the two arrows, which move on by about a screen's width and rest on a
+     photograph's left edge. The arrows dim at either end and go altogether
+     when everything already fits. */
+
+  Array.prototype.forEach.call(document.querySelectorAll("[data-strip]"), function (strip) {
+    var track = strip.querySelector(".strip__track");
+    var controls = strip.querySelector(".strip__controls");
+    var prev = strip.querySelector(".carousel__step--prev");
+    var next = strip.querySelector(".carousel__step--next");
+    var items = Array.prototype.slice.call(track.querySelectorAll(".strip__item"));
+    var behaviour = reduced ? "auto" : "smooth";
+
+    var bar = strip.querySelector(".strip__bar");
+    // The strip's insets, measured rather than read from the style (they are
+    // calc()s of the page width): on the left, the text line; on the right,
+    // the page's right margin.
+    var pad = function (side) {
+      var box = track.getBoundingClientRect();
+      return side === "Left"
+        ? items[0].getBoundingClientRect().left - box.left + track.scrollLeft
+        : Math.max(0, box.right - bar.getBoundingClientRect().right);
+    };
+    var update = function () {
+      var max = track.scrollWidth - track.clientWidth;
+      controls.hidden = max <= 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max - 2;
+    };
+
+    // A page at a time, resting a photograph on the text line. Forward: the
+    // first photograph not wholly in view comes to the line. Back: as far as a
+    // screen's width allows, again resting on a photograph.
+    var go = function (dir) {
+      var at = track.scrollLeft, left = pad("Left"), view = track.clientWidth - left - pad("Right");
+      var max = track.scrollWidth - track.clientWidth;
+      var origin = track.getBoundingClientRect().left;
+      var stops = items.map(function (it) {
+        var r = it.getBoundingClientRect();
+        return { at: r.left - origin + at - left, end: r.right - origin + at };
+      });
+      var to;
+      if (dir > 0) {
+        var cut = stops.filter(function (s) { return s.end > at + track.clientWidth - pad("Right") + 2 && s.at > at + 2; })[0];
+        to = cut ? cut.at : max;
+      } else {
+        var back = stops.filter(function (s) { return s.at >= at - view - 2 && s.at < at - 2; })[0];
+        to = back ? back.at : 0;
+      }
+      track.scrollTo({ left: Math.max(0, Math.min(to, max)), behavior: behaviour });
+    };
+    prev.addEventListener("click", function () { go(-1); });
+    next.addEventListener("click", function () { go(1); });
+
+    // A drag with the mouse. Touch and trackpads scroll natively already.
+    var down = null, moved = false;
+    track.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      down = { x: e.clientX, left: track.scrollLeft };
+      moved = false;
+    });
+    window.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - down.x;
+      if (!moved && Math.abs(dx) < 4) return;
+      if (!moved) { moved = true; track.classList.add("is-dragging"); }
+      track.scrollLeft = down.left - dx;
+      e.preventDefault();
+    });
+    var end = function () {
+      if (!down) return;
+      down = null;
+      track.classList.remove("is-dragging");
+    };
+    window.addEventListener("pointerup", end);
+    window.addEventListener("pointercancel", end);
+    // A drag that ends over a photograph is not a click on it.
+    track.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    // Photographs arriving later change the strip's length.
+    Array.prototype.forEach.call(track.querySelectorAll("img"), function (img) {
+      if (!img.complete) img.addEventListener("load", update);
+    });
+    update();
+  });
+
   /* ----------------------------------------------------------- the pointer */
 
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
@@ -306,7 +397,9 @@
       // skipped entirely while the pointer stays over the same element.
       if (!el || !el.closest || el === lastTarget) return;
       lastTarget = el;
-      var over = el.closest("a, button, summary, [role='button'], input, label") ? "link" : "";
+      var over = el.closest("a, button, summary, input, label") ? "link"
+        : el.closest(".strip__track") ? "drag"
+        : el.closest("[role='button']") ? "link" : "";
       if (over !== lastOver) { dot.dataset.over = over; lastOver = over; }
       var ground = el.closest("[data-paper], .panel, .footer, .menu, .map-dialog") ? "paper" : "";
       if (ground !== lastGround) { dot.dataset.ground = ground; lastGround = ground; }
