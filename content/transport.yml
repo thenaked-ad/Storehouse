@@ -37,15 +37,17 @@ segments:
       method is recorded in your inventory, so you always know how your works
       are cared for.
   - title: Transport
-    text: >-
-      Our vans are dedicated to fine art and run with trained art handlers. For
-      larger moves, we have access to bigger vehicles through our logistics
-      partner on the Park Royal site.
+    text: >
+      UK Domestic / Nationwide
+       We collect from and deliver to studios, galleries, homes and auction houses across London and the UK. Our dedicated fine art vans are crewed by trained art handlers, and we can pack, unpack and install at either end.
 
+      Air Freight / Worldwide
+       Single works or whole exhibitions, flown anywhere in the world. We plan the route and work with our partner shippers on airline handling, airport supervision and agents at destination. Couriers can travel with the work when it’s needed.
 
-      Works are packed and secured for the journey, and every move is planned in
-      advance: access, parking, lifts, stairs and timings are checked before we
-      arrive, so the day runs to plan.
+      Sea Freight / Worldwide
+       A considered option for single works, large sculpture and full collections. We offer shared shipments, or a dedicated container when the work calls for one, and we build bespoke crates for the voyage.
+    button: Get in touch for a quote
+    email_subject: Quote request
   - title: Installation
     text: >-
       We install and deinstall works for galleries, art fairs and private
