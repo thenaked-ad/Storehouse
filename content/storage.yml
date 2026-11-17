@@ -1,37 +1,4 @@
 segments:
-  - title: Billing
-    text: >-
-      Storage is charged by volume, per cubic metre per week, and invoiced
-      monthly in arrears. If a work arrives or leaves mid-month, you pay only
-      for the days it was with us. Every invoice lines up with your inventory,
-      so the cost of each work is clear.
-
-
-      No release fees. We don’t charge to release a work, whether it leaves with
-      a third-party shipper or with our own transport team. Logging in and
-      inventory are included. Many storage providers charge every time a work
-      moves. We don’t, so your storage bill is simply your storage bill.
-
-
-      Charged separately, only when needed and agreed in advance:
-
-
-      - Condition reports
-
-
-      - Photography
-
-
-      - Uncrating, repacking or crating
-
-
-      - Additional handling beyond a standard release
-
-
-      Transport is booked and paid for separately, whether with our team or a
-      shipper of your choice.
-    button: Get in touch to find out about our prices.
-    email_subject: "Storage Inquiry "
   - title: How It Works
     text: >-
       We are a professional fine art storage in Park Royal, London. We offer
@@ -73,41 +40,75 @@ segments:
 
 
       Works in store can be viewed by appointment in our private Viewing Room.
+  - title: Billing
+    text: >-
+      Storage is charged by volume, per cubic metre per week, and invoiced
+      monthly in arrears. If a work arrives or leaves mid-month, you pay only
+      for the days it was with us. Every invoice lines up with your inventory,
+      so the cost of each work is clear.
+
+
+      No release fees. We don’t charge to release a work, whether it leaves with
+      a third-party shipper or with our own transport team. Logging in and
+      inventory are included. Many storage providers charge every time a work
+      moves. We don’t, so your storage bill is simply your storage bill.
+
+
+      Charged separately, only when needed and agreed in advance:
+
+
+      - Condition reports
+
+
+      - Photography
+
+
+      - Uncrating, repacking or crating
+
+
+      - Additional handling beyond a standard release
+
+
+      Transport is booked and paid for separately, whether with our team or a
+      shipper of your choice.
+    button: Get in touch to find out about our prices.
+    email_subject: "Storage Inquiry "
   - title: The Facility
     text: >-
       Our storage is within a secure, purpose-built logistics site in Park
-      Royal, West London. It is discreet and close to the A40 and North
-      Circular, with direct routes into central London and across the UK.
+      Royal, West London. It’s discreet and close to the A40 and North Circular,
+      with direct routes into central London and across the UK.
 
 
-      This is a professional warehouse and built to receive, handle and store
-      artworks and sculpture of any size, from a single drawing to a large
-      crate. We have both large and small rooms, so a single work and a whole
-      collection can each be stored in a space that suits them.
-  - title: Climate Control and Ambient Storage
-    text: >-
+      This is a professional fine art warehouse, built to receive, handle and
+      store artworks and sculpture of any size, from a single drawing to a large
+      crate. With both large and small rooms, a single work or a whole
+      collection can be stored in a space that suits it.
+
+
       We offer two types of storage, and we’ll advise work by work on which is
       right.
 
 
-      - Climate-controlled. This is for works that are soft-wrapped or
-      card-wrapped: paintings, works on paper, photographs, textiles and
-      anything sensitive to its environment. Temperature and relative humidity
-      are held stable year-round, which means less movement in canvas, panel and
-      paper, and no surprises when a work comes back out.
+      Climate-controlled. For soft-wrapped or card-wrapped works: paintings,
+      works on paper, photographs, textiles and anything sensitive to its
+      environment. Temperature and relative humidity are held stable year-round,
+      which means less movement in canvas, panel and paper, and no surprises
+      when a work comes back out.
+
+      Ambient. For crated or T-framed works. The crate or frame buffers the
+      work, making ambient storage the right home for large-format paintings,
+      sculpture and works going into long-term deep storage.
 
 
-      - Ambient. This is for works that are crated or T-framed. The crate or
-      frame buffers the work, which makes ambient storage the right home for
-      large-format paintings, sculpture and works going into long-term deep
-      storage.
+      Monitored throughout. Temperature and humidity are logged continuously
+      across both. Where needed, we repack works so each piece is stored as it
+      should be.
 
 
-      - Monitored throughout. Temperature and humidity are logged continuously
-      across both. Where needed, we repack works so each piece is stored the way
-      it should be.
-  - title: Bonded Storage
-    text: >-
+      Bonded storage
+
+
       The whole site is a bonded warehouse operating under HMRC customs
       approval.
 
@@ -119,9 +120,9 @@ segments:
 
       For collectors, dealers and galleries moving work through London for
       fairs, sales, exhibitions or onward shipping, this means no tax tied up in
-      transit. The paperwork is handled properly, and works are kept in a fully
-      controlled, audited environment. We work with your shipper or customs
-      agent to manage entries and documentation from arrival to release.
+      transit. Works are kept in a fully controlled, audited environment, and we
+      work with your shipper or customs agent to manage entries and
+      documentation from arrival to release.
   - title: Security & Insurance
     text: >-
       We take the security of the works in our care seriously. When you store
