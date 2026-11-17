@@ -35,6 +35,8 @@ segments:
 
       Transport is booked and paid for separately, whether with our team or a
       shipper of your choice.
+    button: Get in touch to find out about our prices.
+    email_subject: "Storage Inquiry "
   - title: How It Works
     text: >-
       Every work that comes into store is logged, labelled and shared with you.
