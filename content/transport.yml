@@ -44,31 +44,6 @@ segments:
       Storage clients: releasing works from store is never charged. You pay only
       for the transport itself, booked with our team or a shipper of your
       choice.
-  - title: Our Art Handlers
-    text: >-
-      Our art handlers have decades of experience with paintings, works on
-      paper, sculpture, installation, furniture and fragile or unconventional
-      media.
-
-
-      Only trained fine art staff handle works in our care, whether in store, in
-      transit or on the wall. Our warehouse is equipped to move large crates and
-      heavy sculpture safely, and we bring the same care and kit to each project
-      as specified.
-
-
-      Alongside transport and installation, our team carries out condition
-      reporting and photography; see Additional Services.
-  - title: Vehicles
-    text: >-
-      Our vans are dedicated to fine art and run with trained art handlers. For
-      larger moves, we have access to bigger vehicles through our logistics
-      partner on the Park Royal site.
-
-
-      Works are packed and secured for the journey, and every move is planned in
-      advance: access, parking, lifts, stairs and timings are checked before we
-      arrive, so the day runs to plan.
   - title: Packing & Crating
     text: >-
       How a work is packed depends on what it is, how far it’s travelling and
@@ -92,6 +67,31 @@ segments:
       Every work is photographed before packing, and we can provide a full
       condition report. Packing is recorded in your inventory, so you always
       know how each work is protected.
+  - title: Transport
+    text: >-
+      Our vans are dedicated to fine art and run with trained art handlers. For
+      larger moves, we have access to bigger vehicles through our logistics
+      partner on the Park Royal site.
+
+
+      Works are packed and secured for the journey, and every move is planned in
+      advance: access, parking, lifts, stairs and timings are checked before we
+      arrive, so the day runs to plan.
+  - title: Our Art Handlers
+    text: >-
+      Our art handlers have decades of experience with paintings, works on
+      paper, sculpture, installation, furniture and fragile or unconventional
+      media.
+
+
+      Only trained fine art staff handle works in our care, whether in store, in
+      transit or on the wall. Our warehouse is equipped to move large crates and
+      heavy sculpture safely, and we bring the same care and kit to each project
+      as specified.
+
+
+      Alongside transport and installation, our team carries out condition
+      reporting and photography; see Additional Services.
   - title: Installation
     text: >-
       We install and deinstall works for galleries, art fairs and private
