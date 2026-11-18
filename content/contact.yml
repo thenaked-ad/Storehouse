@@ -1,8 +1,8 @@
 intro: Whatever you need moved, stored, photographed, catalogued or hung, we
   would be glad to hear about it.
 enquiries:
-  - label: Request a Rate Card
-    email_subject: Rate card request
+  - label: Request a quote
+    email_subject: Quote request
   - label: Storage
     email_subject: Storage enquiry
   - label: Transport
@@ -17,7 +17,6 @@ enquiries:
     email_subject: Collection and estate management enquiry
 photo: /assets/img/photos/240726102.jpg
 photo_alt: A framed work laid face-down on a padded table with its paperwork beside it.
-photo_caption: ""
 company: |-
   Storehouse Fine Arts Ltd
   Registered in England & Wales
