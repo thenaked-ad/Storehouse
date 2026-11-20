@@ -30,6 +30,48 @@ segments:
       Invoiced on completion, with each item listed. 
     button: Get in touch
     email_subject: Handling & Transport Quote
+  - title: Installation & Exhibition Services
+    text: >-
+      We install single works and full exhibitions for galleries, art fairs,
+      museums and private collectors, in London and abroad. We plan each project
+      around your deadline, including exhibition design and layout, and our art
+      handlers take care of the whole job, from collecting the works to
+      deinstalling at the close. When a job needs a specialist, we bring in
+      shippers, conservators, framers, fabricators and technicians we trust.
+
+
+      Installation
+
+      We unpack, hang and deinstall, indoors and out. In private homes we take
+      on rehangs, rotations and new acquisitions. Condition reports and
+      installation guides are available on request.
+
+
+      Fabrication
+
+      We build walls, plinths, shelving and exhibition furniture, and fit out
+      storage rooms to an specification.
+  - title: Transport
+    text: >
+      UK Domestic
+
+      We collect from and deliver to studios, galleries, homes and auction
+      houses across London and the UK. Our dedicated fine art vans are crewed by
+      trained art handlers, and we can pack, unpack and install at either end.
+
+
+      Air Freight
+
+      Single works or whole exhibitions, flown anywhere in the world. We plan
+      the route and work with our partner shippers on airline handling, airport
+      supervision and agents at destination. 
+
+
+      Sea Freight
+
+      A considered option for single works, large sculpture and full
+      collections. We offer shared shipments, or a dedicated container when the
+      work calls for one.
   - title: Packing & Crating
     text: >-
       Every work is packed for its medium, its journey and its time in storage,
@@ -53,48 +95,6 @@ segments:
       Each packing method is recorded in your inventory, so you always know how
       a work is packed. Photography and condition reports are available on
       request.
-  - title: Transport
-    text: >
-      UK Domestic
-
-      We collect from and deliver to studios, galleries, homes and auction
-      houses across London and the UK. Our dedicated fine art vans are crewed by
-      trained art handlers, and we can pack, unpack and install at either end.
-
-
-      Air Freight
-
-      Single works or whole exhibitions, flown anywhere in the world. We plan
-      the route and work with our partner shippers on airline handling, airport
-      supervision and agents at destination. 
-
-
-      Sea Freight
-
-      A considered option for single works, large sculpture and full
-      collections. We offer shared shipments, or a dedicated container when the
-      work calls for one.
-  - title: Installation & Exhibition Services
-    text: >-
-      We install single works and full exhibitions for galleries, art fairs,
-      museums and private collectors, in London and abroad. We plan each project
-      around your deadline, including exhibition design and layout, and our art
-      handlers take care of the whole job, from collecting the works to
-      deinstalling at the close. When a job needs a specialist, we bring in
-      shippers, conservators, framers, fabricators and technicians we trust.
-
-
-      Installation
-
-      We unpack, hang and deinstall, indoors and out. In private homes we take
-      on rehangs, rotations and new acquisitions. Condition reports and
-      installation guides are available on request.
-
-
-      Fabrication
-
-      We build walls, plinths, shelving and exhibition furniture, and fit out
-      storage rooms to an specification.
 slideshow:
   - image: /assets/img/photos/transport-vans.jpg
     alt: Two white vans parked by a park.
