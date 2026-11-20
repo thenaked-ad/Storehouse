@@ -96,6 +96,10 @@ segments:
       a work is packed. Photography and condition reports are available on
       request.
 slideshow:
+  - image: /assets/img/photos/transport-crate.jpg
+    alt: A finished timber crate, marked and labelled.
+  - image: /assets/img/photos/24072618.jpg
+    alt: A wrapped work set into a foam-cornered travel frame.
   - image: /assets/img/photos/transport-vans.jpg
     alt: Two white vans parked by a park.
   - image: /assets/img/photos/transport-levelling.jpg
@@ -104,12 +108,6 @@ slideshow:
     alt: An art handler lifting a large painting into place.
   - image: /assets/img/photos/transport-van-racks.jpg
     alt: Racking and straps inside a fine art van.
-  - image: /assets/img/photos/transport-crate.jpg
-    alt: A finished timber crate, marked and labelled.
-  - image: /assets/img/photos/transport-travel-frame.jpg
-    alt: A wrapped work set into a foam-cornered travel frame.
-  - image: /assets/img/photos/transport-check-in.jpg
-    alt: A framed work laid face down on a padded table with its paperwork.
 panel:
   text: Tell us what is moving, from where and to where, and we will come back
     with a plan and a price.
