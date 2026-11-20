@@ -24,11 +24,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
+  # Build and publish are two jobs, as GitHub's own Pages workflow has them.
+  # In one job the publish step could look for the upload a moment after it
+  # finished and not find it yet ("No artifacts named github-pages"), which
+  # failed the deploy twice on 20 Nov 2026.
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -58,5 +59,12 @@ jobs:
         with:
           path: _site
 
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
