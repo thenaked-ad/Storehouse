@@ -28,6 +28,8 @@ segments:
       Invoice 
 
       Invoiced on completion, with each item listed. 
+    button: Get in touch
+    email_subject: Handling & Transport Quote
   - title: Packing & Crating
     text: >-
       Every work is packed for its medium, its journey and its time in storage,
