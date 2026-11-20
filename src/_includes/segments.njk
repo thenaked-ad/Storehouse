@@ -40,11 +40,12 @@
 
     <!-- The page's photographs: a strip running the full width of the window,
          edge to edge. Each is shown
-         whole at one height, with its caption under it. It scrolls sideways on
-         its own (trackpad, touch, a drag with the mouse, or the arrows), so
-         with no script it is still a working strip. -->
+         whole at one height, with its caption under it. The script makes it a
+         loop that drifts slowly on its own; with no script it is still a strip
+         that scrolls sideways (trackpad, touch). -->
     <div class="strip" data-strip>
       <div class="strip__track" tabindex="0" role="region" aria-label="Photographs">
+        <div class="strip__rail">
 {%- for shot in shots %}
         <figure class="strip__item">
           <img src="{{ shot.img.url }}" srcset="{{ shot.img.srcset }}" sizes="(min-width: 40rem) 60vw, 90vw"
@@ -55,6 +56,7 @@
 {%- endif %}
         </figure>
 {%- endfor %}
+        </div>
       </div>
       <div class="shell strip__bar">
         <span class="strip__controls">

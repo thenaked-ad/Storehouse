@@ -10,7 +10,7 @@ key: contact
       <div>
         <span class="ledger">05</span>
         <h1 class="single-title">Contact</h1>
-        <p style="margin-top:1rem;max-width:24em">{{ contact.intro | typeset | safe }}</p>
+        <p style="margin-top:1rem;max-width:24em">{{ contact.intro | rich | safe }}</p>
         <p class="contact-email"><a class="link" href="mailto:{{ site.email }}">{{ site.email }}</a></p>
       </div>
 

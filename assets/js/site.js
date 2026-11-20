@@ -282,86 +282,168 @@
 
   /* ------------------------------------------------------------ the strips */
 
-  /* The page's photographs in a sideways strip. The browser scrolls it by
-     itself (trackpad, touch, keyboard); this adds a drag with the mouse and
-     the two arrows, which move on by about a screen's width and rest a
-     photograph against the left of the window. The arrows dim at either end and go altogether
-     when everything already fits. */
+  /* The page's photographs in a sideways strip that loops (Fred, 20 Nov). The
+     set is copied end to end, so there is always more to the right and to
+     the left, and the strip drifts slowly left on its own while it is on
+     screen. Anyone can take it in hand — trackpad, touch, a drag with the
+     mouse, the arrows — and it waits a moment after they let go before it
+     drifts on. Hovering over it holds it still, to read a caption.
+
+     The position is kept as a number of pixels with a fraction; the scroll
+     takes the whole pixels (browsers round scroll positions) and the row is
+     moved by the fraction, so even a slow drift is smooth. The scroll is
+     kept within the second copy of the set, quietly stepping back or on by
+     one set's width when it strays — the copies are identical, so nothing
+     visibly moves. With the script absent it is one set that scrolls. */
+
+  var SPEED = 26;       // pixels a second
+  var REST = 2500;      // ms after someone lets go before it drifts on
 
   Array.prototype.forEach.call(document.querySelectorAll("[data-strip]"), function (strip) {
     var track = strip.querySelector(".strip__track");
+    var rail = strip.querySelector(".strip__rail");
     var controls = strip.querySelector(".strip__controls");
     var prev = strip.querySelector(".carousel__step--prev");
     var next = strip.querySelector(".carousel__step--next");
-    var items = Array.prototype.slice.call(track.querySelectorAll(".strip__item"));
+    var originals = Array.prototype.slice.call(rail.children);
     var behaviour = reduced ? "auto" : "smooth";
+    if (originals.length < 2) { controls.hidden = true; return; }
 
-    // The strip runs edge to edge, so a photograph comes to rest against the
-    // left of the window. (Kept as a function in case the strip is inset.)
-    var pad = function () { return 0; };
-    var update = function () {
-      var max = track.scrollWidth - track.clientWidth;
-      controls.hidden = max <= 2;
-      prev.disabled = track.scrollLeft <= 2;
-      next.disabled = track.scrollLeft >= max - 2;
+    var sets = 1;
+    var addSet = function () {
+      originals.forEach(function (fig) {
+        var copy = fig.cloneNode(true);
+        copy.setAttribute("aria-hidden", "true");
+        copy.inert = true;
+        var img = copy.querySelector("img");
+        if (img) { img.alt = ""; img.loading = "lazy"; }
+        rail.appendChild(copy);
+      });
+      sets++;
     };
+    // One set's width: from the first photograph to its first copy.
+    var W = 0;
+    var measure = function () {
+      W = rail.children[originals.length].getBoundingClientRect().left - originals[0].getBoundingClientRect().left;
+      var need = Math.max(5, 3 + Math.ceil(track.clientWidth / Math.max(W, 1)));
+      while (sets < need) addSet();
+    };
+    addSet();
+    measure();
+    if (W < 2) { controls.hidden = true; return; }
+    strip.classList.add("is-looping");
 
-    // A page at a time, resting a photograph on the left edge. Forward: the
-    // first photograph not wholly in view comes to the edge. Back: as far as a
-    // screen's width allows, again resting on a photograph.
+    var pos = W, ours = -1;
+    var paint = function () {
+      var whole = Math.floor(pos);
+      ours = whole;
+      if (track.scrollLeft !== whole) track.scrollLeft = whole;
+      var frac = pos - whole;
+      rail.style.transform = frac > 0.01 ? "translate3d(" + (-frac).toFixed(2) + "px,0,0)" : "";
+    };
+    var normalise = function () {
+      while (pos < W) pos += W;
+      while (pos >= 2 * W) pos -= W;
+    };
+    paint();
+
+    var holdUntil = 0, hovering = false, down = false, idle = null;
+    var hold = function () { holdUntil = performance.now() + REST; };
+
+    // Someone else moved it: the arrows' smooth scroll, a trackpad, a finger,
+    // a drag. Follow them, and once they stop, step back into the middle set.
+    track.addEventListener("scroll", function () {
+      if (track.scrollLeft === ours) return;
+      pos = track.scrollLeft; ours = pos;
+      rail.style.transform = "";
+      hold();
+      clearTimeout(idle);
+      idle = setTimeout(function settle() {
+        if (down) { idle = setTimeout(settle, 200); return; }
+        normalise(); paint();
+      }, 180);
+    }, { passive: true });
+
+    // The arrows: a page at a time, resting a photograph on the left edge.
     var go = function (dir) {
-      var at = track.scrollLeft, left = pad("Left"), view = track.clientWidth - left - pad("Right");
-      var max = track.scrollWidth - track.clientWidth;
+      normalise(); paint(); hold();
+      var at = track.scrollLeft, view = track.clientWidth;
       var origin = track.getBoundingClientRect().left;
-      var stops = items.map(function (it) {
+      var stops = Array.prototype.map.call(rail.children, function (it) {
         var r = it.getBoundingClientRect();
-        return { at: r.left - origin + at - left, end: r.right - origin + at };
+        return { at: r.left - origin + at, end: r.right - origin + at };
       });
       var to;
       if (dir > 0) {
-        var cut = stops.filter(function (s) { return s.end > at + track.clientWidth - pad("Right") + 2 && s.at > at + 2; })[0];
-        to = cut ? cut.at : max;
+        var cut = stops.filter(function (s) { return s.end > at + view + 2 && s.at > at + 2; })[0];
+        to = cut ? cut.at : at + view;
       } else {
         var back = stops.filter(function (s) { return s.at >= at - view - 2 && s.at < at - 2; })[0];
-        to = back ? back.at : 0;
+        to = back ? back.at : at - view;
       }
-      track.scrollTo({ left: Math.max(0, Math.min(to, max)), behavior: behaviour });
+      track.scrollTo({ left: Math.round(to), behavior: behaviour });
     };
     prev.addEventListener("click", function () { go(-1); });
     next.addEventListener("click", function () { go(1); });
 
     // A drag with the mouse. Touch and trackpads scroll natively already.
-    var down = null, moved = false;
+    var from = null, moved = false;
     track.addEventListener("pointerdown", function (e) {
       if (e.pointerType !== "mouse" || e.button !== 0) return;
-      down = { x: e.clientX, left: track.scrollLeft };
-      moved = false;
+      from = { x: e.clientX, left: pos };
+      down = true; moved = false;
     });
     window.addEventListener("pointermove", function (e) {
-      if (!down) return;
-      var dx = e.clientX - down.x;
+      if (!from) return;
+      var dx = e.clientX - from.x;
       if (!moved && Math.abs(dx) < 4) return;
       if (!moved) { moved = true; track.classList.add("is-dragging"); }
-      track.scrollLeft = down.left - dx;
+      track.scrollLeft = Math.round(from.left - dx);
       e.preventDefault();
     });
     var end = function () {
-      if (!down) return;
-      down = null;
+      if (!from) return;
+      from = null; down = false; hold();
       track.classList.remove("is-dragging");
     };
     window.addEventListener("pointerup", end);
     window.addEventListener("pointercancel", end);
     // A drag that ends over a photograph is not a click on it.
     track.addEventListener("click", function (e) { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+    // A finger on it holds it, for as long as it is there.
+    track.addEventListener("touchstart", function () { down = true; hold(); }, { passive: true });
+    track.addEventListener("touchend", function () { down = false; hold(); }, { passive: true });
+    track.addEventListener("touchcancel", function () { down = false; hold(); }, { passive: true });
+    // Hovering holds it still, so a caption can be read.
+    track.addEventListener("pointerenter", function (e) { if (e.pointerType === "mouse") hovering = true; });
+    track.addEventListener("pointerleave", function (e) { if (e.pointerType === "mouse") { hovering = false; hold(); } });
 
-    track.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update, { passive: true });
-    // Photographs arriving later change the strip's length.
-    Array.prototype.forEach.call(track.querySelectorAll("img"), function (img) {
-      if (!img.complete) img.addEventListener("load", update);
-    });
-    update();
+    window.addEventListener("resize", function () { measure(); normalise(); paint(); }, { passive: true });
+
+    // The drift. Not for anyone who has asked for less movement, and only
+    // while the strip is on screen and the tab is in front.
+    if (reduced) return;
+    var running = false, last = 0, onScreen = false;
+    var frame = function (t) {
+      if (!running) return;
+      var dt = last ? Math.min(t - last, 64) : 0;
+      last = t;
+      if (!hovering && !down && t >= holdUntil && W > 1) {
+        pos += SPEED * dt / 1000;
+        if (pos >= 2 * W) pos -= W;
+        paint();
+      }
+      requestAnimationFrame(frame);
+    };
+    var start = function () { if (!running && onScreen && !document.hidden) { running = true; last = 0; requestAnimationFrame(frame); } };
+    var stop = function () { running = false; };
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        onScreen = entries[0].isIntersecting;
+        onScreen ? start() : stop();
+      }, { threshold: 0.1 }).observe(track);
+    } else { onScreen = true; start(); }
+    document.addEventListener("visibilitychange", function () { document.hidden ? stop() : start(); });
   });
 
   /* ----------------------------------------------------------- the pointer */
@@ -394,7 +476,7 @@
         : el.closest(".strip__track") ? "drag"
         : el.closest("[role='button']") ? "link" : "";
       if (over !== lastOver) { dot.dataset.over = over; lastOver = over; }
-      var ground = el.closest("[data-paper], .panel, .footer, .menu, .map-dialog") ? "paper" : "";
+      var ground = el.closest("[data-paper], .panel, .footer, .menu, .map-dialog, .service__body") ? "paper" : "";
       if (ground !== lastGround) { dot.dataset.ground = ground; lastGround = ground; }
     };
 

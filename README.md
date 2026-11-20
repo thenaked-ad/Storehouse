@@ -18,21 +18,23 @@ to say yes to, and the one that earns the trust for everything else. Collectors,
 artists and estates are the audience; galleries are welcome but not the focus.
 
 Fred's own way of putting the three headings: **Storage** is the building,
-**Transport & Handling** is getting a work from A to B, and **Additional
-Services** are the optional extras. (That page was "Services" until his final
-round of feedback; the file is still `services.html`, so no link breaks.)
+**Handling & Transport** is getting a work from A to B, and **Collection Care
+& Management** are the optional extras. (Renamed 20 Nov 2026 from "Transport &
+Handling" and "Additional Services", with new addresses; the old ones forward —
+see *Old addresses*. The content files keep their names, `transport.yml` and
+`services.yml`.)
 
 | File | Nav | Page |
 |---|---|---|
 | `index.html` | — | Home |
 | `storage.html` | 01 | Overview, Security, Handling, Insurance, Climate-Controlled Storage, Ambient Storage, Viewing Room |
-| `transport-and-handling.html` | 02 | Transport, Packing & Crating |
-| `services.html` | 03 | Additional Services: Photography, Installation, Project Management, Collection & Estate Management |
+| `handling-and-transport.html` | 02 | Handling & Transport |
+| `collection-care-and-management.html` | 03 | Collection Care & Management |
 | `about.html` | 04 | About |
 | `contact.html` | 05 | Contact |
 | `404.html` | — | Not found |
 
-The three old addresses still answer, as forwards — see *Old addresses* below.
+The five old addresses still answer, as forwards — see *Old addresses* below.
 
 ## Where the copy comes from
 
@@ -224,14 +226,14 @@ six tokens as black on white, so the site prints as a document either way up.
 
 ### Type
 
-The brand faces, self-hosted as woff2 in `assets/fonts/`:
+**One face since 20 Nov 2026.** Fred found the serif body copy (Rhymes Text) harder to read on a text-heavy site and asked for Beausite throughout, which also ends the Rhymes web-licence question. `--serif` in the CSS is now an alias of `--sans`; the Rhymes files are gone.
+
+The faces, self-hosted in `assets/fonts/`:
 
 | Role | Face | File | Licence |
 |---|---|---|---|
-| Headings, navigation, labels | Beausite Classic Clear | `BeausiteClassicWeb-Clear.woff2` | bought (Fatype) |
-| — available, nothing uses it yet | Beausite Classic Medium | `BeausiteClassicWeb-Medium.woff2` | bought (Fatype) |
-| Body copy | Rhymes Text Light | `RhymesText-Light.woff` | bought (MaxiType) |
-| — available, nothing uses it yet | Rhymes Text Medium | `RhymesText-Medium.woff` | bought (MaxiType) |
+| Everything: headings, body copy, navigation, buttons | Beausite Classic Clear | `BeausiteClassicWeb-Clear.woff2` | bought (Fatype) |
+| Emphasis (`**words**`), subheadings, list lead-ins | Beausite Classic Medium | `BeausiteClassicWeb-Medium.woff2` | bought (Fatype) |
 | Index numbers, captions | IBM Plex Mono | `ibm-plex-mono-400.woff2` | open (SIL OFL) |
 
 Arrows are drawn in CSS rather than typed — a shaft with a square turned about
@@ -277,59 +279,10 @@ wired up and costs one `font-weight`.
 >    (Netlify, Cloudflare, anything Apache/nginx) or written confirmation from
 >    Fatype that they accept the site as hosted.
 
-### Rhymes is licensed, and shipped as WOFF
+### Rhymes (removed 20 Nov 2026)
 
-MaxiType's files exactly as delivered, verified by sha256. **WOFF, not WOFF2,
-on purpose:** their licence excludes *"modifying, reassembling"*, and
-recompressing a WOFF into a WOFF2 is arguably both. It costs about 17KB a face
-and WOFF is supported everywhere, so the only thing lost is bytes. Fonts are
-164KB on first load, all self-hosted, still zero external requests.
-
-#### The body copy moved from 400 to 300
-
-The order has **Light (300) and Medium (500) and no 400**, which is what the
-body copy was set in. So it had to move one way or the other, and it shows on
-every paragraph.
-
-It is **Light**. Almost all the body copy is white on the ultramarine, and light
-type on a dark ground blooms optically — it prints heavier than the same weight
-would on paper. Medium reads chunky against the hairline wordmark and the 1px
-rules. One number on `body` changes it back.
-
-A consequence worth knowing: **the sans and mono elements inherit that 300** and
-none of them declares its own weight. They do not render light, because neither
-family has a face below 400 — the font-matching rules say a request under 400
-with nothing at or below it takes the next weight up. Verified rather than
-assumed: `Handling` set in Beausite at an inherited 300 measures 496.33px, which
-is identical to an explicit 400 and nothing like Medium's 480.25px.
-
-Medium is declared at 500 for both families so they are complete. Nothing asks
-for either, so neither is ever downloaded.
-
-Each token keeps a close open substitute behind the brand face, for the moment
-before the font loads.
-
-
-Note that the **STOREHOUSE wordmark is not type**. It is vector artwork
-extracted from the brand PDF and inlined as an SVG `<symbol>` near the top of
-each page, so the logo is exact regardless of which fonts load. Do not retype
-it as text.
-
-### Layout
-
-One grid, used everywhere: a short label in the left margin, the substance
-beside it (`.marginalia`). This is the layout system from page 11 of the brand
-document.
-
-All vertical spacing comes from two variables — `--band` between major sections
-and `--stack` within one. Change those two and the whole site re-spaces
-coherently; avoid hard-coded margins. Figures inside a marginalia column are
-capped in width so the inner pages do not become an endless scroll.
-
-The main navigation carries a faint index number per page, set by `data-index`
-on each link and drawn by CSS.
-
----
+The body copy was Rhymes Text Light, shipped as MaxiType's WOFF files. Taken
+out at Fred's request; see git history before that date for the notes.
 
 ## The masthead arrives with the scroll
 
@@ -384,8 +337,9 @@ not by driving the mouse.
 
 ## The navigation
 
-Five items, in Fred's order: **Storage | Transport & Handling | Additional
-Services | About | Contact**. Plain links — the hover dropdowns that were there
+Five items, in Fred's order: **Storage | Handling & Transport | Collection
+Care & Management | About | Contact**. The bar shows from 60rem (it was 56rem
+until the longer names arrived; below that, the Menu button). Plain links — the hover dropdowns that were there
 for a few rounds came off at Fred's request, because each page lists its own
 segments neatly once you are on it. The phone menu is the same six links
 (Home first), with nothing folded away.
@@ -405,8 +359,13 @@ be bookmarked or indexed. Each is now a one-line forward — a meta refresh,
 | Old | New |
 |---|---|
 | `storage-and-handling.html` | `storage.html` |
-| `exhibition-services.html` | `services.html#project-management` |
-| `collection-management.html` | `services.html#collection` |
+| `exhibition-services.html` | `collection-care-and-management` (its section has gone) |
+| `collection-management.html` | `collection-care-and-management#artists-estates-and-collection-management` |
+| `transport-and-handling.html` (20 Nov 2026) | `handling-and-transport` |
+| `services.html` (20 Nov 2026) | `collection-care-and-management` |
+
+The two from 20 Nov forward by script first (`location.replace`, keeping any
+`#section` on the link) and by meta refresh without it.
 
 GitHub Pages cannot send a 301, which is why they are pages at all. On a host
 that can, replace them with real redirects.
@@ -435,6 +394,20 @@ few words and a full stop or colon — *Arrival.* — those words are set in the
 sans as a lead-in. Bullets are a short rule, steps are numbered in the mono.
 Fred's existing list-like paragraphs were marked as bullets when this went in;
 his wording was checked unchanged.
+
+**Open sections are white** (20 Nov, Fred): `.service__body` redeclares the
+paper tokens, so the copy is grey (#4a4a4a) on white like the home overview,
+with emphasis, subheadings and lead-ins in Medium and charcoal. The headings
+stay on the blue. The text still runs to two-thirds of the page.
+
+**The strip loops** (20 Nov, Fred): the script copies the set end to end
+(at least five sets, more on a very wide screen), keeps the scroll inside the
+second set — stepping back or on by one set's width when idle, invisibly, as
+the copies are identical — and drifts it left at 26px/s while on screen.
+Hover, a finger, a drag or the arrows hold it; it drifts on 2.5s after.
+Scroll positions are whole pixels in Chrome, so the fraction goes on a
+`translate3d` of `.strip__rail`. No drift under reduced motion; no copies
+with no script. Copies are `aria-hidden` and `inert`, with empty alt.
 
 **The strip** (`.strip`, `data-strip`, 11 Nov — replacing a single-frame
 slideshow that sat on the left and looked lost): every photograph whole at one

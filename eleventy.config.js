@@ -21,8 +21,8 @@ const PHOTO_WIDTHS = [800, 1600, 2400];
 // these means changing the design, so they are not in the editor.
 const NAV = [
   { href: "/storage", n: "01", label: "Storage" },
-  { href: "/transport-and-handling", n: "02", label: "Transport &amp; Handling" },
-  { href: "/services", n: "03", label: "Additional Services" },
+  { href: "/handling-and-transport", n: "02", label: "Handling &amp; Transport" },
+  { href: "/collection-care-and-management", n: "03", label: "Collection Care &amp; Management" },
   { href: "/about", n: "04", label: "About" },
   { href: "/contact", n: "05", label: "Contact" },
 ];
@@ -50,6 +50,12 @@ const smart = (s) =>
 
 const typeset = (s) => escapeHtml(smart(String(s ?? "").trim()));
 
+// Key words Fred wants to stand out: typed **like this** in the editor, set in
+// Beausite Medium. Applied after escaping, so nothing else can become markup;
+// a lone ** with no partner is left as typed.
+const strong = (html) => html.replace(/\*\*(?=\S)([\s\S]*?\S)\*\*/g, "<strong>$1</strong>");
+const rich = (s) => strong(typeset(s));
+
 // Paragraphs are separated by a blank line in the editor.
 const paragraphs = (s) =>
   String(s ?? "")
@@ -64,6 +70,7 @@ const paragraphs = (s) =>
 //   - a line starting "1. " (any number) is a numbered step, the same way
 //   - a short line on its own, directly above its paragraph, is a subheading
 //   - anything else is a paragraph; a blank line starts a new one
+//   - **words** between double asterisks stand out, anywhere in the text
 // In a bullet or step that opens with a few words and a full stop — "Arrival.
 // Works are checked in…" — those words are picked out, so a list reads as a
 // set of answers at a glance.
@@ -71,10 +78,11 @@ const BULLET = /^\s*[-–•]\s+/;
 const STEP = /^\s*\d+[.)]\s+/;
 const leadIn = (item) => {
   const m = item.match(/^([^.:]{1,60}?[.:])\s+(\S[\s\S]*)$/);
-  if (m && m[1].trim().split(/\s+/).length <= 6) {
-    return `<span class="lead-in">${typeset(m[1])}</span> ${typeset(m[2])}`;
+  const even = (t) => (t.match(/\*\*/g) || []).length % 2 === 0;
+  if (m && m[1].trim().split(/\s+/).length <= 6 && even(m[1])) {
+    return `<span class="lead-in">${rich(m[1].replace(/\*\*/g, ""))}</span> ${rich(m[2])}`;
   }
-  return typeset(item);
+  return rich(item);
 };
 const blocks = (s) => {
   const lines = String(s ?? "").replace(/\r/g, "").split("\n");
@@ -85,10 +93,10 @@ const blocks = (s) => {
     if (!para.length) return;
     const first = para[0].trim();
     if (para.length > 1 && first.split(/\s+/).length <= 6 && first.length <= 60) {
-      out.push(`<h4 class="subhead">${typeset(first.replace(/[.:]$/, ""))}</h4>`);
+      out.push(`<h4 class="subhead">${typeset(first.replace(/\*\*/g, "").replace(/[.:]$/, ""))}</h4>`);
       para = para.slice(1);
     }
-    out.push(`<p>${typeset(para.join(" ").replace(/\s+/g, " "))}</p>`);
+    out.push(`<p>${rich(para.join(" ").replace(/\s+/g, " "))}</p>`);
     para = [];
   };
   const flushList = () => {
@@ -178,6 +186,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addFilter("esc", escapeHtml);
   eleventyConfig.addFilter("attr", typesetAttr);
   eleventyConfig.addFilter("typeset", typeset);
+  eleventyConfig.addFilter("rich", rich);
   eleventyConfig.addFilter("paragraphs", paragraphs);
   eleventyConfig.addFilter("blocks", blocks);
   eleventyConfig.addFilter("mailto", (subject, email) => escapeAttr(mailto(email, subject)));
@@ -190,6 +199,7 @@ export default function (eleventyConfig) {
     "assets/css", "assets/js", "assets/fonts", "assets/brand", "assets/img/journey",
     "assets/img/og-1600.webp", "robots.txt", "sitemap.xml",
     "storage-and-handling.html", "exhibition-services.html", "collection-management.html",
+    "transport-and-handling.html", "services.html",
   ]) eleventyConfig.addPassthroughCopy({ [p]: p });
 
   eleventyConfig.addWatchTarget(CONTENT);

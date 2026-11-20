@@ -12,7 +12,7 @@ key: about
         <h1 class="single-title">About</h1>
 {%- for para in about.text | paragraphs %}
         <p style="margin-top:1rem;max-width:30em">
-          {{ para | typeset | safe }}
+          {{ para | rich | safe }}
         </p>
 {%- endfor %}
 

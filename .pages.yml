@@ -68,9 +68,10 @@ components:
         description: >-
           Leave a blank line between paragraphs. Start a line with "- " for a
           bullet, or "1. " for a numbered step. A short line on its own, directly
-          above its paragraph, becomes a subheading. In a bullet that opens with
-          a few words and a full stop ("Arrival. Works are…"), those words are
-          picked out.
+          above its paragraph, becomes a subheading. Put **double asterisks**
+          round words to make them stand out. In a bullet that opens with a few
+          words and a full stop ("Arrival. Works are…"), those words are picked
+          out.
       - name: button
         label: Button (optional)
         type: string
@@ -90,7 +91,7 @@ content:
       - name: overview
         label: Overview
         type: text
-        description: The paragraph beside "Overview". Leave a blank line between paragraphs.
+        description: The paragraph beside "Overview". Leave a blank line between paragraphs. Put **double asterisks** round words to make them stand out.
       - name: instagram_heading
         label: Instagram line
         type: string
@@ -115,7 +116,7 @@ content:
       - name: slideshow
         label: Photographs
         component: photo
-        description: The strip of photographs below the sections, left to right in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        description: The strip of photographs below the sections, which loops and drifts slowly on its own. Left to right in this order; drag to reorder. Any shape is fine — each is shown whole.
         list:
           collapsible:
             collapsed: true
@@ -124,7 +125,7 @@ content:
         component: panel
 
   - name: transport
-    label: Transport & Handling
+    label: Handling & Transport
     type: file
     path: content/transport.yml
     format: yaml
@@ -140,7 +141,7 @@ content:
       - name: slideshow
         label: Photographs
         component: photo
-        description: The strip of photographs below the sections, left to right in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        description: The strip of photographs below the sections, which loops and drifts slowly on its own. Left to right in this order; drag to reorder. Any shape is fine — each is shown whole.
         list:
           collapsible:
             collapsed: true
@@ -149,7 +150,7 @@ content:
         component: panel
 
   - name: services
-    label: Additional Services
+    label: Collection Care & Management
     type: file
     path: content/services.yml
     format: yaml
@@ -165,7 +166,7 @@ content:
       - name: slideshow
         label: Photographs
         component: photo
-        description: The strip of photographs below the sections, left to right in this order. Drag to reorder. Any shape is fine — each is shown whole.
+        description: The strip of photographs below the sections, which loops and drifts slowly on its own. Left to right in this order; drag to reorder. Any shape is fine — each is shown whole.
         list:
           collapsible:
             collapsed: true
@@ -182,7 +183,7 @@ content:
       - name: text
         label: Text
         type: text
-        description: Leave a blank line between paragraphs.
+        description: Leave a blank line between paragraphs. Put **double asterisks** round words to make them stand out.
       - name: button
         label: Button
         type: string

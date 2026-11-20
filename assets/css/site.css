@@ -3,7 +3,8 @@
 /* ==========================================================================
    Typefaces
 
-   Beausite Classic and Rhymes Text, as specified in the brand document.
+   Beausite Classic throughout (Fred, 20 Nov 2026: one face, for legibility;
+   Rhymes Text, the brand document's serif, was taken out).
 
    BEAUSITE IS LICENSED. These are Fatype's own WOFF2 files, copied in byte for
    byte: the licence forbids modification, so they are NOT subset, which is why
@@ -18,17 +19,6 @@
        say in the policy that failing to install it terminates the agreement.
        GitHub Pages cannot run htaccess at all. See README, "Fonts".
 
-   RHYMES IS LICENSED TOO, and shipped as WOFF rather than WOFF2. That is on
-   purpose: MaxiType's licence excludes "modifying, reassembling", and
-   recompressing a WOFF into a WOFF2 is arguably both, so these are their files
-   exactly as delivered. It costs about 17KB a face over WOFF2 and WOFF is
-   supported everywhere, so nothing is lost but bytes.
-
-   The order has Light (300) and Medium (500) and no 400, which is what the
-   body copy used to be set in. Body copy is now Light: almost all of it is
-   white on the ultramarine, and light type on a dark ground blooms optically —
-   it prints heavier than the same weight would on paper. Medium reads chunky
-   against the hairline wordmark. One number changes it back, on body below.
    ========================================================================== */
 
 @font-face {
@@ -38,25 +28,11 @@
   font-style: normal;
   font-display: swap;
 }
-/* Bought alongside Clear and declared so the family is complete. Nothing on the
-   site asks for it yet — there is no bold anywhere in the markup. */
+/* Medium: the emphasis — words Fred marks **like this** in the editor, the
+   subheadings and the opening words of a list item. */
 @font-face {
   font-family: "Beausite Classic";
   src: url("../fonts/BeausiteClassicWeb-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Rhymes Text";
-  src: url("../fonts/RhymesText-Light.woff") format("woff");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Rhymes Text";
-  src: url("../fonts/RhymesText-Medium.woff") format("woff");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -106,7 +82,10 @@
   /* Typography — the brand faces, with a close fallback while they load and
      for the handful of characters the trial cut is missing. */
   --sans:  "Beausite Classic", "Instrument Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --serif: "Rhymes Text", "Newsreader", "Iowan Old Style", "Times New Roman", Georgia, serif;
+  /* One face for everything since Fred's 20 Nov round: he found the sans
+     clearer to read than the serif (Rhymes), which is gone. --serif is kept
+     as a name so the rules that used it needn't change. */
+  --serif: var(--sans);
   --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
   /* A single modular scale, fluid between 380px and 1600px. */
@@ -168,15 +147,9 @@ body {
   color: var(--ink);
   font-family: var(--serif);
   font-size: var(--t-body);
-  /* Rhymes Light. This is the serif's weight, and the one number to change if
-     the body copy should be Medium instead.
-
-     Everything set in the sans or the mono inherits this 300 and never gets a
-     light face, because neither family has one: the font-matching rules say a
-     request below 400 with nothing at or under it takes the next weight up,
-     which is Beausite Clear and Plex Mono at 400. Verified in the browser
-     rather than assumed. */
-  font-weight: 300;
+  /* Beausite Clear. Medium (500) is the emphasis. */
+  font-weight: 400;
+  letter-spacing: -0.006em;
   line-height: 1.62;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
@@ -425,7 +398,10 @@ a.wordmark-link { text-decoration: none; }
 
 .nav { display: none; }
 
-@media (min-width: 56rem) {
+/* 60rem rather than the layout's 56rem: "Collection Care & Management" (20 Nov)
+   made the line longer, and at 56rem it ran within a few pixels of the
+   wordmark. */
+@media (min-width: 60rem) {
   .nav { display: flex; align-items: baseline; gap: clamp(1.25rem, 2.4vw, 2.5rem); }
 }
 
@@ -465,7 +441,7 @@ a.wordmark-link { text-decoration: none; }
   background: none; border: 0; padding: 0.25rem 0;
   color: var(--ink); cursor: pointer;
 }
-@media (min-width: 56rem) { .menu-toggle { display: none; } }
+@media (min-width: 60rem) { .menu-toggle { display: none; } }
 
 .menu {
   position: fixed; inset: 0; z-index: 50;
@@ -683,14 +659,30 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 }
 .service[open] .service__sign::after { transform: rotate(0deg); }
 
+/* An open section reads on white, in grey, like the overview on the home page
+   (Fred, 20 Nov: long copy is easier dark-on-light); the headings stay on the
+   blue. The paper tokens make everything inside — rules, steps, the button —
+   turn over with it. */
 .service__body {
-  padding: 0.1rem 0 clamp(2.5rem, 4vw, 3.25rem);
+  --ground:      var(--canvas);
+  --ink:         var(--charcoal);
+  --ink-muted:        #6b6b6b;
+  --ink-strong-muted: #4a4a4a;
+  --accent:      var(--ultramarine);
+  --rule:        rgba(31, 31, 31, 0.16);
+  --rule-strong: rgba(31, 31, 31, 0.4);
+  background: var(--ground);
+  color: var(--ink-strong-muted);
+  padding: 1.6rem 1.25rem 2rem;
+  margin-bottom: 1.1rem;
   display: grid;
-  gap: 1.15rem;
+  gap: 1.4rem;
 }
 /* Set under the title rather than under the number, so the opened copy lines up
    with the heading it belongs to. */
-@media (min-width: 40rem) { .service__body { padding-left: 3.9rem; } }
+@media (min-width: 40rem) {
+  .service__body { padding: clamp(2rem, 3vw, 2.75rem) 3.9rem clamp(2.25rem, 3.5vw, 3.25rem); }
+}
 /* The text of a section. Text only since Fred's November round, so it can take
    a wide measure: on a wide screen it runs to two-thirds of the way across
    the page, a size down from the body copy and with more leading, which is
@@ -703,18 +695,22 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   line-height: 1.72;
 }
 /* Two-thirds of the page, measured from its left edge (the copy itself starts
-   3.9rem in, under the section titles). */
-@media (min-width: 56rem) { .prose { max-width: calc((100% + 3.9rem) * 2 / 3 - 3.9rem); } }
+   3.9rem in, under the section titles, with the same inside the white's
+   right-hand edge). */
+@media (min-width: 56rem) { .prose { max-width: calc((100% + 7.8rem) * 2 / 3 - 3.9rem); } }
+/* Emphasis — **words** in the editor — in Beausite Medium and the full ink, so
+   it stands clear of the grey around it. */
+strong { font-weight: 500; color: var(--ink); }
 /* The site's paragraphs carry a bottom margin; here the grid's gap spaces them. */
 .prose p { max-width: none; margin: 0; }
 
 /* A short line on its own above its paragraph — "Perimeter and reception." —
-   set in the sans and pulled close to the paragraph it heads. */
+   in Medium and pulled close to the paragraph it heads. */
 .prose .subhead {
-  margin: 0.55em 0 -0.75em;
+  margin: 0.55em 0 -0.95em;
   font-family: var(--sans);
-  font-size: 0.94em;
-  font-weight: 400;
+  font-size: 1em;
+  font-weight: 500;
   letter-spacing: -0.005em;
   line-height: 1.4;
   color: var(--ink);
@@ -756,20 +752,16 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   line-height: 1;
   color: var(--ink-muted);
 }
-/* "Arrival." at the start of a bullet: picked out in the sans so a list reads
+/* "Arrival." at the start of a bullet: picked out in Medium so a list reads
    as a set of answers. */
-.prose .lead-in {
-  font-family: var(--sans);
-  font-size: 0.94em;
-  letter-spacing: -0.005em;
-  color: var(--ink);
-}
+.prose .lead-in { font-weight: 500; color: var(--ink); }
 
 /* The page's photographs, in the blue below the sections: a strip that runs
    the full width of the window, edge to edge, every photograph whole at one
-   height, so a
-   portrait and a landscape sit side by side as they are. It scrolls sideways
-   by trackpad, touch, a drag with the mouse or the arrows under it. */
+   height, so a portrait and a landscape sit side by side as they are. It
+   loops (Fred, 20 Nov): the set repeats end to end and drifts slowly left on
+   its own, and it can be taken in hand by trackpad, touch, a drag with the
+   mouse or the arrows under it. */
 .strip {
   /* The indent that sets the arrows under the section titles' text line. */
   --strip-indent: 0rem;
@@ -780,9 +772,6 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   .strip { --strip-indent: 3.9rem; --strip-h: clamp(18rem, 56vh, 34rem); }
 }
 .strip__track {
-  display: flex;
-  align-items: flex-start;
-  gap: clamp(0.75rem, 1.4vw, 1.5rem);
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scrollbar-width: none;
@@ -790,6 +779,14 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   outline-offset: -2px;
 }
 .strip__track::-webkit-scrollbar { display: none; }
+/* The photographs, in a row. The script moves this row by the fraction of a
+   pixel the scroll position can't hold, so the slow drift is smooth. */
+.strip__rail {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.75rem, 1.4vw, 1.5rem);
+  width: max-content;
+}
 .strip__track.is-dragging { cursor: grabbing; }
 .strip__track.is-dragging img { pointer-events: none; }
 /* On a touch screen each swipe settles on a photograph; with a mouse or a
@@ -797,6 +794,8 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 @media (pointer: coarse) {
   .strip__track { scroll-snap-type: x mandatory; cursor: auto; }
   .strip__item { scroll-snap-align: start; }
+  /* Except once it loops and drifts: snapping would fight the drift. */
+  .strip.is-looping .strip__track { scroll-snap-type: none; }
 }
 .strip__item { flex: none; margin: 0; }
 .strip__item img {
@@ -827,6 +826,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 .js .strip__controls { display: inline-flex; }
 .strip__controls[hidden] { display: none; }
 .strip__controls .carousel__step:disabled { opacity: 0.3; cursor: default; color: var(--ink-strong-muted); }
+.strip.is-looping .strip__item[aria-hidden] figcaption { user-select: none; }
 
 /* A caption under a single photograph — the About portrait, the Contact
    photograph — set like the slideshow captions. */
@@ -951,7 +951,7 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 
 .panel { padding-block: var(--band); }
 
-/* The enquiry panel that closes a page: one serif line and one way in. */
+/* The enquiry panel that closes a page: one line and one way in. */
 .panel__lead {
   font-size: var(--t-lead);
   line-height: 1.5;
@@ -1033,7 +1033,7 @@ figure { margin: 0; }
   border: 1px solid var(--ink);
   background: var(--ink);
   color: var(--ground);
-  /* Every button is in the serif, the same face as the copy around it. */
+  /* Every button is in the same face as the copy around it. */
   font-family: var(--serif);
   font-size: var(--t-body);
   letter-spacing: 0;

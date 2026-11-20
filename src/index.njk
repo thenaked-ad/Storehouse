@@ -29,7 +29,7 @@ hero: true
       <p class="aside label" id="overview-title">Overview</p>
       <div class="main overview">
 {%- for para in home.overview | paragraphs %}
-        <p>{{ para | typeset | safe }}</p>
+        <p>{{ para | rich | safe }}</p>
 {%- endfor %}
       </div>
     </div>
