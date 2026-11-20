@@ -105,14 +105,14 @@ segments:
 slideshow:
   - image: /assets/img/photos/storage-loading-door.jpg
     alt: The loading door of the warehouse.
-  - image: /assets/img/photos/storage-racking.jpg
-    alt: Wrapped works standing in racking in the store.
   - image: /assets/img/photos/storage-crates.jpg
     alt: Two marked Storehouse crates standing on their bearers inside the facility.
-  - image: /assets/img/photos/storage-crate-and-case.jpg
+  - image: /assets/img/photos/24072652.jpg
     alt: A crate and a fitted travel case standing together in the store.
-  - image: /assets/img/photos/storage-case-lid.jpg
-    alt: A lid being lowered onto a foam-lined case.
+  - image: /assets/img/photos/storage-racking.jpg
+    alt: Wrapped works standing in racking in the store.
+  - image: /assets/img/photos/organised-wooden-crate-warehouse.png
+    alt: Crate storage
 panel:
   text: Storage is priced by the space a work actually takes. There are no intake
     or release fees on top. Tell us roughly what you have and we will send rates
