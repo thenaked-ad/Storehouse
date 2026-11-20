@@ -60,13 +60,24 @@ segments:
   - title: Transport
     text: >
       UK Domestic / Nationwide
-       We collect from and deliver to studios, galleries, homes and auction houses across London and the UK. Our dedicated fine art vans are crewed by trained art handlers, and we can pack, unpack and install at either end.
+
+      We collect from and deliver to studios, galleries, homes and auction
+      houses across London and the UK. Our dedicated fine art vans are crewed by
+      trained art handlers, and we can pack, unpack and install at either end.
+
 
       Air Freight / Worldwide
-       Single works or whole exhibitions, flown anywhere in the world. We plan the route and work with our partner shippers on airline handling, airport supervision and agents at destination. Couriers can travel with the work when it’s needed.
+
+      Single works or whole exhibitions, flown anywhere in the world. We plan
+      the route and work with our partner shippers on airline handling, airport
+      supervision and agents at destination. 
+
 
       Sea Freight / Worldwide
-       A considered option for single works, large sculpture and full collections. We offer shared shipments, or a dedicated container when the work calls for one, and we build bespoke crates for the voyage.
+
+      A considered option for single works, large sculpture and full
+      collections. We offer shared shipments, or a dedicated container when the
+      work calls for one.
     button: Get in touch for a quote
     email_subject: Quote request
   - title: Installation
