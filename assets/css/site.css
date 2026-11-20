@@ -672,6 +672,11 @@ html[data-cursor="on"] .hero-field { cursor: none; }
   --rule:        rgba(31, 31, 31, 0.16);
   --rule-strong: rgba(31, 31, 31, 0.4);
   background: var(--ground);
+  /* White the whole way across the window (Tom, 20 Nov), while the copy keeps
+     its line under the section titles: a shadow of the same white spread
+     sideways, clipped to the box's own height. Shadows never widen the page. */
+  box-shadow: 0 0 0 100vmax var(--ground);
+  clip-path: inset(0 -100vmax);
   color: var(--ink-strong-muted);
   padding: 1.6rem 1.25rem 2rem;
   margin-bottom: 1.1rem;
