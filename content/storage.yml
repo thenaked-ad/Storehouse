@@ -105,10 +105,10 @@ segments:
 slideshow:
   - image: /assets/img/photos/storage-loading-door.jpg
     alt: The loading door of the warehouse.
-  - image: /assets/img/photos/organised-wooden-crate-warehouse.png
-    alt: Crate storage
   - image: /assets/img/photos/storage-crates.jpg
     alt: Two marked Storehouse crates standing on their bearers inside the facility.
+  - image: /assets/img/photos/organised-wooden-crate-warehouse.png
+    alt: Crate storage
   - image: /assets/img/photos/24072652.jpg
     alt: A crate and a fitted travel case standing together in the store.
   - image: /assets/img/photos/storage-racking.jpg
