@@ -28,8 +28,6 @@ segments:
       Invoice 
 
       Invoiced on completion, with each item listed. 
-    button: Get in touch
-    email_subject: Handling & Transport Quote
   - title: Installation & Exhibition Services
     text: >-
       We install single works and full exhibitions for galleries, art fairs,
