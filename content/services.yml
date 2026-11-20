@@ -4,6 +4,25 @@ segments:
       term, running the back end of a collection or gallery inventory: storage,
       records, images, condition, movement and projects, held in one place and
       handled by one team."
+  - title: Artists Estates & Collection Management
+    text: >-
+      Artists' estates 
+
+      We work with artists' families and executors to bring inventories under
+      control: cataloguing the studio and archive, photographing the work,
+      storage, and coordinating loans and exhibitions. Where specialist advice
+      is needed, we introduce trusted advisers in valuation, estate tax and
+      conservation.
+
+
+      Collection management 
+
+      For private collections and artist inventories, we build and maintain a
+      single, complete record of every work: artist, title, date, medium,
+      dimensions, edition, provenance, exhibition history, literature, insurance
+      value and location, with images and documents. In store, at home, on loan
+      or in transit, every work is tracked in one database, and that database
+      belongs to you.
   - title: Photography
     text: >-
       Gallery-standard photography of artworks, carried out entirely in-house.
@@ -33,25 +52,6 @@ segments:
       large paintings, under gallery lighting by TM Lighting. Further works can
       be held on site, art technicians are available for hire, and there is a
       kitchen and bathroom.
-  - title: Artists Estates & Collection Management
-    text: >-
-      Artists' estates 
-
-      We work with artists' families and executors to bring inventories under
-      control: cataloguing the studio and archive, photographing the work,
-      storage, and coordinating loans and exhibitions. Where specialist advice
-      is needed, we introduce trusted advisers in valuation, estate tax and
-      conservation.
-
-
-      Collection management 
-
-      For private collections and artist inventories, we build and maintain a
-      single, complete record of every work: artist, title, date, medium,
-      dimensions, edition, provenance, exhibition history, literature, insurance
-      value and location, with images and documents. In store, at home, on loan
-      or in transit, every work is tracked in one database, and that database
-      belongs to you.
 slideshow:
   - image: /assets/img/photos/services-photography.jpg
     alt: A framed work photographed on a tripod between two studio lights.
