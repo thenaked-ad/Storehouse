@@ -102,14 +102,14 @@ slideshow:
     alt: A wrapped work set into a foam-cornered travel frame.
   - image: /assets/img/photos/transport-vans.jpg
     alt: Two white vans parked by a park.
-  - image: /assets/img/photos/transport-levelling.jpg
-    alt: An art handler levelling a hanging rail on a wall.
   - image: /assets/img/photos/transport-hanging.jpg
     alt: An art handler lifting a large painting into place.
-  - image: /assets/img/photos/transport-van-racks.jpg
-    alt: Racking and straps inside a fine art van.
   - image: /assets/img/photos/24072689-copy-1.jpg
     alt: Moving artworks
+  - image: /assets/img/photos/transport-van-racks.jpg
+    alt: Racking and straps inside a fine art van.
+  - image: /assets/img/photos/transport-levelling.jpg
+    alt: An art handler levelling a hanging rail on a wall.
 panel:
   text: Tell us what is moving, from where and to where, and we will come back
     with a plan and a price.
