@@ -20,6 +20,7 @@
             <span class="service__title">{{ s.title | typeset | safe }}</span>
             <span class="service__sign" aria-hidden="true"></span>
           </summary>
+          <div class="service__panel">
           <div class="service__body">
             <div class="prose">
 {%- for block in s.text | blocks %}
@@ -29,6 +30,7 @@
 {%- if s.button %}
             <a class="btn btn--self" href="{{ s.email_subject | mailto(site.email) | safe }}">{{ s.button | typeset | safe }} <span class="arrow" aria-hidden="true"></span></a>
 {%- endif %}
+          </div>
           </div>
         </details>
 {%- endfor %}

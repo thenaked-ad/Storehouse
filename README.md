@@ -395,6 +395,18 @@ sans as a lead-in. Bullets are a short rule, steps are numbered in the mono.
 Fred's existing list-like paragraphs were marked as bullets when this went in;
 his wording was checked unchanged.
 
+**Sections animate open and shut** (20 Nov, Tom): the script takes over
+"one open at a time" from the shared `name` (removed on load; it stays for
+no-script visitors) so the one closing can fold away while the other grows,
+both 480ms, height of `.service__panel` by WAAPI plus a fade of the white.
+The clicked heading is held still every frame by scrolling the page by
+whatever moved above it — except at the very top of a page, where there is
+no room to scroll. No animation under reduced motion.
+
+**Enquiry panel into footer:** where the last thing in `main` is a paper
+panel, the footer drops its own space above its rule, so the button sits the
+panel's top padding above the rule (92px at 1440) and the two look even.
+
 **Open sections are white** (20 Nov, Fred): `.service__body` redeclares the
 paper tokens, so the copy is grey (#4a4a4a) on white like the home overview,
 with emphasis, subheadings and lead-ins in Medium and charcoal. The headings

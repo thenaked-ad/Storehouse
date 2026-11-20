@@ -659,6 +659,11 @@ html[data-cursor="on"] .hero-field { cursor: none; }
 }
 .service[open] .service__sign::after { transform: rotate(0deg); }
 
+/* What opens and closes. The script animates its height; the clip keeps the
+   copy inside it as it does, while letting the white run out sideways. It
+   holds the white's bottom margin too (flow-root), so that animates as well. */
+.service__panel { display: flow-root; clip-path: inset(0 -100vmax); }
+
 /* An open section reads on white, in grey, like the overview on the home page
    (Fred, 20 Nov: long copy is easier dark-on-light); the headings stay on the
    blue. The paper tokens make everything inside — rules, steps, the button —
@@ -969,6 +974,11 @@ strong { font-weight: 500; color: var(--ink); }
 /* Where two paper sections run on into each other, and into the footer below
    them, a hairline keeps them from reading as one undivided block. */
 .panel + .panel { border-top: 1px solid var(--rule); }
+/* Where the enquiry panel runs straight into the footer, both are white and
+   the footer's rule reads as the edge between them; the footer's own space
+   above that rule is dropped, so "Get in touch" sits the same distance above
+   the rule as the section's edge is above "Enquiries". */
+main:has(> .panel:last-child) + .footer { padding-top: 0; }
 .panel a { color: inherit; }
 .panel h2 { font-size: var(--t-title); }
 .panel p { color: var(--ink-strong-muted); }

@@ -139,6 +139,10 @@
     if (!id) return;
     var d = document.getElementById(decodeURIComponent(id));
     if (!d || d.tagName !== "DETAILS") return;
+    // One open at a time (the script takes that over from the shared name).
+    Array.prototype.forEach.call(document.querySelectorAll("details.service[open]"), function (o) {
+      if (o !== d) o.open = false;
+    });
     d.open = true;
     window.requestAnimationFrame(function () {
       d.scrollIntoView({ block: "start", behavior: reduced ? "auto" : "smooth" });
@@ -184,15 +188,75 @@
       else section.style.minHeight = need + "px";
     };
 
+    // Opening and closing are animated (Tom, 20 Nov): the one opening grows
+    // under its heading while the one shutting folds away, together. The
+    // shared name would shut the other instantly, so the script takes over
+    // keeping one open and the name comes off; with no script it stays, and
+    // the browser does the same job without the movement.
+    var segments = Array.prototype.slice.call(section.querySelectorAll("details.service"));
+    segments.forEach(function (d) { d.removeAttribute("name"); });
+    var DURATION = reduced ? 0 : 480;
+    var EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+    var running = new Map(), clicks = 0;
+
+    var fold = function (d, opening) {
+      var panel = d.querySelector(".service__panel");
+      var body = d.querySelector(".service__body");
+      var was = running.get(d);
+      var from = d.open ? panel.getBoundingClientRect().height : 0;
+      if (was) { was.forEach(function (a) { a.cancel(); }); running.delete(d); }
+      if (opening) d.open = true;
+      if (!DURATION) { if (!opening) d.open = false; return; }
+      var to = opening ? panel.getBoundingClientRect().height : 0;
+      var grow = panel.animate([{ height: from + "px" }, { height: to + "px" }],
+        { duration: DURATION, easing: EASE, fill: "forwards" });
+      var fade = body.animate(opening ? [{ opacity: 0 }, { opacity: 1 }] : [{ opacity: 1 }, { opacity: 0 }],
+        { duration: opening ? DURATION : DURATION * 0.6, easing: "ease-out", fill: "forwards" });
+      running.set(d, [grow, fade]);
+      grow.onfinish = function () {
+        if (running.get(d) && running.get(d)[0] !== grow) return;
+        if (!opening) d.open = false;
+        grow.cancel(); fade.cancel();
+        running.delete(d);
+      };
+    };
+
     section.addEventListener("click", function (e) {
       var summary = e.target.closest("details.service > summary");
       if (!summary) return;
-      // Held before the browser opens and shuts anything, so the page never
-      // gets the chance to be shorter for even a frame.
+      e.preventDefault();
+      var d = summary.parentNode;
+      // Closed, or clicked again while still folding away: open it.
+      var opening = !d.open || d.dataset.folding === "out";
+      // Held before anything moves, so the page never gets the chance to be
+      // shorter under the reader for even a frame.
       var before = section.offsetHeight;
       var from = summary.getBoundingClientRect().top;
       section.style.minHeight = before + "px";
-      window.requestAnimationFrame(function () {
+
+      if (opening) {
+        segments.forEach(function (o) { if (o !== d && o.open && o.dataset.folding !== "out") { o.dataset.folding = "out"; fold(o, false); } });
+        d.dataset.folding = "in";
+        fold(d, true);
+      } else {
+        d.dataset.folding = "out";
+        fold(d, false);
+      }
+
+      // The heading just clicked stays put on screen the whole way through:
+      // whatever folds away above it, the page scrolls by the same amount.
+      // A newer click takes over the job from this one.
+      var mine = ++clicks;
+      var until = performance.now() + DURATION + 60;
+      var steady = function () {
+        if (mine !== clicks) return;
+        var top = summary.getBoundingClientRect().top;
+        if (Math.abs(top - from) > 0.5) window.scrollBy({ top: top - from, behavior: "instant" });
+        if (performance.now() < until) window.requestAnimationFrame(steady);
+        else settle();
+      };
+      var settle = function () {
+        segments.forEach(function (o) { if (!running.has(o)) delete o.dataset.folding; });
         natural = measure();
         if (natural >= before) release();
         else {
@@ -200,11 +264,8 @@
           window.removeEventListener("scroll", follow);
           window.addEventListener("scroll", follow, { passive: true });
         }
-        // The heading just clicked stays put: its segment opens underneath
-        // it, and the one above shutting moves nothing on screen.
-        var top = summary.getBoundingClientRect().top;
-        if (Math.abs(top - from) > 1) window.scrollBy({ top: top - from, behavior: "instant" });
-      });
+      };
+      window.requestAnimationFrame(steady);
     });
     window.addEventListener("resize", function () { if (held) release(); }, { passive: true });
   });
