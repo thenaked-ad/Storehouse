@@ -30,7 +30,7 @@ segments:
       location is recorded. Your inventory lists every work with its volume and
       monthly cost, updated whenever anything moves in or out.
   - title: Billing
-    text: >-
+    text: >+
       Storage 
 
       Charged by volume, per cubic metre per week, and invoiced monthly in
@@ -48,13 +48,10 @@ segments:
 
       Additional services 
 
-      Agreed in advance and charged separately: condition reports, photography,
-      uncrating, repacking or crating, and handling beyond a standard release.
+      Agreed in advance and charged separately: transport, condition reports,
+      photography, uncrating, repacking or crating, and handling beyond a
+      standard release.
 
-
-      Transport 
-
-      Booked and paid for separately, with our team or a shipper of your choice.
     button: Get in touch
     email_subject: "Storage Inquiry "
   - title: The Facility
