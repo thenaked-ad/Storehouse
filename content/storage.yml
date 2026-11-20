@@ -31,35 +31,31 @@ segments:
       monthly cost, updated whenever anything moves in or out.
   - title: Billing
     text: >-
-      Storage is charged by volume, per cubic metre per week, and invoiced
-      monthly in arrears. If a work arrives or leaves mid-month, you pay only
-      for the days it was with us. Every invoice lines up with your inventory,
-      so the cost of each work is clear.
+      Storage 
+
+      Charged by volume, per cubic metre per week, and invoiced monthly in
+      arrears. Works arriving or leaving mid-month are charged only for the days
+      they are with us. Every invoice matches your inventory, so the cost of
+      each work is clear.
 
 
-      No release fees. Works leave free of charge, whether by a third-party
-      shipper or our own transport team. Logging in and inventory are included
-      too. Your storage bill is just your storage bill.
+      No release fees 
+
+      Works leave free of charge, whether collected by a third-party shipper or
+      by our own team. Logging in and inventory are included. Your storage bill
+      is just your storage bill.
 
 
-      Available on request, agreed in advance and charged separately:
+      Additional services 
+
+      Agreed in advance and charged separately: condition reports, photography,
+      uncrating, repacking or crating, and handling beyond a standard release.
 
 
-      /Condition reports
+      Transport 
 
-
-      /Photography 
-
-
-      /Uncrating, repacking or crating 
-
-
-      /Extra handling beyond a standard release 
-
-
-      Transport is booked and paid for separately, whether with our team or a
-      shipper of your choice.
-    button: Get in touch to find out about our prices.
+      Booked and paid for separately, with our team or a shipper of your choice.
+    button: Get in touch
     email_subject: "Storage Inquiry "
   - title: The Facility
     text: >-
