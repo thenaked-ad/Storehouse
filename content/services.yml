@@ -24,25 +24,13 @@ segments:
       - Manage house moves, rotations, rehangs, acquisitions, and loans 
 
       - Introduce trusted valuers, insurers and conservators
-  - title: Photography
-    text: >-
-      Gallery-standard photography of artworks, carried out entirely in-house.
-      Our images are used on gallery and artist websites, in catalogues and
-      sales materials, and in collection archives. Everything is shot on
-      100-megapixel medium-format equipment and delivered ready for print,
-      online and archive use.
-
-
-      In store 
-
-      Works in our care can be photographed on site in the Viewing Room, under
-      controlled conditions and with no transport needed. From a single work to
-      a whole collection, with reduced rates for larger volumes.
-
-
-      On location 
-
-      We travel to studios, galleries and private collections to shoot on site.
+  - title: Artists
+    text: |-
+      We keep track of the studio so the artist can keep working. We can:
+      - Inventory new and existing work as it's made
+      - Photograph every work, ready for websites, catalogues and sales
+      - Store work between exhibitions or not on display
+      - Handle exhibition projects, studio clear-outs, moves and loans
   - title: Viewing Room
     text: >-
       A private space for collectors, curators and conservators to view works by
