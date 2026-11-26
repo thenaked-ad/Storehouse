@@ -337,8 +337,9 @@ not by driving the mouse.
 
 ## The navigation
 
-Five items, in Fred's order: **Storage | Handling & Transport | Collection
-Care & Management | About | Contact**. The bar shows from 60rem (it was 56rem
+Five items, in Fred's order: **Collection Care & Management | Storage |
+Handling & Transport | About | Contact** (reordered 26 Nov 2026; the page
+numbers 01–03 and the section numbers follow, as does the footer). The bar shows from 60rem (it was 56rem
 until the longer names arrived; below that, the Menu button). Plain links — the hover dropdowns that were there
 for a few rounds came off at Fred's request, because each page lists its own
 segments neatly once you are on it. The phone menu is the same six links

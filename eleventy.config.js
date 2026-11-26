@@ -17,12 +17,13 @@ const CONTENT = "content";
 // the page, which wants the larger size on a sharp screen.
 const PHOTO_WIDTHS = [800, 1600, 2400];
 
-// The site's own five pages, in Fred's order. Structure, not content: changing
+// The site's own five pages, in Fred's order (services reordered 26 Nov 2026:
+// Collection Care & Management first). Structure, not content: changing
 // these means changing the design, so they are not in the editor.
 const NAV = [
-  { href: "/storage", n: "01", label: "Storage" },
-  { href: "/handling-and-transport", n: "02", label: "Handling &amp; Transport" },
-  { href: "/collection-care-and-management", n: "03", label: "Collection Care &amp; Management" },
+  { href: "/collection-care-and-management", n: "01", label: "Collection Care &amp; Management" },
+  { href: "/storage", n: "02", label: "Storage" },
+  { href: "/handling-and-transport", n: "03", label: "Handling &amp; Transport" },
   { href: "/about", n: "04", label: "About" },
   { href: "/contact", n: "05", label: "Contact" },
 ];
